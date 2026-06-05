@@ -1,0 +1,37 @@
+---
+title: Contributing
+description: How to contribute to the manovaspace/ts monorepo.
+---
+
+# Contributing
+
+Thanks for improving `@manovaspace/*`. This monorepo is MIT open commons — no Orbit platform or client business logic.
+
+## Before you open a PR
+
+1. **Scope** — No `@orbit/*` imports, no `Orbit`-prefixed public APIs, no client names or internal URLs.
+2. **Changeset** — Any change that should ship to npm needs a changeset.
+
+## Development
+
+```bash
+pnpm install
+pnpm build
+pnpm test
+pnpm typecheck
+pnpm lint
+```
+
+## Changesets
+
+```bash
+pnpm changeset
+```
+
+Pick affected packages and semver bump type. Commit the generated `.changeset/*.md` with your PR.
+
+Maintainers release via [RELEASING.md](https://github.com/manovaspace/ts/blob/main/RELEASING.md).
+
+## Questions
+
+Open a [GitHub issue](https://github.com/manovaspace/ts/issues).

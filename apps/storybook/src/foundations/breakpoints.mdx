@@ -1,0 +1,20 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { defaultTokens } from "@manovaspace/tokens";
+
+<Meta title="Foundations/Breakpoints" />
+
+# Breakpoint tokens
+
+Responsive breakpoints are defined in `default.json` and wired into Tailwind `@theme` via `@manovaspace/ui`.
+
+| Token | Value | Typical use |
+| --- | --- | --- |
+| `sm` | `{defaultTokens.breakpoint.sm}` | Large phones |
+| `md` | `{defaultTokens.breakpoint.md}` | Tablets |
+| `lg` | `{defaultTokens.breakpoint.lg}` | Laptops |
+| `xl` | `{defaultTokens.breakpoint.xl}` | Desktops |
+| `2xl` | `{defaultTokens.breakpoint['2xl']}` | Wide screens |
+
+`@manovaspace/ui` components use **mobile-first** utilities (`sm:`, `md:`, …). Viewport preview in development: [Orbit devtools](https://docs.dev.manova.space/docs/guides/orbit-devtools).
+
+Full reference: [Orbit design tokens](https://docs.dev.manova.space/docs/guides/orbit-design-tokens).

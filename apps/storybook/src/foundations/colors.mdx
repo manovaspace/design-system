@@ -1,0 +1,25 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { mnvColors } from "@manovaspace/tokens";
+
+<Meta title="Foundations/Colors" />
+
+# Color tokens
+
+Six families with steps **50 → 950**. CSS vars: `--mnv-{family}-{step}`.
+
+Palette is generated from `packages/tokens/src/default.json`. After editing JSON, run `pnpm codegen` in `@manovaspace/tokens`. See [Orbit design tokens](https://docs.dev.manova.space/docs/guides/orbit-design-tokens).
+
+## Brand anchors
+
+| Family | Step | Hex |
+| --- | --- | --- |
+| primary | 900 | `{mnvColors.primary[900]}` |
+| secondary | 800 | `{mnvColors.secondary[800]}` |
+| action | 500 | `{mnvColors.action[500]}` |
+| tertiary | 700 | `{mnvColors.tertiary[700]}` |
+| content | 200 | `{mnvColors.content[200]}` |
+| supporting | 500 | `{mnvColors.supporting[500]}` |
+
+Use token classes like `bg-mnv-primary-900` or semantic vars (`bg-background`, `text-foreground`).
+
+See the **Swatches** story for a visual grid.

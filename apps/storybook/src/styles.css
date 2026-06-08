@@ -1,0 +1,7 @@
+@import "@manovaspace/tokens/fonts.css";
+@import "@manovaspace/tokens/tokens.css";
+@import "tailwindcss";
+@import "tw-animate-css";
+@source "../src/**/*.{ts,tsx}";
+@source "../../../packages/ui/src/**/*.{ts,tsx}";
+@import "@manovaspace/ui/styles.css";

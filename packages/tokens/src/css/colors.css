@@ -1,0 +1,76 @@
+/* AUTO-GENERATED from default.json — do not edit by hand. */
+
+:root {
+  /* primary */
+  --mnv-primary-50: #fafafa;
+  --mnv-primary-100: #f4f4f4;
+  --mnv-primary-200: #e7e7e7;
+  --mnv-primary-300: #d4d4d4;
+  --mnv-primary-400: #9f9f9f;
+  --mnv-primary-500: #727272;
+  --mnv-primary-600: #545454;
+  --mnv-primary-700: #404040;
+  --mnv-primary-800: #292929;
+  --mnv-primary-900: #0a0a0a;
+  --mnv-primary-950: #070707;
+  /* secondary */
+  --mnv-secondary-50: #fafafa;
+  --mnv-secondary-100: #f4f4f4;
+  --mnv-secondary-200: #e7e7e7;
+  --mnv-secondary-300: #d4d4d4;
+  --mnv-secondary-400: #9f9f9f;
+  --mnv-secondary-500: #727272;
+  --mnv-secondary-600: #545454;
+  --mnv-secondary-700: #404040;
+  --mnv-secondary-800: #525252;
+  --mnv-secondary-900: #181818;
+  --mnv-secondary-950: #070707;
+  /* action */
+  --mnv-action-50: #dcfbff;
+  --mnv-action-100: #d6f5ff;
+  --mnv-action-200: #98e2ff;
+  --mnv-action-300: #86ceff;
+  --mnv-action-400: #5497ff;
+  --mnv-action-500: #2563eb;
+  --mnv-action-600: #0441c8;
+  --mnv-action-700: #0026af;
+  --mnv-action-800: #000090;
+  --mnv-action-900: #0a0079;
+  --mnv-action-950: #0f0055;
+  /* tertiary */
+  --mnv-tertiary-50: #ddfaff;
+  --mnv-tertiary-100: #d7f4ff;
+  --mnv-tertiary-200: #9de0ff;
+  --mnv-tertiary-300: #8bccff;
+  --mnv-tertiary-400: #5995ff;
+  --mnv-tertiary-500: #2e64ef;
+  --mnv-tertiary-600: #1240c9;
+  --mnv-tertiary-700: #1d4ed8;
+  --mnv-tertiary-800: #050091;
+  --mnv-tertiary-900: #0e007a;
+  --mnv-tertiary-950: #100056;
+  /* content */
+  --mnv-content-50: #fafafa;
+  --mnv-content-100: #f4f4f4;
+  --mnv-content-200: #e5e5e5;
+  --mnv-content-300: #d4d4d4;
+  --mnv-content-400: #9f9f9f;
+  --mnv-content-500: #727272;
+  --mnv-content-600: #545454;
+  --mnv-content-700: #404040;
+  --mnv-content-800: #292929;
+  --mnv-content-900: #181818;
+  --mnv-content-950: #070707;
+  /* supporting */
+  --mnv-supporting-50: #ddfcff;
+  --mnv-supporting-100: #d7f6ff;
+  --mnv-supporting-200: #9ae6ff;
+  --mnv-supporting-300: #87d2ff;
+  --mnv-supporting-400: #549cff;
+  --mnv-supporting-500: #3b82f6;
+  --mnv-supporting-600: #004ab9;
+  --mnv-supporting-700: #0032a1;
+  --mnv-supporting-800: #000c82;
+  --mnv-supporting-900: #00006c;
+  --mnv-supporting-950: #07004b;
+}

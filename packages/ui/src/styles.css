@@ -1,0 +1,150 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "@manovaspace/tokens/tokens.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-mnv-primary-900: var(--mnv-primary-900);
+  --color-mnv-action-500: var(--mnv-action-500);
+  --color-mnv-content-200: var(--mnv-content-200);
+  --color-mnv-secondary-800: var(--mnv-secondary-800);
+  --color-mnv-tertiary-700: var(--mnv-tertiary-700);
+  --color-mnv-supporting-500: var(--mnv-supporting-500);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    line-height: var(--line-height-normal);
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+/* Scroll-aware edge fades (shadcn scroll-fade pattern). */
+@property --_scroll-fade-top {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: black;
+}
+
+@property --_scroll-fade-bottom {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: black;
+}
+
+@keyframes scroll-fade-y-start {
+  from {
+    --_scroll-fade-top: black;
+  }
+  to {
+    --_scroll-fade-top: transparent;
+  }
+}
+
+@keyframes scroll-fade-y-end {
+  from {
+    --_scroll-fade-bottom: transparent;
+  }
+  to {
+    --_scroll-fade-bottom: black;
+  }
+}
+
+@layer utilities {
+  .scroll-fade-4 {
+    --_scroll-fade-size: var(--space-4);
+  }
+
+  .scroll-fade-6 {
+    --_scroll-fade-size: var(--space-6);
+  }
+
+  .scroll-fade-y {
+    --_fade-top: var(--_scroll-fade-top);
+    --_fade-bottom: var(--_scroll-fade-bottom);
+
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      var(--_fade-top),
+      black var(--_scroll-fade-size, var(--space-6)),
+      black calc(100% - var(--_scroll-fade-size, var(--space-6))),
+      var(--_fade-bottom)
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      var(--_fade-top),
+      black var(--_scroll-fade-size, var(--space-6)),
+      black calc(100% - var(--_scroll-fade-size, var(--space-6))),
+      var(--_fade-bottom)
+    );
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: scroll()) {
+      .scroll-fade-y {
+        animation-name: scroll-fade-y-start, scroll-fade-y-end;
+        animation-fill-mode: both;
+        animation-timing-function: linear;
+        animation-range:
+          0 2px,
+          calc(100% - 2px) 100%;
+        animation-timeline: scroll(self block), scroll(self block);
+        animation-duration: 1ms;
+      }
+    }
+  }
+
+  @supports not (animation-timeline: scroll()) {
+    .scroll-fade-y {
+      -webkit-mask-image: linear-gradient(
+        to bottom,
+        black,
+        black calc(100% - var(--_scroll-fade-size, var(--space-6))),
+        transparent
+      );
+      mask-image: linear-gradient(
+        to bottom,
+        black,
+        black calc(100% - var(--_scroll-fade-size, var(--space-6))),
+        transparent
+      );
+    }
+  }
+}

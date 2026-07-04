@@ -42,7 +42,8 @@
     "./next": {
       "types": "./dist/next/theme-route.d.ts",
       "import": "./dist/next/theme-route.js"
-    }
+    },
+    "./styles.css": "./src/styles/devtools.css"
   },
   "files": [
     "dist"

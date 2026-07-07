@@ -1,41 +1,29 @@
 # manovaspace/design-system
 
 [![CI](https://github.com/manovaspace/design-system/actions/workflows/ci.yml/badge.svg)](https://github.com/manovaspace/design-system/actions/workflows/ci.yml)
-[![Docs](https://github.com/manovaspace/design-system/actions/workflows/docs.yml/badge.svg)](https://manovaspace.github.io/design-system/)
 
-MIT design system published on npm as [`@manovaspace/tokens`](https://www.npmjs.com/package/@manovaspace/tokens), [`@manovaspace/ui`](https://www.npmjs.com/package/@manovaspace/ui), [`@manovaspace/devtools`](https://www.npmjs.com/package/@manovaspace/devtools).
+MIT design system on npm: [`@manovaspace/tokens`](https://www.npmjs.com/package/@manovaspace/tokens), [`@manovaspace/ui`](https://www.npmjs.com/package/@manovaspace/ui), [`@manovaspace/devtools`](https://www.npmjs.com/package/@manovaspace/devtools).
 
-**Documentation:** [manovaspace.github.io/design-system](https://manovaspace.github.io/design-system/)
-
-Utility packages (`tsconfig`, `markdown`, `pwa`, `observability`) live in [manovaspace/ts](https://github.com/manovaspace/ts).
+**Documentation:** [manovaspace.github.io/docs/design-system](https://manovaspace.github.io/docs/design-system/)
 
 ## Packages
 
-| npm | Description |
+| npm | Docs |
 | --- | --- |
-| `@manovaspace/tokens` | Design tokens — `default.json` → CSS |
-| `@manovaspace/ui` | Radix/Tailwind components, motion, icons |
-| `@manovaspace/devtools` | Dev-only toolbar and token editor |
+| `@manovaspace/tokens` | [docs](https://manovaspace.github.io/docs/design-system/packages/tokens/) |
+| `@manovaspace/ui` | [docs](https://manovaspace.github.io/docs/design-system/packages/ui/) |
+| `@manovaspace/devtools` | [docs](https://manovaspace.github.io/docs/design-system/packages/devtools/) |
+
+Utilities (`tsconfig`, `markdown`, `pwa`, `observability`): [manovaspace/ts](https://github.com/manovaspace/ts).
 
 ## Development
 
 ```bash
-pnpm install
-pnpm build
-pnpm storybook    # port 10006
-pnpm test
+pnpm install && pnpm build && pnpm storybook   # port 10006
 ```
 
-## Releasing
+See [RELEASING.md](./RELEASING.md) and [CONTRIBUTING.md](./CONTRIBUTING.md).
 
-See [RELEASING.md](./RELEASING.md).
+## License
 
-## Local development (Manova workspace)
-
-```json
-"@manovaspace/tokens": "link:../../../manovaspace/design-system/packages/tokens",
-"@manovaspace/ui": "link:../../../manovaspace/design-system/packages/ui",
-"@manovaspace/devtools": "link:../../../manovaspace/design-system/packages/devtools"
-```
-
-From `orbit/orbit-frontend/apps/*`, use one extra `../`.
+MIT

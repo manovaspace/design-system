@@ -1,5 +1,14 @@
 # @manovaspace/devtools
 
+## 0.0.5
+
+### Patch Changes
+
+- Update npm homepage URLs to unified docs site at manovaspace.github.io/docs.
+- Updated dependencies
+  - @manovaspace/tokens@0.1.2
+  - @manovaspace/ui@0.2.2
+
 ## 0.0.4
 
 ### Patch Changes

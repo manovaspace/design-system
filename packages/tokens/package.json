@@ -1,6 +1,6 @@
 {
   "name": "@manovaspace/tokens",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Design tokens — default.json, semantic CSS, and font assets for Manova UI",
   "license": "MIT",
   "type": "module",
@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/manovaspace/design-system/issues"
   },
-  "homepage": "https://manovaspace.github.io/design-system/packages/tokens/",
+  "homepage": "https://manovaspace.github.io/docs/design-system/packages/tokens/",
   "scripts": {
     "prepublishOnly": "node ../../scripts/assert-publishable-deps.mjs",
     "codegen": "node scripts/codegen.mjs",

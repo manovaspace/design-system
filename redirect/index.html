@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting to manovaspace docs</title>
+  <script>
+    (function () {
+      var docs = "https://manovaspace.github.io/docs";
+      var p = window.location.pathname.replace(/\/$/, "") || "/";
+      var q = window.location.search || "";
+      var h = window.location.hash || "";
+      var dest;
+      if (p.indexOf("/design-system/packages/") === 0) {
+        dest = docs + "/design-system" + p.slice("/design-system".length) + "/";
+      } else if (p.indexOf("/design-system") === 0) {
+        dest = docs + "/design-system/";
+      } else {
+        dest = docs + "/design-system/";
+      }
+      window.location.replace(dest + q + h);
+    })();
+  </script>
+  <meta http-equiv="refresh" content="0;url=https://manovaspace.github.io/docs/design-system/">
+</head>
+<body>
+  <p>Documentation moved to <a href="https://manovaspace.github.io/docs/design-system/">manovaspace.github.io/docs</a>.</p>
+</body>
+</html>

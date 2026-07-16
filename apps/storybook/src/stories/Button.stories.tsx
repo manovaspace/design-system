@@ -58,7 +58,7 @@ export const WithCard: Story = {
   render: () => (
     <Card className="max-w-sm">
       <CardHeader>
-        <CardTitle>Orbit UI</CardTitle>
+        <CardTitle>Example</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
         <Input placeholder="Email" />

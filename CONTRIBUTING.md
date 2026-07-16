@@ -1,12 +1,12 @@
 # Contributing
 
-Thanks for improving `@manovaspace/*`. This monorepo is MIT open commons — generic tooling with no Orbit platform or client business logic.
+Thanks for improving `@manovaspace/*` — MIT TypeScript libraries on [npm](https://www.npmjs.com/org/manovaspace).
 
 ## Before you open a PR
 
-1. **Scope** — No `@orbit/*` imports, no new `Orbit`-prefixed **package names**, no client names or internal URLs. Legacy type names (`OrbitTokensRaw`, `OrbitDevtoolsProvider`, etc.) remain until MS-FT-013.
-2. **Extraction gate** — See [Manova ADR-017](https://github.com/manovaspace/ts/blob/main/AGENTS.md) (also in Manova `orbit-docs` for staff).
-3. **Changeset** — Any change that should ship to npm needs a changeset (see below).
+1. **Scope** — Keep packages generic and reusable. No client product names, private URLs, or new `Orbit`-prefixed **package** names on npm. Legacy TypeScript identifiers (`OrbitTokensRaw`, `OrbitDevtoolsProvider`, etc.) remain until a rename release.
+2. **Changeset** — Any change that should ship to npm needs a changeset (see below).
+3. **Docs** — User-facing API changes should update [manovaspace/docs](https://github.com/manovaspace/docs).
 
 ## Development
 
@@ -16,6 +16,7 @@ pnpm build
 pnpm test
 pnpm typecheck
 pnpm lint
+pnpm storybook   # port 10006
 ```
 
 ## Changesets (required for releasable changes)
@@ -35,4 +36,4 @@ Maintainers version and publish — see [RELEASING.md](./RELEASING.md).
 
 ## Questions
 
-Open a [GitHub issue](https://github.com/manovaspace/ts/issues).
+Open a [GitHub issue](https://github.com/manovaspace/design-system/issues).

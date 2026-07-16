@@ -1,11 +1,16 @@
 {
   "name": "@manovaspace/devtools",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Development-only design system toolbar and token editor for Next.js apps",
   "license": "MIT",
   "type": "module",
   "sideEffects": false,
-  "keywords": ["devtools", "design-system", "nextjs", "development"],
+  "keywords": [
+    "devtools",
+    "design-system",
+    "nextjs",
+    "development"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/manovaspace/design-system.git",
@@ -39,7 +44,9 @@
       "import": "./dist/next/theme-route.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "publishConfig": {
     "access": "public"
   },

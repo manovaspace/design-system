@@ -1,11 +1,18 @@
 {
   "name": "@manovaspace/tokens",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Design tokens — default.json, semantic CSS, and font assets for Manova UI",
   "license": "MIT",
   "type": "module",
-  "sideEffects": ["**/*.css"],
-  "keywords": ["design-tokens", "css-variables", "tailwind", "theming"],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "keywords": [
+    "design-tokens",
+    "css-variables",
+    "tailwind",
+    "theming"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/manovaspace/design-system.git",
@@ -37,7 +44,9 @@
     "./default.json": "./dist/default.json",
     "./fonts/*": "./dist/fonts/*"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "publishConfig": {
     "access": "public"
   },

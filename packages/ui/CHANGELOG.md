@@ -1,5 +1,13 @@
 # @manovaspace/ui
 
+## 0.2.1
+
+### Patch Changes
+
+- Update repository and homepage URLs after split to manovaspace/design-system.
+- Updated dependencies
+  - @manovaspace/tokens@0.1.1
+
 ## 0.2.0
 
 ### Minor Changes

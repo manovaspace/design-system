@@ -1,6 +1,6 @@
 {
   "name": "@manovaspace/ui",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Radix and Tailwind component primitives with motion, icons, and token integration",
   "license": "MIT",
   "type": "module",
@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/manovaspace/design-system/issues"
   },
-  "homepage": "https://manovaspace.github.io/design-system/packages/ui/",
+  "homepage": "https://manovaspace.github.io/docs/design-system/packages/ui/",
   "scripts": {
     "prepublishOnly": "node ../../scripts/assert-publishable-deps.mjs",
     "build": "tsup && pnpm build:css",

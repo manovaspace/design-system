@@ -1,6 +1,6 @@
 {
   "name": "@manovaspace/devtools",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Development-only design system toolbar and token editor for Next.js apps",
   "license": "MIT",
   "type": "module",
@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/manovaspace/design-system/issues"
   },
-  "homepage": "https://manovaspace.github.io/design-system/packages/devtools/",
+  "homepage": "https://manovaspace.github.io/docs/design-system/packages/devtools/",
   "scripts": {
     "prepublishOnly": "node ../../scripts/assert-publishable-deps.mjs",
     "build": "tsup",

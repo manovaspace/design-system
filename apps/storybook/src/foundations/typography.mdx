@@ -1,0 +1,31 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { fontFamily } from "@manovaspace/tokens";
+
+<Meta title="Foundations/Typography" />
+
+# Typography
+
+| Token | Stack |
+| --- | --- |
+| `--font-sans` | `{fontFamily.sans}` |
+| `--font-latin` | `{fontFamily.latin}` |
+| `--font-arabic` | `{fontFamily.arabic}` |
+| `--font-mono` | `{fontFamily.mono}` |
+
+Fonts load via `@manovaspace/tokens/fonts.css` (Estedad, Fredoka, Inter, IBM Plex Mono).
+
+## Samples
+
+<p style={{ fontFamily: fontFamily.arabic, fontSize: "1.25rem" }}>
+  نمونه فارسی — Estedad
+</p>
+
+<p style={{ fontFamily: fontFamily.latin, fontSize: "1.25rem" }}>
+  Latin sample — Fredoka / Inter
+</p>
+
+<p style={{ fontFamily: fontFamily.mono, fontSize: "1rem" }}>
+  const orbit = "IBM Plex Mono";
+</p>
+
+Use logical CSS (`margin-inline-start`, `padding-inline`) for RTL/LTR layouts.

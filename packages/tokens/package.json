@@ -1,0 +1,56 @@
+{
+  "name": "@manovaspace/tokens",
+  "version": "0.1.0",
+  "description": "Design tokens — default.json, semantic CSS, and font assets for Manova UI",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": ["**/*.css"],
+  "keywords": ["design-tokens", "css-variables", "tailwind", "theming"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manovaspace/design-system.git",
+    "directory": "packages/tokens"
+  },
+  "bugs": {
+    "url": "https://github.com/manovaspace/design-system/issues"
+  },
+  "homepage": "https://manovaspace.github.io/design-system/packages/tokens/",
+  "scripts": {
+    "prepublishOnly": "node ../../scripts/assert-publishable-deps.mjs",
+    "codegen": "node scripts/codegen.mjs",
+    "build": "pnpm codegen && tsup && pnpm build:css",
+    "build:css": "mkdir -p dist && cp src/css/*.css dist/ && cp src/fonts.css dist/fonts.css && cp src/css/tokens.css dist/tokens.css && cp src/default.json dist/default.json && node scripts/copy-fonts.mjs",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "clean": "rm -rf dist"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./tokens.css": "./dist/tokens.css",
+    "./fonts.css": "./dist/fonts.css",
+    "./semantic.css": "./dist/semantic.css",
+    "./colors.css": "./dist/colors.css",
+    "./default.json": "./dist/default.json",
+    "./fonts/*": "./dist/fonts/*"
+  },
+  "files": ["dist"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@fontsource/estedad": "^5.2.1",
+    "@fontsource/fredoka": "^5.2.10",
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/ibm-plex-mono": "^5.2.7"
+  },
+  "devDependencies": {
+    "@manovaspace/tsconfig": "^0.1.1",
+    "tsup": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

@@ -1,0 +1,361 @@
+@layer components {
+  .orbit-dev-tools-shell {
+    @apply flex h-dvh w-full overflow-hidden;
+  }
+
+  .orbit-dev-tools-main {
+    @apply min-h-0 min-w-0 flex-1 overflow-y-auto overscroll-contain;
+  }
+
+  .orbit-dev-side-panel {
+    @apply relative flex h-full max-h-dvh min-h-0 shrink-0 overflow-hidden border-s border-border bg-card text-foreground shadow-lg;
+  }
+
+  .orbit-dev-side-panel--animated {
+    transition:
+      width 300ms cubic-bezier(0.32, 0.72, 0, 1),
+      transform 300ms cubic-bezier(0.32, 0.72, 0, 1),
+      border-color 300ms cubic-bezier(0.32, 0.72, 0, 1),
+      box-shadow 300ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .orbit-dev-side-panel[data-open="false"] {
+    @apply pointer-events-none border-transparent shadow-none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .orbit-dev-side-panel--animated {
+      transition: none;
+    }
+  }
+
+  .orbit-dev-panel-edge-toggle {
+    @apply relative flex cursor-pointer items-center justify-center overflow-visible border border-border bg-card p-0 text-secondary-foreground shadow-md hover:bg-muted;
+  }
+
+  .orbit-dev-panel-edge-toggle--edge {
+    @apply fixed top-4 z-50 size-9 rounded-s-lg rounded-e-none border border-e-0 border-border bg-card shadow-md;
+    inset-inline-end: 0;
+  }
+
+  .orbit-dev-panel-edge-toggle--seam {
+    @apply absolute inset-y-0 z-50 h-full min-h-0 w-4 shrink-0 rounded-none border-y-0 border-s-0;
+    inset-inline-start: 0;
+    transform: translateX(calc(-100% * var(--orbit-devtools-seam-dir, 1)));
+  }
+
+  .orbit-dev-panel-header {
+    @apply grid shrink-0 grid-cols-[1fr_auto] border-b border-border;
+  }
+
+  .orbit-dev-panel-header--simple {
+    @apply flex items-center justify-between gap-2 px-4 py-2.5;
+  }
+
+  .orbit-dev-panel-title {
+    font-size: var(--font-size-heading, 1.875rem);
+    font-weight: 600;
+    line-height: var(--line-height-tight, 1.25);
+    @apply text-foreground;
+  }
+
+  .orbit-dev-body {
+    font-size: var(--font-size-body, 1rem);
+    line-height: var(--line-height-normal, 1.5);
+  }
+
+  .orbit-dev-caption {
+    font-size: var(--font-size-caption, 0.875rem);
+    line-height: var(--line-height-normal, 1.5);
+    @apply text-muted-foreground;
+  }
+
+  .orbit-dev-label-caps {
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .orbit-dev-panel-toolbar {
+    @apply shrink-0 border-b border-border px-4 py-3;
+  }
+
+  .orbit-dev-panel-toolbar--sticky {
+    @apply flex flex-col gap-3;
+  }
+
+  .orbit-palette-bar {
+    @apply flex flex-col gap-2;
+  }
+
+  .orbit-palette-bar__swatches {
+    @apply flex flex-col gap-1.5;
+  }
+
+  .orbit-palette-swatch {
+    @apply relative flex min-h-11 w-full cursor-pointer items-end overflow-hidden rounded-md border border-border/60 p-2.5;
+  }
+
+  .orbit-palette-swatch__input {
+    @apply absolute inset-0 size-full cursor-pointer border-0 p-0 opacity-0;
+  }
+
+  .orbit-palette-swatch__label {
+    @apply pointer-events-none relative z-10;
+    font-size: var(--font-size-caption, 0.875rem);
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .orbit-dev-toolbar {
+    @apply flex flex-wrap items-center gap-1.5;
+  }
+
+  .orbit-dev-toolbar__btn {
+    @apply size-9 shrink-0;
+  }
+
+  .orbit-dev-panel-header__brand {
+    @apply flex min-w-0 flex-col border-e border-border;
+  }
+
+  .orbit-dev-panel-header__brand-top {
+    @apply flex items-center justify-between gap-2 border-b border-border px-4 py-2.5;
+  }
+
+  .orbit-dev-panel-header__brand-bottom {
+    @apply flex min-h-10 flex-1 items-center px-4 py-2;
+  }
+
+  .orbit-dev-panel-header__tools {
+    @apply flex w-11 shrink-0 flex-col;
+  }
+
+  .orbit-dev-panel-header__tools > * + * {
+    @apply border-t border-border;
+  }
+
+  .orbit-dev-panel-header__tool-btn {
+    @apply size-full min-h-10 flex-1 rounded-none border-0 shadow-none;
+  }
+
+  .orbit-dev-panel-header__tool-slot {
+    @apply min-h-10 flex-1 bg-muted/20;
+  }
+
+  .orbit-dev-panel-toolbar {
+    @apply shrink-0 border-b border-border px-4 py-3;
+  }
+
+  .orbit-dev-panel-scroll {
+    @apply overscroll-contain px-4 py-4;
+  }
+
+  .orbit-dev-panel-sections {
+    @apply flex flex-col gap-4;
+  }
+
+  .orbit-dev-panel-footer {
+    @apply flex shrink-0 flex-col gap-3 border-t border-border px-4 py-3;
+  }
+
+  .orbit-dev-panel-footer-actions {
+    @apply flex flex-wrap gap-2;
+  }
+
+  .orbit-token-section {
+    @apply relative overflow-hidden rounded-xl border border-border/60 shadow-sm transition-[border-color,box-shadow] duration-500 ease-out;
+    background: linear-gradient(
+      165deg,
+      color-mix(in oklch, var(--card) 96%, var(--foreground) 4%) 0%,
+      color-mix(in oklch, var(--card) 88%, transparent) 100%
+    );
+  }
+
+  .orbit-token-section:hover {
+    border-color: color-mix(in oklch, var(--primary) 28%, var(--border));
+    box-shadow:
+      0 0 36px -10px color-mix(in oklch, var(--primary) 42%, transparent),
+      0 0 0 1px color-mix(in oklch, var(--primary) 10%, transparent);
+  }
+
+  .orbit-token-section[data-open="true"] {
+    border-color: color-mix(in oklch, var(--primary) 32%, var(--border));
+    box-shadow: 0 0 40px -12px
+      color-mix(in oklch, var(--primary) 48%, transparent);
+  }
+
+  .orbit-token-section-glow {
+    @apply pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-500 ease-out;
+    background:
+      radial-gradient(
+        120% 80% at 0% 0%,
+        color-mix(in oklch, var(--primary) 16%, transparent),
+        transparent 55%
+      ),
+      radial-gradient(
+        90% 60% at 100% 100%,
+        color-mix(in oklch, var(--primary) 10%, transparent),
+        transparent 50%
+      );
+  }
+
+  .orbit-token-section:hover .orbit-token-section-glow,
+  .orbit-token-section[data-open="true"] .orbit-token-section-glow {
+    @apply opacity-100;
+  }
+
+  .orbit-token-section-trigger {
+    @apply relative z-10 flex w-full cursor-pointer items-start gap-3.5 px-4 py-3.5 text-start transition-colors duration-300 ease-out;
+  }
+
+  .orbit-token-section-trigger:hover,
+  .orbit-token-section-trigger[data-panel-open] {
+    background: color-mix(in oklch, var(--muted) 55%, transparent);
+  }
+
+  .orbit-token-section-trigger[data-panel-open] {
+    background: color-mix(in oklch, var(--muted) 40%, transparent);
+  }
+
+  .orbit-token-section-heading {
+    font-size: var(--font-size-body, 1rem);
+    font-weight: 600;
+    line-height: var(--line-height-tight, 1.25);
+    @apply text-foreground;
+  }
+
+  .orbit-token-section-description {
+    @apply mt-1 leading-relaxed text-muted-foreground;
+    font-size: var(--font-size-caption, 0.875rem);
+  }
+
+  .orbit-token-section-body {
+    @apply relative z-10 flex flex-col gap-4 border-t border-border/50 px-4 py-4;
+  }
+
+  .orbit-token-section-subgroup {
+    @apply flex flex-col gap-3.5;
+  }
+
+  .orbit-token-section-subgroup + .orbit-token-section-subgroup {
+    @apply border-t border-border/40 pt-4;
+  }
+
+  .orbit-token-section-subgroup-title {
+    font-size: var(--font-size-caption, 0.875rem);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    @apply text-foreground/90;
+  }
+
+  .orbit-brand-color-row {
+    @apply flex flex-col gap-3.5 rounded-lg border border-border/50 p-4 transition-[border-color,box-shadow] duration-300;
+    background: color-mix(in oklch, var(--card) 92%, transparent);
+  }
+
+  .orbit-brand-color-row:hover {
+    border-color: color-mix(in oklch, var(--primary) 22%, var(--border));
+    box-shadow: 0 0 24px -12px
+      color-mix(in oklch, var(--primary) 30%, transparent);
+  }
+
+  .orbit-brand-color-row__identity {
+    @apply space-y-1;
+  }
+
+  .orbit-brand-color-row__editor {
+    @apply flex items-center gap-2.5;
+  }
+
+  .orbit-brand-color-row__scale {
+    @apply flex items-center gap-0.5 px-0.5 pt-0.5;
+  }
+
+  .orbit-token-field {
+    @apply flex flex-col gap-2.5;
+  }
+
+  .orbit-token-field__label {
+    font-size: var(--font-size-caption, 0.875rem);
+    font-weight: 500;
+    @apply text-foreground/90;
+  }
+
+  .orbit-token-field__control-group {
+    @apply flex flex-col gap-2;
+  }
+
+  .orbit-token-field__input {
+    font-size: var(--font-size-caption, 0.875rem);
+    @apply h-9 px-3;
+  }
+
+  .orbit-token-field__textarea {
+    font-size: var(--font-size-caption, 0.875rem);
+    @apply min-h-9 px-3 py-2.5 leading-relaxed;
+  }
+
+  .orbit-semantic-preview {
+    @apply rounded-lg border border-border bg-muted/30 p-3.5;
+  }
+
+  .orbit-semantic-linked-badges {
+    @apply flex flex-wrap gap-1.5 pt-1;
+  }
+
+  @media (max-width: 767px) {
+    .orbit-dev-side-panel {
+      position: fixed;
+      z-index: 50;
+      height: 100dvh;
+      max-height: 100dvh;
+    }
+
+    .orbit-dev-side-panel[data-open="true"] {
+      inset: 0;
+      width: 100%;
+      max-width: 100vw;
+      transform: translateX(0);
+    }
+
+    .orbit-dev-side-panel[data-open="false"] {
+      inset-block: 0;
+      inset-inline-end: 0;
+      width: 100%;
+      max-width: 100vw;
+      transform: translateX(100%);
+    }
+
+    .orbit-dev-panel-edge-toggle--seam,
+    .orbit-dev-panel-resizer {
+      display: none;
+    }
+
+    .orbit-dev-panel-footer {
+      padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+    }
+
+    .orbit-dev-panel-scroll,
+    .orbit-dev-panel-toolbar {
+      @apply px-3;
+    }
+
+    .orbit-dev-panel-header--simple {
+      @apply px-3;
+    }
+
+    .orbit-token-section-body {
+      @apply px-3 py-3;
+    }
+
+    .orbit-brand-color-row {
+      @apply p-3;
+    }
+
+    .orbit-brand-color-row__editor input[type="color"] {
+      @apply size-10;
+    }
+  }
+}

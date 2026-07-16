@@ -1,0 +1,65 @@
+{
+  "name": "@manovaspace/devtools",
+  "version": "0.0.3",
+  "description": "Development-only design system toolbar and token editor for Next.js apps",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "keywords": ["devtools", "design-system", "nextjs", "development"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manovaspace/design-system.git",
+    "directory": "packages/devtools"
+  },
+  "bugs": {
+    "url": "https://github.com/manovaspace/design-system/issues"
+  },
+  "homepage": "https://manovaspace.github.io/design-system/packages/devtools/",
+  "scripts": {
+    "prepublishOnly": "node ../../scripts/assert-publishable-deps.mjs",
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "clean": "rm -rf dist"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "development": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./slot": {
+      "types": "./dist/slot/index.d.ts",
+      "development": "./dist/slot/index.js",
+      "default": "./dist/slot/index.prod.js"
+    },
+    "./next": {
+      "types": "./dist/next/theme-route.d.ts",
+      "import": "./dist/next/theme-route.js"
+    }
+  },
+  "files": ["dist"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "dependencies": {
+    "@manovaspace/tokens": "workspace:*",
+    "@manovaspace/ui": "workspace:*"
+  },
+  "devDependencies": {
+    "@manovaspace/tsconfig": "^0.1.1",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "tsup": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

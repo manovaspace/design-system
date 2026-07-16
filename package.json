@@ -1,0 +1,28 @@
+{
+  "name": "manovaspace-design-system",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "storybook": "pnpm --filter @manovaspace/storybook storybook",
+    "build-storybook": "pnpm --filter @manovaspace/storybook build-storybook",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "turbo build && changeset publish",
+    "clean": "turbo clean && rm -rf node_modules"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "@changesets/cli": "^2.29.5",
+    "turbo": "^2.5.4",
+    "typescript": "catalog:"
+  },
+  "packageManager": "pnpm@11.10.0",
+  "engines": {
+    "node": ">=24"
+  }
+}

@@ -1,0 +1,73 @@
+/* AUTO-GENERATED from default.json — do not edit by hand. */
+
+:root {
+  color-scheme: light;
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(0 0% 3.9%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(0 0% 3.9%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(0 0% 3.9%);
+  --primary: hsl(221.2 83.2% 53.3%);
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(0 0% 95.7%);
+  --secondary-foreground: hsl(0 0% 3.9%);
+  --muted: hsl(0 0% 95.7%);
+  --muted-foreground: hsl(0 0% 32.9%);
+  --accent: hsl(0 0% 95.7%);
+  --accent-foreground: hsl(0 0% 3.9%);
+  --destructive: hsl(357.5 67.9% 47.6%);
+  --border: hsl(0 0% 90.6%);
+  --input: hsl(0 0% 90.6%);
+  --ring: hsl(221.2 83.2% 53.3%);
+  --chart-1: hsl(221.2 83.2% 53.3%);
+  --chart-2: hsl(217.2 91.2% 59.8%);
+  --chart-3: hsl(224.3 76.3% 48%);
+  --chart-4: hsl(0 0% 32.9%);
+  --chart-5: hsl(0 0% 44.7%);
+  --radius: 0.75rem;
+  --sidebar: hsl(0 0% 98%);
+  --sidebar-foreground: hsl(0 0% 3.9%);
+  --sidebar-primary: hsl(221.2 83.2% 53.3%);
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(0 0% 95.7%);
+  --sidebar-accent-foreground: hsl(0 0% 3.9%);
+  --sidebar-border: hsl(0 0% 90.6%);
+  --sidebar-ring: hsl(221.2 83.2% 53.3%);
+}
+
+.dark {
+  color-scheme: dark;
+  --background: hsl(0 0% 0%);
+  --foreground: hsl(0 0% 96.1%);
+  --card: hsl(0 0% 0%);
+  --card-foreground: hsl(0 0% 96.1%);
+  --popover: hsl(0 0% 0%);
+  --popover-foreground: hsl(0 0% 96.1%);
+  --primary: hsl(221.2 83.2% 53.3%);
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(0 0% 4.299999999999997%);
+  --secondary-foreground: hsl(0 0% 96.1%);
+  --muted: hsl(0 0% 4.299999999999997%);
+  --muted-foreground: hsl(0 0% 67.1%);
+  --accent: hsl(0 0% 4.299999999999997%);
+  --accent-foreground: hsl(0 0% 96.1%);
+  --destructive: hsl(357.5 67.9% 47.6%);
+  --border: hsl(0 0% 9.400000000000006%);
+  --input: hsl(0 0% 9.400000000000006%);
+  --ring: hsl(221.2 83.2% 53.3%);
+  --chart-1: hsl(221.2 83.2% 53.3%);
+  --chart-2: hsl(217.2 91.2% 59.8%);
+  --chart-3: hsl(224.3 76.3% 48%);
+  --chart-4: hsl(0 0% 32.9%);
+  --chart-5: hsl(0 0% 44.7%);
+  --radius: 0.75rem;
+  --sidebar: hsl(0 0% 2%);
+  --sidebar-foreground: hsl(0 0% 96.1%);
+  --sidebar-primary: hsl(221.2 83.2% 53.3%);
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(0 0% 4.299999999999997%);
+  --sidebar-accent-foreground: hsl(0 0% 96.1%);
+  --sidebar-border: hsl(0 0% 9.400000000000006%);
+  --sidebar-ring: hsl(221.2 83.2% 53.3%);
+}

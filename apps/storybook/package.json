@@ -1,0 +1,35 @@
+{
+  "name": "@manovaspace/storybook",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "storybook": "storybook dev -p 10006 --no-open",
+    "build-storybook": "storybook build -o storybook-static",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf storybook-static"
+  },
+  "dependencies": {
+    "@manovaspace/tokens": "workspace:*",
+    "@manovaspace/ui": "workspace:*",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@manovaspace/devtools": "workspace:*",
+    "@manovaspace/tsconfig": "^0.1.1",
+    "@storybook/addon-a11y": "^10.5.0",
+    "@storybook/addon-docs": "^10.5.0",
+    "@storybook/addon-themes": "^10.5.0",
+    "@storybook/react-vite": "^10.5.0",
+    "@tailwindcss/vite": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "storybook": "^10.5.0",
+    "tailwindcss": "catalog:",
+    "tw-animate-css": "catalog:",
+    "typescript": "catalog:",
+    "vite": "^6.3.5",
+    "@storybook/addon-mcp": "^0.7.0"
+  }
+}

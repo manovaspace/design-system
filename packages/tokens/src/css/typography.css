@@ -1,0 +1,15 @@
+/* AUTO-GENERATED from default.json — do not edit by hand. */
+
+:root {
+  --font-sans: Estedad, Fredoka, Inter, Arial, sans-serif;
+  --font-latin: Fredoka, Inter, Arial, sans-serif;
+  --font-arabic: Estedad, Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-size-display: 3rem;
+  --font-size-heading: 1.875rem;
+  --font-size-body: 1rem;
+  --font-size-caption: 0.875rem;
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+}

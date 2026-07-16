@@ -1,12 +1,13 @@
 # Contributing
 
-Thanks for improving `@manovaspace/*` — MIT TypeScript libraries on [npm](https://www.npmjs.com/org/manovaspace).
+Contributions to `@manovaspace/*` are welcome. Packages are MIT-licensed and published on [npm](https://www.npmjs.com/org/manovaspace).
 
-## Before you open a PR
+## Guidelines
 
-1. **Scope** — Keep packages generic and reusable. No client product names, private URLs, or new `Orbit`-prefixed **package** names on npm. Legacy TypeScript identifiers (`OrbitTokensRaw`, `OrbitDevtoolsProvider`, etc.) remain until a rename release.
-2. **Changeset** — Any change that should ship to npm needs a changeset (see below).
-3. **Docs** — User-facing API changes should update [manovaspace/docs](https://github.com/manovaspace/docs).
+1. **Scope** — Keep changes generic and reusable. Do not add client-specific product names, private URLs, or credentials.
+2. **Package names** — Do not introduce new npm packages with an `Orbit` prefix. Some TypeScript exports still use legacy `Orbit*` identifiers (for example `OrbitTokensRaw`, `OrbitDevtoolsProvider`); leave those names until a dedicated rename release.
+3. **Changesets** — Any change that should ship to npm must include a changeset.
+4. **Documentation** — User-facing API changes should update [manovaspace/docs](https://github.com/manovaspace/docs).
 
 ## Development
 
@@ -16,24 +17,25 @@ pnpm build
 pnpm test
 pnpm typecheck
 pnpm lint
-pnpm storybook   # port 10006
+pnpm storybook   # http://localhost:10006
 ```
 
-## Changesets (required for releasable changes)
+## Changesets
 
 ```bash
 pnpm changeset
 ```
 
-Pick affected packages and semver bump type (`patch` / `minor` / `major`). Commit the generated `.changeset/*.md` with your PR.
+Select the affected packages and bump type (`patch`, `minor`, or `major`). Commit the generated file under `.changeset/` with your pull request.
 
-Maintainers version and publish — see [RELEASING.md](./RELEASING.md).
+Maintainers version and publish packages. See [RELEASING.md](./RELEASING.md).
 
-## Commit style
+## Commit messages
 
-- `feat:` / `fix:` / `docs:` / `chore:` — conventional commits welcome
-- Version bumps: `chore: version packages` (triggers CI publish)
+Prefer [Conventional Commits](https://www.conventionalcommits.org/): `feat:`, `fix:`, `docs:`, `chore:`.
+
+Version bump commits use: `chore: version packages` (triggers CI publish).
 
 ## Questions
 
-Open a [GitHub issue](https://github.com/manovaspace/design-system/issues).
+Open an [issue](https://github.com/manovaspace/design-system/issues) on this repository.

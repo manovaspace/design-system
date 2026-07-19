@@ -61,7 +61,7 @@
     "./styles.css": "./dist/styles.css",
     "./server": {
       "types": "./dist/server/index.d.ts",
-      "import": "./src/server/index.ts",
+      "import": "./dist/server/index.js",
       "default": "./dist/server/index.js"
     }
   },

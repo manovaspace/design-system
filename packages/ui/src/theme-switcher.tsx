@@ -3,6 +3,7 @@
 import { useTheme } from "next-themes";
 import { useSyncExternalStore } from "react";
 
+import { Button } from "./button.js";
 import { iconProps } from "./icon.js";
 import { ComputerDesktopIcon, MoonIcon, SunIcon } from "./icons.js";
 import { cn } from "./lib/utils.js";
@@ -23,6 +24,10 @@ export type ThemeSwitcherLabels = {
   light: string;
   dark: string;
   ariaLabel: string;
+  /** Toggle variant: announce switch to light */
+  toLight?: string;
+  /** Toggle variant: announce switch to dark */
+  toDark?: string;
 };
 
 const DEFAULT_LABELS: ThemeSwitcherLabels = {
@@ -30,6 +35,8 @@ const DEFAULT_LABELS: ThemeSwitcherLabels = {
   light: "Light",
   dark: "Dark",
   ariaLabel: "Appearance",
+  toLight: "Switch to light mode",
+  toDark: "Switch to dark mode",
 };
 
 function useMounted(): boolean {
@@ -55,11 +62,21 @@ function ThemeOptionIcon({ theme }: { theme: Theme }) {
 }
 
 export type ThemeSwitcherProps = {
-  variant?: "icon" | "labeled";
+  /**
+   * - `toggle` — single control that flips light ↔ dark (uses resolved theme)
+   * - `icon` / `labeled` — select among system / light / dark
+   */
+  variant?: "toggle" | "icon" | "labeled";
   className?: string;
   labels?: Partial<ThemeSwitcherLabels>;
 };
 
+/**
+ * Color-mode control.
+ *
+ * Toggle uses `resolvedTheme` so “system” still flips the effective appearance.
+ * Select variants keep storing `system` | `light` | `dark` explicitly.
+ */
 export function ThemeSwitcher({
   variant = "icon",
   className,
@@ -67,8 +84,43 @@ export function ThemeSwitcher({
 }: ThemeSwitcherProps) {
   const labels = { ...DEFAULT_LABELS, ...labelsProp };
   const mounted = useMounted();
-  const { theme, setTheme } = useTheme();
+  const { theme, resolvedTheme, setTheme } = useTheme();
   const currentTheme = (theme ?? "system") as Theme;
+  const isDark = resolvedTheme === "dark";
+
+  if (variant === "toggle") {
+    if (!mounted) {
+      return (
+        <div
+          className={cn(
+            "inline-flex size-9 shrink-0 items-center justify-center rounded-[var(--radius-lg)] border border-input opacity-50",
+            className,
+          )}
+          aria-hidden
+        >
+          <SunIcon {...iconProps({ size: "sm" })} />
+        </div>
+      );
+    }
+
+    return (
+      <Button
+        type="button"
+        variant="outline"
+        size="icon"
+        className={cn("size-9 shrink-0", className)}
+        aria-label={isDark ? labels.toLight : labels.toDark}
+        aria-pressed={isDark}
+        onClick={() => setTheme(isDark ? "light" : "dark")}
+      >
+        {isDark ? (
+          <SunIcon {...iconProps({ size: "sm" })} />
+        ) : (
+          <MoonIcon {...iconProps({ size: "sm" })} />
+        )}
+      </Button>
+    );
+  }
 
   const triggerClassName = cn(
     variant === "icon"
@@ -95,16 +147,22 @@ export function ThemeSwitcher({
     );
   }
 
+  // Icon trigger shows the *resolved* mode so system preference is visible.
+  const triggerIconTheme: Theme =
+    variant === "icon" ? (isDark ? "dark" : "light") : currentTheme;
+
   return (
     <Select
       value={currentTheme}
       onValueChange={(value) => {
-        if (value) setTheme(value);
+        if (value === "system" || value === "light" || value === "dark") {
+          setTheme(value);
+        }
       }}
     >
       <SelectTrigger className={triggerClassName} aria-label={labels.ariaLabel}>
         {variant === "icon" ? (
-          <ThemeOptionIcon theme={currentTheme} />
+          <ThemeOptionIcon theme={triggerIconTheme} />
         ) : (
           <SelectValue>{themeLabel(currentTheme, labels)}</SelectValue>
         )}

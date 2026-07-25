@@ -20,7 +20,7 @@ git commit -m "chore: version packages"
 git push origin main
 ```
 
-CI publishes when a `chore: version packages` commit lands on `main` (see `.github/workflows/publish.yml`).
+CI publishes when a `chore: version packages` commit lands on `main` (see `.github/workflows/publish.yml`). CI sets `NPM_CONFIG_PROVENANCE=true` for npm provenance attestations.
 
 Manual fallback:
 

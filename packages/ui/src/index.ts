@@ -33,6 +33,17 @@ export {
 } from "./collapsible.js";
 export { ColorSwatch, type ColorSwatchProps } from "./color-swatch.js";
 export {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./alert-dialog.js";
+export {
   Dialog,
   DialogClose,
   DialogContent,
@@ -42,6 +53,21 @@ export {
   DialogTitle,
   DialogTrigger,
 } from "./dialog.js";
+export {
+  Toast,
+  ToastAction,
+  type ToastActionElement,
+  ToastClose,
+  ToastDescription,
+  type ToastProps,
+  ToastProvider,
+  ToastTitle,
+  type ToastVariant,
+  ToastViewport,
+  toastVariants,
+} from "./toast.js";
+export { Toaster } from "./toaster.js";
+export { toast, useToast } from "./use-toast.js";
 export {
   DirectionProvider,
   useDirection,

@@ -60,6 +60,7 @@
     "@manovaspace/ui": "workspace:*"
   },
   "devDependencies": {
+    "@manovaspace/build": "link:../../../ts/packages/build",
     "@manovaspace/tsconfig": "^0.1.1",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
@@ -69,5 +70,8 @@
     "tsup": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
+  },
+  "engines": {
+    "node": ">=24"
   }
 }

@@ -136,6 +136,9 @@ importers:
         specifier: workspace:*
         version: link:../ui
     devDependencies:
+      '@manovaspace/build':
+        specifier: link:../../../ts/packages/build
+        version: link:../../../ts/packages/build
       '@manovaspace/tsconfig':
         specifier: ^0.1.1
         version: 0.1.1
@@ -179,6 +182,9 @@ importers:
         specifier: ^5.2.8
         version: 5.2.8
     devDependencies:
+      '@manovaspace/build':
+        specifier: link:../../../ts/packages/build
+        version: link:../../../ts/packages/build
       '@manovaspace/tsconfig':
         specifier: ^0.1.1
         version: 0.1.1
@@ -225,6 +231,9 @@ importers:
         specifier: ^1.4.0
         version: 1.4.0
     devDependencies:
+      '@manovaspace/build':
+        specifier: link:../../../ts/packages/build
+        version: link:../../../ts/packages/build
       '@manovaspace/tsconfig':
         specifier: ^0.1.1
         version: 0.1.1

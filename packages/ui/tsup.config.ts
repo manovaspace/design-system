@@ -1,6 +1,6 @@
-import { defineConfig } from "tsup";
+import { defineUnbundledConfig } from "@manovaspace/build";
 
-export default defineConfig({
+export default defineUnbundledConfig({
   entry: [
     "src/index.ts",
     "src/**/*.tsx",
@@ -8,14 +8,7 @@ export default defineConfig({
     "!src/**/*.test.ts",
     "!src/**/*.test.tsx",
   ],
-  format: ["esm"],
-  dts: true,
-  sourcemap: true,
-  clean: !process.argv.includes("--watch"),
   external: [
-    "react",
-    "react-dom",
-    "react/jsx-runtime",
     "radix-ui",
     "lucide-react",
     "react-icons",
@@ -25,6 +18,4 @@ export default defineConfig({
     "next-themes",
     "@manovaspace/tokens",
   ],
-  bundle: false,
-  treeshake: false,
 });

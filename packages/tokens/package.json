@@ -53,13 +53,17 @@
   "dependencies": {
     "@fontsource/estedad": "^5.2.1",
     "@fontsource/fredoka": "^5.2.10",
-    "@fontsource/inter": "^5.2.8",
-    "@fontsource/ibm-plex-mono": "^5.2.7"
+    "@fontsource/ibm-plex-mono": "^5.2.7",
+    "@fontsource/inter": "^5.2.8"
   },
   "devDependencies": {
+    "@manovaspace/build": "link:../../../ts/packages/build",
     "@manovaspace/tsconfig": "^0.1.1",
     "tsup": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
+  },
+  "engines": {
+    "node": ">=24"
   }
 }

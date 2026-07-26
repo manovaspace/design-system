@@ -78,6 +78,7 @@ export {
   ArrowLeftIcon,
   ArrowRightIcon,
   ArrowRightOnRectangleIcon,
+  ArrowsRightLeftIcon,
   BoltIcon,
   CalendarIcon,
   CheckIcon,
@@ -85,19 +86,25 @@ export {
   ChevronRightIcon,
   ChevronUpDownIcon,
   ClipboardDocumentIcon,
+  ClipboardDocumentListIcon,
+  Cog6ToothIcon,
   ComputerDesktopIcon,
   CpuChipIcon,
   CubeIcon,
   DevicePhoneMobileIcon,
   ExternalLinkIcon,
+  FunnelIcon,
   GlobeAltIcon,
   HomeIcon,
   InformationCircleIcon,
+  MagnifyingGlassIcon,
   MailIcon,
   MoonIcon,
   PaintBrushIcon,
+  PlusIcon,
   PuzzlePieceIcon,
   RectangleStackIcon,
+  ScaleIcon,
   SkipForwardIcon,
   SunIcon,
   SwatchIcon,
@@ -119,6 +126,26 @@ export {
 } from "./icons-solid.js";
 export { Input, type InputProps } from "./input.js";
 export { Label } from "./label.js";
+export {
+  applyDocumentLocale,
+  LocalePreferenceProvider,
+  type LocalePreferenceProviderProps,
+  resolveLocaleDir,
+  type TextDirection,
+  useLocalePreference,
+} from "./locale-preference.js";
+export {
+  MOBILE_TAB_INDICATOR_WIDTH_PX,
+  MobileBottomTabBar,
+  type MobileBottomTabBarProps,
+  type MobileBottomTabItem,
+  type MobileBottomTabLinkProps,
+  mobileTabIndicatorInset,
+} from "./mobile-bottom-tab-bar.js";
+export {
+  MobileTopBar,
+  type MobileTopBarProps,
+} from "./mobile-top-bar.js";
 export {
   PageShell,
   type PageShellProps,

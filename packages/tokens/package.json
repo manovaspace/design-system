@@ -51,13 +51,13 @@
     "access": "public"
   },
   "dependencies": {
-    "@fontsource/estedad": "^5.2.1",
-    "@fontsource/fredoka": "^5.2.10",
-    "@fontsource/inter": "^5.2.8",
-    "@fontsource/ibm-plex-mono": "^5.2.7"
+    "@fontsource/estedad": "^5.3.0",
+    "@fontsource/fredoka": "^5.3.0",
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/ibm-plex-mono": "^5.3.0"
   },
   "devDependencies": {
-    "@manovaspace/tsconfig": "^0.1.1",
+    "@manovaspace/tsconfig": "^0.1.2",
     "tsup": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"

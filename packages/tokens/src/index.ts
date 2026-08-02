@@ -14,10 +14,15 @@ export {
   oklchToHex,
 } from "./generate-color-scale.js";
 export {
+  deriveHoverCss,
   deriveSemanticDark,
+  INTERACTION_HOVER_SOURCES,
   normalizeSemanticColor,
   parseColorToHsl,
   SEMANTIC_DARK_EXCLUDE,
+  shiftHslLightness,
+  withInteractionStates,
+  type ColorScheme,
 } from "./hsl-color.js";
 export { parseTokenOverridePayload } from "./parse-token-override.js";
 export {

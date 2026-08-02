@@ -35,6 +35,14 @@ export function validateTokens(raw: OrbitTokensRaw): void {
     );
   }
 
+  for (const key of Object.keys(raw.semantic.light)) {
+    if (key.endsWith("-hover")) {
+      throw new Error(
+        `semantic.light.${key} must not be authored — hover states are derived via HSL L shift`,
+      );
+    }
+  }
+
   const resolved = resolveTokens(raw);
 
   for (const theme of ["light", "dark"] as const) {

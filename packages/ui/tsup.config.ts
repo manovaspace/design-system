@@ -16,6 +16,7 @@ export default defineUnbundledConfig({
     "react-icons/si",
     "framer-motion",
     "next-themes",
+    "react-hook-form",
     "@manovaspace/tokens",
   ],
 });

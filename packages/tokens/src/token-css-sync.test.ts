@@ -30,6 +30,10 @@ describe("token CSS sync", () => {
     for (const key of lightKeys) {
       expect(cssVars.has(`--${key}`)).toBe(true);
     }
+
+    for (const base of ["primary", "secondary", "destructive", "accent", "muted"]) {
+      expect(cssVars.has(`--${base}-hover`)).toBe(true);
+    }
   });
 
   it("semantic.dark keys exist in generated .dark CSS", () => {
@@ -40,6 +44,10 @@ describe("token CSS sync", () => {
 
     for (const key of darkKeys) {
       expect(cssVars.has(`--${key}`)).toBe(true);
+    }
+
+    for (const base of ["primary", "secondary", "destructive", "accent", "muted"]) {
+      expect(cssVars.has(`--${base}-hover`)).toBe(true);
     }
   });
 

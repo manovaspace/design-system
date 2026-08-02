@@ -13,7 +13,8 @@
     "@manovaspace/tokens": "workspace:*",
     "@manovaspace/ui": "workspace:*",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "react-hook-form": "^7.81.0"
   },
   "devDependencies": {
     "framer-motion": "^12.42.2",

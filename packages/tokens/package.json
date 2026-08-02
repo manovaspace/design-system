@@ -30,7 +30,7 @@
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist fonts"
   },
   "exports": {
     ".": {
@@ -42,17 +42,17 @@
     "./semantic.css": "./dist/semantic.css",
     "./colors.css": "./dist/colors.css",
     "./default.json": "./dist/default.json",
-    "./fonts/*": "./dist/fonts/*"
+    "./fonts/*": "./fonts/*"
   },
   "files": [
-    "dist"
+    "dist",
+    "fonts"
   ],
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
     "@fontsource/estedad": "^5.2.1",
-    "@fontsource/fredoka": "^5.2.10",
     "@fontsource/ibm-plex-mono": "^5.2.7",
     "@fontsource/inter": "^5.2.8"
   },

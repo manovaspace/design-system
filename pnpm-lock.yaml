@@ -77,6 +77,9 @@ importers:
       react-dom:
         specifier: 'catalog:'
         version: 19.2.7(react@19.2.7)
+      react-hook-form:
+        specifier: ^7.81.0
+        version: 7.84.0(react@19.2.7)
     devDependencies:
       '@manovaspace/devtools':
         specifier: workspace:*
@@ -172,9 +175,6 @@ importers:
       '@fontsource/estedad':
         specifier: ^5.2.1
         version: 5.2.1
-      '@fontsource/fredoka':
-        specifier: ^5.2.10
-        version: 5.2.10
       '@fontsource/ibm-plex-mono':
         specifier: ^5.2.7
         version: 5.2.7
@@ -261,6 +261,9 @@ importers:
       react-dom:
         specifier: 'catalog:'
         version: 19.2.7(react@19.2.7)
+      react-hook-form:
+        specifier: ^7.81.0
+        version: 7.84.0(react@19.2.7)
       tailwindcss:
         specifier: 'catalog:'
         version: 4.3.2
@@ -996,9 +999,6 @@ packages:
 
   '@fontsource/estedad@5.2.1':
     resolution: {integrity: sha512-Q835gg1vJpxYOh2FhYCyJN8b8I/AkJPifz/rF823eZpgBqDfoSivBoKr+/BgtuWwD3LmvEG4EfquTDRPiLKDxQ==}
-
-  '@fontsource/fredoka@5.2.10':
-    resolution: {integrity: sha512-DyzPCmTf0PkBbAu+gNvnPzfD/dYIXlyp+Zcb76jEQyt/vmRKGZgkH8FFF9W2sICDaA5p+GLk1XGFjWh5PPX+lg==}
 
   '@fontsource/ibm-plex-mono@5.2.7':
     resolution: {integrity: sha512-MKAb8qV+CaiMQn2B0dIi1OV3565NYzp3WN5b4oT6LTkk+F0jR6j0ZN+5BKJiIhffDC3rtBULsYZE65+0018z9w==}
@@ -3466,6 +3466,12 @@ packages:
     peerDependencies:
       react: ^19.2.7
 
+  react-hook-form@7.84.0:
+    resolution: {integrity: sha512-+hWvQP6GLco56mDwrbU4XnHix8t1z90ltZsDIrREl+jnQFQxYLX8oAzqe/Xn8nHpmoXTY5M6oEXrAhbP1qevNQ==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18 || ^19
+
   react-icons@5.7.0:
     resolution: {integrity: sha512-LBLy340Rzqy6+/yVhZKT3B/QpP1BZaesGqasf09HPOBzRarcDIFH0WwXlXQfE7q7ipxK4MSiC5DIBWURCny6fw==}
     peerDependencies:
@@ -4570,8 +4576,6 @@ snapshots:
   '@floating-ui/utils@0.2.12': {}
 
   '@fontsource/estedad@5.2.1': {}
-
-  '@fontsource/fredoka@5.2.10': {}
 
   '@fontsource/ibm-plex-mono@5.2.7': {}
 
@@ -6953,6 +6957,10 @@ snapshots:
     dependencies:
       react: 19.2.7
       scheduler: 0.27.0
+
+  react-hook-form@7.84.0(react@19.2.7):
+    dependencies:
+      react: 19.2.7
 
   react-icons@5.7.0(react@19.2.7):
     dependencies:

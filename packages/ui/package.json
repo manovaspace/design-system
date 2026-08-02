@@ -75,7 +75,13 @@
   },
   "peerDependencies": {
     "react": "^19.2.7",
-    "react-dom": "^19.2.7"
+    "react-dom": "^19.2.7",
+    "react-hook-form": "^7.81.0"
+  },
+  "peerDependenciesMeta": {
+    "react-hook-form": {
+      "optional": true
+    }
   },
   "dependencies": {
     "@manovaspace/tokens": "workspace:*",
@@ -100,6 +106,7 @@
     "jsdom": "^26.1.0",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "react-hook-form": "^7.81.0",
     "tailwindcss": "catalog:",
     "tsup": "catalog:",
     "typescript": "catalog:",

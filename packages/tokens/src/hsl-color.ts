@@ -2,6 +2,8 @@ import { oklchToHex } from "./generate-color-scale.js";
 
 export type Hsl = { h: number; s: number; l: number };
 
+export type ColorScheme = "light" | "dark";
+
 export const SEMANTIC_DARK_EXCLUDE = new Set([
   "primary",
   "primary-foreground",
@@ -16,6 +18,21 @@ export const SEMANTIC_DARK_EXCLUDE = new Set([
   "sidebar-ring",
   "destructive",
 ]);
+
+/**
+ * Bases that get a derived `*-hover` token.
+ * Delta is HSL lightness points: light scheme darkens (−), dark scheme lightens (+).
+ * Secondary uses a larger step (replaces legacy `secondary/80` opacity).
+ */
+export const INTERACTION_HOVER_SOURCES: Readonly<
+  Record<string, { delta: number }>
+> = {
+  primary: { delta: 8 },
+  secondary: { delta: 12 },
+  destructive: { delta: 8 },
+  accent: { delta: 6 },
+  muted: { delta: 6 },
+};
 
 const HEX_PATTERN = /^#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
 const HSL_PATTERN = /^hsla?\(/i;
@@ -156,6 +173,38 @@ export function invertHslLightness(hsl: Hsl): Hsl {
   return { ...hsl, l: clamp(100 - hsl.l, 0, 100) };
 }
 
+export function shiftHslLightness(hsl: Hsl, delta: number): Hsl {
+  return { ...hsl, l: clamp(hsl.l + delta, 0, 100) };
+}
+
+/** Light scheme darkens; dark scheme lightens — one rule for hover surfaces. */
+export function deriveHoverCss(
+  baseCss: string,
+  scheme: ColorScheme,
+  delta: number,
+): string {
+  const hsl = parseColorToHsl(baseCss);
+  const signed = scheme === "light" ? -Math.abs(delta) : Math.abs(delta);
+  return hslToCss(shiftHslLightness(hsl, signed));
+}
+
+/**
+ * Append derived `*-hover` tokens. Author only base semantics in JSON —
+ * never hand-author `*-hover`.
+ */
+export function withInteractionStates(
+  semantic: Record<string, string>,
+  scheme: ColorScheme,
+): Record<string, string> {
+  const next = { ...semantic };
+  for (const [base, { delta }] of Object.entries(INTERACTION_HOVER_SOURCES)) {
+    const value = semantic[base];
+    if (!value || !isColorValue(value)) continue;
+    next[`${base}-hover`] = deriveHoverCss(value, scheme, delta);
+  }
+  return next;
+}
+
 export function normalizeSemanticColor(value: string): string {
   if (!isColorValue(value)) return value;
   return hslToCss(parseColorToHsl(value));
@@ -167,7 +216,11 @@ export function deriveSemanticDark(
   const dark: Record<string, string> = {};
 
   for (const [key, value] of Object.entries(light)) {
-    if (SEMANTIC_DARK_EXCLUDE.has(key) || !isColorValue(value)) {
+    if (
+      SEMANTIC_DARK_EXCLUDE.has(key) ||
+      key.endsWith("-hover") ||
+      !isColorValue(value)
+    ) {
       dark[key] = value;
       continue;
     }

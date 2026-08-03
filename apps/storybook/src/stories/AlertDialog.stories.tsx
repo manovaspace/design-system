@@ -25,7 +25,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <AlertDialog>
-      <AlertDialogTrigger className={cn(buttonVariants({ variant: "outline" }))}>
+      <AlertDialogTrigger
+        className={cn(buttonVariants({ variant: "outline" }))}
+      >
         Show alert
       </AlertDialogTrigger>
       <AlertDialogContent>

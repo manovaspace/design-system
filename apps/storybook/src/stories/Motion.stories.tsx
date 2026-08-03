@@ -4,13 +4,13 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
+  cn,
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  cn,
 } from "@manovaspace/ui";
 import {
   FadeIn,
@@ -19,8 +19,8 @@ import {
   staggerDelay,
   transitionBase,
 } from "@manovaspace/ui/motion";
-import { motion } from "framer-motion";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { motion } from "framer-motion";
 
 const meta = {
   title: "Foundation/Motion",
@@ -128,7 +128,8 @@ export const ReducedMotionNote: Story = {
           Framer helpers respect the user&apos;s reduced-motion preference by
           default. Toggle reduced motion in your OS or browser devtools to
           verify. Complex product animations should also branch on{" "}
-          <code>useReducedMotion()</code> from <code>@manovaspace/ui/motion</code>.
+          <code>useReducedMotion()</code> from{" "}
+          <code>@manovaspace/ui/motion</code>.
         </p>
       </CardContent>
     </Card>

@@ -1,10 +1,6 @@
 "use client";
 
-import type {
-  ComponentPropsWithoutRef,
-  ComponentType,
-  ReactNode,
-} from "react";
+import type { ComponentPropsWithoutRef, ComponentType, ReactNode } from "react";
 
 import { cn } from "./lib/utils.js";
 

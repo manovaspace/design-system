@@ -16,9 +16,7 @@ export function TooltipProvider(
   return <PrimitiveTooltipProvider {...props} />;
 }
 
-export function Tooltip(
-  props: React.ComponentProps<typeof PrimitiveTooltip>,
-) {
+export function Tooltip(props: React.ComponentProps<typeof PrimitiveTooltip>) {
   return <PrimitiveTooltip {...props} />;
 }
 

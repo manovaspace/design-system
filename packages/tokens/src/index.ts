@@ -14,6 +14,7 @@ export {
   oklchToHex,
 } from "./generate-color-scale.js";
 export {
+  type ColorScheme,
   deriveHoverCss,
   deriveSemanticDark,
   INTERACTION_HOVER_SOURCES,
@@ -22,7 +23,6 @@ export {
   SEMANTIC_DARK_EXCLUDE,
   shiftHslLightness,
   withInteractionStates,
-  type ColorScheme,
 } from "./hsl-color.js";
 export { parseTokenOverridePayload } from "./parse-token-override.js";
 export {

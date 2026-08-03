@@ -16,9 +16,7 @@ describe("mobileTabIndicatorInset", () => {
   });
 
   it("clamps index and guards empty count", () => {
-    expect(mobileTabIndicatorInset(-1, 5)).toBe(
-      mobileTabIndicatorInset(0, 5),
-    );
+    expect(mobileTabIndicatorInset(-1, 5)).toBe(mobileTabIndicatorInset(0, 5));
     expect(mobileTabIndicatorInset(9, 5)).toBe(mobileTabIndicatorInset(4, 5));
     expect(mobileTabIndicatorInset(0, 0)).toBe(
       `calc(0 * 100% + 50% - ${MOBILE_TAB_INDICATOR_WIDTH_PX / 2}px)`,

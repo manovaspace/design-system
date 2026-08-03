@@ -3,10 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 /** False until `loading` has been true for `delayMs`; resets immediately when loading stops. */
-export function useDelayedLoading(
-  loading: boolean,
-  delayMs = 300,
-): boolean {
+export function useDelayedLoading(loading: boolean, delayMs = 300): boolean {
   const [show, setShow] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -38,10 +35,7 @@ export function useDelayedLoading(
 }
 
 /** Keeps `true` for at least `minMs` once shown to avoid sub-frame loader flashes on hide. */
-export function useMinimumVisible(
-  visible: boolean,
-  minMs = 300,
-): boolean {
+export function useMinimumVisible(visible: boolean, minMs = 300): boolean {
   const [shown, setShown] = useState(visible);
   const shownAtRef = useRef<number | null>(visible ? Date.now() : null);
 

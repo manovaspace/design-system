@@ -6,21 +6,18 @@ import type * as React from "react";
 
 import { cn } from "../lib/utils.js";
 
-const spinnerVariants = cva(
-  "animate-spin motion-reduce:animate-none",
-  {
-    variants: {
-      size: {
-        sm: "size-4",
-        md: "size-6",
-        lg: "size-8",
-      },
-    },
-    defaultVariants: {
-      size: "md",
+const spinnerVariants = cva("animate-spin motion-reduce:animate-none", {
+  variants: {
+    size: {
+      sm: "size-4",
+      md: "size-6",
+      lg: "size-8",
     },
   },
-);
+  defaultVariants: {
+    size: "md",
+  },
+});
 
 type SpinnerProps = React.ComponentProps<typeof Loader2> &
   VariantProps<typeof spinnerVariants> & {

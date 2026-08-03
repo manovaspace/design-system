@@ -146,5 +146,5 @@ function useToast() {
   };
 }
 
-export { toast, useToast };
 export type { ToasterToast, ToastInput };
+export { toast, useToast };

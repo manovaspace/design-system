@@ -31,7 +31,13 @@ describe("token CSS sync", () => {
       expect(cssVars.has(`--${key}`)).toBe(true);
     }
 
-    for (const base of ["primary", "secondary", "destructive", "accent", "muted"]) {
+    for (const base of [
+      "primary",
+      "secondary",
+      "destructive",
+      "accent",
+      "muted",
+    ]) {
       expect(cssVars.has(`--${base}-hover`)).toBe(true);
     }
   });
@@ -46,7 +52,13 @@ describe("token CSS sync", () => {
       expect(cssVars.has(`--${key}`)).toBe(true);
     }
 
-    for (const base of ["primary", "secondary", "destructive", "accent", "muted"]) {
+    for (const base of [
+      "primary",
+      "secondary",
+      "destructive",
+      "accent",
+      "muted",
+    ]) {
       expect(cssVars.has(`--${base}-hover`)).toBe(true);
     }
   });

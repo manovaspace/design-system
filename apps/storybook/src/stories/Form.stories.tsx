@@ -45,7 +45,11 @@ export const WithValidation: Story = {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input {...field} type="email" placeholder="you@example.com" />
+                  <Input
+                    {...field}
+                    type="email"
+                    placeholder="you@example.com"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

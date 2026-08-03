@@ -85,10 +85,7 @@ export function WhatsNew({
 
   function dismiss() {
     if (manifest) {
-      localStorage.setItem(
-        storageKey(storageKeyPrefix, manifest.version),
-        "1",
-      );
+      localStorage.setItem(storageKey(storageKeyPrefix, manifest.version), "1");
     }
     setOpen(false);
   }

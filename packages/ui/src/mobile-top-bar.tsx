@@ -42,7 +42,9 @@ export function MobileTopBar({
           contentClassName,
         )}
       >
-        <div className="z-10 flex flex-1 items-center justify-start">{start}</div>
+        <div className="z-10 flex flex-1 items-center justify-start">
+          {start}
+        </div>
         <h1 className="pointer-events-none absolute inset-x-16 text-center text-base font-bold tracking-tight text-foreground">
           {title}
         </h1>

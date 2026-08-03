@@ -1,4 +1,4 @@
-import { Button, toast, Toaster } from "@manovaspace/ui";
+import { Button, Toaster, toast } from "@manovaspace/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta = {

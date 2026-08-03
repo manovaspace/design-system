@@ -1,4 +1,8 @@
-import { DirectionProvider, ThemeProvider, TokenProvider } from "@manovaspace/ui";
+import {
+  DirectionProvider,
+  ThemeProvider,
+  TokenProvider,
+} from "@manovaspace/ui";
 import { withThemeByClassName } from "@storybook/addon-themes";
 import type { Preview } from "@storybook/react-vite";
 

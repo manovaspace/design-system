@@ -1,12 +1,14 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  deriveHoverCss,
   deriveSemanticDark,
   invertHslLightness,
   isColorValue,
   normalizeSemanticColor,
   parseColorToHsl,
   SEMANTIC_DARK_EXCLUDE,
+  withInteractionStates,
 } from "./hsl-color.js";
 
 describe("hsl-color", () => {
@@ -77,5 +79,29 @@ describe("hsl-color", () => {
     for (const key of SEMANTIC_DARK_EXCLUDE) {
       expect(SEMANTIC_DARK_EXCLUDE.has(key)).toBe(true);
     }
+  });
+
+  it("derives hover by darkening in light and lightening in dark", () => {
+    const base = "hsl(220 84% 53%)";
+    expect(deriveHoverCss(base, "light", 8)).toBe("hsl(220 84% 45%)");
+    expect(deriveHoverCss(base, "dark", 8)).toBe("hsl(220 84% 61%)");
+  });
+
+  it("appends *-hover tokens from interaction sources", () => {
+    const light = withInteractionStates(
+      {
+        primary: "hsl(220 84% 53%)",
+        secondary: "hsl(0 0% 96%)",
+        accent: "hsl(0 0% 96%)",
+        muted: "hsl(0 0% 96%)",
+        destructive: "hsl(25 80% 45%)",
+        background: "hsl(0 0% 100%)",
+      },
+      "light",
+    );
+
+    expect(light["primary-hover"]).toBe("hsl(220 84% 45%)");
+    expect(light["secondary-hover"]).toBe("hsl(0 0% 84%)");
+    expect(light.background).toBe("hsl(0 0% 100%)");
   });
 });

@@ -1,10 +1,15 @@
-export {
-  WhatsNew,
-  type WhatsNewItem,
-  type WhatsNewManifest,
-  type WhatsNewProps,
-} from "./whats-new.js";
 export { useTheme } from "next-themes";
+export {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./alert-dialog.js";
 export {
   Avatar,
   AvatarFallback,
@@ -46,12 +51,23 @@ export {
   DirectionProvider,
   useDirection,
 } from "./direction-provider.js";
+export {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  useFormField,
+} from "./form.js";
 export { ICON_SIZES, type IconProps, iconProps } from "./icon.js";
 export {
   AcademicCapIcon,
   ArrowLeftIcon,
   ArrowRightIcon,
   ArrowRightOnRectangleIcon,
+  ArrowsRightLeftIcon,
   BoltIcon,
   CalendarIcon,
   CheckIcon,
@@ -59,19 +75,25 @@ export {
   ChevronRightIcon,
   ChevronUpDownIcon,
   ClipboardDocumentIcon,
+  ClipboardDocumentListIcon,
+  Cog6ToothIcon,
   ComputerDesktopIcon,
   CpuChipIcon,
   CubeIcon,
   DevicePhoneMobileIcon,
   ExternalLinkIcon,
+  FunnelIcon,
   GlobeAltIcon,
   HomeIcon,
   InformationCircleIcon,
+  MagnifyingGlassIcon,
   MailIcon,
   MoonIcon,
   PaintBrushIcon,
+  PlusIcon,
   PuzzlePieceIcon,
   RectangleStackIcon,
+  ScaleIcon,
   SkipForwardIcon,
   SunIcon,
   SwatchIcon,
@@ -93,15 +115,39 @@ export {
 } from "./icons-solid.js";
 export { Input, type InputProps } from "./input.js";
 export { Label } from "./label.js";
+export { cn } from "./lib/utils.js";
+export {
+  applyDocumentLocale,
+  LocalePreferenceProvider,
+  type LocalePreferenceProviderProps,
+  resolveLocaleDir,
+  type TextDirection,
+  useLocalePreference,
+} from "./locale-preference.js";
+export {
+  MOBILE_TAB_INDICATOR_WIDTH_PX,
+  MobileBottomTabBar,
+  type MobileBottomTabBarProps,
+  type MobileBottomTabItem,
+  type MobileBottomTabLinkProps,
+  mobileTabIndicatorInset,
+} from "./mobile-bottom-tab-bar.js";
+export {
+  MobileTopBar,
+  type MobileTopBarProps,
+} from "./mobile-top-bar.js";
 export {
   PageShell,
   type PageShellProps,
   pageShellContentVariants,
 } from "./page-shell.js";
-export { cn } from "./lib/utils.js";
+export {
+  Popover,
+  PopoverAnchor,
+  PopoverContent,
+  PopoverTrigger,
+} from "./popover.js";
 export { Progress } from "./progress.js";
-export { Skeleton } from "./skeleton.js";
-export { Spinner, spinnerVariants } from "./spinner.js";
 export {
   ScrollArea,
   type ScrollAreaProps,
@@ -119,8 +165,30 @@ export {
   SelectTrigger,
   SelectValue,
 } from "./select.js";
+export {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "./sheet.js";
+export { Skeleton } from "./skeleton.js";
 export { Slider } from "./slider.js";
+export { Spinner, spinnerVariants } from "./spinner.js";
 export { Switch, type SwitchProps } from "./switch.js";
+export {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "./table.js";
 export {
   Tabs,
   TabsContent,
@@ -138,6 +206,20 @@ export {
   type ThemeSwitcherLabels,
   type ThemeSwitcherProps,
 } from "./theme-switcher.js";
+export {
+  Toast,
+  ToastAction,
+  type ToastActionElement,
+  ToastClose,
+  ToastDescription,
+  type ToastProps,
+  ToastProvider,
+  ToastTitle,
+  type ToastVariant,
+  ToastViewport,
+  toastVariants,
+} from "./toast.js";
+export { Toaster } from "./toaster.js";
 export { Toggle, toggleVariants } from "./toggle.js";
 export { ToggleGroup, ToggleGroupItem } from "./toggle-group.js";
 export {
@@ -146,3 +228,16 @@ export {
   useTokenContextOptional,
   useTokens,
 } from "./token-provider.js";
+export {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./tooltip.js";
+export { toast, useToast } from "./use-toast.js";
+export {
+  WhatsNew,
+  type WhatsNewItem,
+  type WhatsNewManifest,
+  type WhatsNewProps,
+} from "./whats-new.js";

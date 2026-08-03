@@ -16,14 +16,24 @@ const brandTokens = {
 
 describe("mergeLoadedTokens", () => {
   it("keeps base tokens when fetches return undefined", () => {
-    const merged = mergeLoadedTokens(brandTokens, undefined, undefined, undefined);
+    const merged = mergeLoadedTokens(
+      brandTokens,
+      undefined,
+      undefined,
+      undefined,
+    );
     expect(merged.semantic.light.primary).toBe("#0d9488");
   });
 
   it("applies local override on top of base", () => {
-    const merged = mergeLoadedTokens(brandTokens, {
-      semantic: { light: { primary: "#ff0000" } },
-    }, undefined, undefined);
+    const merged = mergeLoadedTokens(
+      brandTokens,
+      {
+        semantic: { light: { primary: "#ff0000" } },
+      },
+      undefined,
+      undefined,
+    );
     expect(merged.semantic.light.primary).toBe("#ff0000");
   });
 

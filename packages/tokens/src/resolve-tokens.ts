@@ -1,4 +1,8 @@
-import { deriveSemanticDark, normalizeSemanticColor } from "./hsl-color.js";
+import {
+  deriveSemanticDark,
+  normalizeSemanticColor,
+  withInteractionStates,
+} from "./hsl-color.js";
 import type {
   OrbitTokenOverride,
   OrbitTokens,
@@ -108,17 +112,18 @@ export function resolveTokens(
 ): OrbitTokens {
   const merged = base ? deepMerge(base, raw as OrbitTokenOverride) : raw;
 
-  const resolvedLight = normalizeSemanticRecord(
+  const resolvedLightBase = normalizeSemanticRecord(
     resolveRecord(merged.semantic.light, merged),
   );
-  const resolvedDark = deriveSemanticDark(resolvedLight);
+  // Derive dark from base only, then add mode-aware hover (L− light / L+ dark).
+  const resolvedDarkBase = deriveSemanticDark(resolvedLightBase);
 
   return {
     ...merged,
     color: merged.color,
     semantic: {
-      light: resolvedLight,
-      dark: resolvedDark,
+      light: withInteractionStates(resolvedLightBase, "light"),
+      dark: withInteractionStates(resolvedDarkBase, "dark"),
     },
   };
 }

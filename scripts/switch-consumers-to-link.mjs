@@ -2,7 +2,12 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const workspaceRoot = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "..");
+const workspaceRoot = join(
+  dirname(fileURLToPath(import.meta.url)),
+  "..",
+  "..",
+  "..",
+);
 
 const ds = (pkg) => `link:../../../manovaspace/design-system/packages/${pkg}`;
 const dsFromOrbitApp = (pkg) =>
@@ -51,12 +56,19 @@ for (const { path, links } of targets) {
   const file = join(workspaceRoot, path);
   const pkg = JSON.parse(readFileSync(file, "utf8"));
 
-  for (const section of ["dependencies", "devDependencies", "peerDependencies"]) {
+  for (const section of [
+    "dependencies",
+    "devDependencies",
+    "peerDependencies",
+  ]) {
     const deps = pkg[section];
     if (!deps) continue;
 
     for (const [name, link] of Object.entries(links)) {
-      if (deps[name]?.startsWith("^") || deps[name]?.includes("manovaspace/ts")) {
+      if (
+        deps[name]?.startsWith("^") ||
+        deps[name]?.includes("manovaspace/ts")
+      ) {
         deps[name] = link;
         console.log(`${path}: ${section}.${name} → ${link}`);
       }

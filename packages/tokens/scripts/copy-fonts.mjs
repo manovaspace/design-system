@@ -3,7 +3,8 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const distFonts = join(root, "dist", "fonts");
+// Outside dist/ so tsup --clean does not race Next consumers importing ?url fonts.
+const fontsDir = join(root, "fonts");
 
 const fontFiles = [
   "@fontsource/estedad/files/estedad-arabic-400-normal.woff2",
@@ -13,7 +14,7 @@ const fontFiles = [
   "@fontsource/inter/files/inter-latin-500-normal.woff2",
 ];
 
-mkdirSync(distFonts, { recursive: true });
+mkdirSync(fontsDir, { recursive: true });
 
 for (const relativePath of fontFiles) {
   const source = join(root, "node_modules", relativePath);
@@ -21,7 +22,7 @@ for (const relativePath of fontFiles) {
   if (!filename || !existsSync(source)) {
     throw new Error(`Missing font file: ${source}`);
   }
-  cpSync(source, join(distFonts, filename));
+  cpSync(source, join(fontsDir, filename));
 }
 
-console.log(`Copied ${fontFiles.length} font files to dist/fonts/`);
+console.log(`Copied ${fontFiles.length} font files to fonts/`);

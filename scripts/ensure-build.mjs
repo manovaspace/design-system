@@ -8,10 +8,15 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const packages = [
   { filter: "@manovaspace/tokens", marker: "packages/tokens/dist/tokens.css" },
   { filter: "@manovaspace/ui", marker: "packages/ui/dist/index.js" },
-  { filter: "@manovaspace/devtools", marker: "packages/devtools/dist/index.js" },
+  {
+    filter: "@manovaspace/devtools",
+    marker: "packages/devtools/dist/index.js",
+  },
 ];
 
-const missing = packages.filter(({ marker }) => !existsSync(join(root, marker)));
+const missing = packages.filter(
+  ({ marker }) => !existsSync(join(root, marker)),
+);
 
 if (missing.length > 0) {
   console.log(

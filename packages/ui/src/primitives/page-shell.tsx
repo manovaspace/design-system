@@ -51,10 +51,7 @@ function PageShell({
     >
       <div
         data-slot="page-shell-content"
-        className={cn(
-          pageShellContentVariants({ maxWidth }),
-          contentClassName,
-        )}
+        className={cn(pageShellContentVariants({ maxWidth }), contentClassName)}
       >
         {header}
         {children}

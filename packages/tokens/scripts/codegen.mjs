@@ -28,6 +28,14 @@ const SEMANTIC_DARK_EXCLUDE = new Set([
   "destructive",
 ]);
 
+const INTERACTION_HOVER_SOURCES = {
+  primary: { delta: 8 },
+  secondary: { delta: 12 },
+  destructive: { delta: 8 },
+  accent: { delta: 6 },
+  muted: { delta: 6 },
+};
+
 function lookup(path, tokens) {
   let current = tokens;
   for (const part of path.split(".")) {
@@ -215,7 +223,11 @@ function normalizeSemanticColor(value) {
 function deriveSemanticDark(light) {
   const dark = {};
   for (const [key, value] of Object.entries(light)) {
-    if (SEMANTIC_DARK_EXCLUDE.has(key) || !isColorValue(value)) {
+    if (
+      SEMANTIC_DARK_EXCLUDE.has(key) ||
+      key.endsWith("-hover") ||
+      !isColorValue(value)
+    ) {
       dark[key] = value;
       continue;
     }
@@ -228,17 +240,33 @@ function deriveSemanticDark(light) {
   return dark;
 }
 
+function withInteractionStates(semantic, scheme) {
+  const next = { ...semantic };
+  for (const [base, { delta }] of Object.entries(INTERACTION_HOVER_SOURCES)) {
+    const value = semantic[base];
+    if (!value || !isColorValue(value)) continue;
+    const hsl = parseColorToHsl(value);
+    const signed = scheme === "light" ? -Math.abs(delta) : Math.abs(delta);
+    next[`${base}-hover`] = hslToCss({
+      ...hsl,
+      l: Math.min(100, Math.max(0, hsl.l + signed)),
+    });
+  }
+  return next;
+}
+
 function resolveTokens(raw) {
-  const resolvedLight = Object.fromEntries(
+  const resolvedLightBase = Object.fromEntries(
     Object.entries(resolveRecord(raw.semantic.light, raw)).map(
       ([key, value]) => [key, normalizeSemanticColor(value)],
     ),
   );
+  const resolvedDarkBase = deriveSemanticDark(resolvedLightBase);
   return {
     ...raw,
     semantic: {
-      light: resolvedLight,
-      dark: deriveSemanticDark(resolvedLight),
+      light: withInteractionStates(resolvedLightBase, "light"),
+      dark: withInteractionStates(resolvedDarkBase, "dark"),
     },
   };
 }

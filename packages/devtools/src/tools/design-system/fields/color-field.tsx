@@ -1,4 +1,7 @@
-import { normalizeSemanticColor, type OrbitTokensRaw } from "@manovaspace/tokens";
+import {
+  normalizeSemanticColor,
+  type OrbitTokensRaw,
+} from "@manovaspace/tokens";
 import { Badge, ColorSwatch, Input, Label } from "@manovaspace/ui";
 
 import {

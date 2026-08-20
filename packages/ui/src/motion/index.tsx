@@ -1,10 +1,29 @@
 "use client";
 
-import { type HTMLMotionProps, motion } from "framer-motion";
+import { type HTMLMotionProps, motion, useAnimation } from "framer-motion";
 
 import { cn } from "../lib/utils.js";
 import { duration, easeOut } from "./tokens.js";
 
+export {
+  AnimatePresence,
+  motion,
+  useAnimation,
+  useCycle,
+  useIsPresent,
+  useMotionValue,
+  usePresence,
+  useScroll,
+  useSpring,
+  useTransform,
+  useVelocity,
+  type HTMLMotionProps,
+  type MotionProps,
+  type TargetAndTransition,
+  type Transition,
+  type Variants,
+} from "framer-motion";
+export type AnimationControls = ReturnType<typeof useAnimation>;
 export { useReducedMotion } from "./hooks.js";
 export { RevealOnScroll, type RevealOnScrollProps } from "./reveal.js";
 export {

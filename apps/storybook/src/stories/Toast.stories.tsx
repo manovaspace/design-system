@@ -1,7 +1,7 @@
 import { Button, Toaster, toast } from "@manovaspace/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-const meta = {
+const meta: Meta<typeof Toaster> = {
   title: "Components/Toast",
   component: Toaster,
   tags: ["autodocs"],

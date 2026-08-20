@@ -7,7 +7,7 @@ import {
 } from "@manovaspace/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-const meta = {
+const meta: Meta<typeof Tooltip> = {
   title: "Components/Tooltip",
   component: Tooltip,
   tags: ["autodocs"],

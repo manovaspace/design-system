@@ -136,7 +136,7 @@
     }
   }
 
-  @supports not (animation-timeline: scroll()) {
+    @supports not (animation-timeline: scroll()) {
     .scroll-fade-y {
       -webkit-mask-image: linear-gradient(
         to bottom,
@@ -151,5 +151,33 @@
         transparent
       );
     }
+  }
+
+  .mnv-data,
+  .gst-data,
+  .mnv-numeric,
+  .gst-numeric {
+    font-family: var(--font-data, var(--font-sans));
+    font-feature-settings: "ss01" on;
+  }
+
+  .mnv-data--tabular,
+  .gst-data--tabular,
+  .mnv-numeric--tabular,
+  .gst-numeric--tabular {
+    font-feature-settings: "tnum" on;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .mnv-data__sep,
+  .gst-data__sep {
+    display: inline-block;
+    padding: 0 0.05em;
+    user-select: none;
+  }
+
+  .mnv-data__digits,
+  .gst-data__digits {
+    font-variant-numeric: normal;
   }
 }

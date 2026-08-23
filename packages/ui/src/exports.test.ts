@@ -17,9 +17,17 @@ describe("@manovaspace/ui exports", () => {
     expect(UI.Menu).toBeDefined();
     expect(UI.Star).toBeDefined();
     expect(UI.Trash2).toBeDefined();
-    expect(UI.Anchor).toBeDefined();
-    expect(UI.Coins).toBeDefined();
-    expect(UI.Skull).toBeDefined();
     expect(UI.RotateCcw).toBeDefined();
+  });
+
+  it("exports composed UI primitives", () => {
+    expect(UI.DataValue).toBeDefined();
+    expect(UI.FieldMessage).toBeDefined();
+    expect(UI.FieldGroup).toBeDefined();
+    expect(UI.PhoneNumber).toBeDefined();
+    expect(UI.SiteHost).toBeDefined();
+    expect(UI.CopyableMoney).toBeDefined();
+    expect(UI.HintTooltip).toBeDefined();
+    expect(UI.DropdownMenu).toBeDefined();
   });
 });

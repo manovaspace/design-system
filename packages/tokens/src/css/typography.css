@@ -2,8 +2,11 @@
 
 :root {
   --font-sans: Estedad, Fredoka, Inter, Arial, sans-serif;
+  --font-prose: Estedad, Arial, sans-serif;
   --font-latin: Fredoka, Inter, Arial, sans-serif;
   --font-arabic: Estedad, Arial, sans-serif;
+  --font-data: Vazirmatn, Estedad, Arial, sans-serif;
+  --font-numeric: Vazirmatn, Estedad, Arial, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
   --font-size-display: 3rem;
   --font-size-heading: 1.875rem;

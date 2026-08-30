@@ -3,11 +3,13 @@ import { describe, expect, it } from "vitest";
 import {
   deriveHoverCss,
   deriveSemanticDark,
+  hslToCss,
   invertHslLightness,
   isColorValue,
   normalizeSemanticColor,
   parseColorToHsl,
   SEMANTIC_DARK_EXCLUDE,
+  shiftHslLightness,
   withInteractionStates,
 } from "./hsl-color.js";
 
@@ -15,6 +17,122 @@ describe("hsl-color", () => {
   it("parses hex to hsl", () => {
     expect(parseColorToHsl("#ffffff")).toEqual({ h: 0, s: 0, l: 100 });
     expect(parseColorToHsl("#000000")).toEqual({ h: 0, s: 0, l: 0 });
+  });
+
+  it("parses 3-character short hex codes", () => {
+    expect(parseColorToHsl("#fff")).toEqual({ h: 0, s: 0, l: 100 });
+    expect(parseColorToHsl("#f00")).toEqual({ h: 0, s: 100, l: 50 });
+    expect(parseColorToHsl("#000")).toEqual({ h: 0, s: 0, l: 0 });
+    expect(parseColorToHsl("#0f0")).toEqual({ h: 120, s: 100, l: 50 });
+    expect(parseColorToHsl("#00f")).toEqual({ h: 240, s: 100, l: 50 });
+    expect(parseColorToHsl("#FFF")).toEqual({ h: 0, s: 0, l: 100 });
+  });
+
+  it("parses 8-character hex codes with alpha channels", () => {
+    expect(parseColorToHsl("#ffffff80")).toEqual({ h: 0, s: 0, l: 100 });
+    expect(parseColorToHsl("#000000ff")).toEqual({ h: 0, s: 0, l: 0 });
+    expect(parseColorToHsl("#ff0000aa")).toEqual({ h: 0, s: 100, l: 50 });
+    expect(parseColorToHsl("#00ff0033")).toEqual({ h: 120, s: 100, l: 50 });
+  });
+
+  it("throws an error on invalid color strings", () => {
+    expect(() => parseColorToHsl("not-a-color")).toThrow(
+      "Unsupported color format: not-a-color",
+    );
+    expect(() => parseColorToHsl("")).toThrow("Unsupported color format: ");
+    expect(() => parseColorToHsl("   ")).toThrow("Unsupported color format: ");
+    expect(() => parseColorToHsl("rgb(invalid)")).toThrow(
+      "Unsupported color format: rgb(invalid)",
+    );
+    expect(() => parseColorToHsl("hsl(invalid)")).toThrow(
+      "Invalid HSL color: hsl(invalid)",
+    );
+    expect(() => parseColorToHsl("hsl(210 50%)")).toThrow(
+      "Invalid HSL color: hsl(210 50%)",
+    );
+    expect(() => parseColorToHsl("oklch(invalid)")).toThrow(
+      "Invalid OKLCH color: oklch(invalid)",
+    );
+    expect(() => parseColorToHsl("oklch(0.55 0.2)")).toThrow(
+      "Invalid OKLCH color: oklch(0.55 0.2)",
+    );
+  });
+
+  it("throws an error on malformed hex strings", () => {
+    expect(() => parseColorToHsl("#xyz")).toThrow(
+      "Unsupported color format: #xyz",
+    );
+    expect(() => parseColorToHsl("#12")).toThrow(
+      "Unsupported color format: #12",
+    );
+    expect(() => parseColorToHsl("#12345")).toThrow(
+      "Unsupported color format: #12345",
+    );
+    expect(() => parseColorToHsl("#1234567")).toThrow(
+      "Unsupported color format: #1234567",
+    );
+    expect(() => parseColorToHsl("#123456789")).toThrow(
+      "Unsupported color format: #123456789",
+    );
+    expect(() => parseColorToHsl("#gggggg")).toThrow(
+      "Unsupported color format: #gggggg",
+    );
+  });
+
+  it("handles lightness clamping boundaries", () => {
+    expect(shiftHslLightness({ h: 200, s: 50, l: 95 }, 10)).toEqual({
+      h: 200,
+      s: 50,
+      l: 100,
+    });
+    expect(shiftHslLightness({ h: 200, s: 50, l: 5 }, -10)).toEqual({
+      h: 200,
+      s: 50,
+      l: 0,
+    });
+    expect(shiftHslLightness({ h: 200, s: 50, l: 100 }, 20)).toEqual({
+      h: 200,
+      s: 50,
+      l: 100,
+    });
+    expect(shiftHslLightness({ h: 200, s: 50, l: 0 }, -20)).toEqual({
+      h: 200,
+      s: 50,
+      l: 0,
+    });
+
+    expect(invertHslLightness({ h: 0, s: 0, l: 0 })).toEqual({
+      h: 0,
+      s: 0,
+      l: 100,
+    });
+    expect(invertHslLightness({ h: 0, s: 0, l: 100 })).toEqual({
+      h: 0,
+      s: 0,
+      l: 0,
+    });
+    expect(invertHslLightness({ h: 0, s: 0, l: -10 })).toEqual({
+      h: 0,
+      s: 0,
+      l: 100,
+    });
+    expect(invertHslLightness({ h: 0, s: 0, l: 120 })).toEqual({
+      h: 0,
+      s: 0,
+      l: 0,
+    });
+
+    expect(deriveHoverCss("hsl(220 84% 95%)", "dark", 10)).toBe(
+      "hsl(220 84% 100%)",
+    );
+    expect(deriveHoverCss("hsl(220 84% 5%)", "light", 10)).toBe(
+      "hsl(220 84% 0%)",
+    );
+  });
+
+  it("converts hsl to css string", () => {
+    expect(hslToCss({ h: 210, s: 50, l: 40 })).toBe("hsl(210 50% 40%)");
+    expect(hslToCss({ h: 0, s: 0, l: 100 })).toBe("hsl(0 0% 100%)");
   });
 
   it("parses hsl strings", () => {

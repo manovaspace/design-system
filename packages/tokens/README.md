@@ -3,7 +3,7 @@
 Design tokens, semantic CSS variables, and font assets for applications using the manovaspace design system.
 
 ```bash
-pnpm add @manovaspace/tokens
+bun add @manovaspace/tokens
 ```
 
 Also works with npm and yarn.

@@ -13,8 +13,8 @@ Policy matches [manovaspace/ts](https://github.com/manovaspace/ts/blob/main/RELE
 ## Routine release
 
 ```bash
-pnpm changeset
-pnpm version-packages
+bun run changeset
+bun run version-packages
 git add -A
 git commit -m "chore: version packages"
 git push origin main
@@ -25,8 +25,8 @@ CI publishes when a `chore: version packages` commit lands on `main` (see `.gith
 Manual fallback:
 
 ```bash
-pnpm build
-pnpm release
+bun run build
+bun run release
 ```
 
 ## First publish of a new package
@@ -34,7 +34,7 @@ pnpm release
 New package names require a first local publish with 2FA, then trusted publishing:
 
 ```bash
-pnpm build && pnpm release
+bun run build && bun run release
 TRUST_REPO=manovaspace/design-system ./scripts/configure-trusted-publishing.sh
 ```
 
@@ -43,7 +43,7 @@ Configure [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/) f
 ## Checklist
 
 - [ ] Changeset included in the pull request
-- [ ] `pnpm version-packages` run on `main`
+- [ ] `bun run version-packages` run on `main`
 - [ ] `chore: version packages` pushed
 - [ ] CI publish succeeded
 - [ ] `npm view @manovaspace/<package> version` matches the release

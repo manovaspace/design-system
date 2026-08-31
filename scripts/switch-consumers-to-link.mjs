@@ -23,13 +23,6 @@ const targets = [
     },
   },
   {
-    path: "clients/kaazhe/frontend/package.json",
-    links: {
-      "@manovaspace/tokens": ds("tokens"),
-      "@manovaspace/ui": ds("ui"),
-    },
-  },
-  {
     path: "clients/jtash/frontend/package.json",
     links: {
       "@manovaspace/tokens": ds("tokens"),

@@ -10,15 +10,15 @@
     "clean": "rm -rf storybook-static"
   },
   "dependencies": {
-    "@manovaspace/tokens": "workspace:*",
-    "@manovaspace/ui": "workspace:*",
+    "@manovaspace/tokens": "^0.1.2",
+    "@manovaspace/ui": "^0.2.2",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-hook-form": "^7.81.0"
   },
   "devDependencies": {
     "framer-motion": "^12.42.2",
-    "@manovaspace/devtools": "workspace:*",
+    "@manovaspace/devtools": "^0.0.5",
     "@manovaspace/tsconfig": "^0.1.2",
     "@storybook/addon-a11y": "^10.5.4",
     "@storybook/addon-docs": "^10.5.4",
@@ -33,6 +33,5 @@
     "typescript": "^6.0.3",
     "vite": "^6.3.5",
     "@storybook/addon-mcp": "^0.7.0"
-  },
-  "packageManager": "bun@1.3.14"
+  }
 }

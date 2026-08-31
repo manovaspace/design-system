@@ -20,7 +20,6 @@ const versions = {
 const packageJsonPaths = [
   "orbit/orbit-frontend/apps/template/package.json",
   "orbit/orbit-frontend/apps/storybook/package.json",
-  "clients/kaazhe/frontend/package.json",
   "clients/jtash/frontend/package.json",
   "clients/manova/waypoint/package.json",
   "clients/manova/manova-frontend/package.json",

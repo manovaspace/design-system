@@ -25,7 +25,7 @@
   "scripts": {
     "prepublishOnly": "bun ../../scripts/assert-publishable-deps.mjs",
     "codegen": "bun scripts/codegen.mjs",
-    "build": "bun run codegen && bun run build:css && tsup",
+    "build": "bun run codegen && tsup && bun run build:css",
     "build:css": "mkdir -p dist && cp src/css/*.css dist/ && cp src/fonts.css dist/fonts.css && cp src/css/tokens.css dist/tokens.css && cp src/default.json dist/default.json && bun scripts/copy-fonts.mjs",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",

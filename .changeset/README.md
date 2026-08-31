@@ -3,7 +3,7 @@
 When a pull request changes publishable package behavior under `packages/*`:
 
 ```bash
-pnpm changeset
+bun run changeset
 ```
 
 Commit the generated `.changeset/*.md` file with the pull request.
@@ -11,7 +11,7 @@ Commit the generated `.changeset/*.md` file with the pull request.
 Maintainers release with:
 
 ```bash
-pnpm version-packages
+bun run version-packages
 git commit -am "chore: version packages"
 git push
 ```

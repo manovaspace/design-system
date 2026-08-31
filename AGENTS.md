@@ -15,15 +15,15 @@ Utilities (`tsconfig`, `markdown`, `pwa`, `observability`): [`manovaspace/ts`](.
 ## Commands
 
 ```bash
-pnpm build
-pnpm storybook        # port 10006 — enables Storybook MCP while running
-pnpm test
-pnpm typecheck
-pnpm check:ds         # hex + default palette bans in packages/ui and packages/devtools
-pnpm quality          # lint + check:ds
+bun run build
+bun run storybook        # port 10006 — enables Storybook MCP while running
+bun run test
+bun run typecheck
+bun run check:ds         # hex + default palette bans in packages/ui and packages/devtools
+bun run quality          # lint + check:ds
 ```
 
-Node >= 24. Package manager: pnpm@11.10.0.
+Node >= 24. Package manager: bun@1.4.0.
 
 ## Layer order
 
@@ -35,7 +35,7 @@ Decision tree: `handbook/docs/orbit/guides/orbit-component-architecture.md`. Hyd
 
 ## Storybook MCP
 
-`@storybook/addon-mcp` is enabled. While `pnpm storybook` runs, agents must use Storybook MCP to verify `@manovaspace/ui` component props — never invent props from memory. Details: `handbook/docs/orbit/guides/cursor-mcp.md` (Storybook MCP section).
+`@storybook/addon-mcp` is enabled. While `bun run storybook` runs, agents must use Storybook MCP to verify `@manovaspace/ui` component props — never invent props from memory. Details: `handbook/docs/orbit/guides/cursor-mcp.md` (Storybook MCP section).
 
 ## Workspace triggers
 

@@ -21,15 +21,15 @@ Related utilities (`tsconfig`, `markdown`, `pwa`, `observability`): [manovaspace
 - Node.js 24 or newer (for developing this monorepo)
 - React 19 for `@manovaspace/ui` and `@manovaspace/devtools`
 - Tailwind CSS 4 when extending the token theme in an application
-- pnpm (recommended; npm and yarn also work for installing published packages)
+- bun run (recommended; npm and yarn also work for installing published packages)
 
 ## Development
 
 ```bash
-pnpm install
-pnpm build
-pnpm test
-pnpm storybook   # http://localhost:10006
+bun install
+bun run build
+bun run test
+bun run storybook   # http://localhost:10006
 ```
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for pull requests and [RELEASING.md](./RELEASING.md) for versioning and publish.

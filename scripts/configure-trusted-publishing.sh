@@ -29,7 +29,7 @@ trust_pkg() {
   fi
 
   if ! on_npm "$pkg"; then
-    echo "==> $pkg: not on npm yet — publish first (pnpm build && pnpm release), then re-run"
+    echo "==> $pkg: not on npm yet — publish first (bun run build && bun run release), then re-run"
     return 0
   fi
 

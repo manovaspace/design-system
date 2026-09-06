@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -21,6 +21,9 @@ const packageJsonPaths = [
   "orbit/orbit-frontend/apps/template/package.json",
   "orbit/orbit-frontend/apps/storybook/package.json",
   "clients/jtash/frontend/package.json",
+  "clients/fryto/website/package.json",
+  "clients/fryto/ops/apps/web/package.json",
+  "clients/kohan_kherad/website/package.json",
   "clients/manova/waypoint/package.json",
   "clients/manova/manova-frontend/package.json",
 ];
@@ -30,7 +33,7 @@ const linkRe =
 
 for (const rel of packageJsonPaths) {
   const path = join(workspaceRoot, rel);
-  if (!readFileSync(path, "utf8")) continue;
+  if (!existsSync(path)) continue;
   const pkg = JSON.parse(readFileSync(path, "utf8"));
 
   for (const section of [
@@ -46,7 +49,11 @@ for (const rel of packageJsonPaths) {
       if (typeof spec !== "string") continue;
       const next = `^${versions[name]}`;
       if (spec === next) continue;
-      if (linkRe.test(spec) || spec.startsWith("^")) {
+      if (
+        linkRe.test(spec) ||
+        spec.startsWith("^") ||
+        spec.startsWith("workspace:")
+      ) {
         deps[name] = next;
         console.log(`${rel}: ${section}.${name} → ${next}`);
       }

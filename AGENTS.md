@@ -31,6 +31,12 @@ Change **tokens → ui → apps**. Run Storybook before shipping visual changes.
 
 `Form*` requires peer `react-hook-form` (optional peer — install it in the product when using Form). Keep a single RHF version in the app to avoid dual `FormProvider` contexts.
 
+Reusable multi-primitive flows belong in `packages/ui/src/composed/` and are
+exported from the package barrel. Current examples include `ConfirmDialog`,
+`EmptyState`, `DataValue`, `PhoneNumber`, and `FieldMessage`. `Alert` is the
+shared inline feedback primitive. Product/domain components stay in the
+consuming client repository.
+
 Decision tree: `handbook/docs/orbit/guides/orbit-component-architecture.md`. Hydration for consuming apps: `handbook/docs/orbit/guides/orbit-frontend-hydration.md`.
 
 ## Storybook MCP

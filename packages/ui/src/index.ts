@@ -1,5 +1,12 @@
 export { useTheme } from "next-themes";
 export {
+  Alert,
+  AlertDescription,
+  type AlertProps,
+  AlertTitle,
+  alertVariants,
+} from "./alert.js";
+export {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -37,6 +44,19 @@ export {
   CollapsibleTrigger,
 } from "./collapsible.js";
 export { ColorSwatch, type ColorSwatchProps } from "./color-swatch.js";
+export {
+  ConfirmDialog,
+  type ConfirmDialogProps,
+  DataValue,
+  type DataValueProps,
+  EmptyState,
+  type EmptyStateProps,
+  FieldMessage,
+  type FieldMessageProps,
+  formatDataValue,
+  PhoneNumber,
+  type PhoneNumberProps,
+} from "./composed/index.js";
 export {
   Dialog,
   DialogClose,
@@ -115,6 +135,10 @@ export {
 } from "./icons-solid.js";
 export { Input, type InputProps } from "./input.js";
 export { Label } from "./label.js";
+export {
+  toLatinDigits,
+  toLocaleDigits,
+} from "./lib/locale-digits.js";
 export { cn } from "./lib/utils.js";
 export {
   applyDocumentLocale,

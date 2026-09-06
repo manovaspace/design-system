@@ -15,7 +15,8 @@ function readCss(name: string): string {
 function extractCssVars(block: string): string[] {
   const vars: string[] = [];
   for (const match of block.matchAll(/(--[\w-]+):/g)) {
-    vars.push(match[1]!);
+    const variable = match[1];
+    if (variable) vars.push(variable);
   }
   return vars;
 }

@@ -11,7 +11,7 @@ Design tokens, React UI primitives, and development tooling for Next.js applicat
 | Package | Description | Docs |
 | --- | --- | --- |
 | [`@manovaspace/tokens`](https://www.npmjs.com/package/@manovaspace/tokens) | Design tokens, CSS variables, and font assets | [docs](https://manovaspace.github.io/docs/design-system/packages/tokens/) |
-| [`@manovaspace/ui`](https://www.npmjs.com/package/@manovaspace/ui) | Radix and Tailwind component primitives | [docs](https://manovaspace.github.io/docs/design-system/packages/ui/) |
+| [`@manovaspace/ui`](https://www.npmjs.com/package/@manovaspace/ui) | Radix/Tailwind primitives plus composed feedback, form, navigation, and locale-data components | [docs](https://manovaspace.github.io/docs/design-system/packages/ui/) |
 | [`@manovaspace/devtools`](https://www.npmjs.com/package/@manovaspace/devtools) | Development-only token editor and toolbar | [docs](https://manovaspace.github.io/docs/design-system/packages/devtools/) |
 
 Related utilities (`tsconfig`, `markdown`, `pwa`, `observability`): [manovaspace/ts](https://github.com/manovaspace/ts).
@@ -33,6 +33,11 @@ bun run storybook   # http://localhost:10006
 ```
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for pull requests and [RELEASING.md](./RELEASING.md) for versioning and publish.
+
+Shared component ownership and client adoption rules are documented in
+[`handbook/docs/orbit/guides/client-ui-conventions.md`](../../handbook/docs/orbit/guides/client-ui-conventions.md).
+Use `scripts/switch-consumers-to-link.mjs` for local workspace co-development
+and `scripts/switch-consumers-to-npm.mjs` after a package release.
 
 ## License
 

@@ -36,7 +36,8 @@ export function useTokenHistory(): TokenHistoryControls {
       const past = pastRef.current;
       if (!past.length) return null;
       futureRef.current.push(structuredClone(current));
-      const prev = past.pop()!;
+      const prev = past.pop();
+      if (!prev) return null;
       bump();
       return prev;
     },
@@ -48,7 +49,8 @@ export function useTokenHistory(): TokenHistoryControls {
       const future = futureRef.current;
       if (!future.length) return null;
       pastRef.current.push(structuredClone(current));
-      const next = future.pop()!;
+      const next = future.pop();
+      if (!next) return null;
       bump();
       return next;
     },

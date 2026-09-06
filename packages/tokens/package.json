@@ -1,6 +1,6 @@
 {
   "name": "@manovaspace/tokens",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Design tokens, semantic CSS variables, and font assets for @manovaspace/ui",
   "license": "MIT",
   "type": "module",

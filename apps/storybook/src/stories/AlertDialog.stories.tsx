@@ -9,6 +9,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
   buttonVariants,
+  ConfirmDialog,
   cn,
 } from "@manovaspace/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
@@ -71,5 +72,18 @@ export const Destructive: Story = {
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
+  ),
+};
+
+export const ComposedConfirmDialog: Story = {
+  render: () => (
+    <ConfirmDialog
+      trigger={<button type="button">Delete item</button>}
+      title="Delete item?"
+      description="This action cannot be undone."
+      confirmLabel="Delete"
+      variant="destructive"
+      onConfirm={() => undefined}
+    />
   ),
 };

@@ -12,6 +12,8 @@ const workspaceRoot = join(
 const ds = (pkg) => `link:../../../manovaspace/design-system/packages/${pkg}`;
 const dsFromOrbitApp = (pkg) =>
   `link:../../../../manovaspace/design-system/packages/${pkg}`;
+const dsFromFrytoOpsApp = (pkg) =>
+  `link:../../../../../manovaspace/design-system/packages/${pkg}`;
 
 const targets = [
   {
@@ -24,6 +26,27 @@ const targets = [
   },
   {
     path: "clients/jtash/frontend/package.json",
+    links: {
+      "@manovaspace/tokens": ds("tokens"),
+      "@manovaspace/ui": ds("ui"),
+    },
+  },
+  {
+    path: "clients/fryto/website/package.json",
+    links: {
+      "@manovaspace/tokens": ds("tokens"),
+      "@manovaspace/ui": ds("ui"),
+    },
+  },
+  {
+    path: "clients/fryto/ops/apps/web/package.json",
+    links: {
+      "@manovaspace/tokens": dsFromFrytoOpsApp("tokens"),
+      "@manovaspace/ui": dsFromFrytoOpsApp("ui"),
+    },
+  },
+  {
+    path: "clients/kohan_kherad/website/package.json",
     links: {
       "@manovaspace/tokens": ds("tokens"),
       "@manovaspace/ui": ds("ui"),
@@ -60,6 +83,7 @@ for (const { path, links } of targets) {
     for (const [name, link] of Object.entries(links)) {
       if (
         deps[name]?.startsWith("^") ||
+        deps[name]?.startsWith("workspace:") ||
         deps[name]?.includes("manovaspace/ts")
       ) {
         deps[name] = link;

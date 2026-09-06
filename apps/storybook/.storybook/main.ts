@@ -9,6 +9,9 @@ const packagesDir = path.resolve(storybookDir, "../../../packages");
 
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(ts|tsx)"],
+  features: {
+    componentsManifest: true,
+  },
 
   addons: [
     getAbsolutePath("@storybook/addon-docs"),

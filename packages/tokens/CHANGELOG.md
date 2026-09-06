@@ -1,5 +1,12 @@
 # @manovaspace/tokens
 
+## 0.1.3
+
+### Patch Changes
+
+- 52a220d: Use Inter as the default Latin font; drop Fredoka from the stack and font loads.
+- 52a220d: Use @manovaspace/build shared tsup config helpers.
+
 ## 0.1.2
 
 ### Patch Changes

@@ -1,5 +1,22 @@
 # @manovaspace/ui
 
+## 0.3.0
+
+### Minor Changes
+
+- 52a220d: Add AlertDialog and Toast (Toaster + imperative toast()) overlays.
+- Add reusable `ConfirmDialog`, `Alert`, and `EmptyState` components for
+  localized confirmation and feedback flows.
+- 52a220d: Add Form (react-hook-form), Sheet, Table, Tooltip, and Popover public wrappers with Storybook stories.
+- 52a220d: Add MobileBottomTabBar, MobileTopBar, and LocalePreferenceProvider for phone-first app chrome.
+
+### Patch Changes
+
+- 52a220d: Use @manovaspace/build shared tsup config helpers.
+- Updated dependencies [52a220d]
+- Updated dependencies [52a220d]
+  - @manovaspace/tokens@0.1.3
+
 ## 0.2.2
 
 ### Patch Changes

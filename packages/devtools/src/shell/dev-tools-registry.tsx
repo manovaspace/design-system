@@ -25,6 +25,10 @@ export const DEV_TOOLS: DevToolDefinition[] = [
 
 export function getDevTool(id: DevToolId): DevToolDefinition {
   const tool = DEV_TOOLS.find((t) => t.id === id);
-  if (!tool) return DEV_TOOLS[0]!;
+  if (!tool) {
+    const fallback = DEV_TOOLS[0];
+    if (!fallback) throw new Error("No development tools are registered.");
+    return fallback;
+  }
   return tool;
 }

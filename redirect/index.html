@@ -11,11 +11,11 @@
       var h = window.location.hash || "";
       var dest;
       if (p.indexOf("/design-system/packages/") === 0) {
-        dest = docs + "/design-system" + p.slice("/design-system".length) + "/";
+        dest = `${docs}/design-system${p.slice("/design-system".length)}/`;
       } else if (p.indexOf("/design-system") === 0) {
-        dest = docs + "/design-system/";
+        dest = `${docs}/design-system/`;
       } else {
-        dest = docs + "/design-system/";
+        dest = `${docs}/design-system/`;
       }
       window.location.replace(dest + q + h);
     })();

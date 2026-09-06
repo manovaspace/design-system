@@ -12,6 +12,12 @@ Policy matches [manovaspace/ts](https://github.com/manovaspace/ts/blob/main/RELE
 
 ## Routine release
 
+For local consumer co-development, run
+`bun scripts/switch-consumers-to-link.mjs` before installing clients. After the
+changeset is versioned and published, run
+`bun scripts/switch-consumers-to-npm.mjs` and reinstall affected consumers so
+CI and production resolve registry packages.
+
 ```bash
 bun run changeset
 bun run version-packages

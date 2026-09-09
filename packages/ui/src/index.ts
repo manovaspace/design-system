@@ -136,10 +136,13 @@ export {
 } from "./icons-solid.js";
 export { Input, type InputProps } from "./input.js";
 export { Label } from "./label.js";
+export { toLocaleDigits } from "./lib/locale-digits.js";
 export {
+  persianizeDigits,
+  sanitizeDecimalInput,
+  sanitizeIntegerInput,
   toLatinDigits,
-  toLocaleDigits,
-} from "./lib/locale-digits.js";
+} from "./lib/numeric.js";
 export { cn } from "./lib/utils.js";
 export {
   applyDocumentLocale,

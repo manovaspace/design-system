@@ -17,6 +17,9 @@ export default defineUnbundledConfig({
     "framer-motion",
     "next-themes",
     "react-hook-form",
+    "@hookform/resolvers",
+    "@hookform/resolvers/zod",
+    "zod",
     "@manovaspace/tokens",
   ],
 });

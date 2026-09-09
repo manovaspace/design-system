@@ -71,6 +71,7 @@ export {
   DirectionProvider,
   useDirection,
 } from "./direction-provider.js";
+export { focusFirstError } from "./focus-first-error.js";
 export {
   Form,
   FormControl,
@@ -258,6 +259,10 @@ export {
   TooltipProvider,
   TooltipTrigger,
 } from "./tooltip.js";
+export {
+  type UseAppFormProps,
+  useAppForm,
+} from "./use-app-form.js";
 export { toast, useToast } from "./use-toast.js";
 export {
   WhatsNew,

@@ -12,3 +12,7 @@ export {
   type PhoneNumberProps,
 } from "./data-value.js";
 export { EmptyState, type EmptyStateProps } from "./empty-state.js";
+export {
+  SelectableOptionCard,
+  type SelectableOptionCardProps,
+} from "./selectable-option-card.js";

@@ -56,6 +56,8 @@ export {
   formatDataValue,
   PhoneNumber,
   type PhoneNumberProps,
+  SelectableOptionCard,
+  type SelectableOptionCardProps,
 } from "./composed/index.js";
 export {
   Dialog,

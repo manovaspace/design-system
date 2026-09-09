@@ -21,7 +21,6 @@ const packageJsonPaths = [
   "orbit/orbit-frontend/apps/template/package.json",
   "orbit/orbit-frontend/apps/storybook/package.json",
   "clients/jtash/frontend/package.json",
-  "clients/fryto/website/package.json",
   "clients/fryto/ops/apps/web/package.json",
   "clients/kohan_kherad/website/package.json",
   "clients/manova/waypoint/package.json",

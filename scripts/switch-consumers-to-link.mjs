@@ -32,13 +32,6 @@ const targets = [
     },
   },
   {
-    path: "clients/fryto/website/package.json",
-    links: {
-      "@manovaspace/tokens": ds("tokens"),
-      "@manovaspace/ui": ds("ui"),
-    },
-  },
-  {
     path: "clients/fryto/ops/apps/web/package.json",
     links: {
       "@manovaspace/tokens": dsFromFrytoOpsApp("tokens"),

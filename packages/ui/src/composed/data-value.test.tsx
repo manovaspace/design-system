@@ -23,4 +23,17 @@ describe("locale-aware composed values", () => {
 
     expect(screen.getByRole("alert").textContent).toBe("Invalid amount");
   });
+
+  it("renders with unit suffix and prefix correctly", () => {
+    render(
+      <DataValue value={15.5} unit="kg" unitPosition="suffix" locale="en-US" />,
+    );
+    expect(screen.getByText("kg")).toBeDefined();
+    expect(screen.getByText("15.5")).toBeDefined();
+
+    render(
+      <DataValue value={1000} unit="$" unitPosition="prefix" locale="en-US" />,
+    );
+    expect(screen.getByText("$")).toBeDefined();
+  });
 });

@@ -10,6 +10,9 @@ export type DataValueProps = Omit<
   value: number | bigint | string;
   locale?: string;
   format?: Intl.NumberFormatOptions;
+  unit?: string;
+  unitPosition?: "prefix" | "suffix";
+  copyable?: boolean;
 };
 
 export function formatDataValue(
@@ -32,21 +35,70 @@ export function DataValue({
   value,
   locale = "en-US",
   format,
+  unit,
+  unitPosition = "suffix",
+  copyable = false,
   className,
   dir = "ltr",
+  onClick,
   ...props
 }: DataValueProps) {
+  const formatted = formatDataValue(value, locale, format);
+
+  if (copyable) {
+    const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (typeof navigator !== "undefined" && navigator.clipboard) {
+        navigator.clipboard.writeText(toLatinDigits(String(value)));
+      }
+      onClick?.(e as unknown as React.MouseEvent<HTMLSpanElement>);
+    };
+
+    return (
+      <button
+        type="button"
+        data-locale-value={locale}
+        data-copyable="true"
+        dir={dir}
+        onClick={handleButtonClick}
+        className={cn(
+          "font-[family-name:var(--font-data)] tabular-nums cursor-pointer hover:underline inline-flex items-baseline gap-1 bg-transparent border-none p-0 text-inherit text-start",
+          className,
+        )}
+        {...(props as unknown as ComponentPropsWithoutRef<"button">)}
+      >
+        {unit && unitPosition === "prefix" ? (
+          <span className="text-xs font-sans text-muted-foreground">
+            {unit}
+          </span>
+        ) : null}
+        {formatted}
+        {unit && unitPosition === "suffix" ? (
+          <span className="text-xs font-sans text-muted-foreground">
+            {unit}
+          </span>
+        ) : null}
+      </button>
+    );
+  }
+
   return (
     <span
       data-locale-value={locale}
       dir={dir}
       className={cn(
         "font-[family-name:var(--font-data)] tabular-nums",
+        unit && "inline-flex items-baseline gap-1",
         className,
       )}
       {...props}
     >
-      {formatDataValue(value, locale, format)}
+      {unit && unitPosition === "prefix" ? (
+        <span className="text-xs font-sans text-muted-foreground">{unit}</span>
+      ) : null}
+      {formatted}
+      {unit && unitPosition === "suffix" ? (
+        <span className="text-xs font-sans text-muted-foreground">{unit}</span>
+      ) : null}
     </span>
   );
 }

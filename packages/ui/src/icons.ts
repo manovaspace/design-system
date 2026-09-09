@@ -22,6 +22,7 @@ export {
   Info as InformationCircleIcon,
   Layers as RectangleStackIcon,
   ListFilter as FunnelIcon,
+  Lock as LockIcon,
   LogOut as ArrowRightOnRectangleIcon,
   Mail as MailIcon,
   Monitor as ComputerDesktopIcon,

@@ -11,6 +11,10 @@ export {
   PhoneNumber,
   type PhoneNumberProps,
 } from "./data-value.js";
+export {
+  DecimalInput,
+  type DecimalInputProps,
+} from "./decimal-input.js";
 export { EmptyState, type EmptyStateProps } from "./empty-state.js";
 export {
   SelectableOptionCard,

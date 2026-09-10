@@ -47,6 +47,10 @@ export { ColorSwatch, type ColorSwatchProps } from "./color-swatch.js";
 export {
   ConfirmDialog,
   type ConfirmDialogProps,
+  CopyableMoney,
+  CopyableMoneyLine,
+  type CopyableMoneyLineProps,
+  type CopyableMoneyProps,
   DataValue,
   type DataValueProps,
   DecimalInput,
@@ -82,17 +86,26 @@ export {
   entityTableEndEdgeCellClass,
   entityTableHeaderRowClass,
   entityTableStartEdgeCellClass,
+  FieldDescription,
+  FieldGroup,
   FieldMessage,
   type FieldMessageProps,
+  fieldMessageVariants,
   formatDataValue,
+  HintTooltip,
+  type HintTooltipProps,
   NavMobileSheet,
   type NavMobileSheetProps,
   NavRail,
   type NavRailProps,
   type PartitionedFilterBarChildren,
+  type PhoneAction,
   PhoneNumber,
+  type PhoneNumberLabels,
   type PhoneNumberProps,
+  type PhoneNumberVariant,
   partitionFilterBarChildren,
+  phoneNumberPresets,
   SelectableOptionCard,
   type SelectableOptionCardProps,
   ShellHeader,
@@ -116,6 +129,23 @@ export {
   DirectionProvider,
   useDirection,
 } from "./direction-provider.js";
+export {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "./dropdown-menu.js";
 export { focusFirstError } from "./focus-first-error.js";
 export {
   Form,
@@ -137,6 +167,7 @@ export {
   Bars3Icon,
   BoltIcon,
   CalendarIcon,
+  ChatBubbleLeftIcon,
   CheckIcon,
   ChevronDownIcon,
   ChevronRightIcon,
@@ -184,6 +215,10 @@ export {
 } from "./icons-solid.js";
 export { Input, type InputProps } from "./input.js";
 export { Label } from "./label.js";
+export {
+  copyTextToClipboard,
+  copyTextToClipboardSync,
+} from "./lib/clipboard.js";
 export { toLocaleDigits } from "./lib/locale-digits.js";
 export {
   persianizeDigits,
@@ -191,6 +226,16 @@ export {
   sanitizeIntegerInput,
   toLatinDigits,
 } from "./lib/numeric.js";
+export {
+  formatPhoneCopy,
+  formatPhoneDisplay,
+  formatPhoneE164,
+  formatPhoneSmsHref,
+  formatPhoneTelHref,
+  isValidIranMobile,
+  normalizePhoneDigits,
+  persianizePhoneDigits,
+} from "./lib/phone.js";
 export { cn } from "./lib/utils.js";
 export {
   applyDocumentLocale,

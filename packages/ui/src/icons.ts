@@ -27,6 +27,7 @@ export {
   Mail as MailIcon,
   Menu as Bars3Icon,
   Menu as MenuIcon,
+  MessageCircle as ChatBubbleLeftIcon,
   Monitor as ComputerDesktopIcon,
   Moon as MoonIcon,
   Paintbrush as PaintBrushIcon,

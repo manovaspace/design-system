@@ -3,20 +3,19 @@ import type { ComponentPropsWithoutRef } from "react";
 import { toLatinDigits, toLocaleDigits } from "../lib/locale-digits.js";
 import { cn } from "../lib/utils.js";
 
-export type DataValueProps = Omit<
-  ComponentPropsWithoutRef<"span">,
-  "children"
-> & {
-  value: number | bigint | string;
+export type DataValueProps = ComponentPropsWithoutRef<"span"> & {
+  value?: number | bigint | string;
   locale?: string;
   format?: Intl.NumberFormatOptions;
   unit?: string;
   unitPosition?: "prefix" | "suffix";
   copyable?: boolean;
+  tabular?: boolean;
+  copyValue?: string;
 };
 
 export function formatDataValue(
-  value: DataValueProps["value"],
+  value: number | bigint | string,
   locale: string,
   format?: Intl.NumberFormatOptions,
 ): string {
@@ -33,22 +32,37 @@ export function formatDataValue(
 /** Locale-aware numeric readout. Input/API state remains canonical Latin data. */
 export function DataValue({
   value,
+  children,
   locale = "en-US",
   format,
   unit,
   unitPosition = "suffix",
   copyable = false,
+  tabular = false,
+  copyValue,
   className,
   dir = "ltr",
   onClick,
+  onCopy,
   ...props
 }: DataValueProps) {
-  const formatted = formatDataValue(value, locale, format);
+  const formatted =
+    value !== undefined ? formatDataValue(value, locale, format) : children;
+
+  const handleCopy = (e: React.ClipboardEvent<HTMLSpanElement>) => {
+    if (copyValue && e.clipboardData) {
+      e.preventDefault();
+      e.clipboardData.setData("text/plain", copyValue);
+    }
+    onCopy?.(e);
+  };
 
   if (copyable) {
     const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       if (typeof navigator !== "undefined" && navigator.clipboard) {
-        navigator.clipboard.writeText(toLatinDigits(String(value)));
+        const textToCopy =
+          copyValue ?? toLatinDigits(String(value ?? children ?? ""));
+        navigator.clipboard.writeText(textToCopy);
       }
       onClick?.(e as unknown as React.MouseEvent<HTMLSpanElement>);
     };
@@ -86,10 +100,12 @@ export function DataValue({
       data-locale-value={locale}
       dir={dir}
       className={cn(
-        "font-[family-name:var(--font-data)] tabular-nums",
+        "font-[family-name:var(--font-data)]",
+        tabular && "tabular-nums",
         unit && "inline-flex items-baseline gap-1",
         className,
       )}
+      onCopy={handleCopy}
       {...props}
     >
       {unit && unitPosition === "prefix" ? (
@@ -100,64 +116,5 @@ export function DataValue({
         <span className="text-xs font-sans text-muted-foreground">{unit}</span>
       ) : null}
     </span>
-  );
-}
-
-export type PhoneNumberProps = Omit<
-  ComponentPropsWithoutRef<"span">,
-  "children"
-> & {
-  value: string;
-  locale?: string;
-};
-
-/** Display-only phone value; callers keep the canonical value in Latin digits. */
-export function PhoneNumber({
-  value,
-  locale = "en-US",
-  className,
-  ...props
-}: PhoneNumberProps) {
-  const canonicalValue = toLatinDigits(value);
-
-  return (
-    <span
-      data-locale-phone={locale}
-      dir="ltr"
-      className={cn(
-        "font-[family-name:var(--font-data)] tracking-[0.02em]",
-        className,
-      )}
-      {...props}
-    >
-      {toLocaleDigits(canonicalValue, locale)}
-    </span>
-  );
-}
-
-export type FieldMessageProps = ComponentPropsWithoutRef<"p"> & {
-  variant?: "error" | "success" | "info";
-};
-
-/** Accessible field-level feedback for form error/success/info states. */
-export function FieldMessage({
-  variant = "error",
-  className,
-  ...props
-}: FieldMessageProps) {
-  return (
-    <p
-      role={variant === "error" ? "alert" : "status"}
-      aria-live={variant === "error" ? "assertive" : "polite"}
-      data-variant={variant}
-      className={cn(
-        "rounded-md px-3 py-2 text-[length:var(--font-size-caption)]",
-        variant === "error" && "bg-destructive/10 text-destructive",
-        variant === "success" && "bg-primary/10 text-primary",
-        variant === "info" && "bg-muted text-muted-foreground",
-        className,
-      )}
-      {...props}
-    />
   );
 }

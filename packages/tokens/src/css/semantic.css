@@ -34,6 +34,13 @@
   --sidebar-accent-foreground: hsl(0 0% 3.9%);
   --sidebar-border: hsl(0 0% 90.6%);
   --sidebar-ring: hsl(221.2 83.2% 53.3%);
+  --surface-sunken: hsl(0 0% 98%);
+  --status-success: hsl(161.4 93.5% 30.4%);
+  --status-success-foreground: hsl(0 0% 100%);
+  --status-warning: hsl(32.1 94.6% 43.7%);
+  --status-warning-foreground: hsl(0 0% 100%);
+  --status-danger: hsl(0 72.2% 50.6%);
+  --status-danger-foreground: hsl(0 0% 100%);
   --primary-hover: hsl(221.2 83.2% 45.3%);
   --secondary-hover: hsl(0 0% 83.7%);
   --destructive-hover: hsl(357.5 67.9% 39.6%);
@@ -75,6 +82,13 @@
   --sidebar-accent-foreground: hsl(0 0% 96.1%);
   --sidebar-border: hsl(0 0% 9.400000000000006%);
   --sidebar-ring: hsl(221.2 83.2% 53.3%);
+  --surface-sunken: hsl(0 0% 2%);
+  --status-success: hsl(161.4 93.5% 69.6%);
+  --status-success-foreground: hsl(0 0% 0%);
+  --status-warning: hsl(32.1 94.6% 56.3%);
+  --status-warning-foreground: hsl(0 0% 0%);
+  --status-danger: hsl(0 72.2% 49.4%);
+  --status-danger-foreground: hsl(0 0% 0%);
   --primary-hover: hsl(221.2 83.2% 61.3%);
   --secondary-hover: hsl(0 0% 16.299999999999997%);
   --destructive-hover: hsl(357.5 67.9% 55.6%);

@@ -25,6 +25,8 @@ export {
   Lock as LockIcon,
   LogOut as ArrowRightOnRectangleIcon,
   Mail as MailIcon,
+  Menu as Bars3Icon,
+  Menu as MenuIcon,
   Monitor as ComputerDesktopIcon,
   Moon as MoonIcon,
   Paintbrush as PaintBrushIcon,

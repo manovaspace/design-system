@@ -16,6 +16,7 @@ export {
   type DecimalInputProps,
 } from "./decimal-input.js";
 export { EmptyState, type EmptyStateProps } from "./empty-state.js";
+export * from "./entity-browser/index.js";
 export {
   SelectableOptionCard,
   type SelectableOptionCardProps,

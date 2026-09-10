@@ -154,7 +154,15 @@ describe("composed-widgets", () => {
     });
 
     it("renders copy variant and copies on click", () => {
-      const execCommandMock = vi.fn().mockReturnValue(true);
+      // copyTextToClipboardSync adds a 'copy' event listener then calls execCommand.
+      // We must dispatch the copy event when execCommand is called so wrote=true.
+      const execCommandMock = vi.fn().mockImplementation((cmd: string) => {
+        if (cmd === "copy") {
+          document.dispatchEvent(new Event("copy"));
+          return true;
+        }
+        return false;
+      });
       document.execCommand = execCommandMock;
 
       render(
@@ -164,6 +172,7 @@ describe("composed-widgets", () => {
       const button = screen.getByRole("button", { name: labels.copy });
       fireEvent.click(button);
       expect(execCommandMock).toHaveBeenCalledWith("copy");
+      // After copy succeeds, aria-label switches to the "copied" label.
       expect(button.getAttribute("aria-label")).toBe(labels.copied);
     });
 

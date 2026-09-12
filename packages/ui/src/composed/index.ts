@@ -31,6 +31,14 @@ export {
   type HintTooltipProps,
 } from "./hint-tooltip.js";
 export {
+  MsisdnInput,
+  type MsisdnInputProps,
+} from "./msisdn-input.js";
+export {
+  OtpInput,
+  type OtpInputProps,
+} from "./otp-input.js";
+export {
   type PhoneAction,
   PhoneNumber,
   type PhoneNumberLabels,

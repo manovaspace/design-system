@@ -12,6 +12,10 @@ const fontFiles = [
   "@fontsource/estedad/files/estedad-arabic-600-normal.woff2",
   "@fontsource/inter/files/inter-latin-400-normal.woff2",
   "@fontsource/inter/files/inter-latin-500-normal.woff2",
+  "@fontsource/vazirmatn/files/vazirmatn-arabic-400-normal.woff2",
+  "@fontsource/vazirmatn/files/vazirmatn-arabic-500-normal.woff2",
+  "@fontsource/vazirmatn/files/vazirmatn-arabic-600-normal.woff2",
+  "@fontsource/vazirmatn/files/vazirmatn-arabic-700-normal.woff2",
 ];
 
 mkdirSync(fontsDir, { recursive: true });

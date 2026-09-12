@@ -110,6 +110,48 @@
 }
 
 @layer utilities {
+  /* Data layer — Vazirmatn; proportional by default (money, grouped amounts). */
+  .gst-data,
+  .gst-numeric,
+  .mnv-data,
+  .mnv-numeric {
+    font-family: var(--font-data);
+    font-variant-numeric: proportional-nums;
+  }
+
+  /* Fixed-width digit strings (phones, IDs, pagination). */
+  .gst-data--tabular,
+  .gst-numeric--tabular,
+  .mnv-data--tabular,
+  .mnv-numeric--tabular {
+    font-family: var(--font-data);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+  }
+
+  .gst-data__digits,
+  .gst-numeric__digits,
+  .mnv-data__digits,
+  .mnv-numeric__digits {
+    letter-spacing: -0.05em;
+  }
+
+  .gst-data--tabular .gst-data__digits,
+  .gst-numeric--tabular .gst-numeric__digits,
+  .mnv-data--tabular .mnv-data__digits,
+  .mnv-numeric--tabular .mnv-numeric__digits {
+    letter-spacing: 0;
+  }
+
+  .gst-data__sep,
+  .gst-numeric__sep,
+  .mnv-data__sep,
+  .mnv-numeric__sep {
+    position: relative;
+    top: 0.11em;
+    letter-spacing: 0;
+  }
+
   .scroll-fade-4 {
     --_scroll-fade-size: var(--space-4);
   }

@@ -51,6 +51,8 @@ export {
   Sun as SunIcon,
   Tag as TagIcon,
   Trash2 as TrashIcon,
+  User as UserIcon,
+  Users as UsersIcon,
   Wrench as WrenchScrewdriverIcon,
   X as XMarkIcon,
   Zap as BoltIcon,

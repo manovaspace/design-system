@@ -39,6 +39,9 @@ export {
   type EntitySearchFieldProps,
 } from "./entity-search-field.js";
 export {
+  entityColEssential,
+  entityColExtended,
+  entityColStandard,
   entityTableActionsCellClass,
   entityTableActionsHeadClass,
   entityTableCellClass,

@@ -8,7 +8,14 @@ const storybookDir = path.dirname(fileURLToPath(import.meta.url));
 const packagesDir = path.resolve(storybookDir, "../../../packages");
 
 const config: StorybookConfig = {
-  stories: ["../src/**/*.mdx", "../src/**/*.stories.@(ts|tsx)"],
+  stories: [
+    "../../../packages/ui/src/**/*.stories.@(ts|tsx)",
+    "../src/**/*.stories.@(ts|tsx)",
+    "../src/**/*.mdx",
+  ],
+  typescript: {
+    reactDocgen: "react-docgen-typescript",
+  },
   features: {
     componentsManifest: true,
   },

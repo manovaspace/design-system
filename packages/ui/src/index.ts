@@ -254,6 +254,14 @@ export {
 } from "./lib/clipboard.js";
 export { toLocaleDigits } from "./lib/locale-digits.js";
 export {
+  type FormatPersianDateOptions,
+  type FormatTomanOptions,
+  formatLocaleInteger,
+  formatLocaleRelativeTime,
+  formatPersianDate,
+  formatToman,
+} from "./lib/locale-format.js";
+export {
   persianizeDigits,
   sanitizeDecimalInput,
   sanitizeIntegerInput,

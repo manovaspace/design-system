@@ -37,6 +37,10 @@ export {
   type HintTooltipProps,
 } from "./hint-tooltip.js";
 export {
+  HoldToConfirmButton,
+  type HoldToConfirmButtonProps,
+} from "./hold-to-confirm-button.js";
+export {
   MsisdnInput,
   type MsisdnInputProps,
 } from "./msisdn-input.js";

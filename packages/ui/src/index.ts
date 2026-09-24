@@ -98,6 +98,8 @@ export {
   formatDataValue,
   HintTooltip,
   type HintTooltipProps,
+  HoldToConfirmButton,
+  type HoldToConfirmButtonProps,
   MsisdnInput,
   type MsisdnInputProps,
   NavMobileSheet,

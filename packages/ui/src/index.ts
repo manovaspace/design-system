@@ -290,6 +290,13 @@ export {
   type MobileTopBarProps,
 } from "./mobile-top-bar.js";
 export {
+  Collapse,
+  type CollapseProps,
+  collapseChevronClassName,
+  MenuMorphGlyph,
+  type MenuMorphGlyphProps,
+} from "./motion/index.js";
+export {
   PageShell,
   type PageShellProps,
   pageShellContentVariants,

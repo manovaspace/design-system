@@ -5,7 +5,18 @@ import { type HTMLMotionProps, motion } from "framer-motion";
 import { cn } from "../lib/utils.js";
 import { duration, easeOut } from "./tokens.js";
 
+export {
+  COLLAPSE_CLOSE_DURATION_S,
+  COLLAPSE_OPEN_DURATION_S,
+  Collapse,
+  type CollapseProps,
+  collapseChevronClassName,
+} from "./collapse.js";
 export { useReducedMotion } from "./hooks.js";
+export {
+  MenuMorphGlyph,
+  type MenuMorphGlyphProps,
+} from "./menu-morph-glyph.js";
 export { RevealOnScroll, type RevealOnScrollProps } from "./reveal.js";
 export {
   duration,

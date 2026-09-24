@@ -1,4 +1,10 @@
 export {
+  CardNumber,
+  type CardNumberLabels,
+  type CardNumberProps,
+  type CardNumberVariant,
+} from "./card-number.js";
+export {
   ConfirmDialog,
   type ConfirmDialogProps,
 } from "./confirm-dialog.js";

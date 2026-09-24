@@ -45,6 +45,10 @@ export {
 } from "./collapsible.js";
 export { ColorSwatch, type ColorSwatchProps } from "./color-swatch.js";
 export {
+  CardNumber,
+  type CardNumberLabels,
+  type CardNumberProps,
+  type CardNumberVariant,
   ConfirmDialog,
   type ConfirmDialogProps,
   CopyableMoney,
@@ -232,6 +236,12 @@ export {
 } from "./icons-solid.js";
 export { Input, type InputProps } from "./input.js";
 export { Label } from "./label.js";
+export {
+  formatCardCopy,
+  formatCardDisplay,
+  isValidIranBankCard,
+  normalizeCardDigits,
+} from "./lib/card.js";
 export {
   copyTextToClipboard,
   copyTextToClipboardSync,

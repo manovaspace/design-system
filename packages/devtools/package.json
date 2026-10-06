@@ -1,6 +1,6 @@
 {
   "name": "@manovaspace/devtools",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Development-only design system toolbar and token editor for Next.js apps",
   "license": "MIT",
   "type": "module",
@@ -46,7 +46,8 @@
     "./styles.css": "./src/styles/devtools.css"
   },
   "files": [
-    "dist"
+    "dist",
+    "src/styles/devtools.css"
   ],
   "publishConfig": {
     "access": "public"

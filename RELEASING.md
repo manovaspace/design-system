@@ -18,15 +18,33 @@ changeset is versioned and published, run
 `bun scripts/switch-consumers-to-npm.mjs` and reinstall affected consumers so
 CI and production resolve registry packages.
 
+Include a changeset in each package PR. After those PRs merge, start a topic
+branch from the updated `main`:
+
 ```bash
-bun run changeset
+git switch -c chore/version-packages
+bun install --frozen-lockfile
 bun run version-packages
-git add -A
-git commit -m "chore: version packages"
-git push origin main
 ```
 
-CI publishes when a `chore: version packages` commit lands on `main` (see `.github/workflows/publish.yml`). CI sets `NPM_CONFIG_PROVENANCE=true` for npm provenance attestations.
+Review each affected package version, dependency range, generated changelog and
+lockfile. Stage only the reviewed release files, commit with
+`chore: version packages`, push the topic branch and open a PR. After CI passes,
+squash merge with the exact title `chore: version packages` and verify the merged
+head subject. Direct pushes to `main` are forbidden. If the intended versions
+have already been calculated and merged, verify that state before publishing;
+do not calculate a second bump.
+
+[`.github/workflows/publish.yml`](./.github/workflows/publish.yml) publishes on a
+`main` push whose head message contains literal `chore: version packages`, a
+published GitHub Release, or a maintainer-selected `workflow_dispatch`.
+`chore(release): version packages` does not satisfy the main-push condition.
+The workflow builds and publishes existing manifest versions; it does not run
+`changeset version`. Release/dispatch and local fallback must use a reviewed,
+already-versioned commit and the complete intended unpublished package set.
+CI sets `NPM_CONFIG_PROVENANCE=true` for npm provenance attestations.
+Publishing changes npm; it does not deploy consumers.
+
 
 Manual fallback:
 
@@ -49,7 +67,7 @@ Configure [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/) f
 ## Checklist
 
 - [ ] Changeset included in the pull request
-- [ ] `bun run version-packages` run on `main`
-- [ ] `chore: version packages` pushed
+- [ ] Versions/changelogs calculated once and reviewed on a topic branch
+- [ ] Version PR passed CI and merged with head subject `chore: version packages`
 - [ ] CI publish succeeded
 - [ ] `npm view @manovaspace/<package> version` matches the release

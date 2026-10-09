@@ -72,6 +72,8 @@ export function HoldToConfirmButton({
   const descId = useId();
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [progress, setProgress] = useState(0);
+  const disabledRef = useRef(disabled);
+  disabledRef.current = disabled;
   const holdingRef = useRef(false);
   const completedRef = useRef(false);
   const rafRef = useRef(0);
@@ -98,6 +100,10 @@ export function HoldToConfirmButton({
 
   const finish = useCallback(() => {
     if (completedRef.current) return;
+    if (disabledRef.current) {
+      reset();
+      return;
+    }
     completedRef.current = true;
     holdingRef.current = false;
     clearRaf();
@@ -105,15 +111,19 @@ export function HoldToConfirmButton({
       setProgress(1);
     });
     onConfirmRef.current();
-  }, [clearRaf]);
+  }, [clearRaf, reset]);
 
   const startHold = useCallback(() => {
-    if (completedRef.current || disabled) return;
+    if (completedRef.current || disabledRef.current) return;
     holdingRef.current = true;
     startTimeRef.current = performance.now();
     clearRaf();
 
     const loop = (now: number) => {
+      if (disabledRef.current) {
+        reset();
+        return;
+      }
       if (!holdingRef.current || completedRef.current) return;
       const currentTime =
         typeof now === "number" && now > 0 ? now : performance.now();
@@ -128,7 +138,7 @@ export function HoldToConfirmButton({
     };
 
     rafRef.current = requestAnimationFrame(loop);
-  }, [clearRaf, disabled, finish, holdDurationMs]);
+  }, [clearRaf, finish, holdDurationMs, reset]);
 
   const endHold = useCallback(() => {
     if (completedRef.current) return;
@@ -145,6 +155,10 @@ export function HoldToConfirmButton({
       completedRef.current = false;
     }
   }, [disabled, progress]);
+
+  useEffect(() => {
+    if (disabled) reset();
+  }, [disabled, reset]);
 
   useEffect(() => {
     const el = buttonRef.current;

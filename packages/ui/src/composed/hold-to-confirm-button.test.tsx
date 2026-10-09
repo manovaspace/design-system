@@ -404,6 +404,58 @@ describe("HoldToConfirmButton", () => {
     expect(onShortTapHint).not.toHaveBeenCalled();
   });
 
+  it("cancels an active hold when disabled becomes true", () => {
+    const onConfirm = vi.fn();
+
+    act(() => {
+      root.render(
+        <HoldToConfirmButton
+          onConfirm={onConfirm}
+          labelIdle="Hold to reject"
+          ariaDescription="Trade will be rejected"
+          holdDurationMs={1000}
+        />,
+      );
+    });
+
+    const button = container.querySelector("button");
+    expect(button).toBeInstanceOf(HTMLButtonElement);
+    if (!button) return;
+
+    act(() => {
+      button.dispatchEvent(
+        new PointerEvent("pointerdown", {
+          bubbles: true,
+          cancelable: true,
+          button: 0,
+        }),
+      );
+      vi.advanceTimersByTime(500);
+    });
+
+    act(() => {
+      root.render(
+        <HoldToConfirmButton
+          disabled
+          onConfirm={onConfirm}
+          labelIdle="Hold to reject"
+          ariaDescription="Trade will be rejected"
+          holdDurationMs={1000}
+        />,
+      );
+    });
+
+    act(() => {
+      vi.advanceTimersByTime(600);
+    });
+
+    expect(button.disabled).toBe(true);
+    expect(onConfirm).not.toHaveBeenCalled();
+    expect(
+      (button.querySelector("[aria-hidden='true']") as HTMLElement).style.width,
+    ).toBe("0%");
+  });
+
   it("6. Renders screen reader description and RTL support", () => {
     act(() => {
       root.render(

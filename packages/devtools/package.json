@@ -46,7 +46,8 @@
     "./styles.css": "./src/styles/devtools.css"
   },
   "files": [
-    "dist"
+    "dist",
+    "src/styles/devtools.css"
   ],
   "publishConfig": {
     "access": "public"

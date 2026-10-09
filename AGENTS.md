@@ -2,7 +2,7 @@
 
 MIT open-commons monorepo for the design system. Packages publish to `registry.npmjs.org` as `@manovaspace/*`.
 
-Utilities (`tsconfig`, `markdown`, `pwa`, `observability`): [`manovaspace/ts`](../ts).
+Utilities (`tsconfig`, `markdown`, `pwa`, `observability`): [`manovaspace/ts`](https://github.com/manovaspace/ts).
 
 ## Packages
 
@@ -15,6 +15,7 @@ Utilities (`tsconfig`, `markdown`, `pwa`, `observability`): [`manovaspace/ts`](.
 ## Commands
 
 ```bash
+bun install --frozen-lockfile
 bun run build
 bun run storybook        # port 10006 — enables Storybook MCP while running
 bun run test
@@ -23,7 +24,10 @@ bun run check:ds         # hex + default palette bans in packages/ui and package
 bun run quality          # lint + check:ds
 ```
 
-Node >= 24. Package manager: bun@1.4.0.
+Node >= 24. Package manager: bun@1.4.0. Use committed `bun.lock`.
+Releases follow [RELEASING.md](./RELEASING.md): Changesets own per-package
+versions; a topic-branch version PR merges with `chore: version packages`.
+No direct pushes to main.
 
 ## Layer order
 
@@ -40,12 +44,21 @@ exported from the package barrel.
 - **Composed Form & Data Widgets**: `DecimalInput` (Persian on-screen, Latin in state), `SelectableOptionCard` (touch selection), `CopyableMoney` (Toman with copy), `PhoneNumber`, `CardNumber`, `DataValue`, `FieldFeedback`, `HintTooltip`.
 
 Canonical App Catalog & Decision Tree: [`docs/app-components.md`](docs/app-components.md).
-Architectural guide: `handbook/docs/orbit/guides/orbit-component-architecture.md`. Hydration for consuming apps: `handbook/docs/orbit/guides/orbit-frontend-hydration.md`.
+Public architecture and usage authority: this local catalog, package source/types
+and Storybook examples. Consumer guides are at
+[manovaspace docs](https://manovaspace.github.io/docs/design-system/). Public
+contribution requires no private handbook, staff identity or workspace checkout.
+Staff keep deployment and integration runbooks separately in their handbook.
 
 ## Storybook MCP
 
-`@storybook/addon-mcp` is enabled. While `bun run storybook` runs, agents must use Storybook MCP to verify `@manovaspace/ui` component props — never invent props from memory. Details: `handbook/docs/orbit/guides/cursor-mcp.md` (Storybook MCP section).
+`@storybook/addon-mcp` is enabled. If an MCP client is available while Storybook
+runs, use it to inspect component props. Otherwise verify props from local
+TypeScript definitions, source, tests and Storybook examples. MCP and private
+handbook access are optional; never invent props from memory.
 
 ## Workspace triggers
 
-Canonical: Manova workspace [`FUTURE-TRIGGERS.md`](../../FUTURE-TRIGGERS.md).
+Staff working inside the Manova workspace may consult its root
+`FUTURE-TRIGGERS.md`. This staff-only pointer is not a public setup or check
+prerequisite; public contributors follow repository-local docs.

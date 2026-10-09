@@ -24,6 +24,11 @@ export {
   type DecimalInputProps,
 } from "./decimal-input.js";
 export { EmptyState, type EmptyStateProps } from "./empty-state.js";
+export {
+  entityColEssential,
+  entityColExtended,
+  entityColStandard,
+} from "./entity-browser/entity-table-layout.js";
 export * from "./entity-browser/index.js";
 export {
   FieldDescription,

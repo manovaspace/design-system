@@ -68,6 +68,11 @@ describe("NavTree", () => {
     const profileLink = screen.getByRole("link", { name: "Profile" });
     expect(profileLink).toBeTruthy();
     expect(profileLink.getAttribute("href")).toBe("/settings/profile");
+    expect(
+      profileLink
+        .closest("ul")
+        ?.parentElement?.parentElement?.hasAttribute("inert"),
+    ).toBe(false);
 
     // Click subsection link triggers onNavigate
     profileLink.addEventListener("click", (e) => e.preventDefault());
@@ -77,6 +82,11 @@ describe("NavTree", () => {
     // Click to collapse
     fireEvent.click(settingsButton);
     expect(settingsButton.getAttribute("aria-expanded")).toBe("false");
+    expect(
+      profileLink
+        .closest("ul")
+        ?.parentElement?.parentElement?.hasAttribute("inert"),
+    ).toBe(true);
   });
 
   it("highlights active route and auto-expands collapsible section based on currentPath", () => {
@@ -154,10 +164,15 @@ describe("NavTree", () => {
 
     const customLinks = screen.getAllByTestId("custom-router-link");
     expect(customLinks.length).toBeGreaterThan(0);
-    expect(customLinks[0].getAttribute("href")).toBe("/dashboard");
-    expect(customLinks[0].getAttribute("aria-current")).toBe("page");
+    const firstLink = customLinks[0];
+    if (!firstLink) {
+      throw new Error("Expected NavTree to render a custom router link");
+    }
 
-    fireEvent.click(customLinks[0]);
+    expect(firstLink.getAttribute("href")).toBe("/dashboard");
+    expect(firstLink.getAttribute("aria-current")).toBe("page");
+
+    fireEvent.click(firstLink);
     expect(handleNavigate).toHaveBeenCalledTimes(1);
   });
 

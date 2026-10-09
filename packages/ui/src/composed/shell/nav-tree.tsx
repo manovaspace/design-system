@@ -191,7 +191,7 @@ function NavSectionItem({
         />
       </button>
 
-      <Collapse open={isOpen}>
+      <Collapse open={isOpen} inert={!isOpen}>
         <ul className="space-y-0.5 pb-1">
           {item.subsections?.map((subsection, index) => {
             const isSubActive = isRouteActive(currentPath, subsection.href);

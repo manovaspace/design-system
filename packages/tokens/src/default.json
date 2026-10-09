@@ -117,7 +117,7 @@
       "surface-sunken": "{color.primary.50}",
       "status-success": "#059669",
       "status-success-foreground": "#ffffff",
-      "status-warning": "#d97706",
+      "status-warning": "#b45309",
       "status-warning-foreground": "#ffffff",
       "status-danger": "#dc2626",
       "status-danger-foreground": "#ffffff"

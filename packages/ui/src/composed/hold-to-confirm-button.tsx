@@ -36,7 +36,7 @@ const VARIANT_CLASSES = {
   },
   caution: {
     button:
-      "bg-status-warning text-status-warning-foreground shadow-xs hover:bg-status-warning/90 focus-visible:ring-status-warning/30",
+      "bg-status-warning text-status-warning-foreground shadow-xs hover:bg-status-warning/90 focus-visible:ring-status-warning",
     fill: "bg-black/25 dark:bg-white/20",
   },
   default: {
@@ -173,10 +173,9 @@ export function HoldToConfirmButton({
       disabled={disabled}
       aria-label={labelIdle}
       aria-describedby={descId}
-      aria-busy={progress >= 1}
       aria-disabled={disabled}
       className={cn(
-        "relative inline-flex items-center justify-center font-medium rounded-[var(--radius-lg)] overflow-hidden select-none touch-none transition-colors outline-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
+        "relative inline-flex items-center justify-center font-medium rounded-[var(--radius-lg)] overflow-hidden select-none touch-none transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
         variantConfig.button,
         sizeConfig,
         className,
@@ -196,12 +195,13 @@ export function HoldToConfirmButton({
       onLostPointerCapture={reset}
       onMouseLeave={reset}
       onKeyDown={(e) => {
-        if (disabled || e.key !== " " || e.repeat) return;
+        if (disabled || (e.key !== " " && e.key !== "Enter") || e.repeat)
+          return;
         e.preventDefault();
         startHold();
       }}
       onKeyUp={(e) => {
-        if (e.key !== " ") return;
+        if (e.key !== " " && e.key !== "Enter") return;
         endHold();
       }}
       onBlur={reset}

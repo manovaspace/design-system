@@ -321,6 +321,50 @@ describe("HoldToConfirmButton", () => {
     expect(onShortTapHint).not.toHaveBeenCalled();
   });
 
+  it("supports Enter as a keyboard hold key", () => {
+    const onConfirm = vi.fn();
+
+    act(() => {
+      root.render(
+        <HoldToConfirmButton
+          onConfirm={onConfirm}
+          labelIdle="Hold to reject"
+          ariaDescription="Trade will be rejected"
+          holdDurationMs={1000}
+        />,
+      );
+    });
+
+    const button = container.querySelector("button");
+    expect(button).toBeInstanceOf(HTMLButtonElement);
+    if (!button) return;
+
+    act(() => {
+      button.dispatchEvent(
+        new KeyboardEvent("keydown", {
+          bubbles: true,
+          cancelable: true,
+          key: "Enter",
+        }),
+      );
+      vi.advanceTimersByTime(1100);
+    });
+
+    expect(onConfirm).toHaveBeenCalledTimes(1);
+    expect(button.hasAttribute("aria-busy")).toBe(false);
+
+    act(() => {
+      button.dispatchEvent(
+        new KeyboardEvent("keyup", {
+          bubbles: true,
+          cancelable: true,
+          key: "Enter",
+        }),
+      );
+    });
+    expect(onConfirm).toHaveBeenCalledTimes(1);
+  });
+
   it("5. Respects disabled prop", () => {
     const onConfirm = vi.fn();
     const onShortTapHint = vi.fn();

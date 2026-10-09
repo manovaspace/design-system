@@ -37,7 +37,7 @@
   --surface-sunken: hsl(0 0% 98%);
   --status-success: hsl(161.4 93.5% 30.4%);
   --status-success-foreground: hsl(0 0% 100%);
-  --status-warning: hsl(32.1 94.6% 43.7%);
+  --status-warning: hsl(26 90.5% 37.1%);
   --status-warning-foreground: hsl(0 0% 100%);
   --status-danger: hsl(0 72.2% 50.6%);
   --status-danger-foreground: hsl(0 0% 100%);
@@ -85,7 +85,7 @@
   --surface-sunken: hsl(0 0% 2%);
   --status-success: hsl(161.4 93.5% 69.6%);
   --status-success-foreground: hsl(0 0% 0%);
-  --status-warning: hsl(32.1 94.6% 56.3%);
+  --status-warning: hsl(26 90.5% 62.9%);
   --status-warning-foreground: hsl(0 0% 0%);
   --status-danger: hsl(0 72.2% 49.4%);
   --status-danger-foreground: hsl(0 0% 0%);

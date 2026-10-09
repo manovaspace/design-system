@@ -21,6 +21,33 @@ function extractCssVars(block: string): string[] {
   return vars;
 }
 
+function relativeLuminance(hex: string): number {
+  const value = hex.replace(/^#/, "");
+  const channels = value.match(/.{2}/g);
+  if (channels?.length !== 3) {
+    throw new Error(`Expected a six-digit hex color, got ${hex}`);
+  }
+  const [red, green, blue] = channels.map((channel) => {
+    const normalized = parseInt(channel, 16) / 255;
+    return normalized <= 0.04045
+      ? normalized / 12.92
+      : ((normalized + 0.055) / 1.055) ** 2.4;
+  });
+  if (red === undefined || green === undefined || blue === undefined) {
+    throw new Error(`Expected three color channels, got ${hex}`);
+  }
+  return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+}
+
+function contrastRatio(first: string, second: string): number {
+  const firstLuminance = relativeLuminance(first);
+  const secondLuminance = relativeLuminance(second);
+  return (
+    (Math.max(firstLuminance, secondLuminance) + 0.05) /
+    (Math.min(firstLuminance, secondLuminance) + 0.05)
+  );
+}
+
 describe("token CSS sync", () => {
   it("semantic.light keys exist in generated :root CSS", () => {
     const semanticCss = readCss("semantic.css");
@@ -70,5 +97,18 @@ describe("token CSS sync", () => {
       expect(colorsCss).toContain(`--mnv-${family}-900`);
       expect(colorsCss).toContain(`--mnv-${family}-50`);
     }
+  });
+
+  it("warning text and foreground meet AA contrast in the light theme", () => {
+    const theme = defaultJson.semantic.light;
+    expect(
+      contrastRatio(theme["status-warning"], theme.background),
+    ).toBeGreaterThanOrEqual(4.5);
+    expect(
+      contrastRatio(
+        theme["status-warning-foreground"],
+        theme["status-warning"],
+      ),
+    ).toBeGreaterThanOrEqual(4.5);
   });
 });

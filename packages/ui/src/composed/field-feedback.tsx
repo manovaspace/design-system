@@ -39,7 +39,7 @@ const fieldMessageVariants = cva("text-sm", {
   variants: {
     variant: {
       error: "text-destructive",
-      warning: "text-amber-700 dark:text-amber-400",
+      warning: "text-status-warning",
       info: "text-muted-foreground",
       success: "text-primary",
     },
@@ -58,7 +58,7 @@ const fieldMessageVariants = cva("text-sm", {
     {
       variant: "warning",
       appearance: "callout",
-      className: "border-amber-500/25 bg-amber-500/10",
+      className: "border-status-warning/25 bg-status-warning/10",
     },
     {
       variant: "info",
@@ -107,7 +107,7 @@ export function FieldMessage({
         className={cn(
           "mt-0.5 size-4 shrink-0",
           variant === "error" && "text-destructive",
-          variant === "warning" && "text-amber-600",
+          variant === "warning" && "text-status-warning",
           variant === "info" && "text-muted-foreground",
           variant === "success" && "text-primary",
         )}

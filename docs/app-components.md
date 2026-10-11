@@ -5,6 +5,8 @@ Derived from the **Goldstein / Abshodeh** (`~/Dev/abshodeh`) UI/UX benchmark.
 
 Product language is **bilingual (Persian `fa` RTL-first and English `en`)**. Code and docs are English.
 
+Shared component dimensions and product override rules are defined in the [Manova Component Sizing Contract](component-sizing-contract.md). Use that contract when specifying a component variant or a product theme override.
+
 ---
 
 ## Decision tree

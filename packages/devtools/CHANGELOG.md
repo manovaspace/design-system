@@ -1,5 +1,12 @@
 # @manovaspace/devtools
 
+## 0.0.8
+
+### Patch Changes
+
+- Updated dependencies [1451626]
+  - @manovaspace/ui@0.4.0
+
 ## 0.0.7
 
 ### Patch Changes

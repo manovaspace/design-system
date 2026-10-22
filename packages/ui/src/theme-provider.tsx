@@ -1,9 +1,16 @@
 "use client";
 
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { type ComponentProps, useSyncExternalStore } from "react";
+import {
+  type ComponentProps,
+  type JSX,
+  type ReactNode,
+  useSyncExternalStore,
+} from "react";
 
-type ThemeProviderProps = ComponentProps<typeof NextThemesProvider>;
+type ThemeProviderProps = ComponentProps<typeof NextThemesProvider> & {
+  children?: ReactNode;
+};
 
 export const ORBIT_THEME_STORAGE_KEY = "orbit-theme";
 
@@ -25,8 +32,11 @@ export function ThemeProvider({
 }: ThemeProviderProps) {
   const isClientRender = useIsClientRender();
 
+  const Comp = NextThemesProvider as unknown as (
+    props: ThemeProviderProps,
+  ) => JSX.Element;
   return (
-    <NextThemesProvider
+    <Comp
       attribute="class"
       defaultTheme="system"
       enableSystem
@@ -41,6 +51,6 @@ export function ThemeProvider({
       {...props}
     >
       {children}
-    </NextThemesProvider>
+    </Comp>
   );
 }

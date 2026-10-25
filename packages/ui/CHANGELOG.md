@@ -1,5 +1,11 @@
 # @manovaspace/ui
 
+## 0.5.0
+
+### Minor Changes
+
+- 13c3cc5: Add solid button variant with border and enhance secondary styling.
+
 ## 0.4.0
 
 ### Minor Changes

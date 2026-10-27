@@ -1,5 +1,11 @@
 # @manovaspace/ui
 
+## 0.6.0
+
+### Minor Changes
+
+- cb52031: Add `fullScreen` option to `EntityFilterBar` mobile filters sheet
+
 ## 0.5.0
 
 ### Minor Changes

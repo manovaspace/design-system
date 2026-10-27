@@ -136,6 +136,56 @@ describe("EntityBrowser suite", () => {
       fireEvent.click(clearAllBtn);
       expect(onClearAll).toHaveBeenCalledTimes(1);
     });
+
+    describe("mobile filters sheet", () => {
+      afterEach(() => {
+        vi.unstubAllGlobals();
+      });
+
+      function renderMobileBar(fullScreen?: boolean) {
+        // jsdom has no matchMedia; stub a viewport below `sm`.
+        vi.stubGlobal(
+          "matchMedia",
+          vi.fn().mockImplementation((query: string) => ({
+            matches: false,
+            media: query,
+            addEventListener: vi.fn(),
+            removeEventListener: vi.fn(),
+          })),
+        );
+        render(
+          <EntityFilterBar
+            chips={[]}
+            clearAllLabel="پاک کردن همه"
+            onClearAll={() => {}}
+            removeChipLabel="حذف فیلتر"
+            filtersLabel="فیلترها"
+            showResultsLabel="نمایش نتایج"
+            fullScreen={fullScreen}
+          >
+            <button type="button">فیلتر وضعیت</button>
+          </EntityFilterBar>,
+        );
+        fireEvent.click(screen.getByRole("button", { name: "فیلترها" }));
+        return screen.getByRole("dialog");
+      }
+
+      it("keeps the capped bottom sheet by default", () => {
+        const dialog = renderMobileBar();
+        expect(dialog.className).toContain("max-h-[min(85dvh,640px)]");
+        expect(dialog.className).toContain("rounded-t-xl");
+      });
+
+      it("fills the viewport when fullScreen", () => {
+        const dialog = renderMobileBar(true);
+        expect(dialog.className).toContain("h-dvh");
+        expect(dialog.className).toContain("rounded-none");
+        expect(dialog.className).not.toContain("max-h-[min(85dvh,640px)]");
+
+        fireEvent.click(screen.getByRole("button", { name: "نمایش نتایج" }));
+        expect(screen.queryByRole("dialog")).toBeNull();
+      });
+    });
   });
 
   describe("EntityDataTable & state handling", () => {

@@ -106,6 +106,8 @@ export interface EntityFilterBarProps {
   showResultsLabel?: string;
   /** Right-aligned meta (e.g. result count). Overrides EntityBrowser `resultMeta`. */
   suffix?: ReactNode;
+  /** Mobile filters sheet fills the viewport instead of a capped bottom sheet. */
+  fullScreen?: boolean;
   className?: string;
 }
 
@@ -119,6 +121,7 @@ export function EntityFilterBar({
   filtersSheetTitle,
   showResultsLabel,
   suffix: suffixProp,
+  fullScreen = false,
   className,
 }: EntityFilterBarProps) {
   const isDesktop = useMinSmViewport();
@@ -189,7 +192,11 @@ export function EntityFilterBar({
               </Button>
               <SheetContent
                 side="bottom"
-                className="flex max-h-[min(85dvh,640px)] flex-col gap-0 rounded-t-xl border-t p-0"
+                className={cn(
+                  fullScreen
+                    ? "flex h-dvh max-h-none w-full flex-col gap-0 rounded-none border-0 p-0"
+                    : "flex max-h-[min(85dvh,640px)] flex-col gap-0 rounded-t-xl border-t p-0",
+                )}
               >
                 <SheetHeader className="border-b border-border px-4 py-4">
                   <SheetTitle>{resolvedSheetTitle}</SheetTitle>
@@ -197,7 +204,12 @@ export function EntityFilterBar({
                 <div className="flex-1 overflow-y-auto px-4 py-4">
                   <div className="flex flex-col gap-4">{filters}</div>
                 </div>
-                <SheetFooter className="gap-2 border-t border-border p-4">
+                <SheetFooter
+                  className={cn(
+                    "gap-2 border-t border-border p-4",
+                    fullScreen && "pb-[max(1rem,env(safe-area-inset-bottom))]",
+                  )}
+                >
                   {showClear ? (
                     <Button
                       type="button"

@@ -1,4 +1,10 @@
 export {
+  CardNumber,
+  type CardNumberLabels,
+  type CardNumberProps,
+  type CardNumberVariant,
+} from "./card-number.js";
+export {
   ConfirmDialog,
   type ConfirmDialogProps,
 } from "./confirm-dialog.js";
@@ -34,6 +40,10 @@ export {
   HintTooltip,
   type HintTooltipProps,
 } from "./hint-tooltip.js";
+export {
+  HoldToConfirmButton,
+  type HoldToConfirmButtonProps,
+} from "./hold-to-confirm-button.js";
 export {
   MsisdnInput,
   type MsisdnInputProps,

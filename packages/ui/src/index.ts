@@ -45,6 +45,10 @@ export {
 } from "./collapsible.js";
 export { ColorSwatch, type ColorSwatchProps } from "./color-swatch.js";
 export {
+  CardNumber,
+  type CardNumberLabels,
+  type CardNumberProps,
+  type CardNumberVariant,
   ConfirmDialog,
   type ConfirmDialogProps,
   CopyableMoney,
@@ -96,12 +100,18 @@ export {
   formatDataValue,
   HintTooltip,
   type HintTooltipProps,
+  HoldToConfirmButton,
+  type HoldToConfirmButtonProps,
   MsisdnInput,
   type MsisdnInputProps,
+  type NavItemConfig,
   NavMobileSheet,
   type NavMobileSheetProps,
   NavRail,
   type NavRailProps,
+  type NavSubsection,
+  NavTree,
+  type NavTreeProps,
   OtpInput,
   type OtpInputProps,
   type PartitionedFilterBarChildren,
@@ -235,10 +245,24 @@ export {
 export { Input, type InputProps } from "./input.js";
 export { Label } from "./label.js";
 export {
+  formatCardCopy,
+  formatCardDisplay,
+  isValidIranBankCard,
+  normalizeCardDigits,
+} from "./lib/card.js";
+export {
   copyTextToClipboard,
   copyTextToClipboardSync,
 } from "./lib/clipboard.js";
 export { toLocaleDigits } from "./lib/locale-digits.js";
+export {
+  type FormatPersianDateOptions,
+  type FormatTomanOptions,
+  formatLocaleInteger,
+  formatLocaleRelativeTime,
+  formatPersianDate,
+  formatToman,
+} from "./lib/locale-format.js";
 export {
   persianizeDigits,
   sanitizeDecimalInput,
@@ -279,6 +303,13 @@ export {
   MobileTopBar,
   type MobileTopBarProps,
 } from "./mobile-top-bar.js";
+export {
+  Collapse,
+  type CollapseProps,
+  collapseChevronClassName,
+  MenuMorphGlyph,
+  type MenuMorphGlyphProps,
+} from "./motion/index.js";
 export {
   PageShell,
   type PageShellProps,

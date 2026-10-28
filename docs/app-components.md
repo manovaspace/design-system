@@ -20,7 +20,8 @@ Need UI in any Orbit / Manova product?
 ├─ Form feedback / inline alert?         → <FieldFeedback>, <Alert> (@manovaspace/ui)
 ├─ Numeric input with Persian digits?    → <DecimalInput> (@manovaspace/ui)
 ├─ High-touch selection / radio card?    → <SelectableOptionCard> (@manovaspace/ui)
-└─ Confirm / destructive dialog?         → <ConfirmDialog> (@manovaspace/ui)
+├─ Confirm / destructive dialog?         → <ConfirmDialog> (@manovaspace/ui)
+└─ Multi-step flow in a dialog or sheet? → <ProgressiveDialog> (@manovaspace/ui)
 ```
 
 ---

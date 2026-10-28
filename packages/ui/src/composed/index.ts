@@ -60,6 +60,7 @@ export {
   type PhoneNumberVariant,
   phoneNumberPresets,
 } from "./phone-number.js";
+export * from "./progressive-dialog/index.js";
 export {
   SelectableOptionCard,
   type SelectableOptionCardProps,

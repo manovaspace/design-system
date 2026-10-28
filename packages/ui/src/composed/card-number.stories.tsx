@@ -53,6 +53,6 @@ export const WithCustomIcon: Story = {
     cardNumber: "6037991234567890",
     labels,
     showIcon: "always",
-    icon: <LockIcon className="size-3.5 text-amber-500" />,
+    icon: <LockIcon className="size-3.5 text-muted-foreground" />,
   },
 };

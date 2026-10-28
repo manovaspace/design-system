@@ -57,6 +57,8 @@ export {
   type CopyableMoneyProps,
   DataValue,
   type DataValueProps,
+  DateTimePicker,
+  type DateTimePickerProps,
   DecimalInput,
   type DecimalInputProps,
   EmptyState,

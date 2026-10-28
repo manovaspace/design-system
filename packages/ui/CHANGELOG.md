@@ -1,5 +1,23 @@
 # @manovaspace/ui
 
+## 0.6.0
+
+### Minor Changes
+
+- cb52031: Add `fullScreen` option to `EntityFilterBar` mobile filters sheet
+
+## 0.5.0
+
+### Minor Changes
+
+- 13c3cc5: Add solid button variant with border and enhance secondary styling.
+
+## 0.4.0
+
+### Minor Changes
+
+- 1451626: Add a shared Jalali/Gregorian date-time picker with an ISO instant contract.
+
 ## 0.3.0
 
 ### Minor Changes

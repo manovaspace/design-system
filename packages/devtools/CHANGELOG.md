@@ -1,5 +1,32 @@
 # @manovaspace/devtools
 
+## 0.0.10
+
+### Patch Changes
+
+- Updated dependencies [cb52031]
+  - @manovaspace/ui@0.6.0
+
+## 0.0.9
+
+### Patch Changes
+
+- Updated dependencies [13c3cc5]
+  - @manovaspace/ui@0.5.0
+
+## 0.0.8
+
+### Patch Changes
+
+- Updated dependencies [1451626]
+  - @manovaspace/ui@0.4.0
+
+## 0.0.7
+
+### Patch Changes
+
+- Include the exported stylesheet in the published package.
+
 ## 0.0.6
 
 ### Patch Changes

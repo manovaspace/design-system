@@ -154,10 +154,11 @@ describe("NavTree", () => {
 
     const customLinks = screen.getAllByTestId("custom-router-link");
     expect(customLinks.length).toBeGreaterThan(0);
-    expect(customLinks[0].getAttribute("href")).toBe("/dashboard");
-    expect(customLinks[0].getAttribute("aria-current")).toBe("page");
+    const firstLink = customLinks[0] as HTMLElement;
+    expect(firstLink.getAttribute("href")).toBe("/dashboard");
+    expect(firstLink.getAttribute("aria-current")).toBe("page");
 
-    fireEvent.click(customLinks[0]);
+    fireEvent.click(firstLink);
     expect(handleNavigate).toHaveBeenCalledTimes(1);
   });
 

@@ -1,5 +1,14 @@
 # @manovaspace/ui
 
+## 0.8.0
+
+### Minor Changes
+
+- 5dfacc8: Add the Adaptive Shell and composed form/data components: `NavTree`, `NavRail`, `NavMobileSheet`, `ShellHeader`, `HoldToConfirmButton`, `CardNumber`, `DirectionProvider`, `Collapse`, `MenuMorphGlyph`, `DateTimePicker`, plus `formatToman`, `formatLocaleInteger`, and relative-time and Persian date formatting helpers.
+- 88939f5: Add `ProgressiveDialog`, a multi-step dialog shell: a desktop dialog at md and up and a full-screen sheet below. It shows the step list and progress, moves focus to each step's content, announces errors, and blocks dismissal while the primary action is pending. Product code supplies the step content, copy and close handling.
+
+  Fix `Progress` so its `value` reaches the progressbar, which previously reported no `aria-valuenow`.
+
 ## 0.7.0
 
 ### Minor Changes

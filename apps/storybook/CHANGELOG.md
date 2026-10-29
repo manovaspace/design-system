@@ -1,5 +1,12 @@
 # @manovaspace/storybook
 
+## 0.0.10
+
+### Patch Changes
+
+- Updated dependencies [8f30d52]
+  - @manovaspace/ui@0.10.0
+
 ## 0.0.9
 
 ### Patch Changes

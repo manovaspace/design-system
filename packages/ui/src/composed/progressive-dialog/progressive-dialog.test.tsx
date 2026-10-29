@@ -136,3 +136,78 @@ describe("ProgressiveDialog", () => {
     expect(screen.getByText("Step body")).toBeTruthy();
   });
 });
+
+describe("ProgressiveDialog segmented progress", () => {
+  const filledParts = () =>
+    Array.from(
+      document.querySelectorAll(
+        '[data-slot="progressive-dialog-step-part"][data-filled="true"]',
+      ),
+    ).length;
+
+  it("gives every step its own bar and keeps the labels current", () => {
+    setViewport(true);
+    renderDialog({ progress: "segments", stepIndex: 1 });
+    const progress = document.querySelector(
+      '[data-slot="progressive-dialog-progress"]',
+    ) as HTMLElement;
+    expect(progress.dataset.progress).toBe("segments");
+    expect(
+      document.querySelectorAll('[data-slot="progressive-dialog-step-bar"]')
+        .length,
+    ).toBe(steps.length);
+    expect(screen.queryByRole("progressbar")).toBeNull();
+    expect(
+      screen.getByText("Items").closest("li")?.getAttribute("aria-current"),
+    ).toBe("step");
+  });
+
+  it("fills past steps fully and leaves future steps empty", () => {
+    setViewport(true);
+    renderDialog({ progress: "segments", stepIndex: 1 });
+    const parts = document.querySelectorAll(
+      '[data-slot="progressive-dialog-step-part"]',
+    );
+    expect(parts.length).toBe(steps.length);
+    expect(filledParts()).toBe(2);
+  });
+
+  it("splits a step's bar into one piece per part", () => {
+    setViewport(true);
+    renderDialog({
+      progress: "segments",
+      stepIndex: 1,
+      steps: [
+        { id: "source", label: "Source" },
+        { id: "items", label: "Items", parts: { completed: 2, total: 3 } },
+        { id: "review", label: "Review" },
+      ],
+    });
+    const parts = document.querySelectorAll(
+      '[data-slot="progressive-dialog-step-part"]',
+    );
+    // source (1) + items (3 pieces) + review (1)
+    expect(parts.length).toBe(5);
+    // source filled, two of three item pages filled, review empty
+    expect(filledParts()).toBe(3);
+  });
+
+  it("keeps the unified bar by default", () => {
+    setViewport(true);
+    renderDialog({ stepIndex: 1 });
+    expect(screen.getByRole("progressbar", { name: "Progress" })).toBeTruthy();
+  });
+
+  it("returns focus to the content when the focus key changes inside a step", () => {
+    setViewport(true);
+    const { rerender, props } = renderDialog({
+      stepIndex: 1,
+      focusKey: "item-1",
+    });
+    const content = document.querySelector(
+      '[data-slot="progressive-dialog-content"]',
+    ) as HTMLElement;
+    rerender(<ProgressiveDialog {...props} stepIndex={1} focusKey="item-2" />);
+    expect(document.activeElement).toBe(content);
+  });
+});

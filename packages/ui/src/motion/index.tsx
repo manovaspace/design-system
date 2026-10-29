@@ -5,6 +5,16 @@ import { type HTMLMotionProps, motion } from "framer-motion";
 import { cn } from "../lib/utils.js";
 import { duration, easeOut } from "./tokens.js";
 
+// Products must not import framer-motion directly (workspace UI-import gate),
+// so the primitives they need for scroll- and transition-driven sections are
+// re-exported from this entry.
+export {
+  AnimatePresence,
+  motion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
+
 export {
   COLLAPSE_CLOSE_DURATION_S,
   COLLAPSE_OPEN_DURATION_S,

@@ -1,5 +1,11 @@
 # @manovaspace/ui
 
+## 0.11.1
+
+### Patch Changes
+
+- 7f38e01: EntityBrowser renders a section so it can live inside PageShell or a custom shell without a duplicate main landmark.
+
 ## 0.11.0
 
 ### Minor Changes

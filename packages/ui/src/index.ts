@@ -121,6 +121,7 @@ export {
   type PhoneNumberProps,
   type PhoneNumberVariant,
   ProgressiveDialog,
+  type ProgressiveDialogErrorAction,
   type ProgressiveDialogLabels,
   type ProgressiveDialogPrimaryAction,
   type ProgressiveDialogProgress,

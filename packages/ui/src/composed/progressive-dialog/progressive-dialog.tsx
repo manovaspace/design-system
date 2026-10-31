@@ -80,6 +80,14 @@ export type ProgressiveDialogPrimaryAction = {
   pending?: boolean;
 };
 
+/** Optional retry shown next to `error`, so the operator can act on it. */
+export type ProgressiveDialogErrorAction = {
+  label: string;
+  onClick: () => void;
+  /** Disables the action and marks the error row busy until it settles. */
+  pending?: boolean;
+};
+
 export interface ProgressiveDialogProps {
   open: boolean;
   /**
@@ -105,6 +113,11 @@ export interface ProgressiveDialogProps {
   primaryAction: ProgressiveDialogPrimaryAction;
   /** Validation or submit error, announced to assistive technology. */
   error?: string | null;
+  /**
+   * Retry for `error`, rendered inline with the message. It stays visible until
+   * the caller clears `error`; the row grows the footer, never the step content.
+   */
+  errorAction?: ProgressiveDialogErrorAction | null;
   labels: ProgressiveDialogLabels;
   children: React.ReactNode;
   className?: string;
@@ -126,6 +139,7 @@ export function ProgressiveDialog({
   onBack,
   primaryAction,
   error,
+  errorAction,
   labels,
   children,
   className,
@@ -144,6 +158,7 @@ export function ProgressiveDialog({
       onBack={onBack}
       primaryAction={primaryAction}
       error={error}
+      errorAction={errorAction}
       labels={labels}
       onClose={() => requestClose(false)}
       className={className}
@@ -187,6 +202,7 @@ type FrameProps = Pick<
   | "onBack"
   | "primaryAction"
   | "error"
+  | "errorAction"
   | "labels"
   | "children"
   | "className"
@@ -196,6 +212,14 @@ type FrameProps = Pick<
 
 /** At most this many pieces per step, so a long page list stays readable. */
 const MAX_PARTS = 8;
+
+/**
+ * `done` is neutral and muted-foreground at 70% measures 3.6:1 on the light
+ * dialog background and 4.7:1 on the dark one. `current` stays brand primary.
+ * `todo` is the same neutral at 25%, a track that is visibly lighter than
+ * `done` in both themes. Every part of a step carries its step's state.
+ */
+type StepState = "done" | "current" | "todo";
 
 /** One step's bar; `parts` splits it into the pages inside that step. */
 function StepBar({
@@ -219,10 +243,12 @@ function StepBar({
     total <= MAX_PARTS
       ? completed
       : Math.round((completed / total) * cells.length);
+  const state: StepState = done ? "done" : current ? "current" : "todo";
 
   return (
     <span
       data-slot="progressive-dialog-step-bar"
+      data-state={state}
       className="flex gap-0.5"
       aria-hidden="true"
     >
@@ -230,10 +256,14 @@ function StepBar({
         <span
           key={`part-${position}`}
           data-slot="progressive-dialog-step-part"
+          data-state={state}
           data-filled={position < filled ? "true" : "false"}
           className={cn(
             "h-1 flex-1 rounded-full",
-            position < filled ? "bg-primary" : "bg-primary/20",
+            state === "done" && "bg-muted-foreground/70",
+            state === "current" &&
+              (position < filled ? "bg-primary" : "bg-primary/20"),
+            state === "todo" && "bg-muted-foreground/25",
           )}
         />
       ))}
@@ -251,6 +281,7 @@ function ProgressiveDialogFrame({
   onBack,
   primaryAction,
   error,
+  errorAction,
   labels,
   onClose,
   children,
@@ -366,9 +397,27 @@ function ProgressiveDialogFrame({
 
       <div className="flex flex-col gap-2 border-t border-border p-4">
         {error ? (
-          <p role="alert" className="text-sm font-medium text-destructive">
-            {error}
-          </p>
+          <div
+            role="alert"
+            aria-busy={errorAction?.pending || undefined}
+            data-slot="progressive-dialog-error"
+            className="flex w-full items-start justify-between gap-3"
+          >
+            <p className="min-w-0 flex-1 text-sm font-medium text-destructive">
+              {error}
+            </p>
+            {errorAction ? (
+              <Button
+                variant="outline"
+                size="sm"
+                className="shrink-0"
+                disabled={errorAction.pending}
+                onClick={errorAction.onClick}
+              >
+                {errorAction.label}
+              </Button>
+            ) : null}
+          </div>
         ) : null}
         <div className="flex items-center gap-2">
           {showBack ? (

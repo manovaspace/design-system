@@ -16,6 +16,8 @@ type DemoProps = {
   initialStep: number;
   pending?: boolean;
   error?: string;
+  /** Label of the retry shown inside the error row. */
+  retryLabel?: string;
   onClose: () => void;
 };
 
@@ -24,11 +26,15 @@ function ProgressiveDialogDemo({
   initialStep,
   pending = false,
   error,
+  retryLabel,
   onClose,
 }: DemoProps) {
   const [open, setOpen] = useState(true);
   const [stepIndex, setStepIndex] = useState(initialStep);
+  // Remembers which error was retried, so a new failure shows up again.
+  const [dismissed, setDismissed] = useState<string | null>(null);
   const isLast = stepIndex === steps.length - 1;
+  const message = error && error !== dismissed ? error : null;
 
   return (
     <>
@@ -51,7 +57,12 @@ function ProgressiveDialogDemo({
             setStepIndex((index) => Math.min(steps.length - 1, index + 1)),
           pending,
         }}
-        error={error}
+        error={message}
+        errorAction={
+          message && retryLabel
+            ? { label: retryLabel, onClick: () => setDismissed(message) }
+            : null
+        }
         labels={labels}
       >
         <p>Content for the {steps[stepIndex]?.label} step goes here.</p>
@@ -105,6 +116,44 @@ export const LastStepPending: Story = {
 
 export const WithError: Story = {
   args: { initialStep: 3, error: "Insufficient stock for Rice." },
+};
+
+/**
+ * Two completed steps read neutral, the step being edited keeps the brand
+ * colour and the step ahead stays a light track. The error row carries its own
+ * retry, which clears the error the way a product would after a resubmit.
+ */
+export const WithErrorAction: Story = {
+  args: {
+    initialStep: 2,
+    error: "Insufficient stock for Rice.",
+    retryLabel: "Retry",
+  },
+  play: async () => {
+    const dialog = within(document.body);
+    expect(dialog.getByText("Details").getAttribute("aria-current")).toBe(
+      "step",
+    );
+    const states = Array.from(
+      document.querySelectorAll('[data-slot="progressive-dialog-step-bar"]'),
+    ).map((bar) =>
+      Array.from(
+        bar.querySelectorAll('[data-slot="progressive-dialog-step-part"]'),
+      ).map((part) => part.getAttribute("data-state")),
+    );
+    expect(states).toEqual([["done"], ["done"], ["current"], ["todo"]]);
+
+    const alert = dialog.getByRole("alert");
+    expect(alert.textContent).toContain("Insufficient stock for Rice.");
+    expect(alert.contains(dialog.getByRole("button", { name: "Retry" }))).toBe(
+      true,
+    );
+    expect(dialog.getByRole("button", { name: "Continue" })).toBeTruthy();
+
+    // Native click, as above: the pointer check is unreliable in this harness.
+    dialog.getByRole("button", { name: "Retry" }).click();
+    await waitFor(() => expect(dialog.queryByRole("alert")).toBeNull());
+  },
 };
 
 export const MobileFullScreen: Story = {

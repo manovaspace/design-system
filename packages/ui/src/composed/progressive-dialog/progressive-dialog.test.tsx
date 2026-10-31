@@ -91,6 +91,66 @@ describe("ProgressiveDialog", () => {
     expect(screen.getByRole("alert").textContent).toBe("Insufficient stock");
   });
 
+  it("renders an error action inline with the message", () => {
+    setViewport(true);
+    const onClick = vi.fn();
+    renderDialog({
+      error: "Insufficient stock",
+      errorAction: { label: "Retry", onClick },
+    });
+    const alert = screen.getByRole("alert");
+    expect(alert.textContent).toContain("Insufficient stock");
+    const retry = screen.getByRole("button", { name: "Retry" });
+    expect(alert.contains(retry)).toBe(true);
+    fireEvent.click(retry);
+    expect(onClick).toHaveBeenCalledTimes(1);
+
+    // The step content and the primary action stay where they were.
+    expect(screen.getByText("Step body")).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Continue" })).toBeTruthy();
+  });
+
+  it("marks the error row busy and disables the action while pending", () => {
+    setViewport(true);
+    const { rerender, props } = renderDialog({
+      error: "Insufficient stock",
+      errorAction: { label: "Retry", onClick: vi.fn() },
+    });
+    expect(screen.getByRole("alert").getAttribute("aria-busy")).toBeNull();
+    expect(
+      (screen.getByRole("button", { name: "Retry" }) as HTMLButtonElement)
+        .disabled,
+    ).toBe(false);
+
+    rerender(
+      <ProgressiveDialog
+        {...props}
+        error="Insufficient stock"
+        errorAction={{ label: "Retry", onClick: vi.fn(), pending: true }}
+      />,
+    );
+    expect(screen.getByRole("alert").getAttribute("aria-busy")).toBe("true");
+    expect(
+      (screen.getByRole("button", { name: "Retry" }) as HTMLButtonElement)
+        .disabled,
+    ).toBe(true);
+  });
+
+  it("keeps the error until the caller clears it", () => {
+    setViewport(true);
+    const { rerender, props } = renderDialog({
+      error: "Insufficient stock",
+      errorAction: { label: "Retry", onClick: vi.fn() },
+    });
+    rerender(<ProgressiveDialog {...props} stepIndex={1} />);
+    expect(screen.getByRole("alert").textContent).toContain(
+      "Insufficient stock",
+    );
+    rerender(<ProgressiveDialog {...props} stepIndex={1} error={null} />);
+    expect(screen.queryByRole("alert")).toBeNull();
+    expect(screen.queryByRole("button", { name: "Retry" })).toBeNull();
+  });
+
   it("requests a close from the close control, Escape and the overlay", () => {
     setViewport(true);
     const { props } = renderDialog();
@@ -145,6 +205,15 @@ describe("ProgressiveDialog segmented progress", () => {
       ),
     ).length;
 
+  const statesByStep = () =>
+    Array.from(
+      document.querySelectorAll('[data-slot="progressive-dialog-step-bar"]'),
+    ).map((bar) =>
+      Array.from(
+        bar.querySelectorAll('[data-slot="progressive-dialog-step-part"]'),
+      ).map((part) => part.getAttribute("data-state")),
+    );
+
   it("gives every step its own bar and keeps the labels current", () => {
     setViewport(true);
     renderDialog({ progress: "segments", stepIndex: 1 });
@@ -160,6 +229,34 @@ describe("ProgressiveDialog segmented progress", () => {
     expect(
       screen.getByText("Items").closest("li")?.getAttribute("aria-current"),
     ).toBe("step");
+  });
+
+  it("marks completed, current and future steps with data-state", () => {
+    setViewport(true);
+    renderDialog({ progress: "segments", stepIndex: 1 });
+    expect(statesByStep()).toEqual([["done"], ["current"], ["todo"]]);
+    // `data-filled` stays for compatibility alongside the new state.
+    expect(filledParts()).toBe(2);
+  });
+
+  it("applies the step state to every part and keeps partial fills", () => {
+    setViewport(true);
+    renderDialog({
+      progress: "segments",
+      stepIndex: 1,
+      steps: [
+        { id: "source", label: "Source", parts: { completed: 2, total: 2 } },
+        { id: "items", label: "Items", parts: { completed: 1, total: 3 } },
+        { id: "review", label: "Review", parts: { completed: 0, total: 2 } },
+      ],
+    });
+    expect(statesByStep()).toEqual([
+      ["done", "done"],
+      ["current", "current", "current"],
+      ["todo", "todo"],
+    ]);
+    // source is done, one current page is filled, review has not started
+    expect(filledParts()).toBe(3);
   });
 
   it("fills past steps fully and leaves future steps empty", () => {

@@ -1,6 +1,6 @@
 {
   "name": "@manovaspace/devtools",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "Development-only design system toolbar and token editor for Next.js apps",
   "license": "MIT",
   "type": "module",
@@ -58,7 +58,7 @@
   },
   "dependencies": {
     "@manovaspace/tokens": "^0.1.3",
-    "@manovaspace/ui": "^0.10.0"
+    "@manovaspace/ui": "^0.11.0"
   },
   "devDependencies": {
     "@manovaspace/build": "^0.1.0",

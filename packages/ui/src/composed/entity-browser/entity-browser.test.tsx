@@ -28,9 +28,12 @@ describe("EntityBrowser suite", () => {
         </EntityBrowser>,
       );
 
-      expect(screen.getByRole("main").getAttribute("data-preset")).toBe(
-        "directory",
-      );
+      expect(
+        screen
+          .getByRole("region", { name: "کاربران" })
+          .getAttribute("data-preset"),
+      ).toBe("directory");
+      expect(screen.queryByRole("main")).toBeNull();
       expect(screen.getByText("کاربران")).toBeTruthy();
       expect(screen.getByText("مدیریت و مشاهده کاربران سامانه")).toBeTruthy();
       expect(screen.getByRole("button", { name: "افزودن کاربر" })).toBeTruthy();

@@ -35,7 +35,8 @@ export function EntityBrowser({
   className,
 }: EntityBrowserProps) {
   return (
-    <main
+    <section
+      aria-label={title}
       data-preset={preset}
       className={cn(
         "mx-auto max-w-6xl space-y-4 px-4 py-6 sm:px-6 lg:px-8",
@@ -72,6 +73,6 @@ export function EntityBrowser({
       </div>
 
       {footer}
-    </main>
+    </section>
   );
 }

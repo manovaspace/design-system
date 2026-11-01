@@ -30,21 +30,28 @@ bun run version-packages
 Review each affected package version, dependency range, generated changelog and
 lockfile. Stage only the reviewed release files, commit with
 `chore: version packages`, push the topic branch and open a PR. After CI passes,
-squash merge with the exact title `chore: version packages` and verify the merged
-head subject. Direct pushes to `main` are forbidden. If the intended versions
-have already been calculated and merged, verify that state before publishing;
-do not calculate a second bump.
+squash merge it; the conventional title is `chore: version packages`. Direct
+pushes to `main` are forbidden. If the intended versions have already been
+calculated and merged, verify that state before publishing; do not calculate a
+second bump.
 
-[`.github/workflows/publish.yml`](./.github/workflows/publish.yml) publishes on a
-`main` push whose head message contains literal `chore: version packages`, a
-published GitHub Release, or a maintainer-selected `workflow_dispatch`.
-`chore(release): version packages` does not satisfy the main-push condition.
+[`.github/workflows/publish.yml`](./.github/workflows/publish.yml) publishes only
+by a published GitHub Release or a maintainer-selected `workflow_dispatch` of
+`.github/workflows/publish.yml`. Both pause until the owner approves the
+`npm-publish` GitHub environment.
+
+Merging the `chore: version packages` PR no longer publishes by itself. After the
+merge, run `gh workflow run publish.yml --repo manovaspace/design-system` (or
+publish a GitHub Release) and approve the environment.
+
+The workflow uses the npm bundled with Node 24 and fails if it is older than
+11.5.1. It never installs npm at run time.
+
 The workflow builds and publishes existing manifest versions; it does not run
 `changeset version`. Release/dispatch and local fallback must use a reviewed,
 already-versioned commit and the complete intended unpublished package set.
 CI sets `NPM_CONFIG_PROVENANCE=true` for npm provenance attestations.
 Publishing changes npm; it does not deploy consumers.
-
 
 Manual fallback:
 
@@ -62,12 +69,12 @@ bun run build && bun run release
 TRUST_REPO=manovaspace/design-system ./scripts/configure-trusted-publishing.sh
 ```
 
-Configure [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/) for GitHub org `manovaspace`, repo `design-system`, workflow `publish.yml`.
+Configure [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/) for GitHub org `manovaspace`, repo `design-system`, workflow `publish.yml`, and environment `npm-publish`.
 
 ## Checklist
 
 - [ ] Changeset included in the pull request
 - [ ] Versions/changelogs calculated once and reviewed on a topic branch
-- [ ] Version PR passed CI and merged with head subject `chore: version packages`
-- [ ] CI publish succeeded
+- [ ] Version PR passed CI and merged
+- [ ] Publish workflow approved in the `npm-publish` environment and succeeded
 - [ ] `npm view @manovaspace/<package> version` matches the release

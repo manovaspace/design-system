@@ -53,6 +53,11 @@ export {
   type OtpInputProps,
 } from "./otp-input.js";
 export {
+  PermissionGate,
+  type PermissionGateMode,
+  type PermissionGateProps,
+} from "./permission-gate.js";
+export {
   type PhoneAction,
   PhoneNumber,
   type PhoneNumberLabels,
@@ -66,3 +71,9 @@ export {
   type SelectableOptionCardProps,
 } from "./selectable-option-card.js";
 export * from "./shell/index.js";
+export {
+  WorkspaceSwitcher,
+  type WorkspaceSwitcherItem,
+  type WorkspaceSwitcherLabels,
+  type WorkspaceSwitcherProps,
+} from "./workspace-switcher.js";

@@ -80,8 +80,10 @@ bun run release
 
 `bun run check:api` compares the built declarations with the committed API Extractor
 reports in `packages/ui/etc/` (root and every subpath export) and
-`packages/tokens/etc/`. An unreviewed API change fails; run `bun run update:api`
-and commit the report when the change is intended. `bun run check:package` runs
+`packages/tokens/etc/`. The reports are compared after sorting string-literal
+union members, because TypeScript emits them in a non-deterministic order. An
+unreviewed API change fails; run `bun run update:api` and commit the report when
+the change is intended. `bun run check:package` runs
 `publint` and `attw --pack` on every published package. The `.attw.json` files use
 the `esm-only` profile and exclude the CSS entry points, which are assets rather
 than modules; there are no other ignored findings.

@@ -30,8 +30,8 @@
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "check:api": "api-extractor run -c api-extractor.json",
-    "update:api": "api-extractor run --local -c api-extractor.json",
+    "check:api": "bun ../../scripts/api-report.mjs check -c api-extractor.json",
+    "update:api": "bun ../../scripts/api-report.mjs update -c api-extractor.json",
     "check:package": "publint && attw --pack .",
     "clean": "rm -rf dist fonts"
   },

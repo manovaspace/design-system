@@ -62,9 +62,15 @@ jobs:
           set -euo pipefail
           bun run --filter @manovaspace/tokens build
           bun run --filter @manovaspace/ui build
-          mkdir -p kit-tarballs
-          (cd packages/tokens && bun pm pack --filename ../../kit-tarballs/manovaspace-tokens.tgz)
-          (cd packages/ui && bun pm pack --filename ../../kit-tarballs/manovaspace-ui.tgz)
+          mkdir -p "$GITHUB_WORKSPACE/kit-tarballs"
+          (cd packages/tokens && bun pm pack --filename "$GITHUB_WORKSPACE/kit-tarballs/manovaspace-tokens.tgz")
+          (cd packages/ui && bun pm pack --filename "$GITHUB_WORKSPACE/kit-tarballs/manovaspace-ui.tgz")
+          for tarball in manovaspace-tokens.tgz manovaspace-ui.tgz; do
+            if [ ! -f "$GITHUB_WORKSPACE/kit-tarballs/$tarball" ]; then
+              echo "missing kit tarball: $tarball" >&2
+              exit 1
+            fi
+          done
 
       # The private handbook repository downloads this artifact with MATRIX_TOKEN
       # and runs the matrix there, so failures stay out of this public log.

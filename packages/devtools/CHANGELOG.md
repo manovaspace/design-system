@@ -1,5 +1,14 @@
 # @manovaspace/devtools
 
+## 0.0.17
+
+### Patch Changes
+
+- Updated dependencies [175d823]
+- Updated dependencies [175d823]
+  - @manovaspace/tokens@1.0.0
+  - @manovaspace/ui@1.0.0
+
 ## 0.0.16
 
 ### Patch Changes

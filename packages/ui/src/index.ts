@@ -24,7 +24,6 @@ export {
   type AvatarProps,
   avatarVariants,
 } from "./avatar.js";
-export { Badge, badgeVariants } from "./badge.js";
 export { Button, type ButtonProps, buttonVariants } from "./button.js";
 export {
   Card,

@@ -30,6 +30,11 @@ export {
   type HintTooltipProps,
 } from "./composed/hint-tooltip.js";
 export {
+  PermissionGate,
+  type PermissionGateMode,
+  type PermissionGateProps,
+} from "./composed/permission-gate.js";
+export {
   type PhoneAction,
   PhoneNumber,
   type PhoneNumberLabels,
@@ -37,6 +42,12 @@ export {
   type PhoneNumberVariant,
   phoneNumberPresets,
 } from "./composed/phone-number.js";
+export {
+  WorkspaceSwitcher,
+  type WorkspaceSwitcherItem,
+  type WorkspaceSwitcherLabels,
+  type WorkspaceSwitcherProps,
+} from "./composed/workspace-switcher.js";
 export {
   DropdownMenu,
   DropdownMenuCheckboxItem,

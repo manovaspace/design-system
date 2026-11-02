@@ -21,6 +21,8 @@ Need UI in any Orbit / Manova product?
 ├─ Numeric input with Persian digits?    → <DecimalInput> (@manovaspace/ui)
 ├─ High-touch selection / radio card?    → <SelectableOptionCard> (@manovaspace/ui)
 ├─ Confirm / destructive dialog?         → <ConfirmDialog> (@manovaspace/ui)
+├─ Switch workspace?                     → <WorkspaceSwitcher> (@manovaspace/ui/experimental)
+├─ Permission-gated UI?                  → <PermissionGate> (@manovaspace/ui/experimental)
 └─ Multi-step flow in a dialog or sheet? → <ProgressiveDialog> (@manovaspace/ui)
 ```
 
@@ -40,6 +42,8 @@ Need UI in any Orbit / Manova product?
 | Currency with copy | `@manovaspace/ui/experimental` (`CopyableMoney`) | Formatted Toman with copy-to-clipboard affordance; experimental. |
 | Iranian phone display | `@manovaspace/ui/experimental` (`PhoneNumber`) | Formatted MSISDN with prefix chip; experimental. |
 | Iranian bank card display | `@manovaspace/ui` (`CardNumber`) | Grouped 16-digit card number with bank brand detection. |
+| Workspace chooser | `@manovaspace/ui/experimental` (`WorkspaceSwitcher`) | RTL-aware trigger and listbox for switching workspaces; experimental. |
+| Permission-gated UI | `@manovaspace/ui/experimental` (`PermissionGate`) | Hide or disable caller-authorized content; experimental, no auth hooks. |
 
 ---
 

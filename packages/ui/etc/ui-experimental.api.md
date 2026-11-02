@@ -297,6 +297,21 @@ export const pageShellContentVariants: (props?: ({
 export type PageShellProps = React_2.ComponentProps<typeof PageShell_2>;
 
 // @public
+export function PermissionGate(input: PermissionGateProps): ReactNode;
+
+// @public
+export type PermissionGateMode = "disable" | "hide";
+
+// @public
+export type PermissionGateProps = {
+    allowed: boolean;
+    children: ReactNode;
+    fallback?: ReactNode;
+    mode?: PermissionGateMode;
+    className?: string;
+};
+
+// @public
 export function persianizeDigits(value: string | number | null | undefined): string;
 
 // @public
@@ -507,6 +522,35 @@ export interface WhatsNewProps {
     // (undocumented)
     title?: string;
 }
+
+// @public
+export function WorkspaceSwitcher(input: WorkspaceSwitcherProps): React_2.JSX.Element;
+
+// @public
+export type WorkspaceSwitcherItem = {
+    id: string;
+    name: string;
+    logoSrc?: string;
+    subtitle?: string;
+};
+
+// @public
+export type WorkspaceSwitcherLabels = {
+    trigger: string;
+    list: string;
+    empty: string;
+    create?: string;
+};
+
+// @public
+export type WorkspaceSwitcherProps = {
+    workspaces: WorkspaceSwitcherItem[];
+    currentId: string;
+    onSwitch: (id: string) => void;
+    labels: WorkspaceSwitcherLabels;
+    onCreate?: () => void;
+    className?: string;
+};
 
 // Warnings were encountered during analysis:
 //

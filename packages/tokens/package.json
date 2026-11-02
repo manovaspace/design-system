@@ -30,6 +30,9 @@
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "check:api": "api-extractor run -c api-extractor.json",
+    "update:api": "api-extractor run --local -c api-extractor.json",
+    "check:package": "publint && attw --pack .",
     "clean": "rm -rf dist fonts"
   },
   "exports": {

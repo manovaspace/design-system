@@ -31,6 +31,9 @@
     "dev": "bun run build:css && tailwindcss -i ./src/styles.css -o ./dist/styles.css --watch",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "check:api": "api-extractor run -c api-extractor.json && api-extractor run -c api-extractor.icons.json && api-extractor run -c api-extractor.icons-solid.json && api-extractor run -c api-extractor.icons-brand.json && api-extractor run -c api-extractor.motion.json && api-extractor run -c api-extractor.loading.json && api-extractor run -c api-extractor.server.json",
+    "update:api": "api-extractor run --local -c api-extractor.json && api-extractor run --local -c api-extractor.icons.json && api-extractor run --local -c api-extractor.icons-solid.json && api-extractor run --local -c api-extractor.icons-brand.json && api-extractor run --local -c api-extractor.motion.json && api-extractor run --local -c api-extractor.loading.json && api-extractor run --local -c api-extractor.server.json",
+    "check:package": "publint && attw --pack .",
     "clean": "rm -rf dist"
   },
   "exports": {

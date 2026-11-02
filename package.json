@@ -8,6 +8,9 @@
     "build-storybook": "bun --filter @manovaspace/storybook build-storybook",
     "lint": "biome check .",
     "check:ds": "bash scripts/check-ds.sh",
+    "check:api": "turbo build --filter=@manovaspace/ui --filter=@manovaspace/tokens && bun run --filter @manovaspace/ui check:api && bun run --filter @manovaspace/tokens check:api",
+    "update:api": "turbo build --filter=@manovaspace/ui --filter=@manovaspace/tokens && bun run --filter @manovaspace/ui update:api && bun run --filter @manovaspace/tokens update:api",
+    "check:package": "turbo build --filter=@manovaspace/ui --filter=@manovaspace/tokens --filter=@manovaspace/devtools && bun run --filter @manovaspace/ui check:package && bun run --filter @manovaspace/tokens check:package && bun run --filter @manovaspace/devtools check:package",
     "quality": "bun run lint && bun run check:ds",
     "format": "biome format --write .",
     "typecheck": "turbo typecheck",
@@ -18,8 +21,11 @@
     "clean": "turbo clean && rm -rf node_modules"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
     "@biomejs/biome": "catalog:",
     "@changesets/cli": "^3.0.3",
+    "@microsoft/api-extractor": "^7.60.1",
+    "publint": "^0.3.25",
     "turbo": "^2.11.10",
     "typescript": "catalog:"
   },

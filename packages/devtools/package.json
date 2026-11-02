@@ -26,6 +26,7 @@
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
+    "check:package": "publint && attw --pack .",
     "clean": "rm -rf dist"
   },
   "exports": {

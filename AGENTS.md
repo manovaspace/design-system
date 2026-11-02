@@ -32,6 +32,8 @@ bun run storybook        # port 10006 — enables Storybook MCP while running
 bun run test
 bun run typecheck
 bun run check:ds         # hex + default palette bans in packages/ui and packages/devtools
+bun run check:api        # API Extractor reports in packages/*/etc, build first
+bun run check:package    # publint + attw on published packages, build first
 bun run quality          # lint + check:ds
 ```
 

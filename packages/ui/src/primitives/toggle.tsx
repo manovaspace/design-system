@@ -10,6 +10,7 @@ import { cn } from "../lib/utils.js";
  * Hover fills must not fight `data-[state=on]` fills.
  * Off: `hover:not-data-[state=on]:…`
  * On:  `data-[state=on]:hover:…` (higher specificity; consumers can override).
+ * @experimental
  */
 const toggleVariants = cva(
   [
@@ -45,6 +46,7 @@ const toggleVariants = cva(
   },
 );
 
+/** @experimental */
 function Toggle({
   className,
   variant,

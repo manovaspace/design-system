@@ -4,9 +4,13 @@ import type { ComponentPropsWithoutRef, ComponentType, ReactNode } from "react";
 
 import { cn } from "./lib/utils.js";
 
+/** @internal */
 export const MOBILE_TAB_INDICATOR_WIDTH_PX = 24;
 
-/** RTL-safe inset for the active tab top-line indicator. */
+/**
+ * RTL-safe inset for the active tab top-line indicator.
+ * @internal
+ */
 export function mobileTabIndicatorInset(
   activeIndex: number,
   itemCount: number,

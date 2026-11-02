@@ -12,6 +12,7 @@ function DropdownMenu({
   return <DropdownMenuPrimitive.Root data-slot="dropdown-menu" {...props} />;
 }
 
+/** @experimental */
 function DropdownMenuPortal({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Portal>) {
@@ -82,6 +83,7 @@ function DropdownMenuItem({
   );
 }
 
+/** @experimental */
 function DropdownMenuCheckboxItem({
   className,
   children,
@@ -108,6 +110,7 @@ function DropdownMenuCheckboxItem({
   );
 }
 
+/** @experimental */
 function DropdownMenuRadioGroup({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.RadioGroup>) {
@@ -119,6 +122,7 @@ function DropdownMenuRadioGroup({
   );
 }
 
+/** @experimental */
 function DropdownMenuRadioItem({
   className,
   children,
@@ -192,12 +196,14 @@ function DropdownMenuShortcut({
   );
 }
 
+/** @experimental */
 function DropdownMenuSub({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Sub>) {
   return <DropdownMenuPrimitive.Sub data-slot="dropdown-menu-sub" {...props} />;
 }
 
+/** @experimental */
 function DropdownMenuSubTrigger({
   className,
   inset,
@@ -222,6 +228,7 @@ function DropdownMenuSubTrigger({
   );
 }
 
+/** @experimental */
 function DropdownMenuSubContent({
   className,
   ...props

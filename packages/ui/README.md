@@ -6,7 +6,10 @@ Radix-based React primitives styled with Tailwind CSS 4, including motion helper
 bun add @manovaspace/ui @manovaspace/tokens
 ```
 
-Also works with npm and yarn. Peers: `react` and `react-dom` ^19.2.
+Also works with npm and yarn. Peers: `react` and `react-dom` ^19.
+
+Stable exports live at the root. `@manovaspace/ui/experimental` is outside the
+semver promise and may change in any minor release.
 
 ## Agent index
 

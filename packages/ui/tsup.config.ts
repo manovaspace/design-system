@@ -3,6 +3,7 @@ import { defineUnbundledConfig } from "@manovaspace/build";
 export default defineUnbundledConfig({
   entry: [
     "src/index.ts",
+    "src/experimental.ts",
     "src/**/*.tsx",
     "src/**/*.ts",
     "!src/**/*.test.ts",

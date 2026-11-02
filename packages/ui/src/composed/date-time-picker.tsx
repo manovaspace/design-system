@@ -13,6 +13,7 @@ import { cn } from "../lib/utils.js";
 import { useLocalePreference } from "../locale-preference.js";
 import { Popover, PopoverContent, PopoverTrigger } from "../popover.js";
 
+/** @experimental */
 export type DateTimePickerProps = {
   /** ISO-8601 instant. The picker displays this instant in `timeZone`. */
   value?: string | null;
@@ -85,7 +86,10 @@ function formatInstant(
   ).format(date);
 }
 
-/** Shared Jalali/Gregorian date and time picker. The public value is always an ISO instant. */
+/**
+ * Shared Jalali/Gregorian date and time picker. The public value is always an ISO instant.
+ * @experimental
+ */
 export function DateTimePicker({
   value,
   onValueChange,

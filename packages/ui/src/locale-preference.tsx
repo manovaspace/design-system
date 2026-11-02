@@ -12,8 +12,10 @@ import {
 
 import { DirectionProvider } from "./direction-provider.js";
 
+/** @experimental */
 export type TextDirection = "ltr" | "rtl";
 
+/** @experimental */
 export function resolveLocaleDir(
   locale: string,
   rtlLocales: readonly string[],
@@ -21,6 +23,7 @@ export function resolveLocaleDir(
   return rtlLocales.includes(locale) ? "rtl" : "ltr";
 }
 
+/** @experimental */
 export function applyDocumentLocale(locale: string, dir: TextDirection) {
   if (typeof document === "undefined") return;
   const root = document.documentElement;
@@ -39,6 +42,7 @@ type LocalePreferenceContextValue = {
 const LocalePreferenceContext =
   createContext<LocalePreferenceContextValue | null>(null);
 
+/** @experimental */
 export type LocalePreferenceProviderProps = {
   storageKey: string;
   locales: readonly string[];
@@ -63,7 +67,10 @@ function readStoredLocale(
   return defaultLocale;
 }
 
-/** Persist locale preference and sync `html` lang/dir (+ DirectionProvider). */
+/**
+ * Persist locale preference and sync `html` lang/dir (+ DirectionProvider).
+ * @experimental
+ */
 export function LocalePreferenceProvider({
   storageKey,
   locales,
@@ -114,6 +121,7 @@ export function LocalePreferenceProvider({
   );
 }
 
+/** @experimental */
 export function useLocalePreference(): LocalePreferenceContextValue {
   const ctx = useContext(LocalePreferenceContext);
   if (!ctx) {

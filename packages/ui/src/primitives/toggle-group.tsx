@@ -17,6 +17,7 @@ const ToggleGroupContext = React.createContext<
   spacing: 0,
 });
 
+/** @experimental */
 function ToggleGroup({
   className,
   variant,
@@ -48,6 +49,7 @@ function ToggleGroup({
   );
 }
 
+/** @experimental */
 function ToggleGroupItem({
   className,
   children,

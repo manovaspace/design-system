@@ -1,4 +1,5 @@
-import { Input, Label, Slider } from "@manovaspace/ui";
+import { Input, Label } from "@manovaspace/ui";
+import { Slider } from "@manovaspace/ui/experimental";
 
 import { formatRem, parseRem } from "../token-mutations.js";
 

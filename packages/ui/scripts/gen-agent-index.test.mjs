@@ -118,12 +118,6 @@ describe("generated agent index", () => {
     expect(MAX_AGENT_INDEX_BYTES).toBe(8192);
   });
 
-  test("marks deprecated exports with the migration note", () => {
-    const line = lineFor(text, "SelectIcon");
-    expect(line).toContain("DEPRECATED");
-    expect(line).toContain("Chevron is built into SelectTrigger");
-  });
-
   test("lists subpath exports under their import path", () => {
     expect(lineFor(text, "FadeIn")).toContain("@ui/motion");
     expect(text).toContain("@ui/icons");

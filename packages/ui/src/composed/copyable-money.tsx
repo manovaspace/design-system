@@ -13,6 +13,7 @@ import { copyTextToClipboard } from "../lib/clipboard.js";
 import { cn } from "../lib/utils.js";
 import { DataValue } from "./data-value.js";
 
+/** @experimental */
 export type CopyableMoneyProps = {
   /** Raw amount — copied as plain digits without separators when copiable. */
   value: number;
@@ -61,6 +62,7 @@ function plainIntegerCopy(value: number): string {
 /**
  * Money figure with DataValue typography and optional tap-to-copy.
  * Display keeps fa-IR grouping; clipboard gets raw digits only.
+ * @experimental
  */
 export function CopyableMoney({
   value,
@@ -152,6 +154,7 @@ export function CopyableMoney({
   );
 }
 
+/** @experimental */
 export type CopyableMoneyLineProps = CopyableMoneyProps & {
   /** Text before the figure (e.g. "قیمت هر گرم"). */
   lead?: ReactNode;
@@ -160,7 +163,10 @@ export type CopyableMoneyLineProps = CopyableMoneyProps & {
   lineClassName?: string;
 };
 
-/** Inline price line — quiet label, optional copyable figure, optional suffix. */
+/**
+ * Inline price line — quiet label, optional copyable figure, optional suffix.
+ * @experimental
+ */
 export function CopyableMoneyLine({
   lead,
   trail,

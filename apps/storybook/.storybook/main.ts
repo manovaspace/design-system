@@ -39,6 +39,10 @@ const config: StorybookConfig = {
       resolve: {
         alias: [
           {
+            find: "@manovaspace/ui/experimental",
+            replacement: path.join(packagesDir, "ui/src/experimental.ts"),
+          },
+          {
             find: "@manovaspace/ui",
             replacement: path.join(packagesDir, "ui/src"),
           },

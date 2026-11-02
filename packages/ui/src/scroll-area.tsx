@@ -5,11 +5,15 @@ export { ScrollBar } from "./primitives/scroll-area.js";
 import { cn } from "./lib/utils.js";
 import { ScrollArea as PrimitiveScrollArea } from "./primitives/scroll-area.js";
 
+/** @experimental */
 export type ScrollAreaProps = ComponentProps<typeof PrimitiveScrollArea> & {
   viewportClassName?: string;
 };
 
-/** Public ScrollArea — optional viewportClassName for inner viewport styling. */
+/**
+ * Public ScrollArea — optional viewportClassName for inner viewport styling.
+ * @experimental
+ */
 export function ScrollArea({
   viewportClassName,
   children,

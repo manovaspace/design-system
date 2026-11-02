@@ -3,6 +3,7 @@ export interface FormatTomanOptions {
   locale?: string;
 }
 
+/** @experimental */
 export interface FormatPersianDateOptions {
   format?: "short" | "medium" | "long";
   timeZone?: string;
@@ -10,6 +11,7 @@ export interface FormatPersianDateOptions {
 
 /**
  * Formats integers using Persian digits when locale === "fa", standard digits otherwise.
+ * @experimental
  */
 export function formatLocaleInteger(
   value: number,
@@ -50,6 +52,7 @@ export function formatToman(
  * Formats relative times using Intl.RelativeTimeFormat(locale, { numeric: "auto" }).
  * e.g. "۵ دقیقه پیش", "now", "yesterday", "5 minutes ago".
  */
+/** @experimental */
 export function formatLocaleRelativeTime(
   dateOrIso: string | Date,
   locale: string = "fa",
@@ -97,6 +100,7 @@ export function formatLocaleRelativeTime(
  * Formats dates into the Persian (Solar Hijri / Shamsi) calendar using
  * Intl.DateTimeFormat("fa-IR-u-ca-persian", ...).
  */
+/** @experimental */
 export function formatPersianDate(
   dateOrIso: string | Date,
   options?: FormatPersianDateOptions,

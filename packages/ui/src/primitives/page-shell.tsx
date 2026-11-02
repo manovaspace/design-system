@@ -3,6 +3,7 @@ import type * as React from "react";
 
 import { cn } from "../lib/utils.js";
 
+/** @experimental */
 const pageShellContentVariants = cva(
   "mx-auto flex w-full flex-col gap-[var(--space-4)] px-4 py-[var(--space-4)]",
   {

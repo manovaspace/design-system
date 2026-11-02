@@ -4,6 +4,7 @@ import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
 import { cn } from "./lib/utils.js";
 
+/** @experimental */
 export type MobileTopBarProps = {
   start?: ReactNode;
   title: ReactNode;
@@ -14,7 +15,10 @@ export type MobileTopBarProps = {
   contentClassName?: string;
 } & Omit<ComponentPropsWithoutRef<"header">, "children" | "title">;
 
-/** Fixed mobile top bar: start | centered title | end, with safe-area. */
+/**
+ * Fixed mobile top bar: start | centered title | end, with safe-area.
+ * @experimental
+ */
 export function MobileTopBar({
   start,
   title,

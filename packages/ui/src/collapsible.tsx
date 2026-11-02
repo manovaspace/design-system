@@ -9,6 +9,7 @@ export {
 
 import { CollapsibleContent as PrimitiveCollapsibleContent } from "./primitives/collapsible.js";
 
+/** @experimental */
 export type CollapsibleContentProps = ComponentProps<
   typeof PrimitiveCollapsibleContent
 > & {
@@ -16,6 +17,7 @@ export type CollapsibleContentProps = ComponentProps<
   keepMounted?: boolean;
 };
 
+/** @experimental */
 export function CollapsibleContent({
   keepMounted,
   ...props

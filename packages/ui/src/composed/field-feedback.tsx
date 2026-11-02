@@ -7,7 +7,10 @@ import { useDirection } from "../direction-provider.js";
 import { InformationCircleIcon } from "../icons.js";
 import { cn } from "../lib/utils.js";
 
-/** Vertical stack for a label, control, hints, and validation messages. */
+/**
+ * Vertical stack for a label, control, hints, and validation messages.
+ * @experimental
+ */
 export function FieldGroup({ className, ...props }: ComponentProps<"div">) {
   const direction = useDirection();
 
@@ -21,7 +24,10 @@ export function FieldGroup({ className, ...props }: ComponentProps<"div">) {
   );
 }
 
-/** Secondary guidance shown below a control (always visible when set). */
+/**
+ * Secondary guidance shown below a control (always visible when set).
+ * @experimental
+ */
 export function FieldDescription({ className, ...props }: ComponentProps<"p">) {
   const direction = useDirection();
 

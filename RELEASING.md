@@ -10,6 +10,22 @@ Policy matches [manovaspace/ts](https://github.com/manovaspace/ts/blob/main/RELE
 - Optional `fixed` group in `.changeset/config.json` if tokens, ui, and/or devtools must always release together
 - Prefer meaningful releases over frequent empty patches
 
+## Compatibility promise (1.0 and later)
+
+The stable API is the root entry (`@manovaspace/ui`) plus the existing subpaths
+(`./icons`, `./icons/solid`, `./icons/brand`, `./motion`, `./loading`,
+`./server`). `@manovaspace/ui/experimental` is outside the promise: anything
+exported there may change or disappear in any minor release.
+
+A breaking change is anything that makes a team bump the version, ship, and
+then see bugs without changing their code. That includes exported types, prop
+defaults, landmarks and roles, and token values.
+
+Deprecate before removing. Add `@deprecated` with a migration note, keep the
+item for at least one month, and remove it only in a major release. A codemod is
+warranted only when the removal is mechanical and has more than one call site.
+Promoting an export from `./experimental` to the stable root is non-breaking.
+
 ## Routine release
 
 For local consumer co-development, run

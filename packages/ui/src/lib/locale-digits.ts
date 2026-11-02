@@ -1,5 +1,6 @@
 export { toLatinDigits } from "./numeric.js";
 
+/** @experimental */
 export function toLocaleDigits(value: string, locale: string): string {
   const formatter = new Intl.NumberFormat(locale, {
     useGrouping: false,

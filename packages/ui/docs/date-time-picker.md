@@ -3,8 +3,9 @@
 `DateTimePicker` is a shared UI wrapper for localized calendar selection and
 time entry. It composes `react-multi-date-picker` for Jalali/Gregorian calendar
 arithmetic with the library's shared `Button`, `Popover`, and `Input` wrappers.
-Product apps import it from `@manovaspace/ui`; they do not import the calendar
-library or its primitives directly.
+Product apps import it from `@manovaspace/ui/experimental`; they do not import
+the calendar library or its primitives directly. The experimental entry is
+outside the semver promise.
 
 ## Value and timezone
 

@@ -27,6 +27,7 @@ const DEFAULT_OUTPUT = path.join(PACKAGE_ROOT, "dist/agents/index.md");
 /** Report file -> public import path. Order is also the tie-break order. */
 const REPORT_PATHS = [
   ["ui.api.md", "@manovaspace/ui", "index.ts"],
+  ["ui-experimental.api.md", "@manovaspace/ui/experimental", "experimental.ts"],
   ["ui-motion.api.md", "@manovaspace/ui/motion", "motion/index.tsx"],
   ["ui-icons.api.md", "@manovaspace/ui/icons", "icons.ts"],
   ["ui-icons-solid.api.md", "@manovaspace/ui/icons/solid", "icons-solid.ts"],
@@ -557,6 +558,9 @@ function iconImportPath(sourceRel, importPath) {
 }
 
 function canonicalImportPath(entry, sourceRel) {
+  if (entry.importPath === "@manovaspace/ui/experimental") {
+    return "@manovaspace/ui/experimental";
+  }
   if (entry.isIcon) return iconImportPath(sourceRel, entry.importPath);
   if (sourceRel.startsWith("motion/")) return "@manovaspace/ui/motion";
   if (sourceRel.startsWith("loading/")) return "@manovaspace/ui/loading";
@@ -775,7 +779,10 @@ function render(entries, { detailNames = null } = {}) {
   }
 
   const shouldDetail = (entry) => {
-    if (entry.deprecated || entry.experimental) return true;
+    // Experimental exports stay grouped by kind and import path: they are
+    // outside the promise and their full prop lists do not fit the 8 KB cap.
+    if (entry.deprecated) return true;
+    if (entry.experimental) return false;
     if (detailNames) return detailNames.has(entry.name);
     return Boolean(entry.purpose || entry.props.length > 0);
   };
@@ -903,12 +910,10 @@ function applyCuts(entries, { maxBytes }) {
     }
   }
 
-  const alwaysDetailed = entries.filter(
-    (entry) => entry.deprecated || entry.experimental,
-  ).length;
+  const alwaysDetailed = entries.filter((entry) => entry.deprecated).length;
   cuts.push(
-    `kept detail for ${detailNames.size} prioritized + ${alwaysDetailed} deprecated/experimental; ` +
-      `grouped the rest, including ${candidates.length - added.length} documented exports`,
+    `kept detail for ${detailNames.size} prioritized + ${alwaysDetailed} deprecated; ` +
+      `grouped experimental and the rest, including ${candidates.length - added.length} documented exports`,
   );
   return { text, cuts };
 }

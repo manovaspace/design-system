@@ -21,18 +21,21 @@ import {
   DropdownMenuTrigger as PrimitiveDropdownMenuTrigger,
 } from "./primitives/dropdown-menu.js";
 
+/** @experimental */
 export function DropdownMenu(
   props: React.ComponentProps<typeof PrimitiveDropdownMenu>,
 ) {
   return <PrimitiveDropdownMenu {...props} />;
 }
 
+/** @experimental */
 export function DropdownMenuTrigger(
   props: React.ComponentProps<typeof PrimitiveDropdownMenuTrigger>,
 ) {
   return <PrimitiveDropdownMenuTrigger {...props} />;
 }
 
+/** @experimental */
 export function DropdownMenuContent({
   className,
   ...props
@@ -48,30 +51,35 @@ export function DropdownMenuContent({
   );
 }
 
+/** @experimental */
 export function DropdownMenuItem(
   props: React.ComponentProps<typeof PrimitiveDropdownMenuItem>,
 ) {
   return <PrimitiveDropdownMenuItem {...props} />;
 }
 
+/** @experimental */
 export function DropdownMenuGroup(
   props: React.ComponentProps<typeof PrimitiveDropdownMenuGroup>,
 ) {
   return <PrimitiveDropdownMenuGroup {...props} />;
 }
 
+/** @experimental */
 export function DropdownMenuLabel(
   props: React.ComponentProps<typeof PrimitiveDropdownMenuLabel>,
 ) {
   return <PrimitiveDropdownMenuLabel {...props} />;
 }
 
+/** @experimental */
 export function DropdownMenuSeparator(
   props: React.ComponentProps<typeof PrimitiveDropdownMenuSeparator>,
 ) {
   return <PrimitiveDropdownMenuSeparator {...props} />;
 }
 
+/** @experimental */
 export function DropdownMenuShortcut(
   props: React.ComponentProps<typeof PrimitiveDropdownMenuShortcut>,
 ) {

@@ -33,8 +33,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run && bun test scripts/gen-agent-index.test.mjs",
     "test:agent-index": "bun test scripts/gen-agent-index.test.mjs",
-    "check:api": "api-extractor run -c api-extractor.json && api-extractor run -c api-extractor.experimental.json && api-extractor run -c api-extractor.icons.json && api-extractor run -c api-extractor.icons-solid.json && api-extractor run -c api-extractor.icons-brand.json && api-extractor run -c api-extractor.motion.json && api-extractor run -c api-extractor.loading.json && api-extractor run -c api-extractor.server.json",
-    "update:api": "api-extractor run --local -c api-extractor.json && api-extractor run --local -c api-extractor.experimental.json && api-extractor run --local -c api-extractor.icons.json && api-extractor run --local -c api-extractor.icons-solid.json && api-extractor run --local -c api-extractor.icons-brand.json && api-extractor run --local -c api-extractor.motion.json && api-extractor run --local -c api-extractor.loading.json && api-extractor run --local -c api-extractor.server.json",
+    "check:api": "bun ../../scripts/api-report.mjs check -c api-extractor.json -c api-extractor.experimental.json -c api-extractor.icons.json -c api-extractor.icons-solid.json -c api-extractor.icons-brand.json -c api-extractor.motion.json -c api-extractor.loading.json -c api-extractor.server.json",
+    "update:api": "bun ../../scripts/api-report.mjs update -c api-extractor.json -c api-extractor.experimental.json -c api-extractor.icons.json -c api-extractor.icons-solid.json -c api-extractor.icons-brand.json -c api-extractor.motion.json -c api-extractor.loading.json -c api-extractor.server.json",
     "check:package": "publint && attw --pack .",
     "clean": "rm -rf dist"
   },

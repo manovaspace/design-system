@@ -374,6 +374,9 @@ export type PhoneNumberVariant = "menu" | "copy" | "link" | "static";
 export function Progress(input: React_2.ComponentProps<typeof Progress_2.Root>): React_2.JSX.Element;
 
 // @public (undocumented)
+export const PROOF_ADDITIVE = true;
+
+// @public (undocumented)
 export function resolveLocaleDir(locale: string, rtlLocales: readonly string[]): TextDirection;
 
 // @public

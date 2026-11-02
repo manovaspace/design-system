@@ -128,3 +128,6 @@ export {
   type WhatsNewManifest,
   type WhatsNewProps,
 } from "./whats-new.js";
+
+/** @experimental */
+export const PROOF_ADDITIVE = true;

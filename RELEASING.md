@@ -86,8 +86,8 @@ and commit the report when the change is intended. `bun run check:package` runs
 the `esm-only` profile and exclude the CSS entry points, which are assets rather
 than modules; there are no other ignored findings.
 
-CI runs both gates report-only today so they cannot fail the required `check`
-job; they become blocking in S8.
+`bun run check:api` and `bun run check:package` now block every pull request:
+both run inside the required `check` job, so a failure stops the merge.
 
 A bot keeps one Version Packages pull request through
 [`.github/workflows/version-packages.yml`](./.github/workflows/version-packages.yml)
@@ -102,9 +102,10 @@ the workflow prints `secret not set, skipping` and succeeds.
 packs `@manovaspace/tokens` and `@manovaspace/ui`, uploads the tarballs, and
 dispatches the private matrix in the handbook repository on the Version Packages
 pull request and on demand. It needs the `MATRIX_TOKEN` secret, a fine-grained PAT
-with Actions write on the handbook repository and statuses write here. It is
-report-only: the matrix posts a `consumer-matrix` commit status with no private
-details, so public logs stay free of consumer names and errors.
+with Actions write on the handbook repository and statuses write here. The matrix
+posts a `consumer-matrix` commit status on the Version Packages pull request with
+no private details, so public logs stay free of consumer names and errors.
+`o pr merge` requires that status to be green before the release merges.
 
 ## First publish of a new package
 

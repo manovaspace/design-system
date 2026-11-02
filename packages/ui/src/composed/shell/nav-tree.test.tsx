@@ -9,6 +9,31 @@ afterEach(() => {
   cleanup();
 });
 
+const CustomLink: ComponentType<{
+  href: string;
+  className?: string;
+  children: ReactNode;
+  onClick?: () => void;
+  "aria-current"?: "page" | undefined;
+}> = ({ href, className, children, onClick, "aria-current": ariaCurrent }) => (
+  <a
+    data-testid="custom-router-link"
+    href={href}
+    className={className}
+    onClick={(e) => {
+      e.preventDefault();
+      onClick?.();
+    }}
+    aria-current={ariaCurrent}
+  >
+    {children}
+  </a>
+);
+
+const MockIcon = ({ className }: { className?: string }) => (
+  <svg data-testid="mock-icon" className={className} />
+);
+
 describe("NavTree", () => {
   const sampleItems: NavItemConfig[] = [
     {
@@ -116,32 +141,6 @@ describe("NavTree", () => {
 
   it("renders custom asLink component if provided", () => {
     const handleNavigate = vi.fn();
-    const CustomLink: ComponentType<{
-      href: string;
-      className?: string;
-      children: ReactNode;
-      onClick?: () => void;
-      "aria-current"?: "page" | undefined;
-    }> = ({
-      href,
-      className,
-      children,
-      onClick,
-      "aria-current": ariaCurrent,
-    }) => (
-      <a
-        data-testid="custom-router-link"
-        href={href}
-        className={className}
-        onClick={(e) => {
-          e.preventDefault();
-          onClick?.();
-        }}
-        aria-current={ariaCurrent}
-      >
-        {children}
-      </a>
-    );
 
     render(
       <NavTree
@@ -194,10 +193,6 @@ describe("NavTree", () => {
   });
 
   it("renders icons on items and applies active class to icon when active", () => {
-    const MockIcon = ({ className }: { className?: string }) => (
-      <svg data-testid="mock-icon" className={className} />
-    );
-
     const itemsWithIcon: NavItemConfig[] = [
       {
         href: "/dashboard",

@@ -113,7 +113,7 @@ export const AlertTriangleIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
 export const alertVariants: (props?: ({
-    variant?: "default" | "success" | "destructive" | null | undefined;
+    variant?: "default" | "destructive" | "success" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 
 // @public (undocumented)
@@ -150,7 +150,7 @@ export type AvatarProps = React_2.ComponentProps<typeof Avatar>;
 
 // @public (undocumented)
 export const avatarVariants: (props?: ({
-    size?: "sm" | "md" | "lg" | "xl" | null | undefined;
+    size?: "lg" | "md" | "sm" | "xl" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 
 // @public (undocumented)
@@ -160,7 +160,7 @@ export function Badge(input: React_2.ComponentProps<"span"> & VariantProps<typeo
 
 // @public (undocumented)
 export const badgeVariants: (props?: ({
-    variant?: "default" | "secondary" | "destructive" | "outline" | "ghost" | "link" | null | undefined;
+    variant?: "default" | "destructive" | "ghost" | "link" | "outline" | "secondary" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 
 // @public (undocumented)
@@ -184,8 +184,8 @@ export type ButtonProps = ComponentProps<typeof Button_2> & VariantProps<typeof 
 
 // @public (undocumented)
 export const buttonVariants: (props?: ({
-    variant?: "default" | "secondary" | "destructive" | "outline" | "ghost" | "link" | "solid" | null | undefined;
-    size?: "sm" | "lg" | "default" | "xs" | "icon" | "icon-xs" | "icon-sm" | "icon-lg" | null | undefined;
+    variant?: "default" | "destructive" | "ghost" | "link" | "outline" | "secondary" | "solid" | null | undefined;
+    size?: "default" | "icon" | "icon-lg" | "icon-sm" | "icon-xs" | "lg" | "sm" | "xs" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 
 // @public (undocumented)
@@ -356,7 +356,7 @@ export type DataValueProps = ComponentPropsWithoutRef<"span"> & {
 };
 
 // @public
-export const DecimalInput: React_2.ForwardRefExoticComponent<Omit<Omit<React_2.DetailedHTMLProps<React_2.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "ref">, "type" | "value" | "onChange" | "inputMode"> & {
+export const DecimalInput: React_2.ForwardRefExoticComponent<Omit<Omit<React_2.DetailedHTMLProps<React_2.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "ref">, "inputMode" | "onChange" | "type" | "value"> & {
     value: string;
     onValueChange: (value: string) => void;
     integer?: boolean;
@@ -369,7 +369,7 @@ export const DecimalInput: React_2.ForwardRefExoticComponent<Omit<Omit<React_2.D
 } & React_2.RefAttributes<HTMLInputElement>>;
 
 // @public (undocumented)
-export type DecimalInputProps = Omit<ComponentPropsWithoutRef<"input">, "value" | "onChange" | "type" | "inputMode"> & {
+export type DecimalInputProps = Omit<ComponentPropsWithoutRef<"input">, "inputMode" | "onChange" | "type" | "value"> & {
     value: string;
     onValueChange: (value: string) => void;
     integer?: boolean;
@@ -566,7 +566,7 @@ export function EntityMobileLoadingList(input: {
 // @public (undocumented)
 export function EntityMobileMessage(input: {
     children: ReactNode;
-    tone?: "muted" | "destructive";
+    tone?: "destructive" | "muted";
 }): React_2.JSX.Element;
 
 // @public (undocumented)
@@ -648,7 +648,7 @@ export function EntityTableLoadingRows(input: {
 export function EntityTableMessageRow(input: {
     colSpan: number;
     children: ReactNode;
-    tone?: "muted" | "destructive";
+    tone?: "destructive" | "muted";
 }): React_2.JSX.Element;
 
 // @public
@@ -667,8 +667,8 @@ export type FieldMessageProps = ComponentProps<"p"> & VariantProps<typeof fieldM
 
 // @public (undocumented)
 export const fieldMessageVariants: (props?: ({
-    variant?: "error" | "warning" | "info" | "success" | null | undefined;
-    appearance?: "inline" | "callout" | null | undefined;
+    variant?: "error" | "info" | "success" | "warning" | null | undefined;
+    appearance?: "callout" | "inline" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 
 // @public
@@ -716,7 +716,7 @@ export type HoldToConfirmButtonProps = {
     tapHintThresholdMs?: number;
     labelIdle: string;
     ariaDescription: string;
-    variant?: "destructive" | "caution" | "default";
+    variant?: "caution" | "default" | "destructive";
     size?: "default" | "lg";
     disabled?: boolean;
     className?: string;
@@ -785,7 +785,7 @@ export type MobileBottomTabBarProps = {
     className?: string;
     "aria-label"?: string;
     indicatorWidthPx?: number;
-} & Omit<ComponentPropsWithoutRef<"nav">, "children" | "aria-label">;
+} & Omit<ComponentPropsWithoutRef<"nav">, "aria-label" | "children">;
 
 // @public (undocumented)
 export type MobileBottomTabItem = {
@@ -807,14 +807,14 @@ export type MobileBottomTabLinkProps = {
 export const MoonIcon: lucide_react.LucideIcon;
 
 // @public
-export const MsisdnInput: React_2.ForwardRefExoticComponent<Omit<Omit<React_2.DetailedHTMLProps<React_2.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "ref">, "type" | "value" | "onChange" | "inputMode"> & {
+export const MsisdnInput: React_2.ForwardRefExoticComponent<Omit<Omit<React_2.DetailedHTMLProps<React_2.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "ref">, "inputMode" | "onChange" | "type" | "value"> & {
     value: string;
     onValueChange: (value: string) => void;
     locale?: string;
 } & React_2.RefAttributes<HTMLInputElement>>;
 
 // @public (undocumented)
-export type MsisdnInputProps = Omit<ComponentPropsWithoutRef<"input">, "value" | "onChange" | "type" | "inputMode"> & {
+export type MsisdnInputProps = Omit<ComponentPropsWithoutRef<"input">, "inputMode" | "onChange" | "type" | "value"> & {
     value: string;
     onValueChange: (value: string) => void;
     locale?: string;
@@ -912,7 +912,7 @@ export function normalizeCardDigits(raw: string): string;
 export const ORBIT_THEME_STORAGE_KEY = "orbit-theme";
 
 // @public
-export const OtpInput: React_2.ForwardRefExoticComponent<Omit<Omit<React_2.DetailedHTMLProps<React_2.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "ref">, "type" | "value" | "onChange" | "inputMode"> & {
+export const OtpInput: React_2.ForwardRefExoticComponent<Omit<Omit<React_2.DetailedHTMLProps<React_2.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "ref">, "inputMode" | "onChange" | "type" | "value"> & {
     value: string;
     onValueChange: (value: string) => void;
     maxLength?: number;
@@ -920,7 +920,7 @@ export const OtpInput: React_2.ForwardRefExoticComponent<Omit<Omit<React_2.Detai
 } & React_2.RefAttributes<HTMLInputElement>>;
 
 // @public (undocumented)
-export type OtpInputProps = Omit<ComponentPropsWithoutRef<"input">, "value" | "onChange" | "type" | "inputMode"> & {
+export type OtpInputProps = Omit<ComponentPropsWithoutRef<"input">, "inputMode" | "onChange" | "type" | "value"> & {
     value: string;
     onValueChange: (value: string) => void;
     maxLength?: number;
@@ -1171,7 +1171,7 @@ export interface ShellHeaderProps {
 }
 
 // @public (undocumented)
-export type ShellHeaderVariant = "primary" | "default" | "brand";
+export type ShellHeaderVariant = "brand" | "default" | "primary";
 
 // @public (undocumented)
 export function Skeleton(input: React_2.ComponentProps<"div">): React_2.JSX.Element;
@@ -1189,7 +1189,7 @@ export function Spinner(input: SpinnerProps): React_2.JSX.Element;
 
 // @public (undocumented)
 export const spinnerVariants: (props?: ({
-    size?: "sm" | "md" | "lg" | null | undefined;
+    size?: "lg" | "md" | "sm" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 
 // @public (undocumented)
@@ -1280,7 +1280,7 @@ export type ThemeSwitcherLabels = {
 
 // @public (undocumented)
 export type ThemeSwitcherProps = {
-    variant?: "toggle" | "icon" | "labeled";
+    variant?: "icon" | "labeled" | "toggle";
     className?: string;
     labels?: Partial<ThemeSwitcherLabels>;
 };
@@ -1338,7 +1338,7 @@ export type ToastVariant = NonNullable<VariantProps<typeof toastVariants>["varia
 
 // @public (undocumented)
 export const toastVariants: (props?: ({
-    variant?: "default" | "success" | "destructive" | null | undefined;
+    variant?: "default" | "destructive" | "success" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 
 // Warning: (ae-forgotten-export) The symbol "ToastViewport_2" needs to be exported by the entry point index.d.ts

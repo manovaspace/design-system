@@ -89,7 +89,7 @@ export function DateTimePicker(input: DateTimePickerProps): React_2.JSX.Element;
 export type DateTimePickerProps = {
     value?: string | null;
     onValueChange: (value: string | null) => void;
-    locale?: "fa" | "en";
+    locale?: "en" | "fa";
     timeZone?: string;
     disabled?: boolean;
     className?: string;
@@ -182,7 +182,7 @@ export function formatPersianDate(dateOrIso: string | Date, options?: FormatPers
 // @public (undocumented)
 export interface FormatPersianDateOptions {
     // (undocumented)
-    format?: "short" | "medium" | "long";
+    format?: "long" | "medium" | "short";
     // (undocumented)
     timeZone?: string;
 }
@@ -288,7 +288,7 @@ export function PageShell(input: PageShellProps): React_2.JSX.Element;
 
 // @public (undocumented)
 export const pageShellContentVariants: (props?: ({
-    maxWidth?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | null | undefined;
+    maxWidth?: "2xl" | "3xl" | "lg" | "md" | "sm" | "xl" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 
 // Warning: (ae-forgotten-export) The symbol "PageShell_2" needs to be exported by the entry point experimental.d.ts
@@ -363,12 +363,12 @@ export type PhoneNumberProps = {
     icon?: ReactNode;
     stopPropagation?: boolean;
     className?: string;
-    menuAlign?: "start" | "center" | "end";
+    menuAlign?: "center" | "end" | "start";
     locale?: string;
 };
 
 // @public (undocumented)
-export type PhoneNumberVariant = "menu" | "copy" | "link" | "static";
+export type PhoneNumberVariant = "copy" | "link" | "menu" | "static";
 
 // @public
 export function Progress(input: React_2.ComponentProps<typeof Progress_2.Root>): React_2.JSX.Element;
@@ -425,7 +425,7 @@ export function ToggleGroupItem(input: React_2.ComponentProps<typeof ToggleGroup
 // @public
 export const toggleVariants: (props?: ({
     variant?: "default" | "outline" | null | undefined;
-    size?: "sm" | "lg" | "default" | null | undefined;
+    size?: "default" | "lg" | "sm" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 
 // @public
@@ -479,7 +479,7 @@ export function WhatsNew(input: WhatsNewProps): React_2.JSX.Element | null;
 // @public (undocumented)
 export interface WhatsNewItem {
     // (undocumented)
-    audience?: "user" | "developer";
+    audience?: "developer" | "user";
     // (undocumented)
     body: string;
     // (undocumented)

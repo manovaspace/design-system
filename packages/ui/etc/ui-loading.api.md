@@ -16,7 +16,7 @@ export function LoadingOverlay(input: LoadingOverlayProps): string | number | bi
 export type LoadingOverlayProps = React_2.ComponentProps<"div"> & {
     visible?: boolean;
     label?: string;
-    position?: "fixed" | "absolute";
+    position?: "absolute" | "fixed";
 };
 
 // @public (undocumented)
@@ -50,7 +50,7 @@ export function Spinner(input: SpinnerProps): React_2.JSX.Element;
 
 // @public (undocumented)
 export const spinnerVariants: (props?: ({
-    size?: "sm" | "md" | "lg" | null | undefined;
+    size?: "lg" | "md" | "sm" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 
 // @public

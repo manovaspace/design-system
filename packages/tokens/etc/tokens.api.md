@@ -30,7 +30,7 @@ export const COLOR_FAMILIES: readonly ["primary", "secondary", "action", "tertia
 export const COLOR_STEPS: readonly ["50", "100", "200", "300", "400", "500", "600", "700", "800", "900", "950"];
 
 // @public (undocumented)
-export type ColorScheme = "light" | "dark";
+export type ColorScheme = "dark" | "light";
 
 // @public (undocumented)
 export const defaultTokens: OrbitTokens;

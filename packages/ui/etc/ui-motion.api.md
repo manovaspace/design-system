@@ -98,7 +98,7 @@ export function RevealOnScroll(input: RevealOnScrollProps): React_2.JSX.Element;
 // @public (undocumented)
 export type RevealOnScrollProps = HTMLMotionProps<"div"> & {
     delay?: number;
-    variant?: "fadeUp" | "fadeScale";
+    variant?: "fadeScale" | "fadeUp";
 };
 
 // @public (undocumented)

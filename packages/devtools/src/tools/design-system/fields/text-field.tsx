@@ -1,4 +1,5 @@
-import { cn, Input, Label, Slider, Textarea } from "@manovaspace/ui";
+import { cn, Input, Label } from "@manovaspace/ui";
+import { Slider, Textarea } from "@manovaspace/ui/experimental";
 
 import { parseUnitless } from "../token-mutations.js";
 

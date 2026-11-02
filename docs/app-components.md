@@ -15,8 +15,8 @@ Need UI in any Orbit / Manova product?
 ├─ Basic primitive (Button, Dialog)?     → @manovaspace/ui primitives
 ├─ Searchable list / directory / queue?  → @manovaspace/ui/composed/entity-browser (EntityBrowser)
 ├─ Responsive shell (sidebar + header)?  → @manovaspace/ui/composed/shell (NavRail, ShellHeader, NavTree, NavMobileSheet)
-├─ Money / currency readout?             → <CopyableMoney> or <DataValue> (@manovaspace/ui)
-├─ Phone / Card input or readout?        → <PhoneNumber>, <CardNumber> (@manovaspace/ui)
+├─ Money / currency readout?             → <DataValue> (@manovaspace/ui); <CopyableMoney> is experimental (@manovaspace/ui/experimental)
+├─ Phone / Card input or readout?        → <CardNumber> (@manovaspace/ui); <PhoneNumber> is experimental (@manovaspace/ui/experimental)
 ├─ Form feedback / inline alert?         → <FieldFeedback>, <Alert> (@manovaspace/ui)
 ├─ Numeric input with Persian digits?    → <DecimalInput> (@manovaspace/ui)
 ├─ High-touch selection / radio card?    → <SelectableOptionCard> (@manovaspace/ui)
@@ -37,8 +37,8 @@ Need UI in any Orbit / Manova product?
 | Numeric decimal input | `@manovaspace/ui` (`DecimalInput`) | Persian numerals (`۰-۹`) on screen, clean Latin numbers (`0-9`) in state. |
 | Touch option card | `@manovaspace/ui` (`SelectableOptionCard`) | Greasy-thumb-friendly cards with selection badge and RTL support. |
 | Form validation text | `@manovaspace/ui` (`FieldFeedback`) | Accessible live-region validation message (`role="alert"`). |
-| Currency with copy | `@manovaspace/ui` (`CopyableMoney`) | Formatted Toman with copy-to-clipboard affordance. |
-| Iranian phone display | `@manovaspace/ui` (`PhoneNumber`) | Formatted MSISDN with prefix chip. |
+| Currency with copy | `@manovaspace/ui/experimental` (`CopyableMoney`) | Formatted Toman with copy-to-clipboard affordance; experimental. |
+| Iranian phone display | `@manovaspace/ui/experimental` (`PhoneNumber`) | Formatted MSISDN with prefix chip; experimental. |
 | Iranian bank card display | `@manovaspace/ui` (`CardNumber`) | Grouped 16-digit card number with bank brand detection. |
 
 ---

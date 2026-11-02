@@ -1,13 +1,12 @@
+import { Button, Input } from "@manovaspace/ui";
 import {
-  Button,
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
-} from "@manovaspace/ui";
+} from "@manovaspace/ui/experimental";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useForm } from "react-hook-form";
 

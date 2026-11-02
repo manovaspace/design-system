@@ -2,12 +2,16 @@
 
 import { cn } from "../lib/utils.js";
 
+/** @experimental */
 export type MenuMorphGlyphProps = {
   open: boolean;
   className?: string;
 };
 
-/** Lightweight hamburger ↔ X icon transition without a runtime animation library. */
+/**
+ * Lightweight hamburger ↔ X icon transition without a runtime animation library.
+ * @experimental
+ */
 export function MenuMorphGlyph({ open, className }: MenuMorphGlyphProps) {
   return (
     <svg

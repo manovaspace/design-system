@@ -1,6 +1,7 @@
 "use client";
 
-import { Button, ScrollArea } from "@manovaspace/ui";
+import { Button } from "@manovaspace/ui";
+import { ScrollArea } from "@manovaspace/ui/experimental";
 import { useMemo, useState } from "react";
 
 import { useDevtools } from "../../context.js";

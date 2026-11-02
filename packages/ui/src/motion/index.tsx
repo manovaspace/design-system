@@ -20,7 +20,6 @@ export {
   COLLAPSE_OPEN_DURATION_S,
   Collapse,
   type CollapseProps,
-  collapseChevronClassName,
 } from "./collapse.js";
 export { useReducedMotion } from "./hooks.js";
 export {

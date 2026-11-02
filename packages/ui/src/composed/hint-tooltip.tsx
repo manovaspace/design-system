@@ -8,6 +8,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip.js";
 type HintTooltipSide = "top" | "right" | "bottom" | "left";
 type HintTooltipAlign = "start" | "center" | "end";
 
+/** @experimental */
 export type HintTooltipProps = {
   /** Short hint shown on hover and keyboard focus. */
   label: ReactNode;
@@ -22,6 +23,7 @@ export type HintTooltipProps = {
 /**
  * Accessible hover/focus hint for icon buttons and compact controls.
  * Wrap the interactive element; keep `aria-label` on the control for SR parity.
+ * @experimental
  */
 export function HintTooltip({
   label,

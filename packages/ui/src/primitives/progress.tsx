@@ -9,6 +9,7 @@ import { cn } from "../lib/utils.js";
  * The indicator is sized, not translated, so it grows from the inline start:
  * the left edge in `ltr` and the right edge in `rtl`. A translate would always
  * fill from the physical left and read backwards in Persian and Arabic.
+ * @experimental
  */
 function Progress({
   className,

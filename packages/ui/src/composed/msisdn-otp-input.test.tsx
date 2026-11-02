@@ -2,17 +2,17 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import {
   isValidIranMobile,
-  normalizeDigits,
   normalizeIranMobile,
   normalizeIranMobileInput,
+  normalizePhoneDigits,
 } from "../lib/phone.js";
 import { MsisdnInput } from "./msisdn-input.js";
 import { OtpInput } from "./otp-input.js";
 
 describe("Phone & OTP Normalization Utilities", () => {
   it("normalizes Persian digits to Latin digits", () => {
-    expect(normalizeDigits("۰۹۱۲۳۴۵۶۷۸۹")).toBe("09123456789");
-    expect(normalizeDigits("۱۲۳۴۵۶")).toBe("123456");
+    expect(normalizePhoneDigits("۰۹۱۲۳۴۵۶۷۸۹")).toBe("09123456789");
+    expect(normalizePhoneDigits("۱۲۳۴۵۶")).toBe("123456");
   });
 
   it("canonicalizes various Iranian phone number formats to 09XXXXXXXXX", () => {

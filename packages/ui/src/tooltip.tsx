@@ -10,22 +10,26 @@ import {
   TooltipTrigger as PrimitiveTooltipTrigger,
 } from "./primitives/tooltip.js";
 
+/** @experimental */
 export function TooltipProvider(
   props: React.ComponentProps<typeof PrimitiveTooltipProvider>,
 ) {
   return <PrimitiveTooltipProvider {...props} />;
 }
 
+/** @experimental */
 export function Tooltip(props: React.ComponentProps<typeof PrimitiveTooltip>) {
   return <PrimitiveTooltip {...props} />;
 }
 
+/** @experimental */
 export function TooltipTrigger(
   props: React.ComponentProps<typeof PrimitiveTooltipTrigger>,
 ) {
   return <PrimitiveTooltipTrigger {...props} />;
 }
 
+/** @experimental */
 export function TooltipContent({
   className,
   ...props

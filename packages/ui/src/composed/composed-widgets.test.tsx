@@ -9,8 +9,6 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DirectionProvider } from "../direction-provider.js";
 import {
-  formatPhoneCopy,
-  formatPhoneDisplay,
   formatPhoneE164,
   formatPhoneSmsHref,
   formatPhoneTelHref,
@@ -47,8 +45,7 @@ describe("composed-widgets", () => {
     it("formats phone numbers for display, copy, e164, tel, and sms", () => {
       const phone = "09123456789";
       expect(persianizePhoneDigits(phone)).toBe("۰۹۱۲۳۴۵۶۷۸۹");
-      expect(formatPhoneDisplay(phone)).toBe("۰۹۱۲۳۴۵۶۷۸۹");
-      expect(formatPhoneCopy(phone)).toBe("09123456789");
+      expect(normalizePhoneDigits(phone)).toBe("09123456789");
       expect(formatPhoneE164(phone)).toBe("+989123456789");
       expect(formatPhoneTelHref(phone)).toBe("tel:+989123456789");
       expect(formatPhoneSmsHref(phone)).toBe("sms:+989123456789");

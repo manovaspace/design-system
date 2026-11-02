@@ -56,6 +56,7 @@ function useMinSmViewport() {
   return useSyncExternalStore(subscribe, getSnapshot, () => false);
 }
 
+/** @internal */
 export interface PartitionedFilterBarChildren {
   search: ReactNode[];
   filters: ReactNode[];
@@ -67,7 +68,10 @@ function isSearchFieldElement(
   return isValidElement(child) && child.type === EntitySearchField;
 }
 
-/** Split toolbar children into always-visible search vs sheet/inline filters. */
+/**
+ * Split toolbar children into always-visible search vs sheet/inline filters.
+ * @internal
+ */
 export function partitionFilterBarChildren(
   children: ReactNode,
 ): PartitionedFilterBarChildren {

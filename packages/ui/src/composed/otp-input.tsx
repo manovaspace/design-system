@@ -4,7 +4,7 @@ import type { ComponentPropsWithoutRef } from "react";
 import { forwardRef } from "react";
 import { Input } from "../input.js";
 import { persianizeDigits, toLatinDigits } from "../lib/numeric.js";
-import { normalizeDigits } from "../lib/phone.js";
+import { normalizePhoneDigits } from "../lib/phone.js";
 import { cn } from "../lib/utils.js";
 
 export type OtpInputProps = Omit<
@@ -87,7 +87,7 @@ export const OtpInput = forwardRef<HTMLInputElement, OtpInputProps>(
         placeholder={displayPlaceholder}
         onChange={(event) => {
           onValueChange(
-            normalizeDigits(event.target.value).slice(0, maxLength),
+            normalizePhoneDigits(event.target.value).slice(0, maxLength),
           );
         }}
         onCopy={(event) => {

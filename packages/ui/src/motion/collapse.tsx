@@ -14,6 +14,7 @@ import { cn } from "../lib/utils.js";
 export const COLLAPSE_OPEN_DURATION_S = 0.32;
 export const COLLAPSE_CLOSE_DURATION_S = 0.24;
 
+/** @experimental */
 export type CollapseProps = HTMLAttributes<HTMLDivElement> & {
   open: boolean;
   /** When `open` stays true, re-measure and morph height (e.g. swapped children). */
@@ -21,7 +22,10 @@ export type CollapseProps = HTMLAttributes<HTMLDivElement> & {
   children?: ReactNode;
 };
 
-/** CSS grid height + opacity reveal — respects `prefers-reduced-motion`. */
+/**
+ * CSS grid height + opacity reveal — respects `prefers-reduced-motion`.
+ * @experimental
+ */
 export function Collapse({
   open,
   contentKey,
@@ -118,7 +122,10 @@ export function Collapse({
   );
 }
 
-/** Chevron rotation paired with `Collapse` — pass current open state for matched duration. */
+/**
+ * Chevron rotation paired with `Collapse` — pass current open state for matched duration.
+ * @internal
+ */
 export function collapseChevronClassName(open: boolean): string {
   return cn(
     "transition-transform ease-[cubic-bezier(0.215,0.61,0.355,1)] motion-reduce:transition-none",

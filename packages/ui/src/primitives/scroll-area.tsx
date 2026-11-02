@@ -28,6 +28,7 @@ function ScrollArea({
   );
 }
 
+/** @experimental */
 function ScrollBar({
   className,
   orientation = "vertical",

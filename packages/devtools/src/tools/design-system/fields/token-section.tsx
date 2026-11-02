@@ -1,13 +1,11 @@
 "use client";
 
+import { ChevronRightIcon, cn, iconProps } from "@manovaspace/ui";
 import {
-  ChevronRightIcon,
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-  cn,
-  iconProps,
-} from "@manovaspace/ui";
+} from "@manovaspace/ui/experimental";
 import { type ReactNode, useState } from "react";
 
 type TokenSectionProps = {

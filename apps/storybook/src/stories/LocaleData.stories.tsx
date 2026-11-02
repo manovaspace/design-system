@@ -1,4 +1,5 @@
-import { DataValue, FieldMessage, PhoneNumber } from "@manovaspace/ui";
+import { DataValue, FieldMessage } from "@manovaspace/ui";
+import { PhoneNumber } from "@manovaspace/ui/experimental";
 
 export default {
   title: "Composed/Locale data",

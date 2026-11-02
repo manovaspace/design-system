@@ -53,7 +53,7 @@ Reusable multi-primitive flows belong in `packages/ui/src/composed/` and are
 exported from the package barrel.
 
 ### Standard Architectural Suites (Goldstein / Abshodeh Benchmark)
-- **Entity Browser Suite**: `EntityBrowser`, `EntityDataTable`, `EntitySearchField`, `EntityFilterBar`, `EntityPagination`, `EntityListStates`.
+- **Entity Browser Suite**: `EntityBrowser`, `EntityDataTable`, `EntitySearchField`, `EntityFilterBar`, `EntityPagination`, `EntityListBody`.
 - **Adaptive Shell Suite**: `NavRail` (desktop sidebar), `NavTree` (collapsible tree), `NavMobileSheet` (mobile navigation sheet), `ShellHeader` (adaptive top bar), `AppShellChrome`.
 - **Composed Form & Data Widgets**: `DecimalInput` (Persian on-screen, Latin in state), `SelectableOptionCard` (touch selection), `CopyableMoney` (Toman with copy), `PhoneNumber`, `CardNumber`, `DataValue`, `FieldFeedback`, `HintTooltip`.
 

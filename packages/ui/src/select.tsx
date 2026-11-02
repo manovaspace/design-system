@@ -38,11 +38,6 @@ export function SelectValue(
   return <PrimitiveSelectValue {...props} />;
 }
 
-/** @deprecated Chevron is built into SelectTrigger in Radix/shadcn. */
-export function SelectIcon() {
-  return null;
-}
-
 export function SelectContent({
   className,
   ...props
@@ -53,11 +48,6 @@ export function SelectContent({
       {...props}
     />
   );
-}
-
-/** @deprecated Use SelectContent children directly. */
-export function SelectList({ children }: { children?: React.ReactNode }) {
-  return <>{children}</>;
 }
 
 export function SelectItem({
@@ -78,6 +68,3 @@ export function SelectGroup(
 ) {
   return <PrimitiveSelectGroup {...props} />;
 }
-
-/** @deprecated Use SelectLabel inside SelectGroup. */
-export const SelectGroupLabel = SelectLabel;

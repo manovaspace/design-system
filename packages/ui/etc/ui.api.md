@@ -13,21 +13,16 @@ import { Checkbox as Checkbox_3 } from 'radix-ui';
 import { Check as CheckSolidIcon } from 'lucide-react';
 import * as class_variance_authority_types from 'class-variance-authority/types';
 import { ClassValue } from 'clsx';
-import { Collapsible as Collapsible_2 } from 'radix-ui';
 import { ComponentProps } from 'react';
 import { ComponentPropsWithoutRef } from 'react';
 import { ComponentType } from 'react';
-import { ControllerProps } from 'react-hook-form';
 import { Cpu as CpuChipSolidIcon } from 'lucide-react';
 import { Box as CubeSolidIcon } from 'lucide-react';
 import { Dialog as Dialog_3 } from 'radix-ui';
-import { DropdownMenu as DropdownMenu_3 } from 'radix-ui';
 import { FieldErrors } from 'react-hook-form';
-import { FieldPath } from 'react-hook-form';
 import { FieldValues } from 'react-hook-form';
 import { Globe as GlobeSolidIcon } from 'lucide-react';
 import { Home as HomeSolidIcon } from 'lucide-react';
-import { HTMLAttributes } from 'react';
 import { JSX } from 'react';
 import { Label as Label_2 } from 'radix-ui';
 import { Loader2 } from 'lucide-react';
@@ -35,24 +30,15 @@ import * as lucide_react from 'lucide-react';
 import { OrbitTokenOverride } from '@manovaspace/tokens';
 import { OrbitTokensRaw } from '@manovaspace/tokens';
 import { Popover as Popover_3 } from 'radix-ui';
-import { Progress as Progress_2 } from 'radix-ui';
 import { Puzzle as PuzzlePieceSolidIcon } from 'lucide-react';
 import * as React_2 from 'react';
-import * as react_hook_form from 'react-hook-form';
 import { ReactNode } from 'react';
 import { Layers as RectangleStackSolidIcon } from 'lucide-react';
-import { ScrollArea as ScrollArea_3 } from 'radix-ui';
 import { Select as Select_3 } from 'radix-ui';
-import { Slider as Slider_2 } from 'radix-ui';
-import { Slot } from 'radix-ui';
 import { Sun as SunSolidIcon } from 'lucide-react';
-import { Switch as Switch_3 } from 'radix-ui';
 import { Tabs as Tabs_2 } from 'radix-ui';
 import { ThemeProvider as ThemeProvider_2 } from 'next-themes';
 import { Toast as Toast_3 } from 'radix-ui';
-import { Toggle as Toggle_2 } from 'radix-ui';
-import { ToggleGroup as ToggleGroup_2 } from 'radix-ui';
-import { Tooltip as Tooltip_3 } from 'radix-ui';
 import { UseFormProps } from 'react-hook-form';
 import { UseFormReturn } from 'react-hook-form';
 import { useTheme } from 'next-themes';
@@ -129,9 +115,6 @@ export const AlertTriangleIcon: lucide_react.LucideIcon;
 export const alertVariants: (props?: ({
     variant?: "default" | "success" | "destructive" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
-
-// @public (undocumented)
-export function applyDocumentLocale(locale: string, dir: TextDirection): void;
 
 // @public (undocumented)
 export const ArrowDownTrayIcon: lucide_react.LucideIcon;
@@ -309,35 +292,6 @@ export function cn(...inputs: ClassValue[]): string;
 export const Cog6ToothIcon: lucide_react.LucideIcon;
 
 // @public
-export function Collapse(input: CollapseProps): React_2.JSX.Element;
-
-// @public
-export function collapseChevronClassName(open: boolean): string;
-
-// @public (undocumented)
-export type CollapseProps = HTMLAttributes<HTMLDivElement> & {
-    open: boolean;
-    contentKey?: string;
-    children?: ReactNode;
-};
-
-// @public (undocumented)
-export function Collapsible(input: React.ComponentProps<typeof Collapsible_2.Root>): React_2.JSX.Element;
-
-// @public (undocumented)
-export function CollapsibleContent(input: CollapsibleContentProps): React_2.JSX.Element;
-
-// Warning: (ae-forgotten-export) The symbol "CollapsibleContent_2" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export type CollapsibleContentProps = ComponentProps<typeof CollapsibleContent_2> & {
-    keepMounted?: boolean;
-};
-
-// @public (undocumented)
-export function CollapsibleTrigger(input: React.ComponentProps<typeof Collapsible_2.CollapsibleTrigger>): React_2.JSX.Element;
-
-// @public
 export function ColorSwatch(input: ColorSwatchProps): React_2.JSX.Element;
 
 // Warning: (ae-forgotten-export) The symbol "colorSwatchVariants" needs to be exported by the entry point index.d.ts
@@ -365,31 +319,6 @@ export type ConfirmDialogProps = {
     cancelLabel?: React_2.ReactNode;
     variant?: "default" | "destructive";
     onConfirm: () => void;
-};
-
-// @public
-export function CopyableMoney(input: CopyableMoneyProps): React_2.JSX.Element;
-
-// @public
-export function CopyableMoneyLine(input: CopyableMoneyLineProps): React_2.JSX.Element;
-
-// @public (undocumented)
-export type CopyableMoneyLineProps = CopyableMoneyProps & {
-    lead?: ReactNode;
-    trail?: ReactNode;
-    lineClassName?: string;
-};
-
-// @public (undocumented)
-export type CopyableMoneyProps = {
-    value: number;
-    display: string;
-    copyLabel: string;
-    copiedLabel: string;
-    copiable?: boolean;
-    showIcon?: boolean;
-    className?: string;
-    numericClassName?: string;
 };
 
 // @public
@@ -424,20 +353,6 @@ export type DataValueProps = ComponentPropsWithoutRef<"span"> & {
     copyable?: boolean;
     tabular?: boolean;
     copyValue?: string;
-};
-
-// @public
-export function DateTimePicker(input: DateTimePickerProps): React_2.JSX.Element;
-
-// @public (undocumented)
-export type DateTimePickerProps = {
-    value?: string | null;
-    onValueChange: (value: string | null) => void;
-    locale?: "fa" | "en";
-    timeZone?: string;
-    disabled?: boolean;
-    className?: string;
-    placeholder?: string;
 };
 
 // @public
@@ -514,69 +429,6 @@ export function DirectionProvider(input: {
     direction: Direction;
     children: ReactNode;
 }): React_2.JSX.Element;
-
-// Warning: (ae-forgotten-export) The symbol "DropdownMenu_2" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export function DropdownMenu(props: React_2.ComponentProps<typeof DropdownMenu_2>): React_2.JSX.Element;
-
-// @public (undocumented)
-export function DropdownMenuCheckboxItem(input: React_2.ComponentProps<typeof DropdownMenu_3.CheckboxItem>): React_2.JSX.Element;
-
-// Warning: (ae-forgotten-export) The symbol "DropdownMenuContent_2" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export function DropdownMenuContent(input: React_2.ComponentProps<typeof DropdownMenuContent_2>): React_2.JSX.Element;
-
-// Warning: (ae-forgotten-export) The symbol "DropdownMenuGroup_2" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export function DropdownMenuGroup(props: React_2.ComponentProps<typeof DropdownMenuGroup_2>): React_2.JSX.Element;
-
-// Warning: (ae-forgotten-export) The symbol "DropdownMenuItem_2" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export function DropdownMenuItem(props: React_2.ComponentProps<typeof DropdownMenuItem_2>): React_2.JSX.Element;
-
-// Warning: (ae-forgotten-export) The symbol "DropdownMenuLabel_2" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export function DropdownMenuLabel(props: React_2.ComponentProps<typeof DropdownMenuLabel_2>): React_2.JSX.Element;
-
-// @public (undocumented)
-export function DropdownMenuPortal(input: React_2.ComponentProps<typeof DropdownMenu_3.Portal>): React_2.JSX.Element;
-
-// @public (undocumented)
-export function DropdownMenuRadioGroup(input: React_2.ComponentProps<typeof DropdownMenu_3.RadioGroup>): React_2.JSX.Element;
-
-// @public (undocumented)
-export function DropdownMenuRadioItem(input: React_2.ComponentProps<typeof DropdownMenu_3.RadioItem>): React_2.JSX.Element;
-
-// Warning: (ae-forgotten-export) The symbol "DropdownMenuSeparator_2" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export function DropdownMenuSeparator(props: React_2.ComponentProps<typeof DropdownMenuSeparator_2>): React_2.JSX.Element;
-
-// Warning: (ae-forgotten-export) The symbol "DropdownMenuShortcut_2" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export function DropdownMenuShortcut(props: React_2.ComponentProps<typeof DropdownMenuShortcut_2>): React_2.JSX.Element;
-
-// @public (undocumented)
-export function DropdownMenuSub(input: React_2.ComponentProps<typeof DropdownMenu_3.Sub>): React_2.JSX.Element;
-
-// @public (undocumented)
-export function DropdownMenuSubContent(input: React_2.ComponentProps<typeof DropdownMenu_3.SubContent>): React_2.JSX.Element;
-
-// @public (undocumented)
-export function DropdownMenuSubTrigger(input: React_2.ComponentProps<typeof DropdownMenu_3.SubTrigger> & {
-    inset?: boolean;
-}): React_2.JSX.Element;
-
-// Warning: (ae-forgotten-export) The symbol "DropdownMenuTrigger_2" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export function DropdownMenuTrigger(props: React_2.ComponentProps<typeof DropdownMenuTrigger_2>): React_2.JSX.Element;
 
 // @public (undocumented)
 export function EmptyState(input: EmptyStateProps): React_2.JSX.Element;
@@ -672,13 +524,11 @@ export interface EntityFilterChip {
 }
 
 // @public (undocumented)
-function EntityListBody(input: {
+export function EntityListBody(input: {
     colSpan: number;
     state: EntityListQueryState;
     children: ReactNode;
 }): string | number | bigint | boolean | React_2.JSX.Element | Iterable<ReactNode> | Promise<string | number | bigint | boolean | React_2.ReactPortal | React_2.ReactElement<unknown, string | React_2.JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined;
-export { EntityListBody }
-export { EntityListBody as EntityListStates }
 
 // @public (undocumented)
 export type EntityListQueryState = {
@@ -808,12 +658,6 @@ export const entityTableStartEdgeCellClass = "ps-4";
 export const ExternalLinkIcon: lucide_react.LucideIcon;
 
 // @public
-export function FieldDescription(input: ComponentProps<"p">): React_2.JSX.Element;
-
-// @public
-export function FieldGroup(input: ComponentProps<"div">): React_2.JSX.Element;
-
-// @public
 export function FieldMessage(input: FieldMessageProps): React_2.JSX.Element | null;
 
 // @public (undocumented)
@@ -833,11 +677,6 @@ export function focusFirstError(errorsOrContainer?: FieldErrors | Record<string,
 // @public (undocumented)
 export const FolderIcon: lucide_react.LucideIcon;
 
-// @public (undocumented)
-export function Form<TFieldValues extends FieldValues>(input: UseFormReturn<TFieldValues> & {
-    children: ReactNode;
-}): React_2.JSX.Element;
-
 // @public
 export function formatCardCopy(cardNumber: string): string;
 
@@ -846,38 +685,6 @@ export function formatCardDisplay(cardNumber: string): string;
 
 // @public (undocumented)
 export function formatDataValue(value: number | bigint | string, locale: string, format?: Intl.NumberFormatOptions): string;
-
-// @public
-export function formatLocaleInteger(value: number, locale?: string): string;
-
-// @public
-export function formatLocaleRelativeTime(dateOrIso: string | Date, locale?: string, now?: Date): string;
-
-// @public
-export function formatPersianDate(dateOrIso: string | Date, options?: FormatPersianDateOptions): string;
-
-// @public (undocumented)
-export interface FormatPersianDateOptions {
-    // (undocumented)
-    format?: "short" | "medium" | "long";
-    // (undocumented)
-    timeZone?: string;
-}
-
-// @public
-export function formatPhoneCopy(phone: string): string;
-
-// @public (undocumented)
-export function formatPhoneDisplay(phone: string): string;
-
-// @public
-export function formatPhoneE164(phone: string): string;
-
-// @public (undocumented)
-export function formatPhoneSmsHref(phone: string): string;
-
-// @public (undocumented)
-export function formatPhoneTelHref(phone: string): string;
 
 // @public
 export function formatToman(amount: number, options?: FormatTomanOptions): string;
@@ -890,34 +697,6 @@ export interface FormatTomanOptions {
     showUnit?: boolean;
 }
 
-// Warning: (ae-forgotten-export) The symbol "FormControl_2" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export function FormControl(props: ComponentProps<typeof FormControl_2>): React_2.JSX.Element;
-
-// Warning: (ae-forgotten-export) The symbol "FormDescription_2" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export function FormDescription(props: ComponentProps<typeof FormDescription_2>): React_2.JSX.Element;
-
-// @public (undocumented)
-export function FormField<TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(props: ControllerProps<TFieldValues, TName>): React_2.JSX.Element;
-
-// Warning: (ae-forgotten-export) The symbol "FormItem_2" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export function FormItem(props: ComponentProps<typeof FormItem_2>): React_2.JSX.Element;
-
-// Warning: (ae-forgotten-export) The symbol "FormLabel_2" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export function FormLabel(props: ComponentProps<typeof FormLabel_2>): React_2.JSX.Element;
-
-// Warning: (ae-forgotten-export) The symbol "FormMessage_2" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export function FormMessage(props: ComponentProps<typeof FormMessage_2>): React_2.JSX.Element;
-
 // @public (undocumented)
 export const FunnelIcon: lucide_react.LucideIcon;
 
@@ -925,19 +704,6 @@ export const FunnelIcon: lucide_react.LucideIcon;
 export const GlobeAltIcon: lucide_react.LucideIcon;
 
 export { GlobeSolidIcon }
-
-// @public
-export function HintTooltip(input: HintTooltipProps): React_2.JSX.Element;
-
-// @public (undocumented)
-export type HintTooltipProps = {
-    label: ReactNode;
-    children: ReactNode;
-    side?: HintTooltipSide;
-    align?: HintTooltipAlign;
-    contentClassName?: string;
-    delayDuration?: number;
-};
 
 // @public
 export function HoldToConfirmButton(input: HoldToConfirmButtonProps): JSX.Element;
@@ -993,23 +759,8 @@ export type InputProps = ComponentProps<typeof Input_2>;
 // @public
 export function isValidIranBankCard(cardNumber: string): boolean;
 
-// @public
-export function isValidIranMobile(phone: string): boolean;
-
 // @public (undocumented)
 export function Label(input: React_2.ComponentProps<typeof Label_2.Root>): React_2.JSX.Element;
-
-// @public
-export function LocalePreferenceProvider(input: LocalePreferenceProviderProps): React_2.JSX.Element;
-
-// @public (undocumented)
-export type LocalePreferenceProviderProps = {
-    storageKey: string;
-    locales: readonly string[];
-    defaultLocale: string;
-    rtlLocales?: readonly string[];
-    children: ReactNode;
-};
 
 // @public (undocumented)
 export const LockIcon: lucide_react.LucideIcon;
@@ -1022,18 +773,6 @@ export const MailIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
 export const MenuIcon: lucide_react.LucideIcon;
-
-// @public
-export function MenuMorphGlyph(input: MenuMorphGlyphProps): React_2.JSX.Element;
-
-// @public (undocumented)
-export type MenuMorphGlyphProps = {
-    open: boolean;
-    className?: string;
-};
-
-// @public (undocumented)
-export const MOBILE_TAB_INDICATOR_WIDTH_PX = 24;
 
 // @public
 export function MobileBottomTabBar(input: MobileBottomTabBarProps): React_2.JSX.Element;
@@ -1063,22 +802,6 @@ export type MobileBottomTabLinkProps = {
     children?: ReactNode;
     "aria-current"?: "page" | undefined;
 };
-
-// @public
-export function mobileTabIndicatorInset(activeIndex: number, itemCount: number, widthPx?: number): string;
-
-// @public
-export function MobileTopBar(input: MobileTopBarProps): React_2.JSX.Element;
-
-// @public (undocumented)
-export type MobileTopBarProps = {
-    start?: ReactNode;
-    title: ReactNode;
-    end?: ReactNode;
-    below?: ReactNode;
-    className?: string;
-    contentClassName?: string;
-} & Omit<ComponentPropsWithoutRef<"header">, "children" | "title">;
 
 // @public (undocumented)
 export const MoonIcon: lucide_react.LucideIcon;
@@ -1185,18 +908,6 @@ export interface NavTreeProps {
 // @public
 export function normalizeCardDigits(raw: string): string;
 
-// @public
-export function normalizeDigits(raw: string): string;
-
-// @public
-export function normalizeIranMobile(phone: string): string;
-
-// @public
-export function normalizeIranMobileInput(raw: string): string;
-
-// @public
-export function normalizePhoneDigits(raw: string): string;
-
 // @public (undocumented)
 export const ORBIT_THEME_STORAGE_KEY = "orbit-theme";
 
@@ -1219,106 +930,8 @@ export type OtpInputProps = Omit<ComponentPropsWithoutRef<"input">, "value" | "o
 // @public (undocumented)
 export const PackageIcon: lucide_react.LucideIcon;
 
-// @public
-export function PageShell(input: PageShellProps): React_2.JSX.Element;
-
-// @public (undocumented)
-export const pageShellContentVariants: (props?: ({
-    maxWidth?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | null | undefined;
-} & class_variance_authority_types.ClassProp) | undefined) => string;
-
-// Warning: (ae-forgotten-export) The symbol "PageShell_2" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export type PageShellProps = React_2.ComponentProps<typeof PageShell_2>;
-
 // @public (undocumented)
 export const PaintBrushIcon: lucide_react.LucideIcon;
-
-// @public (undocumented)
-export interface PartitionedFilterBarChildren {
-    // (undocumented)
-    filters: ReactNode[];
-    // (undocumented)
-    search: ReactNode[];
-}
-
-// @public
-export function partitionFilterBarChildren(children: ReactNode): PartitionedFilterBarChildren;
-
-// @public
-export function persianizeDigits(value: string | number | null | undefined): string;
-
-// @public
-export function persianizePhoneDigits(raw: string): string;
-
-// @public (undocumented)
-export type PhoneAction = "call" | "copy" | "sms";
-
-// @public
-export function PhoneNumber(input: PhoneNumberProps): React_2.JSX.Element;
-
-// @public (undocumented)
-export type PhoneNumberLabels = {
-    menu: string;
-    call: string;
-    copy: string;
-    copied: string;
-    sms: string;
-};
-
-// @public (undocumented)
-export const phoneNumberPresets: {
-    readonly adminTable: {
-        readonly variant: "menu";
-        readonly actions: ["call", "copy", "sms"];
-        readonly showIcon: "hover";
-        readonly stopPropagation: true;
-        readonly menuAlign: "end";
-    };
-    readonly adminDetail: {
-        readonly variant: "menu";
-        readonly actions: ["call", "copy", "sms"];
-        readonly showIcon: "always";
-        readonly menuAlign: "end";
-    };
-    readonly profile: {
-        readonly variant: "menu";
-        readonly actions: ["call", "copy", "sms"];
-        readonly showIcon: "always";
-        readonly menuAlign: "end";
-    };
-    readonly field: {
-        readonly variant: "copy";
-        readonly showIcon: "hover";
-    };
-    readonly readOnly: {
-        readonly variant: "static";
-        readonly showIcon: "never";
-    };
-    readonly link: {
-        readonly variant: "link";
-        readonly showIcon: "never";
-    };
-};
-
-// @public (undocumented)
-export type PhoneNumberProps = {
-    phone?: string;
-    value?: string;
-    labels?: PhoneNumberLabels;
-    variant?: PhoneNumberVariant;
-    actions?: PhoneAction[];
-    showIcon?: boolean | "always" | "hover" | "never";
-    icon?: ReactNode;
-    stopPropagation?: boolean;
-    className?: string;
-    menuAlign?: "start" | "center" | "end";
-    locale?: string;
-};
-
-// @public (undocumented)
-export type PhoneNumberVariant = "menu" | "copy" | "link" | "static";
 
 // @public (undocumented)
 export const PlusIcon: lucide_react.LucideIcon;
@@ -1342,9 +955,6 @@ export function PopoverContent(input: React_2.ComponentProps<typeof PopoverConte
 //
 // @public (undocumented)
 export function PopoverTrigger(props: React_2.ComponentProps<typeof PopoverTrigger_2>): React_2.JSX.Element;
-
-// @public
-export function Progress(input: React_2.ComponentProps<typeof Progress_2.Root>): React_2.JSX.Element;
 
 // @public
 export function ProgressiveDialog(input: ProgressiveDialogProps): React_2.JSX.Element;
@@ -1422,9 +1032,6 @@ export { RectangleStackSolidIcon }
 // @public (undocumented)
 export const RefrigeratorIcon: lucide_react.LucideIcon;
 
-// @public (undocumented)
-export function resolveLocaleDir(locale: string, rtlLocales: readonly string[]): TextDirection;
-
 // @public
 export function sanitizeDecimalInput(value: string, options?: {
     allowNegative?: boolean;
@@ -1435,19 +1042,6 @@ export function sanitizeIntegerInput(value: string): string;
 
 // @public (undocumented)
 export const ScaleIcon: lucide_react.LucideIcon;
-
-// @public
-export function ScrollArea(input: ScrollAreaProps): React_2.JSX.Element;
-
-// Warning: (ae-forgotten-export) The symbol "ScrollArea_2" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export type ScrollAreaProps = ComponentProps<typeof ScrollArea_2> & {
-    viewportClassName?: string;
-};
-
-// @public (undocumented)
-export function ScrollBar(input: React_2.ComponentProps<typeof ScrollArea_3.ScrollAreaScrollbar>): React_2.JSX.Element;
 
 // Warning: (ae-forgotten-export) The symbol "Select_2" needs to be exported by the entry point index.d.ts
 //
@@ -1483,12 +1077,6 @@ export function SelectContent(input: React_2.ComponentProps<typeof SelectContent
 // @public (undocumented)
 export function SelectGroup(props: React_2.ComponentProps<typeof SelectGroup_2>): React_2.JSX.Element;
 
-// @public @deprecated (undocumented)
-export const SelectGroupLabel: typeof SelectLabel;
-
-// @public @deprecated (undocumented)
-export function SelectIcon(): null;
-
 // Warning: (ae-forgotten-export) The symbol "SelectItem_2" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
@@ -1498,11 +1086,6 @@ export function SelectItem(input: React_2.ComponentProps<typeof SelectItem_2>): 
 //
 // @public (undocumented)
 export function SelectLabel(props: React_2.ComponentProps<typeof SelectLabel_2>): React_2.JSX.Element;
-
-// @public @deprecated (undocumented)
-export function SelectList(input: {
-    children?: React_2.ReactNode;
-}): React_2.JSX.Element;
 
 // Warning: (ae-forgotten-export) The symbol "SelectTrigger_2" needs to be exported by the entry point index.d.ts
 //
@@ -1597,9 +1180,6 @@ export function Skeleton(input: React_2.ComponentProps<"div">): React_2.JSX.Elem
 export const SkipForwardIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
-export function Slider(input: React_2.ComponentProps<typeof Slider_2.Root>): React_2.JSX.Element;
-
-// @public (undocumented)
 export const SnowflakeIcon: lucide_react.LucideIcon;
 
 // Warning: (ae-forgotten-export) The symbol "SpinnerProps" needs to be exported by the entry point index.d.ts
@@ -1619,14 +1199,6 @@ export { SunSolidIcon }
 
 // @public (undocumented)
 export const SwatchIcon: lucide_react.LucideIcon;
-
-// @public (undocumented)
-export function Switch(props: SwitchProps): React_2.JSX.Element;
-
-// Warning: (ae-forgotten-export) The symbol "Switch_2" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export type SwitchProps = ComponentProps<typeof Switch_2>;
 
 // Warning: (ae-forgotten-export) The symbol "Table_2" needs to be exported by the entry point index.d.ts
 //
@@ -1684,17 +1256,6 @@ export function TabsTrigger(input: React_2.ComponentProps<typeof Tabs_2.Trigger>
 
 // @public (undocumented)
 export const TagIcon: lucide_react.LucideIcon;
-
-// @public (undocumented)
-export function Textarea(input: TextareaProps): React_2.JSX.Element;
-
-// Warning: (ae-forgotten-export) The symbol "Textarea_2" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export type TextareaProps = ComponentProps<typeof Textarea_2>;
-
-// @public (undocumented)
-export type TextDirection = "ltr" | "rtl";
 
 // @public (undocumented)
 export function ThemeColorSync(): null;
@@ -1786,23 +1347,6 @@ export const toastVariants: (props?: ({
 export function ToastViewport(input: React_2.ComponentProps<typeof ToastViewport_2>): React_2.JSX.Element;
 
 // @public (undocumented)
-export function Toggle(input: React_2.ComponentProps<typeof Toggle_2.Root> & VariantProps<typeof toggleVariants>): React_2.JSX.Element;
-
-// @public (undocumented)
-export function ToggleGroup(input: React_2.ComponentProps<typeof ToggleGroup_2.Root> & VariantProps<typeof toggleVariants> & {
-    spacing?: number;
-}): React_2.JSX.Element;
-
-// @public (undocumented)
-export function ToggleGroupItem(input: React_2.ComponentProps<typeof ToggleGroup_2.Item> & VariantProps<typeof toggleVariants>): React_2.JSX.Element;
-
-// @public
-export const toggleVariants: (props?: ({
-    variant?: "default" | "outline" | null | undefined;
-    size?: "sm" | "lg" | "default" | null | undefined;
-} & class_variance_authority_types.ClassProp) | undefined) => string;
-
-// @public (undocumented)
 export function TokenProvider(input: TokenProviderProps): React_2.JSX.Element;
 
 // @public (undocumented)
@@ -1813,32 +1357,6 @@ export type TokenProviderProps = {
     remoteUrl?: string;
     overridePath?: string;
 };
-
-// @public
-export function toLatinDigits(value: string): string;
-
-// @public (undocumented)
-export function toLocaleDigits(value: string, locale: string): string;
-
-// Warning: (ae-forgotten-export) The symbol "Tooltip_2" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export function Tooltip(props: React_2.ComponentProps<typeof Tooltip_2>): React_2.JSX.Element;
-
-// Warning: (ae-forgotten-export) The symbol "TooltipContent_2" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export function TooltipContent(input: React_2.ComponentProps<typeof TooltipContent_2>): React_2.JSX.Element;
-
-// Warning: (ae-forgotten-export) The symbol "TooltipProvider_2" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export function TooltipProvider(props: React_2.ComponentProps<typeof TooltipProvider_2>): React_2.JSX.Element;
-
-// Warning: (ae-forgotten-export) The symbol "TooltipTrigger_2" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export function TooltipTrigger(props: React_2.ComponentProps<typeof TooltipTrigger_2>): React_2.JSX.Element;
 
 // @public (undocumented)
 export const TrashIcon: lucide_react.LucideIcon;
@@ -1870,25 +1388,6 @@ export function useEntityBrowserCommandBarContext(): EntityBrowserCommandBarCont
 export function useEntityBrowserCommandBarSuffix(): ReactNode | undefined;
 
 // @public (undocumented)
-export const useFormField: () => {
-    invalid: boolean;
-    isDirty: boolean;
-    isTouched: boolean;
-    isValidating: boolean;
-    error?: react_hook_form.FieldError | undefined;
-    id: string;
-    name: string;
-    formItemId: string;
-    formDescriptionId: string;
-    formMessageId: string;
-};
-
-// Warning: (ae-forgotten-export) The symbol "LocalePreferenceContextValue" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export function useLocalePreference(): LocalePreferenceContextValue;
-
-// @public (undocumented)
 export const UserIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
@@ -1915,41 +1414,6 @@ export function useTokenContextOptional(): TokenContextValue | null;
 export function useTokens(): TokenContextValue;
 
 // @public (undocumented)
-export function WhatsNew(input: WhatsNewProps): React_2.JSX.Element | null;
-
-// @public (undocumented)
-export interface WhatsNewItem {
-    // (undocumented)
-    audience?: "user" | "developer";
-    // (undocumented)
-    body: string;
-    // (undocumented)
-    docUrl?: string;
-    // (undocumented)
-    title: string;
-}
-
-// @public (undocumented)
-export interface WhatsNewManifest {
-    // (undocumented)
-    items: WhatsNewItem[];
-    // (undocumented)
-    publishedAt: string;
-    // (undocumented)
-    version: string;
-}
-
-// @public (undocumented)
-export interface WhatsNewProps {
-    // (undocumented)
-    dismissLabel?: string;
-    manifestUrl: string;
-    storageKeyPrefix?: string;
-    // (undocumented)
-    title?: string;
-}
-
-// @public (undocumented)
 export const WrenchScrewdriverIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
@@ -1957,8 +1421,6 @@ export const XMarkIcon: lucide_react.LucideIcon;
 
 // Warnings were encountered during analysis:
 //
-// dist/composed/hint-tooltip.d.ts:10:5 - (ae-forgotten-export) The symbol "HintTooltipSide" needs to be exported by the entry point index.d.ts
-// dist/composed/hint-tooltip.d.ts:11:5 - (ae-forgotten-export) The symbol "HintTooltipAlign" needs to be exported by the entry point index.d.ts
 // dist/direction-provider.d.ts:6:5 - (ae-forgotten-export) The symbol "Direction" needs to be exported by the entry point index.d.ts
 // dist/use-toast.d.ts:41:5 - (ae-forgotten-export) The symbol "ToasterToast" needs to be exported by the entry point index.d.ts
 

@@ -12,6 +12,7 @@ import {
   DialogTitle,
 } from "./dialog.js";
 
+/** @experimental */
 export interface WhatsNewItem {
   title: string;
   body: string;
@@ -19,12 +20,14 @@ export interface WhatsNewItem {
   audience?: "user" | "developer";
 }
 
+/** @experimental */
 export interface WhatsNewManifest {
   version: string;
   publishedAt: string;
   items: WhatsNewItem[];
 }
 
+/** @experimental */
 export interface WhatsNewProps {
   /** URL to fetch releases.json (e.g. "/releases.json"). */
   manifestUrl: string;
@@ -38,6 +41,7 @@ function storageKey(prefix: string, version: string): string {
   return `${prefix}-${version}`;
 }
 
+/** @experimental */
 export function WhatsNew({
   manifestUrl,
   storageKeyPrefix = "whats-new-seen",

@@ -148,5 +148,3 @@ export function EntityMobileListBody({
 
   return children;
 }
-
-export const EntityListStates = EntityListBody;

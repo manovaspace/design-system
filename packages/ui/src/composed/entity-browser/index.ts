@@ -21,7 +21,6 @@ export {
 } from "./entity-filter-bar.js";
 export {
   EntityListBody,
-  EntityListBody as EntityListStates,
   type EntityListQueryState,
   EntityMobileListBody,
 } from "./entity-list-states.js";

@@ -37,12 +37,6 @@ export {
   CardTitle,
 } from "./card.js";
 export { Checkbox, type CheckboxProps } from "./checkbox.js";
-export {
-  Collapsible,
-  CollapsibleContent,
-  type CollapsibleContentProps,
-  CollapsibleTrigger,
-} from "./collapsible.js";
 export { ColorSwatch, type ColorSwatchProps } from "./color-swatch.js";
 export {
   CardNumber,
@@ -51,14 +45,8 @@ export {
   type CardNumberVariant,
   ConfirmDialog,
   type ConfirmDialogProps,
-  CopyableMoney,
-  CopyableMoneyLine,
-  type CopyableMoneyLineProps,
-  type CopyableMoneyProps,
   DataValue,
   type DataValueProps,
-  DateTimePicker,
-  type DateTimePickerProps,
   DecimalInput,
   type DecimalInputProps,
   EmptyState,
@@ -74,7 +62,6 @@ export {
   type EntityFilterChip,
   EntityListBody,
   type EntityListQueryState,
-  EntityListStates,
   EntityMobileEmptyFiltered,
   EntityMobileListBody,
   EntityMobileLoadingList,
@@ -92,14 +79,10 @@ export {
   entityTableEndEdgeCellClass,
   entityTableHeaderRowClass,
   entityTableStartEdgeCellClass,
-  FieldDescription,
-  FieldGroup,
   FieldMessage,
   type FieldMessageProps,
   fieldMessageVariants,
   formatDataValue,
-  HintTooltip,
-  type HintTooltipProps,
   HoldToConfirmButton,
   type HoldToConfirmButtonProps,
   MsisdnInput,
@@ -114,12 +97,6 @@ export {
   type NavTreeProps,
   OtpInput,
   type OtpInputProps,
-  type PartitionedFilterBarChildren,
-  type PhoneAction,
-  PhoneNumber,
-  type PhoneNumberLabels,
-  type PhoneNumberProps,
-  type PhoneNumberVariant,
   ProgressiveDialog,
   type ProgressiveDialogErrorAction,
   type ProgressiveDialogLabels,
@@ -127,8 +104,6 @@ export {
   type ProgressiveDialogProgress,
   type ProgressiveDialogProps,
   type ProgressiveDialogStep,
-  partitionFilterBarChildren,
-  phoneNumberPresets,
   SelectableOptionCard,
   type SelectableOptionCardProps,
   ShellHeader,
@@ -152,34 +127,7 @@ export {
   DirectionProvider,
   useDirection,
 } from "./direction-provider.js";
-export {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "./dropdown-menu.js";
 export { focusFirstError } from "./focus-first-error.js";
-export {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  useFormField,
-} from "./form.js";
 export { ICON_SIZES, type IconProps, iconProps } from "./icon.js";
 export {
   AcademicCapIcon,
@@ -261,88 +209,33 @@ export {
   copyTextToClipboard,
   copyTextToClipboardSync,
 } from "./lib/clipboard.js";
-export { toLocaleDigits } from "./lib/locale-digits.js";
 export {
-  type FormatPersianDateOptions,
   type FormatTomanOptions,
-  formatLocaleInteger,
-  formatLocaleRelativeTime,
-  formatPersianDate,
   formatToman,
 } from "./lib/locale-format.js";
 export {
-  persianizeDigits,
   sanitizeDecimalInput,
   sanitizeIntegerInput,
-  toLatinDigits,
 } from "./lib/numeric.js";
-export {
-  formatPhoneCopy,
-  formatPhoneDisplay,
-  formatPhoneE164,
-  formatPhoneSmsHref,
-  formatPhoneTelHref,
-  isValidIranMobile,
-  normalizeDigits,
-  normalizeIranMobile,
-  normalizeIranMobileInput,
-  normalizePhoneDigits,
-  persianizePhoneDigits,
-} from "./lib/phone.js";
 export { cn } from "./lib/utils.js";
 export {
-  applyDocumentLocale,
-  LocalePreferenceProvider,
-  type LocalePreferenceProviderProps,
-  resolveLocaleDir,
-  type TextDirection,
-  useLocalePreference,
-} from "./locale-preference.js";
-export {
-  MOBILE_TAB_INDICATOR_WIDTH_PX,
   MobileBottomTabBar,
   type MobileBottomTabBarProps,
   type MobileBottomTabItem,
   type MobileBottomTabLinkProps,
-  mobileTabIndicatorInset,
 } from "./mobile-bottom-tab-bar.js";
-export {
-  MobileTopBar,
-  type MobileTopBarProps,
-} from "./mobile-top-bar.js";
-export {
-  Collapse,
-  type CollapseProps,
-  collapseChevronClassName,
-  MenuMorphGlyph,
-  type MenuMorphGlyphProps,
-} from "./motion/index.js";
-export {
-  PageShell,
-  type PageShellProps,
-  pageShellContentVariants,
-} from "./page-shell.js";
 export {
   Popover,
   PopoverAnchor,
   PopoverContent,
   PopoverTrigger,
 } from "./popover.js";
-export { Progress } from "./progress.js";
-export {
-  ScrollArea,
-  type ScrollAreaProps,
-  ScrollBar,
-} from "./scroll-area.js";
 export {
   Select,
   SelectContent,
   SelectGroup,
-  SelectGroupLabel,
-  SelectIcon,
   SelectItem,
   SelectLabel,
-  SelectList,
   SelectTrigger,
   SelectValue,
 } from "./select.js";
@@ -357,9 +250,7 @@ export {
   SheetTrigger,
 } from "./sheet.js";
 export { Skeleton } from "./skeleton.js";
-export { Slider } from "./slider.js";
 export { Spinner, spinnerVariants } from "./spinner.js";
-export { Switch, type SwitchProps } from "./switch.js";
 export {
   Table,
   TableBody,
@@ -376,7 +267,6 @@ export {
   TabsList,
   TabsTrigger,
 } from "./tabs.js";
-export { Textarea, type TextareaProps } from "./textarea.js";
 export { ThemeColorSync } from "./theme-color-sync.js";
 export {
   ORBIT_THEME_STORAGE_KEY,
@@ -401,8 +291,6 @@ export {
   toastVariants,
 } from "./toast.js";
 export { Toaster } from "./toaster.js";
-export { Toggle, toggleVariants } from "./toggle.js";
-export { ToggleGroup, ToggleGroupItem } from "./toggle-group.js";
 export {
   TokenProvider,
   type TokenProviderProps,
@@ -410,19 +298,7 @@ export {
   useTokens,
 } from "./token-provider.js";
 export {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "./tooltip.js";
-export {
   type UseAppFormProps,
   useAppForm,
 } from "./use-app-form.js";
 export { toast, useToast } from "./use-toast.js";
-export {
-  WhatsNew,
-  type WhatsNewItem,
-  type WhatsNewManifest,
-  type WhatsNewProps,
-} from "./whats-new.js";

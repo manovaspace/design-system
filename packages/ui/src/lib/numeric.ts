@@ -4,6 +4,7 @@ const ARABIC_INDIC_DIGITS = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨
 /**
  * Converts Persian (۰-۹) and Arabic-Indic (٠-٩) digits to standard ASCII digits (0-9).
  * Also converts Persian decimal comma/momayyez (٫ and ،) to standard dot (.).
+ * @experimental
  */
 export function toLatinDigits(value: string): string {
   if (!value) return "";
@@ -31,6 +32,7 @@ export function toLatinDigits(value: string): string {
 /**
  * Converts ASCII digits 0-9 to Persian digits ۰-۹ for UI display.
  * Returns empty string if null or undefined.
+ * @experimental
  */
 export function persianizeDigits(
   value: string | number | null | undefined,

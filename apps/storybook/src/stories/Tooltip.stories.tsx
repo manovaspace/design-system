@@ -1,10 +1,10 @@
+import { Button } from "@manovaspace/ui";
 import {
-  Button,
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@manovaspace/ui";
+} from "@manovaspace/ui/experimental";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta: Meta<typeof Tooltip> = {

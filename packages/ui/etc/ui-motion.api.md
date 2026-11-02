@@ -25,9 +25,6 @@ export const COLLAPSE_CLOSE_DURATION_S = 0.24;
 // @public (undocumented)
 export const COLLAPSE_OPEN_DURATION_S = 0.32;
 
-// @public
-export function collapseChevronClassName(open: boolean): string;
-
 // @public (undocumented)
 export type CollapseProps = HTMLAttributes<HTMLDivElement> & {
     open: boolean;

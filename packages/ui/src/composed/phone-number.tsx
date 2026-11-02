@@ -24,19 +24,22 @@ import {
 } from "../icons.js";
 import { copyTextToClipboardSync } from "../lib/clipboard.js";
 import {
-  formatPhoneCopy,
-  formatPhoneDisplay,
   formatPhoneSmsHref,
   formatPhoneTelHref,
   isValidIranMobile,
+  normalizePhoneDigits,
+  persianizePhoneDigits,
 } from "../lib/phone.js";
 import { cn } from "../lib/utils.js";
 import { DataValue } from "./data-value.js";
 
+/** @experimental */
 export type PhoneAction = "call" | "copy" | "sms";
 
+/** @experimental */
 export type PhoneNumberVariant = "menu" | "copy" | "link" | "static";
 
+/** @experimental */
 export type PhoneNumberLabels = {
   /** Accessible label for the menu trigger. */
   menu: string;
@@ -54,6 +57,7 @@ const defaultPhoneNumberLabels: PhoneNumberLabels = {
   sms: "SMS",
 };
 
+/** @experimental */
 export type PhoneNumberProps = {
   /** Canonical Latin MSISDN, e.g. 09123456789 */
   phone?: string;
@@ -72,6 +76,7 @@ export type PhoneNumberProps = {
   locale?: string;
 };
 
+/** @experimental */
 export const phoneNumberPresets = {
   adminTable: {
     variant: "menu",
@@ -212,6 +217,7 @@ const triggerClassName = cn(
 /**
  * Iranian MSISDN readout with optional call / copy / SMS actions.
  * Display: Persian digits (Vazirmatn tabular). Clipboard: Latin MSISDN.
+ * @experimental
  */
 export function PhoneNumber({
   phone,
@@ -232,8 +238,8 @@ export function PhoneNumber({
   const rawPhone = phone ?? value ?? "";
   const resolvedLabels = labels ?? defaultPhoneNumberLabels;
   const valid = isValidIranMobile(rawPhone);
-  const display = useMemo(() => formatPhoneDisplay(rawPhone), [rawPhone]);
-  const copyValue = useMemo(() => formatPhoneCopy(rawPhone), [rawPhone]);
+  const display = useMemo(() => persianizePhoneDigits(rawPhone), [rawPhone]);
+  const copyValue = useMemo(() => normalizePhoneDigits(rawPhone), [rawPhone]);
   const telHref = useMemo(() => formatPhoneTelHref(rawPhone), [rawPhone]);
   const smsHref = useMemo(() => formatPhoneSmsHref(rawPhone), [rawPhone]);
   const enabledActions = resolveActions(variant, actions);

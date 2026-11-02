@@ -24,6 +24,10 @@ Utilities (`tsconfig`, `markdown`, `pwa`, `observability`): [`manovaspace/ts`](.
 | `@manovaspace/ui` | Radix/shadcn primitives (incl. Form, Sheet, Table, Tooltip, Popover), motion, icons |
 | `@manovaspace/devtools` | Dev-only design-system toolbar |
 
+## Agent index
+
+`@manovaspace/ui` ships `dist/agents/index.md`, generated at build time from `packages/ui/etc/*.api.md` and source JSDoc. Before writing UI, read `node_modules/@manovaspace/ui/dist/agents/index.md`; it lists every stable export by area with props where they fit. Regenerate with `bun run --filter @manovaspace/ui gen:agent-index`; the build fails if the file would exceed 8 KB.
+
 ## Commands
 
 ```bash

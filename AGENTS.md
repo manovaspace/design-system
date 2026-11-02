@@ -1,3 +1,15 @@
+---
+read_with:
+  - handbook/docs/orbit/architecture/orbit-frontend.md
+  - handbook/docs/orbit/guides/cursor-mcp.md
+  - handbook/docs/orbit/guides/locale-data-display.md
+  - handbook/docs/orbit/guides/open-commons.md
+  - handbook/docs/orbit/guides/orbit-component-architecture.md
+  - handbook/docs/orbit/guides/orbit-design-tokens.md
+  - handbook/docs/orbit/guides/orbit-devtools.md
+  - handbook/docs/orbit/guides/orbit-frontend-hydration.md
+---
+
 # manovaspace/design-system — Agent Guide
 
 MIT open-commons monorepo for the design system. Packages publish to `registry.npmjs.org` as `@manovaspace/*`.

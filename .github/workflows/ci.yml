@@ -28,3 +28,13 @@ jobs:
         env:
           GH_READ_TOKEN: ${{ secrets.GH_READ_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # Report-only: flipped to blocking in S8.
+      - name: API reports
+        continue-on-error: true
+        run: bun run check:api
+
+      # Report-only: flipped to blocking in S8.
+      - name: Package checks
+        continue-on-error: true
+        run: bun run check:package

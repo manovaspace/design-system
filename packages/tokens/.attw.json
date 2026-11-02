@@ -1,0 +1,10 @@
+{
+  "pack": true,
+  "profile": "esm-only",
+  "excludeEntrypoints": [
+    "./tokens.css",
+    "./fonts.css",
+    "./semantic.css",
+    "./colors.css"
+  ]
+}

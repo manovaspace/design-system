@@ -1,5 +1,14 @@
 # @manovaspace/storybook
 
+## 0.0.13
+
+### Patch Changes
+
+- Updated dependencies [175d823]
+- Updated dependencies [175d823]
+  - @manovaspace/tokens@1.0.0
+  - @manovaspace/ui@1.0.0
+
 ## 0.0.12
 
 ### Patch Changes

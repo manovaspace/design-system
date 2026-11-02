@@ -1,5 +1,63 @@
 # @manovaspace/ui
 
+## 1.0.0
+
+### Major Changes
+
+- 175d823: # `@manovaspace/ui` 1.0
+  
+  The stable API is the root entry `@manovaspace/ui` plus the existing subpaths
+  (`./icons`, `./icons/solid`, `./icons/brand`, `./motion`, `./loading`,
+  `./server`). From 1.0 these are covered by the compatibility promise in
+  `RELEASING.md`. Breaking a stable export requires a major release; deprecations
+  carry a migration note and at least one month before removal.
+  
+  `@manovaspace/ui/experimental` is outside the semver promise: anything exported
+  there may change or disappear in any minor release.
+  
+  ## Removed names and replacements
+  
+  - `normalizeDigits` → `normalizePhoneDigits`
+  - `formatPhoneDisplay` → `persianizePhoneDigits`
+  - `formatPhoneCopy` → `normalizePhoneDigits`
+  - `EntityListStates` → `EntityListBody`
+  - `SelectGroupLabel` → `SelectLabel`
+  - `SelectIcon` → no replacement; the chevron is built into `SelectTrigger`
+  - `SelectList` → render children inside `SelectContent`
+  
+  ## Experimental exports moved to `@manovaspace/ui/experimental`
+  
+  These names were previously exported from the root. Import them from
+  `@manovaspace/ui/experimental`:
+  
+  applyDocumentLocale, Collapse, CollapseProps, Collapsible, CollapsibleContent,
+  CollapsibleContentProps, CollapsibleTrigger, CopyableMoney, CopyableMoneyLine,
+  CopyableMoneyLineProps, CopyableMoneyProps, DateTimePicker, DateTimePickerProps,
+  DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup,
+  DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup,
+  DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut,
+  DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger,
+  DropdownMenuTrigger, FieldDescription, FieldGroup, Form, formatLocaleInteger,
+  formatLocaleRelativeTime, formatPersianDate, FormatPersianDateOptions,
+  formatPhoneE164, formatPhoneSmsHref, formatPhoneTelHref, FormControl,
+  FormDescription, FormField, FormItem, FormLabel, FormMessage, HintTooltip,
+  HintTooltipProps, isValidIranMobile, LocalePreferenceProvider,
+  LocalePreferenceProviderProps, MenuMorphGlyph, MenuMorphGlyphProps, MobileTopBar,
+  MobileTopBarProps, normalizeIranMobile, normalizeIranMobileInput,
+  normalizePhoneDigits, PageShell, pageShellContentVariants, PageShellProps,
+  persianizeDigits, persianizePhoneDigits, PhoneAction, PhoneNumber,
+  PhoneNumberLabels, phoneNumberPresets, PhoneNumberProps, PhoneNumberVariant,
+  Progress, resolveLocaleDir, ScrollArea, ScrollAreaProps, ScrollBar, Slider,
+  Switch, SwitchProps, Textarea, TextareaProps, TextDirection, Toggle, ToggleGroup,
+  ToggleGroupItem, toggleVariants, toLatinDigits, toLocaleDigits, Tooltip,
+  TooltipContent, TooltipProvider, TooltipTrigger, useFormField,
+  useLocalePreference, WhatsNew, WhatsNewItem, WhatsNewManifest, WhatsNewProps.
+
+### Patch Changes
+
+- Updated dependencies [175d823]
+  - @manovaspace/tokens@1.0.0
+
 ## 0.12.0
 
 ### Minor Changes

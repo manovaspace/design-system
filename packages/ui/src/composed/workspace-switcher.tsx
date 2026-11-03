@@ -12,6 +12,7 @@ import { useDirection } from "../direction-provider.js";
 import { iconProps } from "../icon.js";
 import { CheckIcon, ChevronDownIcon, PlusIcon } from "../icons.js";
 import { cn } from "../lib/utils.js";
+import { Spinner } from "../spinner.js";
 
 /** A workspace the switcher can display and select. @experimental */
 export type WorkspaceSwitcherItem = {
@@ -41,6 +42,10 @@ export type WorkspaceSwitcherProps = {
   /** All visible copy is supplied by the caller; no language is hardcoded. */
   labels: WorkspaceSwitcherLabels;
   onCreate?: () => void;
+  /** Disables the trigger. Cannot be combined usefully with `pendingId`. */
+  disabled?: boolean;
+  /** Id of the workspace whose switch is in flight; shows a spinner on that row and blocks the rest. */
+  pendingId?: string | null;
   className?: string;
 };
 
@@ -118,9 +123,12 @@ function WorkspaceText({
  * `aria-expanded`; the popup is a labelled `role="listbox"` with
  * `aria-selected` options. Arrow keys, Home/End, Enter/Space, Escape and
  * type-ahead are supported; Escape and selection return focus to the trigger.
- * Interactive targets are at least 44px. Layout uses logical properties and
- * the chevron mirrors in RTL. Single-workspace and empty states render static
- * text with no menu.
+ * When `pendingId` is set the matching option shows a decorative spinner, the
+ * listbox is `aria-busy`, the menu stays open and every other option is
+ * `aria-disabled`, so a switch in flight cannot be re-triggered. `disabled`
+ * closes and locks the trigger. Interactive targets are at least 44px. Layout
+ * uses logical properties and the chevron mirrors in RTL. Single-workspace and
+ * empty states render static text with no menu.
  *
  * @experimental API may change.
  */
@@ -130,6 +138,8 @@ export function WorkspaceSwitcher({
   onSwitch,
   labels,
   onCreate,
+  disabled = false,
+  pendingId = null,
   className,
 }: WorkspaceSwitcherProps) {
   const direction = useDirection();
@@ -138,6 +148,7 @@ export function WorkspaceSwitcher({
   const triggerRef = useRef<HTMLButtonElement>(null);
   const listboxRef = useRef<HTMLDivElement>(null);
   const typeaheadRef = useRef({ query: "", at: 0 });
+  const requestedSwitchRef = useRef<string | null>(null);
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
 
@@ -146,12 +157,32 @@ export function WorkspaceSwitcher({
   const listboxId = `${baseId}-listbox`;
   const optionId = (index: number) => `${baseId}-option-${index}`;
   const isRtl = direction === "rtl";
+  const pending = pendingId !== null;
 
   useEffect(() => {
     if (open) {
       listboxRef.current?.focus();
     }
   }, [open]);
+
+  useEffect(() => {
+    if (disabled) {
+      setOpen(false);
+    }
+  }, [disabled]);
+
+  useEffect(() => {
+    if (disabled || !pendingId) return;
+
+    // A switch just started: keep the menu open so the pending row's spinner
+    // is visible instead of closing the moment `onSwitch` fires.
+    if (requestedSwitchRef.current !== pendingId) return;
+    requestedSwitchRef.current = null;
+
+    const index = workspaces.findIndex((item) => item.id === pendingId);
+    setActiveIndex(index);
+    setOpen(true);
+  }, [disabled, pendingId, workspaces]);
 
   useEffect(() => {
     if (!open) return;
@@ -187,6 +218,8 @@ export function WorkspaceSwitcher({
   };
 
   const selectWorkspace = (id: string) => {
+    if (disabled || pending) return;
+    requestedSwitchRef.current = id;
     setOpen(false);
     onSwitch(id);
     triggerRef.current?.focus();
@@ -197,6 +230,7 @@ export function WorkspaceSwitcher({
   const handleTriggerKeyDown = (
     event: ReactKeyboardEvent<HTMLButtonElement>,
   ) => {
+    if (disabled) return;
     if (
       event.key !== "ArrowDown" &&
       event.key !== "ArrowUp" &&
@@ -301,6 +335,7 @@ export function WorkspaceSwitcher({
         dir={direction}
         data-slot="workspace-switcher"
         data-state="empty"
+        data-disabled={disabled || undefined}
         className={cn(
           "flex min-h-11 w-full items-center rounded-[var(--radius-lg)] border border-dashed border-border px-3 py-2",
           className,
@@ -317,6 +352,7 @@ export function WorkspaceSwitcher({
         dir={direction}
         data-slot="workspace-switcher"
         data-state="single"
+        data-disabled={disabled || undefined}
         className={cn(
           "flex min-h-11 w-full items-center gap-2 rounded-[var(--radius-lg)] px-3 py-2",
           className,
@@ -337,17 +373,22 @@ export function WorkspaceSwitcher({
       dir={direction}
       data-slot="workspace-switcher"
       data-state={open ? "open" : "closed"}
+      data-disabled={disabled || undefined}
+      data-pending={pending || undefined}
       className={cn("relative w-full", className)}
     >
       <button
         ref={triggerRef}
         type="button"
         data-slot="workspace-switcher-trigger"
+        disabled={disabled}
+        aria-disabled={disabled || undefined}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={open ? listboxId : undefined}
         aria-label={labels.trigger}
         onClick={() => {
+          if (disabled) return;
           if (open) {
             setOpen(false);
           } else {
@@ -355,7 +396,7 @@ export function WorkspaceSwitcher({
           }
         }}
         onKeyDown={handleTriggerKeyDown}
-        className="flex min-h-11 w-full cursor-pointer items-center justify-between gap-2 rounded-[var(--radius-lg)] border border-input bg-background px-3 py-2 text-start text-foreground shadow-xs transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
+        className="flex min-h-11 w-full cursor-pointer items-center justify-between gap-2 rounded-[var(--radius-lg)] border border-input bg-background px-3 py-2 text-start text-foreground shadow-xs transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
       >
         <span className="flex min-w-0 items-center gap-2">
           {current ? <WorkspaceMark workspace={current} /> : null}
@@ -383,6 +424,7 @@ export function WorkspaceSwitcher({
             id={listboxId}
             role="listbox"
             aria-label={labels.list}
+            aria-busy={pending || undefined}
             tabIndex={-1}
             aria-activedescendant={
               activeWorkspace ? optionId(activeIndex) : undefined
@@ -392,6 +434,7 @@ export function WorkspaceSwitcher({
           >
             {workspaces.map((workspace, index) => {
               const selected = workspace.id === currentId;
+              const switching = workspace.id === pendingId;
               return (
                 // biome-ignore lint/a11y/useKeyWithClickEvents: keyboard is handled by the parent listbox.
                 <div
@@ -399,8 +442,10 @@ export function WorkspaceSwitcher({
                   id={optionId(index)}
                   role="option"
                   aria-selected={selected}
+                  aria-disabled={pending || undefined}
                   data-slot="workspace-switcher-option"
                   data-active={index === activeIndex || undefined}
+                  data-pending={switching || undefined}
                   tabIndex={-1}
                   onPointerDown={(event) => event.preventDefault()}
                   onPointerEnter={() => setActiveIndex(index)}
@@ -408,11 +453,18 @@ export function WorkspaceSwitcher({
                   className={cn(
                     "flex min-h-11 cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] px-2 py-2 text-start select-none",
                     index === activeIndex && "bg-accent text-accent-foreground",
+                    pending && "cursor-not-allowed",
                   )}
                 >
                   <WorkspaceMark workspace={workspace} />
                   <WorkspaceText workspace={workspace} />
-                  {selected ? (
+                  {switching ? (
+                    <Spinner
+                      size="sm"
+                      decorative
+                      className="ms-auto text-primary"
+                    />
+                  ) : selected ? (
                     <CheckIcon
                       {...iconProps({
                         size: "sm",
@@ -431,13 +483,16 @@ export function WorkspaceSwitcher({
               <button
                 type="button"
                 data-slot="workspace-switcher-create"
+                disabled={pending}
+                aria-disabled={pending || undefined}
                 onPointerDown={(event) => event.preventDefault()}
                 onClick={() => {
+                  if (pending) return;
                   setOpen(false);
                   onCreate();
                 }}
                 onKeyDown={handleCreateKeyDown}
-                className="flex min-h-11 w-full cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] px-2 py-2 text-start text-sm font-medium text-foreground select-none hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                className="flex min-h-11 w-full cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] px-2 py-2 text-start text-sm font-medium text-foreground select-none hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <PlusIcon {...iconProps({ size: "sm" })} />
                 <span className="truncate">{labels.create}</span>

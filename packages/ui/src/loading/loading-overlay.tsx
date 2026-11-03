@@ -18,7 +18,7 @@ function LoadingOverlay({
   position = "absolute",
   children,
   ...props
-}: LoadingOverlayProps) {
+}: LoadingOverlayProps): React.ReactNode {
   if (!visible) {
     return children ?? null;
   }

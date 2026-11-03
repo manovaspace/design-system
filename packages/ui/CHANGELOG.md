@@ -1,5 +1,11 @@
 # @manovaspace/ui
 
+## 1.2.0
+
+### Minor Changes
+
+- a7a28b9: WorkspaceSwitcher gains `disabled` and `pendingId` for in-flight and locked states.
+
 ## 1.1.0
 
 ### Minor Changes

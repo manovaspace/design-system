@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
+import { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import { DirectionProvider } from "../direction-provider.js";
@@ -25,18 +26,26 @@ function renderSwitcher({
   items = workspaces,
   currentId = "alpha",
   onCreate,
+  onSwitch = () => {},
+  disabled,
+  pendingId,
 }: {
   items?: WorkspaceSwitcherItem[];
   currentId?: string;
   onCreate?: () => void;
+  onSwitch?: (id: string) => void;
+  disabled?: boolean;
+  pendingId?: string | null;
 } = {}) {
   return render(
     <WorkspaceSwitcher
       workspaces={items}
       currentId={currentId}
-      onSwitch={() => {}}
+      onSwitch={onSwitch}
       labels={labels}
       onCreate={onCreate}
+      disabled={disabled}
+      pendingId={pendingId}
     />,
   );
 }
@@ -52,6 +61,19 @@ function openList() {
 
 function options() {
   return screen.getAllByRole("option");
+}
+
+function PendingHarness() {
+  const [pendingId, setPendingId] = useState<string | null>(null);
+  return (
+    <WorkspaceSwitcher
+      workspaces={workspaces}
+      currentId="alpha"
+      onSwitch={setPendingId}
+      labels={labels}
+      pendingId={pendingId}
+    />
+  );
 }
 
 describe("WorkspaceSwitcher", () => {
@@ -195,6 +217,93 @@ describe("WorkspaceSwitcher", () => {
     fireEvent.click(screen.getByText("Beta Works"));
 
     expect(onSwitch).toHaveBeenCalledWith("beta");
+  });
+
+  it("disables the trigger and refuses to open the listbox", () => {
+    renderSwitcher({ disabled: true });
+
+    const trigger = screen.getByRole("button", { name: labels.trigger });
+    expect(trigger.hasAttribute("disabled")).toBe(true);
+    expect(trigger.getAttribute("aria-disabled")).toBe("true");
+    expect(trigger.getAttribute("aria-expanded")).toBe("false");
+    expect(trigger.getAttribute("aria-label")).toBe(labels.trigger);
+    expect(trigger.className).toContain("disabled:pointer-events-none");
+    expect(trigger.className).toContain("disabled:opacity-50");
+
+    fireEvent.click(trigger);
+    expect(screen.queryByRole("listbox")).toBeNull();
+
+    fireEvent.keyDown(trigger, { key: "ArrowDown" });
+    expect(screen.queryByRole("listbox")).toBeNull();
+  });
+
+  it("shows a spinner on the pending row, marks the listbox busy and locks selection", () => {
+    const onSwitch = vi.fn();
+    renderSwitcher({ pendingId: "beta", onSwitch });
+    const { listbox } = openList();
+
+    expect(listbox.getAttribute("aria-busy")).toBe("true");
+
+    const items = options();
+    expect(items[1]?.getAttribute("aria-disabled")).toBe("true");
+    expect(items[0]?.getAttribute("aria-disabled")).toBe("true");
+    expect(items[1]?.querySelector('[data-slot="spinner"]')).toBeTruthy();
+    expect(items[0]?.querySelector('[data-slot="spinner"]')).toBeNull();
+
+    fireEvent.click(items[0] as HTMLElement);
+
+    expect(onSwitch).not.toHaveBeenCalled();
+    expect(screen.getByRole("listbox", { name: labels.list })).toBeTruthy();
+  });
+
+  it("blocks keyboard selection while a switch is pending", () => {
+    const onSwitch = vi.fn();
+    renderSwitcher({ pendingId: "beta", onSwitch });
+    const { listbox } = openList();
+
+    fireEvent.keyDown(listbox, { key: "ArrowDown" });
+    fireEvent.keyDown(listbox, { key: "Enter" });
+
+    expect(onSwitch).not.toHaveBeenCalled();
+    expect(screen.getByRole("listbox", { name: labels.list })).toBeTruthy();
+  });
+
+  it("keeps the list open when a selection becomes pending", () => {
+    render(<PendingHarness />);
+    openList();
+
+    fireEvent.click(screen.getByText("Beta Works"));
+
+    const listbox = screen.getByRole("listbox", { name: labels.list });
+    expect(listbox.getAttribute("aria-busy")).toBe("true");
+    expect(options()[1]?.querySelector('[data-slot="spinner"]')).toBeTruthy();
+  });
+
+  it("selects exactly once when no switch is pending", () => {
+    const onSwitch = vi.fn();
+    renderSwitcher({ onSwitch });
+    openList();
+
+    fireEvent.click(screen.getByText("Beta Works"));
+
+    expect(onSwitch).toHaveBeenCalledTimes(1);
+    expect(onSwitch).toHaveBeenCalledWith("beta");
+    expect(screen.queryByRole("listbox")).toBeNull();
+  });
+
+  it("does not mark idle options as disabled or busy", () => {
+    renderSwitcher();
+    const { trigger, listbox } = openList();
+
+    expect(listbox.hasAttribute("aria-busy")).toBe(false);
+    expect(trigger.hasAttribute("aria-disabled")).toBe(false);
+    expect(trigger.hasAttribute("disabled")).toBe(false);
+
+    for (const option of options()) {
+      expect(option.hasAttribute("aria-disabled")).toBe(false);
+      expect(option.hasAttribute("disabled")).toBe(false);
+      expect(option.querySelector('[data-slot="spinner"]')).toBeNull();
+    }
   });
 
   it("runs the optional create action", () => {

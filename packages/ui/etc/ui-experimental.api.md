@@ -549,6 +549,8 @@ export type WorkspaceSwitcherProps = {
     onSwitch: (id: string) => void;
     labels: WorkspaceSwitcherLabels;
     onCreate?: () => void;
+    disabled?: boolean;
+    pendingId?: string | null;
     className?: string;
 };
 

@@ -10,7 +10,7 @@ import * as React_2 from 'react';
 import { VariantProps } from 'class-variance-authority';
 
 // @public (undocumented)
-export function LoadingOverlay(input: LoadingOverlayProps): string | number | bigint | boolean | Iterable<React_2.ReactNode> | Promise<string | number | bigint | boolean | React_2.ReactPortal | React_2.ReactElement<unknown, string | React_2.JSXElementConstructor<any>> | Iterable<React_2.ReactNode> | null | undefined> | React_2.JSX.Element | null;
+export function LoadingOverlay(input: LoadingOverlayProps): React_2.ReactNode;
 
 // @public (undocumented)
 export type LoadingOverlayProps = React_2.ComponentProps<"div"> & {
@@ -31,7 +31,7 @@ export type LoadingScreenProps = React_2.ComponentProps<"div"> & {
 };
 
 // @public (undocumented)
-export function LoadingStatus(input: LoadingStatusProps): string | number | bigint | boolean | Iterable<React_2.ReactNode> | Promise<string | number | bigint | boolean | React_2.ReactPortal | React_2.ReactElement<unknown, string | React_2.JSXElementConstructor<any>> | Iterable<React_2.ReactNode> | null | undefined> | React_2.JSX.Element | null | undefined;
+export function LoadingStatus(input: LoadingStatusProps): React_2.ReactNode;
 
 // @public (undocumented)
 export type LoadingStatusProps = {

@@ -22,7 +22,7 @@ function LoadingStatus({
   fallback,
   className,
   children,
-}: LoadingStatusProps) {
+}: LoadingStatusProps): React.ReactNode {
   const showLoading = useDelayedLoading(loading, delayMs);
 
   if (showLoading) {

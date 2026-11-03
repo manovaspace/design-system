@@ -1,6 +1,12 @@
 name: Publish
 
+# A push to main is the real release event: merging the changesets "Version
+# packages" pull request bumps the versions but creates no GitHub release, so
+# `release: published` alone would never publish anything automatically. The
+# `pending` step below keeps pushes that change no versions from publishing.
 on:
+  push:
+    branches: [main]
   release:
     types: [published]
   workflow_dispatch:
@@ -29,12 +35,35 @@ jobs:
         with:
           node-version: "26"
           registry-url: https://registry.npmjs.org
+      - name: Check for an unpublished version
+        id: pending
+        run: |
+          pending=0
+          for file in packages/*/package.json; do
+            name="$(node -p "require('./${file}').name")"
+            private="$(node -p "require('./${file}').private || false")"
+            version="$(node -p "require('./${file}').version")"
+            [ "$private" = "true" ] && continue
+            if [ -z "$(npm view "${name}@${version}" version 2>/dev/null)" ]; then
+              echo "${name}@${version} is not published yet"
+              pending=1
+            fi
+          done
+          if [ "$pending" -eq 0 ] && [ "${{ github.event_name }}" = "push" ]; then
+            echo "nothing to publish on this push; skipping"
+            echo "pending=0" >> "$GITHUB_OUTPUT"
+          else
+            echo "pending=1" >> "$GITHUB_OUTPUT"
+          fi
       - name: Require npm 11.5.1 or newer for trusted publishing
+        if: steps.pending.outputs.pending == '1'
         run: |
           v="$(npm --version)"
           printf '%s\n%s\n' "11.5.1" "$v" | sort -V -C || { echo "::error::npm $v is older than 11.5.1, which trusted publishing needs"; exit 1; }
-      - run: bun install --frozen-lockfile
+      - if: steps.pending.outputs.pending == '1'
+        run: bun install --frozen-lockfile
       - name: Publish
+        if: steps.pending.outputs.pending == '1'
         env:
           NPM_CONFIG_PROVENANCE: "true"
         run: bun run release

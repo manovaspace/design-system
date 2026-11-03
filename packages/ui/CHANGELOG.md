@@ -1,5 +1,15 @@
 # @manovaspace/ui
 
+## 1.1.0
+
+### Minor Changes
+
+- d9c5e67: Add experimental `WorkspaceSwitcher` (RTL-aware workspace listbox with single and empty states) and `PermissionGate` (hide/disable permission boundary) with documentation and component tests.
+
+### Patch Changes
+
+- 225a304: Declare explicit `ReactNode` return types on `LoadingOverlay` and `LoadingStatus` so the public API report is stable.
+
 ## 1.0.0
 
 ### Major Changes

@@ -59,7 +59,7 @@
   },
   "dependencies": {
     "@manovaspace/tokens": "^1.0.0",
-    "@manovaspace/ui": "^1.0.0"
+    "@manovaspace/ui": "^1.2.0"
   },
   "devDependencies": {
     "@manovaspace/build": "^0.1.0",

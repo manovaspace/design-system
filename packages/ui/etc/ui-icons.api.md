@@ -52,6 +52,9 @@ export const CheckIcon: lucide_react.LucideIcon;
 export const ChevronDownIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
+export const ChevronLeftIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
 export const ChevronRightIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)

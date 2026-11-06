@@ -116,6 +116,45 @@ export const alertVariants: (props?: ({
     variant?: "default" | "destructive" | "success" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 
+// @public
+export const AmountInput: React_2.ForwardRefExoticComponent<Omit<Omit<React_2.DetailedHTMLProps<React_2.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "ref">, "defaultValue" | "max" | "min" | "onChange" | "value"> & {
+    value?: number | null;
+    defaultValue?: number | null;
+    onChange?: (value: number | null) => void;
+    unit?: string;
+    min?: number;
+    max?: number;
+    words?: boolean;
+    quick?: number[];
+    placeholder?: string;
+    locale?: string;
+    disabled?: boolean;
+    className?: string;
+    id?: string;
+    "aria-label"?: string;
+} & React_2.RefAttributes<HTMLInputElement>>;
+
+// @public (undocumented)
+export type AmountInputProps = Omit<React_2.ComponentPropsWithoutRef<"input">, "defaultValue" | "max" | "min" | "onChange" | "value"> & {
+    value?: number | null;
+    defaultValue?: number | null;
+    onChange?: (value: number | null) => void;
+    unit?: string;
+    min?: number;
+    max?: number;
+    words?: boolean;
+    quick?: number[];
+    placeholder?: string;
+    locale?: string;
+    disabled?: boolean;
+    className?: string;
+    id?: string;
+    "aria-label"?: string;
+};
+
+// @public
+export function amountToWords(n: number, unit?: string): string;
+
 // @public (undocumented)
 export const ArrowDownTrayIcon: lucide_react.LucideIcon;
 
@@ -172,6 +211,23 @@ export const BoltIcon: lucide_react.LucideIcon;
 export { BoltSolidIcon }
 
 // @public (undocumented)
+export function Breadcrumb(input: BreadcrumbProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export type BreadcrumbItem = {
+    label: React_2.ReactNode;
+    href?: string;
+};
+
+// @public (undocumented)
+export type BreadcrumbProps = {
+    items: BreadcrumbItem[];
+    separator?: React_2.ReactNode;
+    className?: string;
+    "aria-label"?: string;
+};
+
+// @public (undocumented)
 export const BuildingOffice2Icon: lucide_react.LucideIcon;
 
 // @public
@@ -184,7 +240,7 @@ export type ButtonProps = ComponentProps<typeof Button_2> & VariantProps<typeof 
 
 // @public (undocumented)
 export const buttonVariants: (props?: ({
-    variant?: "default" | "destructive" | "ghost" | "link" | "outline" | "secondary" | "solid" | null | undefined;
+    variant?: "brand" | "default" | "destructive" | "ghost" | "link" | "outline" | "secondary" | "solid" | null | undefined;
     size?: "default" | "icon" | "icon-lg" | "icon-sm" | "icon-xs" | "lg" | "sm" | "xs" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 
@@ -274,6 +330,9 @@ export { CheckSolidIcon }
 export const ChevronDownIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
+export const ChevronLeftIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
 export const ChevronRightIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
@@ -300,6 +359,67 @@ export function ColorSwatch(input: ColorSwatchProps): React_2.JSX.Element;
 export type ColorSwatchProps = React_2.ComponentProps<"span"> & VariantProps<typeof colorSwatchVariants> & {
     token?: string;
     value?: string;
+};
+
+// @public
+export const Combobox: React_2.ForwardRefExoticComponent<ComboboxProps & React_2.RefAttributes<HTMLInputElement>>;
+
+// @public
+export const ComboboxAsync: React_2.ForwardRefExoticComponent<ComboboxAsyncProps & React_2.RefAttributes<HTMLInputElement>>;
+
+// @public (undocumented)
+export type ComboboxAsyncProps = {
+    loadOptions: (query: string, signal: AbortSignal) => Promise<(ComboboxOption | string)[]>;
+    value?: ComboboxOption | string | null;
+    onChange?: (option: ComboboxOption | null) => void;
+    placeholder?: string;
+    minChars?: number;
+    debounce?: number;
+    emptyText?: string;
+    errorText?: string;
+    locale?: string;
+    disabled?: boolean;
+    className?: string;
+    id?: string;
+    "aria-label"?: string;
+    "aria-invalid"?: boolean;
+    "aria-describedby"?: string;
+    size?: "lg" | "md" | "sm";
+    name?: string;
+    "data-testid"?: string;
+    onBlur?: React.FocusEventHandler<HTMLInputElement>;
+    onFocus?: React.FocusEventHandler<HTMLInputElement>;
+};
+
+// @public (undocumented)
+export type ComboboxOption = {
+    value: string;
+    label: string;
+    disabled?: boolean;
+    group?: string;
+};
+
+// @public (undocumented)
+export type ComboboxProps = {
+    options: (ComboboxOption | string)[];
+    value?: string;
+    defaultValue?: string;
+    onChange?: (value: string) => void;
+    placeholder?: string;
+    emptyText?: string;
+    size?: "lg" | "md" | "sm";
+    disabled?: boolean;
+    strict?: boolean;
+    name?: string;
+    locale?: string;
+    className?: string;
+    id?: string;
+    "aria-label"?: string;
+    "aria-invalid"?: boolean;
+    "aria-describedby"?: string;
+    "data-testid"?: string;
+    onBlur?: React.FocusEventHandler<HTMLInputElement>;
+    onFocus?: React.FocusEventHandler<HTMLInputElement>;
 };
 
 // @public (undocumented)
@@ -658,6 +778,9 @@ export const entityTableStartEdgeCellClass = "ps-4";
 export const ExternalLinkIcon: lucide_react.LucideIcon;
 
 // @public
+export function Field(input: FieldProps): React_2.JSX.Element;
+
+// @public
 export function FieldMessage(input: FieldMessageProps): React_2.JSX.Element | null;
 
 // @public (undocumented)
@@ -671,11 +794,26 @@ export const fieldMessageVariants: (props?: ({
     appearance?: "callout" | "inline" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 
+// @public (undocumented)
+export type FieldProps = {
+    label?: React_2.ReactNode;
+    htmlFor?: string;
+    hint?: React_2.ReactNode;
+    error?: React_2.ReactNode;
+    required?: boolean;
+    className?: string;
+    children: React_2.ReactNode;
+    id?: string;
+};
+
 // @public
 export function focusFirstError(errorsOrContainer?: FieldErrors | Record<string, unknown> | HTMLElement | Document | null, container?: HTMLElement | Document | null): HTMLElement | null;
 
 // @public (undocumented)
 export const FolderIcon: lucide_react.LucideIcon;
+
+// @public
+export function foldPersian(s: string): string;
 
 // @public
 export function formatCardCopy(cardNumber: string): string;
@@ -749,12 +887,16 @@ export function iconProps(input: IconProps): IconProps;
 export const InformationCircleIcon: lucide_react.LucideIcon;
 
 // @public
-export function Input(input: InputProps): React_2.JSX.Element;
+export const Input: React_2.ForwardRefExoticComponent<Omit<InputProps, "ref"> & React_2.RefAttributes<HTMLInputElement>>;
 
 // Warning: (ae-forgotten-export) The symbol "Input_2" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-export type InputProps = ComponentProps<typeof Input_2>;
+export type InputProps = ComponentProps<typeof Input_2> & {
+    startAddon?: React.ReactNode;
+    endAddon?: React.ReactNode;
+    error?: React.ReactNode;
+};
 
 // @public
 export function isValidIranBankCard(cardNumber: string): boolean;
@@ -818,6 +960,34 @@ export type MsisdnInputProps = Omit<ComponentPropsWithoutRef<"input">, "inputMod
     value: string;
     onValueChange: (value: string) => void;
     locale?: string;
+};
+
+// @public (undocumented)
+export function MultiSelect(input: MultiSelectProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export type MultiSelectOption = {
+    value: string;
+    label: string;
+    disabled?: boolean;
+};
+
+// @public (undocumented)
+export type MultiSelectProps = {
+    options: (MultiSelectOption | string)[];
+    value?: string[];
+    defaultValue?: string[];
+    onChange?: (value: string[]) => void;
+    placeholder?: string;
+    searchable?: boolean;
+    maxVisible?: number;
+    max?: number;
+    emptyText?: string;
+    locale?: string;
+    disabled?: boolean;
+    className?: string;
+    id?: string;
+    "aria-label"?: string;
 };
 
 // @public (undocumented)
@@ -931,7 +1101,25 @@ export type OtpInputProps = Omit<ComponentPropsWithoutRef<"input">, "inputMode" 
 export const PackageIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
+export function Pagination(input: PaginationProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export type PaginationProps = {
+    page: number;
+    pageSize: number;
+    total: number;
+    onChange: (page: number) => void;
+    siblingCount?: number;
+    locale?: string;
+    className?: string;
+    "aria-label"?: string;
+};
+
+// @public (undocumented)
 export const PaintBrushIcon: lucide_react.LucideIcon;
+
+// @public
+export function persianizeDigits(value: string | number | null | undefined): string;
 
 // @public (undocumented)
 export const PlusIcon: lucide_react.LucideIcon;
@@ -1024,6 +1212,38 @@ export const PuzzlePieceIcon: lucide_react.LucideIcon;
 
 export { PuzzlePieceSolidIcon }
 
+// @public
+export const Rating: React_2.ForwardRefExoticComponent<Omit<Omit<React_2.DetailedHTMLProps<React_2.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, "ref">, "defaultValue" | "onChange"> & {
+    value?: number;
+    defaultValue?: number;
+    onChange?: (value: number) => void;
+    max?: number;
+    precision?: 1 | 0.5;
+    readOnly?: boolean;
+    disabled?: boolean;
+    size?: "lg" | "md" | "sm";
+    locale?: string;
+    className?: string;
+    id?: string;
+    "aria-label"?: string;
+} & React_2.RefAttributes<HTMLDivElement>>;
+
+// @public (undocumented)
+export type RatingProps = Omit<React_2.ComponentPropsWithoutRef<"div">, "defaultValue" | "onChange"> & {
+    value?: number;
+    defaultValue?: number;
+    onChange?: (value: number) => void;
+    max?: number;
+    precision?: 1 | 0.5;
+    readOnly?: boolean;
+    disabled?: boolean;
+    size?: "lg" | "md" | "sm";
+    locale?: string;
+    className?: string;
+    id?: string;
+    "aria-label"?: string;
+};
+
 // @public (undocumented)
 export const RectangleStackIcon: lucide_react.LucideIcon;
 
@@ -1042,6 +1262,38 @@ export function sanitizeIntegerInput(value: string): string;
 
 // @public (undocumented)
 export const ScaleIcon: lucide_react.LucideIcon;
+
+// @public
+export const SearchInput: React_2.ForwardRefExoticComponent<Omit<SearchInputProps, "ref"> & React_2.RefAttributes<HTMLInputElement>>;
+
+// @public (undocumented)
+export type SearchInputProps = Omit<InputProps, "startAddon"> & {
+    onClear?: () => void;
+    locale?: string;
+};
+
+// @public (undocumented)
+export function SegmentedControl(input: SegmentedControlProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export type SegmentedControlOption = {
+    value: string;
+    label: React_2.ReactNode;
+    icon?: React_2.ReactNode;
+    disabled?: boolean;
+};
+
+// @public (undocumented)
+export type SegmentedControlProps = {
+    options: SegmentedControlOption[];
+    value?: string;
+    defaultValue?: string;
+    onChange?: (value: string) => void;
+    size?: "lg" | "md" | "sm";
+    disabled?: boolean;
+    className?: string;
+    "aria-label"?: string;
+};
 
 // Warning: (ae-forgotten-export) The symbol "Select_2" needs to be exported by the entry point index.d.ts
 //
@@ -1173,6 +1425,9 @@ export interface ShellHeaderProps {
 // @public (undocumented)
 export type ShellHeaderVariant = "brand" | "default" | "primary";
 
+// @public
+export function shortAmount(n: number): string;
+
 // @public (undocumented)
 export function Skeleton(input: React_2.ComponentProps<"div">): React_2.JSX.Element;
 
@@ -1191,6 +1446,44 @@ export function Spinner(input: SpinnerProps): React_2.JSX.Element;
 export const spinnerVariants: (props?: ({
     size?: "lg" | "md" | "sm" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
+
+// @public
+export function Stat(input: StatProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export type StatProps = {
+    label: React_2.ReactNode;
+    value: React_2.ReactNode;
+    description?: React_2.ReactNode;
+    delta?: {
+        value: number;
+        label?: string;
+        trend?: "down" | "neutral" | "up";
+    };
+    icon?: React_2.ReactNode;
+    locale?: string;
+    className?: string;
+};
+
+// @public (undocumented)
+export function Stepper(input: StepperProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export type StepperProps = {
+    steps: StepperStep[];
+    current: number;
+    orientation?: "horizontal" | "vertical";
+    locale?: string;
+    className?: string;
+    onStepClick?: (stepIndex: number) => void;
+};
+
+// @public (undocumented)
+export type StepperStep = {
+    label: React_2.ReactNode;
+    description?: React_2.ReactNode;
+    optional?: boolean;
+};
 
 // @public (undocumented)
 export const SunIcon: lucide_react.LucideIcon;
@@ -1256,6 +1549,25 @@ export function TabsTrigger(input: React_2.ComponentProps<typeof Tabs_2.Trigger>
 
 // @public (undocumented)
 export const TagIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
+export const TagsInput: React_2.ForwardRefExoticComponent<TagsInputProps & React_2.RefAttributes<HTMLInputElement>>;
+
+// @public (undocumented)
+export type TagsInputProps = {
+    value?: string[];
+    defaultValue?: string[];
+    onChange?: (tags: string[]) => void;
+    placeholder?: string;
+    max?: number;
+    separators?: string[];
+    validate?: (tag: string) => string | null;
+    locale?: string;
+    disabled?: boolean;
+    className?: string;
+    id?: string;
+    "aria-label"?: string;
+};
 
 // @public (undocumented)
 export function ThemeColorSync(): null;
@@ -1357,6 +1669,9 @@ export type TokenProviderProps = {
     remoteUrl?: string;
     overridePath?: string;
 };
+
+// @public
+export function toLatinDigits(value: string): string;
 
 // @public (undocumented)
 export const TrashIcon: lucide_react.LucideIcon;

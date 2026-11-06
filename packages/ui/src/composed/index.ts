@@ -5,6 +5,15 @@ export {
   type CardNumberVariant,
 } from "./card-number.js";
 export {
+  Combobox,
+  type ComboboxOption,
+  type ComboboxProps,
+} from "./combobox.js";
+export {
+  ComboboxAsync,
+  type ComboboxAsyncProps,
+} from "./combobox-async.js";
+export {
   ConfirmDialog,
   type ConfirmDialogProps,
 } from "./confirm-dialog.js";
@@ -30,6 +39,10 @@ export {
 export { EmptyState, type EmptyStateProps } from "./empty-state.js";
 export * from "./entity-browser/index.js";
 export {
+  Field,
+  type FieldProps,
+} from "./field.js";
+export {
   FieldDescription,
   FieldGroup,
   FieldMessage,
@@ -49,6 +62,11 @@ export {
   type MsisdnInputProps,
 } from "./msisdn-input.js";
 export {
+  MultiSelect,
+  type MultiSelectOption,
+  type MultiSelectProps,
+} from "./multi-select.js";
+export {
   OtpInput,
   type OtpInputProps,
 } from "./otp-input.js";
@@ -67,10 +85,18 @@ export {
 } from "./phone-number.js";
 export * from "./progressive-dialog/index.js";
 export {
+  SearchInput,
+  type SearchInputProps,
+} from "./search-input.js";
+export {
   SelectableOptionCard,
   type SelectableOptionCardProps,
 } from "./selectable-option-card.js";
 export * from "./shell/index.js";
+export {
+  TagsInput,
+  type TagsInputProps,
+} from "./tags-input.js";
 export {
   WorkspaceSwitcher,
   type WorkspaceSwitcherItem,

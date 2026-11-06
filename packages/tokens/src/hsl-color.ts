@@ -17,6 +17,8 @@ export const SEMANTIC_DARK_EXCLUDE = new Set([
   "sidebar-primary-foreground",
   "sidebar-ring",
   "destructive",
+  "color-brand",
+  "color-brand-foreground",
 ]);
 
 /**

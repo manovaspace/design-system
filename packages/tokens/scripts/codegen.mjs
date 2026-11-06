@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -26,6 +26,8 @@ const SEMANTIC_DARK_EXCLUDE = new Set([
   "sidebar-primary-foreground",
   "sidebar-ring",
   "destructive",
+  "color-brand",
+  "color-brand-foreground",
 ]);
 
 const INTERACTION_HOVER_SOURCES = {
@@ -369,6 +371,19 @@ writeFileSync(join(cssDir, "spacing.css"), css.spacing);
 writeFileSync(join(cssDir, "typography.css"), css.typography);
 writeFileSync(join(cssDir, "radii-shadows.css"), css.radiiShadows);
 writeFileSync(join(cssDir, "semantic.css"), css.semantic);
+
+const distDir = join(root, "dist");
+if (existsSync(distDir)) {
+  writeFileSync(join(distDir, "colors.css"), css.colors);
+  writeFileSync(join(distDir, "spacing.css"), css.spacing);
+  writeFileSync(join(distDir, "typography.css"), css.typography);
+  writeFileSync(join(distDir, "radii-shadows.css"), css.radiiShadows);
+  writeFileSync(join(distDir, "semantic.css"), css.semantic);
+  writeFileSync(
+    join(distDir, "default.json"),
+    `${JSON.stringify(raw, null, 2)}\n`,
+  );
+}
 
 const colorEntries = Object.entries(tokens.color)
   .map(([family, scale]) => {

@@ -312,9 +312,6 @@ export type PermissionGateProps = {
 };
 
 // @public
-export function persianizeDigits(value: string | number | null | undefined): string;
-
-// @public
 export function persianizePhoneDigits(raw: string): string;
 
 // @public (undocumented)
@@ -442,9 +439,6 @@ export const toggleVariants: (props?: ({
     variant?: "default" | "outline" | null | undefined;
     size?: "default" | "lg" | "sm" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
-
-// @public
-export function toLatinDigits(value: string): string;
 
 // @public (undocumented)
 export function toLocaleDigits(value: string, locale: string): string;

@@ -17,6 +17,7 @@ import {
   Calendar,
   Check,
   ChevronDown,
+  ChevronLeft,
   ChevronRight,
   ChevronsUpDown,
   Clipboard,
@@ -71,6 +72,7 @@ export const BuildingOffice2Icon = Building2;
 export const CalendarIcon = Calendar;
 export const CheckIcon = Check;
 export const ChevronDownIcon = ChevronDown;
+export const ChevronLeftIcon = ChevronLeft;
 export const ChevronRightIcon = ChevronRight;
 export const ChevronUpDownIcon = ChevronsUpDown;
 export const ClipboardDocumentIcon = Clipboard;

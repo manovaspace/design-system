@@ -10,12 +10,10 @@ export { isValidIranMobile } from "./phone.js";
 
 /**
  * Normalizes Arabic letters (ي/ك/ى/ة), Alef forms (آ/أ/إ/ٱ), strips Arabic/Persian diacritics,
- * and collapses ZWNJ (\u200C) and extra whitespace into single spaces for fuzzy matching in search and comboboxes.
+ * and collapses ZWNJ (U+200C) and extra whitespace into single spaces for fuzzy matching in search and comboboxes.
  *
  * @example
  * foldPersian("علي اباد") === foldPersian("علی‌آباد") // true ("علی اباد")
- *
- * @experimental
  */
 export function foldPersian(s: string): string {
   if (s == null || typeof s !== "string" || s.length === 0) {
@@ -161,8 +159,6 @@ function integerToWords(num: number): string {
  * amountToWords(1250000, "تومان") // "یک میلیون و دویست و پنجاه هزار تومان"
  * amountToWords(0) // "صفر"
  * amountToWords(-100) // "منفی صد"
- *
- * @experimental
  */
 export function amountToWords(n: number, unit?: string): string {
   if (n == null || Number.isNaN(n) || !Number.isFinite(n)) {
@@ -219,8 +215,6 @@ const SHORT_SCALES: { threshold: number; suffix: string }[] = [
  * shortAmount(2500000) // "۲٫۵ میلیون"
  * shortAmount(500000) // "۵۰۰ هزار"
  * shortAmount(0) // "۰"
- *
- * @experimental
  */
 export function shortAmount(n: number): string {
   if (n == null || Number.isNaN(n) || !Number.isFinite(n)) {

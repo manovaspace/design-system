@@ -48,7 +48,6 @@ if (!globalThis.ResizeObserver) {
 }
 
 if (!globalThis.DOMRect) {
-  // @ts-expect-error jsdom stub
   globalThis.DOMRect = class DOMRect {
     x = 0;
     y = 0;

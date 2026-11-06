@@ -1,4 +1,13 @@
 export {
+  AmountInput,
+  type AmountInputProps,
+} from "./amount-input.js";
+export {
+  Breadcrumb,
+  type BreadcrumbItem,
+  type BreadcrumbProps,
+} from "./breadcrumb.js";
+export {
   CardNumber,
   type CardNumberLabels,
   type CardNumberProps,
@@ -71,6 +80,10 @@ export {
   type OtpInputProps,
 } from "./otp-input.js";
 export {
+  Pagination,
+  type PaginationProps,
+} from "./pagination.js";
+export {
   PermissionGate,
   type PermissionGateMode,
   type PermissionGateProps,
@@ -85,14 +98,32 @@ export {
 } from "./phone-number.js";
 export * from "./progressive-dialog/index.js";
 export {
+  Rating,
+  type RatingProps,
+} from "./rating.js";
+export {
   SearchInput,
   type SearchInputProps,
 } from "./search-input.js";
+export {
+  SegmentedControl,
+  type SegmentedControlOption,
+  type SegmentedControlProps,
+} from "./segmented-control.js";
 export {
   SelectableOptionCard,
   type SelectableOptionCardProps,
 } from "./selectable-option-card.js";
 export * from "./shell/index.js";
+export {
+  Stat,
+  type StatProps,
+} from "./stat.js";
+export {
+  Stepper,
+  type StepperProps,
+  type StepperStep,
+} from "./stepper.js";
 export {
   TagsInput,
   type TagsInputProps,

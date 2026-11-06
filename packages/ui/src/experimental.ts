@@ -82,7 +82,6 @@ export {
   formatLocaleRelativeTime,
   formatPersianDate,
 } from "./lib/locale-format.js";
-export { persianizeDigits, toLatinDigits } from "./lib/numeric.js";
 export {
   formatPhoneE164,
   formatPhoneSmsHref,

@@ -1,5 +1,16 @@
 # @manovaspace/ui
 
+## 1.3.0
+
+### Minor Changes
+
+- 2a4c889: Add VibeFarsi parity components (Combobox, ComboboxAsync, MultiSelect, TagsInput, AmountInput, Pagination, Rating, SegmentedControl, Stepper, Breadcrumb, Field, SearchInput), Persian normalization utilities (foldPersian, amountToWords, shortAmount, graduated digits utilities), and tactile press and brand tokens.
+
+### Patch Changes
+
+- Updated dependencies [2a4c889]
+  - @manovaspace/tokens@1.1.0
+
 ## 1.2.0
 
 ### Minor Changes

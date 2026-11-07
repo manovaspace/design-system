@@ -1,6 +1,6 @@
 # App Components Catalog & Design System Standard
 
-LLM-oriented and human-oriented reference for **`@manovaspace/ui`**, **`@manovaspace/tokens`**, and consuming applications (Orbit, Fryto, clients).
+LLM-oriented and human-oriented reference for **`@manovaspace/ui`**, **`@manovaspace/tokens`**, and consuming applications (Orbit, Falak, clients).
 Derived from the **Goldstein / Abshodeh** (`~/Dev/abshodeh`) UI/UX benchmark.
 
 Product language is **bilingual (Persian `fa` RTL-first and English `en`)**. Code and docs are English.
@@ -49,7 +49,7 @@ Need UI in any Orbit / Manova product?
 
 ## Architectural Rules for Agents
 
-1. **No Raw Inline Brand Styles**: Never use ad-hoc `style={{ color: "var(--fryto-*)" }}`. Always use standard Tailwind semantic tokens: `bg-card`, `border-border`, `text-foreground`, `text-muted-foreground`, `bg-surface-sunken`, `bg-primary`.
+1. **No Raw Inline Brand Styles**: Never use ad-hoc `style={{ color: "var(--brand-*)" }}`. Always use standard Tailwind semantic tokens: `bg-card`, `border-border`, `text-foreground`, `text-muted-foreground`, `bg-surface-sunken`, `bg-primary`.
 2. **Adaptive Shell Over Rigid Mobile Frame**: Never trap desktop experiences in narrow phone containers (`max-w-lg`). Desktop layouts must be wide and fluid (`max-w-7xl` or full-width) with `NavRail` and `ShellHeader`; mobile layouts adapt with touch targets and bottom sheets.
 3. **Standardize on `EntityBrowser`**: All entity lists, inventories, balances, catalogs, and transaction logs must use the `EntityBrowser` pattern. Never invent custom unstyled table or list shells.
 4. **Persian Numerals on Screen**: In Persian (`fa`) locale, numbers must be displayed using Persian digits (`۰-۹`), while state and API payloads maintain clean ASCII Latin digits (`0-9`).

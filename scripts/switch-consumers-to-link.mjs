@@ -12,7 +12,7 @@ const workspaceRoot = join(
 const ds = (pkg) => `link:../../../manovaspace/design-system/packages/${pkg}`;
 const dsFromOrbitApp = (pkg) =>
   `link:../../../../manovaspace/design-system/packages/${pkg}`;
-const dsFromFrytoOpsApp = (pkg) =>
+const dsFromFalakApp = (pkg) =>
   `link:../../../../../manovaspace/design-system/packages/${pkg}`;
 
 const targets = [
@@ -32,10 +32,10 @@ const targets = [
     },
   },
   {
-    path: "clients/fryto/ops/apps/web/package.json",
+    path: "clients/manova/falak/apps/web/package.json",
     links: {
-      "@manovaspace/tokens": dsFromFrytoOpsApp("tokens"),
-      "@manovaspace/ui": dsFromFrytoOpsApp("ui"),
+      "@manovaspace/tokens": dsFromFalakApp("tokens"),
+      "@manovaspace/ui": dsFromFalakApp("ui"),
     },
   },
   {

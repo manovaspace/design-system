@@ -173,6 +173,9 @@ export { ArrowRightSolidIcon }
 export const ArrowsRightLeftIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
+export const ArrowsUpDownIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
 export const ArrowUpTrayIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
@@ -204,6 +207,9 @@ export const badgeVariants: (props?: ({
 
 // @public (undocumented)
 export const Bars3Icon: lucide_react.LucideIcon;
+
+// @public (undocumented)
+export const BellIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
 export const BoltIcon: lucide_react.LucideIcon;
@@ -246,6 +252,9 @@ export const buttonVariants: (props?: ({
 
 // @public (undocumented)
 export const CalendarIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
+export const CameraIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
 export function Card(input: CardProps): React_2.JSX.Element;
@@ -309,6 +318,9 @@ export type CardProps = React_2.ComponentProps<typeof Card_2> & {
 //
 // @public (undocumented)
 export function CardTitle(input: React_2.ComponentProps<typeof CardTitle_2>): React_2.JSX.Element;
+
+// @public (undocumented)
+export const ChartBarIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
 export const ChatBubbleLeftIcon: lucide_react.LucideIcon;
@@ -843,6 +855,9 @@ export const GlobeAltIcon: lucide_react.LucideIcon;
 
 export { GlobeSolidIcon }
 
+// @public (undocumented)
+export const HistoryIcon: lucide_react.LucideIcon;
+
 // @public
 export function HoldToConfirmButton(input: HoldToConfirmButtonProps): JSX.Element;
 
@@ -905,6 +920,9 @@ export function isValidIranBankCard(cardNumber: string): boolean;
 export function Label(input: React_2.ComponentProps<typeof Label_2.Root>): React_2.JSX.Element;
 
 // @public (undocumented)
+export const ListIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
 export const LockIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
@@ -912,6 +930,9 @@ export const MagnifyingGlassIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
 export const MailIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
+export const MapPinIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
 export const MenuIcon: lucide_react.LucideIcon;
@@ -947,6 +968,9 @@ export type MobileBottomTabLinkProps = {
 
 // @public (undocumented)
 export const MoonIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
+export const MoreHorizontalIcon: lucide_react.LucideIcon;
 
 // @public
 export const MsisdnInput: React_2.ForwardRefExoticComponent<Omit<Omit<React_2.DetailedHTMLProps<React_2.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "ref">, "inputMode" | "onChange" | "type" | "value"> & {
@@ -1245,6 +1269,9 @@ export type RatingProps = Omit<React_2.ComponentPropsWithoutRef<"div">, "default
 };
 
 // @public (undocumented)
+export const ReceiptIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
 export const RectangleStackIcon: lucide_react.LucideIcon;
 
 export { RectangleStackSolidIcon }
@@ -1435,7 +1462,13 @@ export function Skeleton(input: React_2.ComponentProps<"div">): React_2.JSX.Elem
 export const SkipForwardIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
+export const SlidersIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
 export const SnowflakeIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
+export const SortIcon: lucide_react.LucideIcon;
 
 // Warning: (ae-forgotten-export) The symbol "SpinnerProps" needs to be exported by the entry point index.d.ts
 //
@@ -1727,6 +1760,9 @@ export function useTokenContextOptional(): TokenContextValue | null;
 
 // @public (undocumented)
 export function useTokens(): TokenContextValue;
+
+// @public (undocumented)
+export const UtensilsIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
 export const WrenchScrewdriverIcon: lucide_react.LucideIcon;

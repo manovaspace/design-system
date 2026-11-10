@@ -126,7 +126,7 @@ describe("generated agent index", () => {
   });
 
   test("groups icons by pack with a count instead of listing every icon", () => {
-    expect(text).toContain("|icon|54 icons; import by name||@ui/icons");
+    expect(text).toContain("|icon|66 icons; import by name||@ui/icons");
     expect(text).toContain("|icon|11 icons; import by name||@ui/icons/solid");
     expect(text).toContain("|icon|4 icons; import by name||@ui/icons/brand");
   });

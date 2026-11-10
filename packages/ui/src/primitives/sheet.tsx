@@ -54,7 +54,7 @@ function SheetContent({
   side?: "top" | "right" | "bottom" | "left";
   showCloseButton?: boolean;
   /** Accessible label for the dismiss control (i18n). */
-  closeLabel?: string;
+  closeLabel?: React.ReactNode;
   overlayClassName?: string;
 }) {
   return (

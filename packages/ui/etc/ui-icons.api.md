@@ -28,10 +28,16 @@ export const ArrowRightOnRectangleIcon: lucide_react.LucideIcon;
 export const ArrowsRightLeftIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
+export const ArrowsUpDownIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
 export const ArrowUpTrayIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
 export const Bars3Icon: lucide_react.LucideIcon;
+
+// @public (undocumented)
+export const BellIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
 export const BoltIcon: lucide_react.LucideIcon;
@@ -41,6 +47,12 @@ export const BuildingOffice2Icon: lucide_react.LucideIcon;
 
 // @public (undocumented)
 export const CalendarIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
+export const CameraIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
+export const ChartBarIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
 export const ChatBubbleLeftIcon: lucide_react.LucideIcon;
@@ -97,10 +109,16 @@ export const FunnelIcon: lucide_react.LucideIcon;
 export const GlobeAltIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
+export const HistoryIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
 export const HomeIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
 export const InformationCircleIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
+export const ListIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
 export const LockIcon: lucide_react.LucideIcon;
@@ -112,10 +130,16 @@ export const MagnifyingGlassIcon: lucide_react.LucideIcon;
 export const MailIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
+export const MapPinIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
 export const MenuIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
 export const MoonIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
+export const MoreHorizontalIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
 export const PackageIcon: lucide_react.LucideIcon;
@@ -130,6 +154,9 @@ export const PlusIcon: lucide_react.LucideIcon;
 export const PuzzlePieceIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
+export const ReceiptIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
 export const RectangleStackIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
@@ -142,7 +169,13 @@ export const ScaleIcon: lucide_react.LucideIcon;
 export const SkipForwardIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
+export const SlidersIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
 export const SnowflakeIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
+export const SortIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
 export const SunIcon: lucide_react.LucideIcon;
@@ -161,6 +194,9 @@ export const UserIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
 export const UsersIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
+export const UtensilsIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
 export const WrenchScrewdriverIcon: lucide_react.LucideIcon;

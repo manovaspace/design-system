@@ -562,6 +562,31 @@ export function DirectionProvider(input: {
     children: ReactNode;
 }): React_2.JSX.Element;
 
+// @public
+export function EditFieldSheet(input: EditFieldSheetProps): JSX.Element;
+
+// @public (undocumented)
+export type EditFieldSheetProps = {
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    title: string;
+    label: string;
+    value: string;
+    helper?: string;
+    maxLength?: number;
+    required?: boolean;
+    requiredMessage: string;
+    saveFailedMessage: string;
+    validate?: (next: string) => string | null;
+    onSave: (next: string) => Promise<void>;
+    saveLabel: string;
+    cancelLabel: string;
+    closeLabel: string;
+    inputMode?: "numeric" | "tel" | "text";
+    autoComplete?: string;
+    dir?: "auto" | "ltr" | "rtl";
+};
+
 // @public (undocumented)
 export function EmptyState(input: EmptyStateProps): React_2.JSX.Element;
 
@@ -1278,6 +1303,27 @@ export { RectangleStackSolidIcon }
 
 // @public (undocumented)
 export const RefrigeratorIcon: lucide_react.LucideIcon;
+
+// @public
+export function Row(input: RowProps): JSX.Element;
+
+// @public
+export function RowList(input: RowListProps): JSX.Element;
+
+// @public (undocumented)
+export type RowListProps = React_2.ComponentProps<"ul"> & {
+    variant?: "flush" | "inset";
+};
+
+// @public (undocumented)
+export type RowProps = Omit<React_2.ComponentProps<"li">, "children"> & {
+    children: React_2.ReactNode;
+    leading?: React_2.ReactNode;
+    trailing?: React_2.ReactNode;
+    chevron?: boolean;
+    selected?: boolean;
+    asChild?: boolean;
+};
 
 // @public
 export function sanitizeDecimalInput(value: string, options?: {

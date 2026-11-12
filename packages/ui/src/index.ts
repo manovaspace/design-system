@@ -59,6 +59,8 @@ export {
   type DataValueProps,
   DecimalInput,
   type DecimalInputProps,
+  EditFieldSheet,
+  type EditFieldSheetProps,
   EmptyState,
   type EmptyStateProps,
   EntityBrowser,

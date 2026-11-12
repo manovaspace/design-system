@@ -1,5 +1,11 @@
 # @manovaspace/ui
 
+## 1.4.0
+
+### Minor Changes
+
+- 5251181: Add RowList/Row and EditFieldSheet
+
 ## 1.3.0
 
 ### Minor Changes

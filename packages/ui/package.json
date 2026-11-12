@@ -1,6 +1,6 @@
 {
   "name": "@manovaspace/ui",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Radix and Tailwind component primitives with motion, icons, and token integration",
   "license": "MIT",
   "type": "module",

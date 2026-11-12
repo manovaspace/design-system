@@ -65,6 +65,14 @@
 }
 
 @layer base {
+  :root {
+    --row-divider: color-mix(in srgb, var(--foreground) 8%, transparent);
+  }
+
+  .dark {
+    --row-divider: color-mix(in srgb, var(--foreground) 8%, transparent);
+  }
+
   * {
     @apply border-border outline-ring/50;
   }
@@ -210,5 +218,95 @@
         transparent
       );
     }
+  }
+}
+
+@layer components {
+  .ui-row-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .ui-row-list[data-variant="flush"] {
+    margin-inline: calc(-1 * var(--page-gutter, 1.25rem));
+  }
+
+  .ui-row {
+    --ui-row-gutter: 0.75rem;
+    display: flex;
+    align-items: center;
+    min-height: 3.5rem;
+    padding-inline: var(--ui-row-gutter);
+    position: relative;
+    box-sizing: border-box;
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+    outline: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    transition: background-color var(--motion, 0.15s) var(--ease-motion, ease);
+  }
+
+  @media (min-width: 768px) {
+    .ui-row {
+      --ui-row-gutter: 1rem;
+    }
+  }
+
+  .ui-row:not(:last-child):not([data-has-leading]) {
+    border-block-end: 1px solid var(--row-divider);
+  }
+
+  .ui-row:not(:last-child)[data-has-leading]::after {
+    content: "";
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline-end: 0;
+    inset-inline-start: calc(var(--ui-row-gutter) + 2.5rem + 0.75rem);
+    height: 1px;
+    background-color: var(--row-divider);
+    pointer-events: none;
+  }
+
+  @media (hover: hover) {
+    .ui-row:hover {
+      background-color: color-mix(in srgb, var(--foreground) 4%, transparent);
+    }
+  }
+
+  .ui-row:active {
+    background-color: color-mix(in srgb, var(--foreground) 8%, transparent);
+  }
+
+  .ui-row[data-selected="true"],
+  .ui-row[aria-selected="true"],
+  .ui-row[aria-current="true"] {
+    background-color: color-mix(in srgb, var(--primary) 8%, transparent);
+  }
+
+  .ui-row:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: -2px;
+  }
+
+  .ui-row__leading {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-inline-end: 0.75rem;
+  }
+
+  .ui-row__trailing {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-inline-start: auto;
   }
 }

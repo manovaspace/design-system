@@ -27,6 +27,16 @@ const config: StorybookConfig = {
     getAbsolutePath("@storybook/addon-mcp"),
   ],
 
+  // Production builds compose the product Storybooks (for example Falak) into
+  // one site. Dev and plain builds leave this unset, so no ref is configured.
+  ...(process.env.STORYBOOK_FALAK_URL
+    ? {
+        refs: {
+          falak: { title: "Falak", url: process.env.STORYBOOK_FALAK_URL },
+        },
+      }
+    : {}),
+
   framework: {
     name: getAbsolutePath("@storybook/react-vite"),
     options: {},

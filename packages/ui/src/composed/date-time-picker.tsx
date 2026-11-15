@@ -23,10 +23,41 @@ export type DateTimePickerProps = {
   locale?: "fa" | "en";
   /** IANA timezone used to display and interpret the selected wall time. */
   timeZone?: string;
+  /** Earliest selectable day, `YYYY-MM-DD`, in `timeZone`. Earlier days are disabled. */
+  minDate?: string;
+  /** Latest selectable day, `YYYY-MM-DD`, in `timeZone`. Later days are disabled. */
+  maxDate?: string;
   disabled?: boolean;
   className?: string;
   placeholder?: string;
 };
+
+const ISO_DATE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
+
+/** Returns the `YYYY-MM-DD` string when it is a real calendar date, otherwise undefined. */
+function normalizeIsoDate(value: string | undefined): string | undefined {
+  const match = value ? ISO_DATE_PATTERN.exec(value) : null;
+  if (!match) return undefined;
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const probe = new Date(Date.UTC(year, month - 1, day));
+  const valid =
+    probe.getUTCFullYear() === year &&
+    probe.getUTCMonth() === month - 1 &&
+    probe.getUTCDate() === day;
+  return valid ? value : undefined;
+}
+
+function isWithinBounds(
+  day: string,
+  minDate: string | undefined,
+  maxDate: string | undefined,
+): boolean {
+  if (minDate && day < minDate) return false;
+  if (maxDate && day > maxDate) return false;
+  return true;
+}
 
 const dateParts = (date: Date, timeZone: string) => {
   const parts = new Intl.DateTimeFormat("en-US", {
@@ -95,6 +126,8 @@ export function DateTimePicker({
   onValueChange,
   locale: localeProp,
   timeZone = "Asia/Tehran",
+  minDate,
+  maxDate,
   disabled,
   className,
   placeholder,
@@ -116,6 +149,22 @@ export function DateTimePicker({
     format: "YYYY-MM-DD",
     calendar: gregorian,
   }).convert(calendar);
+  const minValue = normalizeIsoDate(minDate);
+  const maxValue = normalizeIsoDate(maxDate);
+  const minDateObject = minValue
+    ? new DateObject({
+        date: minValue,
+        format: "YYYY-MM-DD",
+        calendar: gregorian,
+      }).convert(calendar)
+    : undefined;
+  const maxDateObject = maxValue
+    ? new DateObject({
+        date: maxValue,
+        format: "YYYY-MM-DD",
+        calendar: gregorian,
+      }).convert(calendar)
+    : undefined;
   const time = parts ? `${parts.hour}:${parts.minute}` : "";
   const labels =
     locale === "fa"
@@ -136,6 +185,8 @@ export function DateTimePicker({
     const gregorianValue = date.convert(gregorian);
     const match = nextTime.match(/^(\d{2}):(\d{2})$/);
     if (!match) return;
+    const wallDay = `${gregorianValue.year}-${String(gregorianValue.month.number).padStart(2, "0")}-${String(gregorianValue.day).padStart(2, "0")}`;
+    if (!isWithinBounds(wallDay, minValue, maxValue)) return;
     onValueChange(
       wallTimeToInstant(
         gregorianValue.year,
@@ -187,6 +238,8 @@ export function DateTimePicker({
               }}
               calendar={calendar}
               locale={dateLocale}
+              minDate={minDateObject}
+              maxDate={maxDateObject}
               format={locale === "fa" ? "YYYY/MM/DD" : "DD/MM/YYYY"}
               calendarPosition="bottom-center"
               containerClassName="w-full"

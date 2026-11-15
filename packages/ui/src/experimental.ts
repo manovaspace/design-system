@@ -18,6 +18,10 @@ export {
   type CopyableMoneyProps,
 } from "./composed/copyable-money.js";
 export {
+  DatePicker,
+  type DatePickerProps,
+} from "./composed/date-picker.js";
+export {
   DateTimePicker,
   type DateTimePickerProps,
 } from "./composed/date-time-picker.js";

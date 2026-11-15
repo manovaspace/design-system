@@ -1,5 +1,11 @@
 # @manovaspace/ui
 
+## 1.7.0
+
+### Minor Changes
+
+- cbb66b2: Add `FilterPillBar` for a scrollable row of filter pills under list search, and `InfiniteScrollTrigger` for loading the next page at the end of a list. `EntityBrowser` `title` is now optional for screens whose shell header shows the page title.
+
 ## 1.6.0
 
 ### Minor Changes

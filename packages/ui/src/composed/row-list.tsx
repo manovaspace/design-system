@@ -16,7 +16,17 @@ export type RowProps = Omit<React.ComponentProps<"li">, "children" | "role"> & {
   leading?: React.ReactNode;
   trailing?: React.ReactNode;
   chevron?: boolean;
+  /**
+   * Marks the current item of a single-choice list. Sets the selected look
+   * (tint and check) and `aria-current`.
+   */
   selected?: boolean;
+  /**
+   * Toggle state for a pressable row in a multi-select list. Sets `aria-pressed`
+   * on the action and shows the selected look (tint and check). Applies only to
+   * `onPress` rows; use `selected` for the current item of a single-choice list.
+   */
+  pressed?: boolean;
   /**
    * Renders the single child element (for example an anchor or a router link)
    * as the row action. The child keeps its own children as the row content.
@@ -93,7 +103,9 @@ function warnNonListitemRole(role: string): void {
  * Touch targets >= 44px, min-height 3.5rem (56px).
  * Separator uses 1px solid var(--row-divider).
  * Selected = brand 8% tint + trailing check icon; `aria-current` goes on the
- * action in interactive modes and on the `li` otherwise.
+ * action in interactive modes and on the `li` otherwise. `pressed` (pressable
+ * rows only) gives the same selected look and sets `aria-pressed` on the action
+ * for multi-select toggles; it never sets `aria-current`.
  * Chevron mirrors in RTL.
  */
 export function Row({
@@ -103,6 +115,7 @@ export function Row({
   trailing,
   chevron = false,
   selected = false,
+  pressed,
   asChild = false,
   onPress,
   disabled = false,
@@ -117,6 +130,8 @@ export function Row({
   const pressable = !asChild && onPress !== undefined;
   const interactive = asChild || pressable;
   const ariaCurrent = selected ? (ariaCurrentProp ?? "true") : ariaCurrentProp;
+  const pressedActive = pressable && pressed === true;
+  const showSelected = selected || pressedActive;
 
   let action: React.ReactNode;
   if (asChild) {
@@ -138,6 +153,7 @@ export function Row({
         onClick={onPress}
         disabled={disabled}
         aria-current={ariaCurrent}
+        aria-pressed={pressed}
       >
         {children}
       </button>
@@ -150,7 +166,7 @@ export function Row({
     <li
       data-slot="row"
       data-has-leading={leading ? "true" : undefined}
-      data-selected={selected ? "true" : undefined}
+      data-selected={showSelected ? "true" : undefined}
       data-interactive={interactive ? "true" : undefined}
       data-disabled={pressable && disabled ? "true" : undefined}
       aria-current={interactive ? undefined : ariaCurrent}
@@ -164,10 +180,10 @@ export function Row({
         </div>
       )}
       {action}
-      {(trailing || selected || chevron) && (
+      {(trailing || showSelected || chevron) && (
         <div data-slot="row-trailing" className="ui-row__trailing">
           {trailing}
-          {selected && (
+          {showSelected && (
             <CheckIcon
               data-slot="row-check"
               className="size-4 shrink-0 text-primary"

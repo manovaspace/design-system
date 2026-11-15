@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { JSX } from "react";
+import { useState } from "react";
 
 import { Button } from "../button.js";
 import { DirectionProvider } from "../direction-provider.js";
@@ -219,6 +221,40 @@ export const PressableRows: Story = {
       </RowList>
     </div>
   ),
+};
+
+/**
+ * Multi-select: each pressable row toggles `pressed`. `pressed` gives
+ * `aria-pressed` and the selected look; `selected` is for single-choice lists.
+ */
+function MultiSelectRowsExample(): JSX.Element {
+  const options = ["Cold storage", "Dry goods", "Frozen"];
+  const [chosen, setChosen] = useState<string[]>(["Dry goods"]);
+  const toggle = (name: string) =>
+    setChosen((current) =>
+      current.includes(name)
+        ? current.filter((item) => item !== name)
+        : [...current, name],
+    );
+  return (
+    <div className="max-w-md mx-auto p-4 bg-background">
+      <RowList>
+        {options.map((name) => (
+          <Row
+            key={name}
+            onPress={() => toggle(name)}
+            pressed={chosen.includes(name)}
+          >
+            <span className="text-sm font-medium">{name}</span>
+          </Row>
+        ))}
+      </RowList>
+    </div>
+  );
+}
+
+export const MultiSelectRows: Story = {
+  render: () => <MultiSelectRowsExample />,
 };
 
 export const LinkRows: Story = {

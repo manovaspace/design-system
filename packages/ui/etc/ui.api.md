@@ -1322,6 +1322,7 @@ export type RowProps = Omit<React_2.ComponentProps<"li">, "children" | "role"> &
     trailing?: React_2.ReactNode;
     chevron?: boolean;
     selected?: boolean;
+    pressed?: boolean;
     asChild?: boolean;
     onPress?: () => void;
     disabled?: boolean;

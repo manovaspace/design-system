@@ -1,5 +1,11 @@
 # @manovaspace/ui
 
+## 1.6.0
+
+### Minor Changes
+
+- 6e5f4f5: `Row` gains `pressed` for toggle rows in multi-select lists: `aria-pressed` on the action and the selected look.
+
 ## 1.5.0
 
 ### Minor Changes

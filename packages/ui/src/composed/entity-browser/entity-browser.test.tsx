@@ -14,6 +14,17 @@ afterEach(() => {
 
 describe("EntityBrowser suite", () => {
   describe("EntityBrowser", () => {
+    it("marks the card body with data-slot='entity-browser-body' for the flush RowList gutter rule", () => {
+      render(
+        <EntityBrowser title="Body slot">
+          <div data-testid="body-content">content</div>
+        </EntityBrowser>,
+      );
+
+      const body = screen.getByTestId("body-content").parentElement;
+      expect(body?.getAttribute("data-slot")).toBe("entity-browser-body");
+    });
+
     it("renders page chrome with title, description, actions, and children", () => {
       render(
         <EntityBrowser

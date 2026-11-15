@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
+import { Button } from "../button.js";
 import { DirectionProvider } from "../direction-provider.js";
 import { Row, RowList } from "./row-list.js";
 
@@ -199,5 +200,71 @@ export const PersianRtl: Story = {
         </RowList>
       </div>
     </DirectionProvider>
+  ),
+};
+
+export const PressableRows: Story = {
+  render: () => (
+    <div className="max-w-md mx-auto p-4 bg-background">
+      <RowList>
+        <Row onPress={() => {}} chevron>
+          <span className="text-sm font-medium">Open profile</span>
+        </Row>
+        <Row onPress={() => {}} chevron>
+          <span className="text-sm font-medium">View activity</span>
+        </Row>
+        <Row onPress={() => {}} disabled chevron>
+          <span className="text-sm font-medium">Unavailable item</span>
+        </Row>
+      </RowList>
+    </div>
+  ),
+};
+
+export const LinkRows: Story = {
+  render: () => (
+    <div className="max-w-md mx-auto p-4 bg-background">
+      <RowList>
+        <Row asChild chevron>
+          <a href="/rows/first">
+            <span className="text-sm font-medium">First link row</span>
+          </a>
+        </Row>
+        <Row asChild chevron>
+          <a href="/rows/second">
+            <span className="text-sm font-medium">Second link row</span>
+          </a>
+        </Row>
+      </RowList>
+    </div>
+  ),
+};
+
+export const WithTrailingAction: Story = {
+  render: () => (
+    <div className="max-w-md mx-auto p-4 bg-background">
+      <RowList>
+        <Row
+          onPress={() => {}}
+          trailing={
+            <Button type="button" variant="ghost" size="sm">
+              Remove
+            </Button>
+          }
+        >
+          <span className="text-sm font-medium">Saved address</span>
+        </Row>
+        <Row
+          onPress={() => {}}
+          trailing={
+            <Button type="button" variant="ghost" size="sm">
+              Remove
+            </Button>
+          }
+        >
+          <span className="text-sm font-medium">Home address</span>
+        </Row>
+      </RowList>
+    </div>
   ),
 };

@@ -232,6 +232,15 @@
     margin-inline: calc(-1 * var(--page-gutter, 1.25rem));
   }
 
+  /*
+   * EntityBrowser body is an overflow-hidden card. A flush RowList inside it
+   * would use a negative inline margin and lose the gutter on both sides, so
+   * the body sets the page gutter to 0. Flush rows then sit flush with the card.
+   */
+  [data-slot="entity-browser-body"] {
+    --page-gutter: 0px;
+  }
+
   .ui-row {
     --ui-row-gutter: 0.75rem;
     display: flex;
@@ -283,7 +292,8 @@
 
   .ui-row[data-selected="true"],
   .ui-row[aria-selected="true"],
-  .ui-row[aria-current="true"] {
+  .ui-row[aria-current="true"],
+  .ui-row:has(> .ui-row__action[aria-current="true"]) {
     background-color: color-mix(in srgb, var(--primary) 8%, transparent);
   }
 
@@ -308,5 +318,52 @@
     align-items: center;
     gap: 0.5rem;
     margin-inline-start: auto;
+  }
+
+  /* Interactive rows: the action stretches over the whole li (stretched link). */
+  .ui-row__action {
+    display: flex;
+    align-items: center;
+    flex: 1 1 auto;
+    min-width: 0;
+    align-self: stretch;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    text-align: start;
+    text-decoration: none;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .ui-row__action::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  .ui-row__action:focus-visible::after {
+    outline: 2px solid var(--primary);
+    outline-offset: -2px;
+  }
+
+  .ui-row__action:disabled {
+    cursor: not-allowed;
+  }
+
+  .ui-row[data-disabled="true"] {
+    opacity: 0.5;
+  }
+
+  /* Leading and trailing controls sit above the stretched action overlay. */
+  .ui-row__leading
+    :is(a, button, input, select, textarea, [role="button"], [tabindex]),
+  .ui-row__trailing
+    :is(a, button, input, select, textarea, [role="button"], [tabindex]) {
+    position: relative;
+    z-index: 1;
   }
 }

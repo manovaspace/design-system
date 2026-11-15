@@ -68,7 +68,10 @@ export function EntityBrowser({
         </EntityBrowserCommandBarProvider>
       ) : null}
 
-      <div className="overflow-hidden rounded-xl border border-border shadow-sm">
+      <div
+        data-slot="entity-browser-body"
+        className="overflow-hidden rounded-xl border border-border shadow-sm"
+      >
         {children}
       </div>
 

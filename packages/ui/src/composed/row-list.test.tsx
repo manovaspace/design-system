@@ -1,5 +1,5 @@
-import { cleanup, render, screen } from "@testing-library/react";
-import { afterEach, describe, expect, it } from "vitest";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { Row, RowList } from "./row-list.js";
 
@@ -88,34 +88,211 @@ describe("RowList and Row", () => {
       ).toBe(true);
     });
 
-    it("with asChild renders the child element directly, avoiding li > a nesting violation", () => {
+    it("with asChild keeps the li and renders the anchor as a row action inside it", () => {
       const { container } = render(
-        <Row
-          asChild
-          chevron
-          selected
-          leading={<span data-testid="avatar">AV</span>}
-        >
-          <a href="/items/42" data-testid="link-row">
-            <span>Link item</span>
-          </a>
-        </Row>,
+        <RowList>
+          <Row
+            asChild
+            chevron
+            selected
+            leading={<span data-testid="avatar">AV</span>}
+            data-testid="link-row"
+          >
+            <a href="/items/42" data-testid="link-action">
+              <span>Link item</span>
+            </a>
+          </Row>
+        </RowList>,
       );
 
-      const link = screen.getByTestId("link-row");
+      const list = container.querySelector("ul");
+      const item = list?.firstElementChild;
+      expect(item?.tagName.toLowerCase()).toBe("li");
+      expect(item?.getAttribute("data-testid")).toBe("link-row");
+      expect(item?.getAttribute("data-interactive")).toBe("true");
+      expect(item?.getAttribute("data-has-leading")).toBe("true");
+      expect(item?.getAttribute("data-selected")).toBe("true");
+      // aria-current moves to the action in interactive modes
+      expect(item?.hasAttribute("aria-current")).toBe(false);
+
+      const link = screen.getByTestId("link-action");
       expect(link.tagName.toLowerCase()).toBe("a");
       expect(link.getAttribute("href")).toBe("/items/42");
-      expect(link.className).toContain("ui-row");
-      expect(link.getAttribute("data-has-leading")).toBe("true");
-      expect(link.getAttribute("data-selected")).toBe("true");
+      expect(link.getAttribute("data-slot")).toBe("row-action");
+      expect(link.classList.contains("ui-row__action")).toBe(true);
       expect(link.getAttribute("aria-current")).toBe("true");
+      expect(link.querySelector("span")?.textContent).toBe("Link item");
 
-      // Verify no extra li element was rendered wrapping the a
-      expect(container.querySelector("li")).toBeNull();
-      // Leading, check and chevron are inside the a element
-      expect(link.querySelector('[data-testid="avatar"]')).toBeTruthy();
-      expect(link.querySelector('[data-slot="row-check"]')).toBeTruthy();
-      expect(link.querySelector('[data-slot="row-chevron"]')).toBeTruthy();
+      // leading, check and chevron are siblings of the action, not descendants
+      expect(link.querySelector('[data-testid="avatar"]')).toBeNull();
+      expect(link.querySelector('[data-slot="row-check"]')).toBeNull();
+      expect(link.querySelector('[data-slot="row-chevron"]')).toBeNull();
+      expect(item?.querySelector('[data-testid="avatar"]')).toBeTruthy();
+      expect(item?.querySelector('[data-slot="row-check"]')).toBeTruthy();
+      expect(item?.querySelector('[data-slot="row-chevron"]')).toBeTruthy();
+    });
+
+    it("keeps every direct child of the ul an li in static, pressable and link modes", () => {
+      const { container } = render(
+        <RowList>
+          <Row>Static</Row>
+          <Row onPress={() => {}}>Pressable</Row>
+          <Row asChild>
+            <a href="/items/1">Open first item</a>
+          </Row>
+        </RowList>,
+      );
+
+      const children = Array.from(
+        container.querySelector("ul")?.children ?? [],
+      );
+      expect(children).toHaveLength(3);
+      for (const child of children) {
+        expect(child.tagName.toLowerCase()).toBe("li");
+        expect(child.hasAttribute("role")).toBe(false);
+      }
+    });
+
+    it("pressable row renders a type=button action inside the li and calls onPress once on click", () => {
+      const onPress = vi.fn();
+      render(
+        <RowList>
+          <Row onPress={onPress} data-testid="press-row" chevron>
+            Pressable item
+          </Row>
+        </RowList>,
+      );
+
+      const item = screen.getByTestId("press-row");
+      expect(item.tagName.toLowerCase()).toBe("li");
+      expect(item.getAttribute("data-interactive")).toBe("true");
+      const button = item.querySelector("button");
+      expect(button).toBeTruthy();
+      expect(button?.getAttribute("type")).toBe("button");
+      expect(button?.getAttribute("data-slot")).toBe("row-action");
+      expect(button?.classList.contains("ui-row__action")).toBe(true);
+
+      fireEvent.click(screen.getByRole("button", { name: "Pressable item" }));
+      expect(onPress).toHaveBeenCalledTimes(1);
+    });
+
+    it("disabled pressable row disables the button, sets data-disabled and blocks onPress", () => {
+      const onPress = vi.fn();
+      render(
+        <RowList>
+          <Row onPress={onPress} disabled data-testid="disabled-row">
+            Disabled item
+          </Row>
+        </RowList>,
+      );
+
+      const item = screen.getByTestId("disabled-row");
+      expect(item.getAttribute("data-disabled")).toBe("true");
+      const button = screen.getByRole("button", { name: "Disabled item" });
+      expect(button.hasAttribute("disabled")).toBe(true);
+      fireEvent.click(button);
+      expect(onPress).not.toHaveBeenCalled();
+    });
+
+    it("keeps a trailing button outside the action and does not trigger onPress", () => {
+      const onPress = vi.fn();
+      const onTrailing = vi.fn();
+      render(
+        <RowList>
+          <Row
+            onPress={onPress}
+            trailing={
+              <button type="button" onClick={onTrailing}>
+                Remove
+              </button>
+            }
+          >
+            Row with action
+          </Row>
+        </RowList>,
+      );
+
+      const trailingButton = screen.getByRole("button", { name: "Remove" });
+      const action = screen.getByRole("button", { name: "Row with action" });
+      expect(action.contains(trailingButton)).toBe(false);
+      expect(trailingButton.closest("li")).toBeTruthy();
+
+      fireEvent.click(trailingButton);
+      expect(onTrailing).toHaveBeenCalledTimes(1);
+      expect(onPress).not.toHaveBeenCalled();
+    });
+
+    it("puts aria-current on the li in static mode", () => {
+      render(
+        <RowList>
+          <Row selected data-testid="static-selected">
+            Static selected
+          </Row>
+        </RowList>,
+      );
+
+      expect(
+        screen.getByTestId("static-selected").getAttribute("aria-current"),
+      ).toBe("true");
+    });
+
+    it("puts aria-current on the action in pressable mode", () => {
+      render(
+        <RowList>
+          <Row selected onPress={() => {}} data-testid="pressable-selected">
+            Pressable selected
+          </Row>
+        </RowList>,
+      );
+
+      const item = screen.getByTestId("pressable-selected");
+      expect(item.hasAttribute("aria-current")).toBe(false);
+      expect(
+        screen
+          .getByRole("button", { name: "Pressable selected" })
+          .getAttribute("aria-current"),
+      ).toBe("true");
+    });
+
+    it("warns once in development for role='button' and passes the role through", () => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      try {
+        render(
+          <RowList>
+            <Row role="button" data-testid="role-row-1">
+              Role one
+            </Row>
+            <Row role="button" data-testid="role-row-2">
+              Role two
+            </Row>
+          </RowList>,
+        );
+
+        const messages = warn.mock.calls.map((call) => String(call[0]));
+        expect(messages).toHaveLength(1);
+        expect(messages[0]).toBe(
+          'Row: role="button" removes the list item role. Use onPress or asChild for an interactive row.',
+        );
+        expect(screen.getByTestId("role-row-1").getAttribute("role")).toBe(
+          "button",
+        );
+      } finally {
+        warn.mockRestore();
+      }
+    });
+
+    it("does not warn for a row without a role", () => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      try {
+        render(
+          <RowList>
+            <Row>No role</Row>
+          </RowList>,
+        );
+        expect(warn).not.toHaveBeenCalled();
+      } finally {
+        warn.mockRestore();
+      }
     });
 
     it("sets data-has-leading when leading is provided", () => {

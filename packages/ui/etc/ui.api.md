@@ -1316,13 +1316,16 @@ export type RowListProps = React_2.ComponentProps<"ul"> & {
 };
 
 // @public (undocumented)
-export type RowProps = Omit<React_2.ComponentProps<"li">, "children"> & {
+export type RowProps = Omit<React_2.ComponentProps<"li">, "children" | "role"> & {
     children: React_2.ReactNode;
     leading?: React_2.ReactNode;
     trailing?: React_2.ReactNode;
     chevron?: boolean;
     selected?: boolean;
     asChild?: boolean;
+    onPress?: () => void;
+    disabled?: boolean;
+    role?: React_2.AriaRole;
 };
 
 // @public

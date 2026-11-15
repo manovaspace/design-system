@@ -11,13 +11,31 @@ export type RowListProps = React.ComponentProps<"ul"> & {
   variant?: "flush" | "inset";
 };
 
-export type RowProps = Omit<React.ComponentProps<"li">, "children"> & {
+export type RowProps = Omit<React.ComponentProps<"li">, "children" | "role"> & {
   children: React.ReactNode;
   leading?: React.ReactNode;
   trailing?: React.ReactNode;
   chevron?: boolean;
   selected?: boolean;
+  /**
+   * Renders the single child element (for example an anchor or a router link)
+   * as the row action. The child keeps its own children as the row content.
+   * Wins over `onPress`: when both are given, `onPress` is ignored.
+   */
   asChild?: boolean;
+  /**
+   * Makes the row pressable. The content is wrapped in a `button type="button"`
+   * inside the `li`, so the list item role is kept.
+   */
+  onPress?: () => void;
+  /** Disables the pressable action. Applies only to `onPress` rows. */
+  disabled?: boolean;
+  /**
+   * @deprecated `role` on `Row` removes the list item role and breaks list
+   * semantics. Use `onPress` or `asChild` for an interactive row. Still passed
+   * through to the `li`; a development warning is logged.
+   */
+  role?: React.AriaRole;
 };
 
 /**
@@ -44,11 +62,38 @@ export function RowList({
   );
 }
 
+const warnedRoleMessages = new Set<string>();
+
+function warnNonListitemRole(role: string): void {
+  if (process.env.NODE_ENV === "production") {
+    return;
+  }
+  const message = `Row: role="${role}" removes the list item role. Use onPress or asChild for an interactive row.`;
+  if (warnedRoleMessages.has(message)) {
+    return;
+  }
+  warnedRoleMessages.add(message);
+  console.warn(message);
+}
+
 /**
- * Borderless low-margin row surface.
+ * Borderless low-margin row. The root is always an `li`, so it stays valid
+ * inside `RowList`. Three modes, one DOM shape: `li.ui-row` > [leading] +
+ * content + [trailing].
+ *
+ * - Static (no `onPress`, no `asChild`): children render directly in the `li`.
+ * - Pressable (`onPress`): children render inside a `button type="button"`
+ *   with `data-slot="row-action"`. `disabled` disables that button.
+ * - Link (`asChild`): the single child element renders as the action with
+ *   `data-slot="row-action"`. `asChild` wins over `onPress`.
+ *
+ * Interactive modes set `data-interactive="true"` on the `li`; `leading` and
+ * `trailing` are siblings of the action, never inside it.
+ *
  * Touch targets >= 44px, min-height 3.5rem (56px).
  * Separator uses 1px solid var(--row-divider).
- * Selected = brand 8% tint + trailing check icon.
+ * Selected = brand 8% tint + trailing check icon; `aria-current` goes on the
+ * action in interactive modes and on the `li` otherwise.
  * Chevron mirrors in RTL.
  */
 export function Row({
@@ -59,18 +104,57 @@ export function Row({
   chevron = false,
   selected = false,
   asChild = false,
+  onPress,
+  disabled = false,
+  role,
+  "aria-current": ariaCurrentProp,
   ...props
 }: RowProps): JSX.Element {
-  const Comp = asChild ? Slot.Root : "li";
+  if (role !== undefined && role !== "listitem") {
+    warnNonListitemRole(role);
+  }
+
+  const pressable = !asChild && onPress !== undefined;
+  const interactive = asChild || pressable;
+  const ariaCurrent = selected ? (ariaCurrentProp ?? "true") : ariaCurrentProp;
+
+  let action: React.ReactNode;
+  if (asChild) {
+    action = (
+      <Slot.Root
+        data-slot="row-action"
+        className="ui-row__action"
+        aria-current={ariaCurrent}
+      >
+        {children}
+      </Slot.Root>
+    );
+  } else if (pressable) {
+    action = (
+      <button
+        type="button"
+        data-slot="row-action"
+        className="ui-row__action"
+        onClick={onPress}
+        disabled={disabled}
+        aria-current={ariaCurrent}
+      >
+        {children}
+      </button>
+    );
+  } else {
+    action = children;
+  }
 
   return (
-    <Comp
+    <li
       data-slot="row"
       data-has-leading={leading ? "true" : undefined}
       data-selected={selected ? "true" : undefined}
-      aria-current={
-        selected ? (props["aria-current"] ?? "true") : props["aria-current"]
-      }
+      data-interactive={interactive ? "true" : undefined}
+      data-disabled={pressable && disabled ? "true" : undefined}
+      aria-current={interactive ? undefined : ariaCurrent}
+      role={role}
       className={cn("ui-row", className)}
       {...props}
     >
@@ -79,7 +163,7 @@ export function Row({
           {leading}
         </div>
       )}
-      <Slot.Slottable>{children}</Slot.Slottable>
+      {action}
       {(trailing || selected || chevron) && (
         <div data-slot="row-trailing" className="ui-row__trailing">
           {trailing}
@@ -101,6 +185,6 @@ export function Row({
           )}
         </div>
       )}
-    </Comp>
+    </li>
   );
 }

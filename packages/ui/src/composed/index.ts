@@ -63,6 +63,12 @@ export {
   fieldMessageVariants,
 } from "./field-feedback.js";
 export {
+  FilterPillBar,
+  type FilterPillBarProps,
+  type FilterPillGroup,
+  type FilterPillOption,
+} from "./filter-pill-bar.js";
+export {
   HintTooltip,
   type HintTooltipProps,
 } from "./hint-tooltip.js";
@@ -70,6 +76,10 @@ export {
   HoldToConfirmButton,
   type HoldToConfirmButtonProps,
 } from "./hold-to-confirm-button.js";
+export {
+  InfiniteScrollTrigger,
+  type InfiniteScrollTriggerProps,
+} from "./infinite-scroll-trigger.js";
 export {
   MsisdnInput,
   type MsisdnInputProps,

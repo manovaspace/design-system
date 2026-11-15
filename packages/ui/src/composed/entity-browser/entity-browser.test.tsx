@@ -52,6 +52,64 @@ describe("EntityBrowser suite", () => {
       expect(screen.getByTestId("content")).toBeTruthy();
       expect(screen.getByTestId("footer")).toBeTruthy();
     });
+
+    it("renders no heading without a title and names the section by aria-label", () => {
+      render(
+        <EntityBrowser
+          aria-label="فهرست کاربران"
+          description="مدیریت کاربران"
+          primaryAction={<button type="button">افزودن کاربر</button>}
+        >
+          <div data-testid="content">داده</div>
+        </EntityBrowser>,
+      );
+
+      expect(screen.queryByRole("heading")).toBeNull();
+      const region = screen.getByRole("region", { name: "فهرست کاربران" });
+      expect(region).toBeTruthy();
+      expect(screen.getByText("مدیریت کاربران")).toBeTruthy();
+      expect(screen.getByRole("button", { name: "افزودن کاربر" })).toBeTruthy();
+    });
+
+    it("keeps resultMeta in the header row without a title, not in the command bar", () => {
+      render(
+        <EntityBrowser
+          aria-label="Users"
+          resultMeta={<span data-testid="meta">۱۲ مورد</span>}
+          toolbar={<div data-testid="toolbar">toolbar</div>}
+        >
+          <div>content</div>
+        </EntityBrowser>,
+      );
+
+      expect(screen.getAllByTestId("meta")).toHaveLength(1);
+      expect(screen.getByTestId("toolbar")).toBeTruthy();
+    });
+
+    it("renders no header row when a title-less browser has no description, meta or action", () => {
+      const { container } = render(
+        <EntityBrowser aria-label="Users">
+          <div data-testid="content">content</div>
+        </EntityBrowser>,
+      );
+
+      expect(container.querySelector("h2")).toBeNull();
+      expect(container.querySelector(".justify-between")).toBeNull();
+      expect(screen.getByRole("region", { name: "Users" })).toBeTruthy();
+    });
+
+    it("keeps the title as the visible heading and section name when title is set", () => {
+      render(
+        <EntityBrowser title="Users" aria-label="ignored">
+          <div>content</div>
+        </EntityBrowser>,
+      );
+
+      expect(
+        screen.getByRole("heading", { level: 2, name: "Users" }),
+      ).toBeTruthy();
+      expect(screen.getByRole("region", { name: "Users" })).toBeTruthy();
+    });
   });
 
   describe("EntitySearchField", () => {

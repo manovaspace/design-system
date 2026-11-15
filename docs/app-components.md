@@ -33,6 +33,8 @@ Need UI in any Orbit / Manova product?
 | Need | Import from | Notes |
 | --- | --- | --- |
 | Searchable list / table / catalog | `@manovaspace/ui` (`EntityBrowser`, `EntityDataTable`, `EntitySearchField`, `EntityFilterBar`) | Provides command bar, search, filter chips, data table, and empty states. |
+| Filter pills under a list search | `@manovaspace/ui` (`FilterPillBar`) | One scrollable row of single-select toggle pills and menu pills (bottom-sheet picker, searchable above 8 options). |
+| Load more at the end of a list | `@manovaspace/ui` (`InfiniteScrollTrigger`) | Sentinel-driven next-page loader with loading spinner, retry and button fallback. |
 | Desktop sidebar navigation | `@manovaspace/ui` (`NavRail`, `NavTree`) | Desktop aside rail with collapsible sections and badges. |
 | Mobile navigation drawer | `@manovaspace/ui` (`NavMobileSheet`) | Slide-over drawer for mobile screen navigation. |
 | Top header | `@manovaspace/ui` (`ShellHeader`) | Adaptive branded header with user identity, notifications, and actions. |

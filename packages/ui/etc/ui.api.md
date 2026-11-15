@@ -613,6 +613,7 @@ export type EntityBrowserPreset = "directory" | "queue";
 
 // @public (undocumented)
 export interface EntityBrowserProps {
+    "aria-label"?: string;
     // (undocumented)
     children: ReactNode;
     // (undocumented)
@@ -625,10 +626,8 @@ export interface EntityBrowserProps {
     preset?: EntityBrowserPreset;
     // (undocumented)
     primaryAction?: ReactNode;
-    // (undocumented)
     resultMeta?: ReactNode;
-    // (undocumented)
-    title: string;
+    title?: string;
     toolbar?: ReactNode;
 }
 
@@ -844,6 +843,47 @@ export type FieldProps = {
 };
 
 // @public
+export function FilterPillBar(input: FilterPillBarProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface FilterPillBarProps {
+    // (undocumented)
+    "aria-label": string;
+    // (undocumented)
+    className?: string;
+    clearLabel?: string;
+    // (undocumented)
+    groups: FilterPillGroup[];
+    onClearAll?(): void;
+}
+
+// @public (undocumented)
+export type FilterPillGroup = {
+    kind: "toggle";
+    id: string;
+    label: string;
+    options: FilterPillOption[];
+    value: string | null;
+    onChange(value: string | null): void;
+    allLabel?: string;
+} | {
+    kind: "menu";
+    id: string;
+    label: string;
+    options: FilterPillOption[];
+    value: string | null;
+    onChange(value: string | null): void;
+    allLabel: string;
+    searchPlaceholder?: string;
+};
+
+// @public (undocumented)
+export type FilterPillOption = {
+    value: string;
+    label: string;
+};
+
+// @public
 export function focusFirstError(errorsOrContainer?: FieldErrors | Record<string, unknown> | HTMLElement | Document | null, container?: HTMLElement | Document | null): HTMLElement | null;
 
 // @public (undocumented)
@@ -922,6 +962,27 @@ export type IconProps = ComponentProps<"svg"> & {
 
 // @public
 export function iconProps(input: IconProps): IconProps;
+
+// @public
+export function InfiniteScrollTrigger(input: InfiniteScrollTriggerProps): React_2.JSX.Element | null;
+
+// @public (undocumented)
+export interface InfiniteScrollTriggerProps {
+    // (undocumented)
+    className?: string;
+    failed?: boolean;
+    // (undocumented)
+    hasMore: boolean;
+    // (undocumented)
+    loading: boolean;
+    loadingLabel: string;
+    // (undocumented)
+    loadMoreLabel: string;
+    // (undocumented)
+    onLoadMore(): void;
+    retryLabel?: string;
+    rootMargin?: string;
+}
 
 // @public (undocumented)
 export const InformationCircleIcon: lucide_react.LucideIcon;

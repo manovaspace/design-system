@@ -254,6 +254,126 @@ describe("RowList and Row", () => {
       ).toBe("true");
     });
 
+    it("pressable row with pressed=true sets aria-pressed='true' on the action", () => {
+      render(
+        <RowList>
+          <Row onPress={() => {}} pressed data-testid="toggle-on">
+            Toggle on
+          </Row>
+        </RowList>,
+      );
+
+      const button = screen.getByRole("button", { name: "Toggle on" });
+      expect(button.getAttribute("aria-pressed")).toBe("true");
+    });
+
+    it("pressable row with pressed=false sets aria-pressed='false' on the action", () => {
+      render(
+        <RowList>
+          <Row onPress={() => {}} pressed={false}>
+            Toggle off
+          </Row>
+        </RowList>,
+      );
+
+      const button = screen.getByRole("button", { name: "Toggle off" });
+      expect(button.getAttribute("aria-pressed")).toBe("false");
+    });
+
+    it("pressable row without pressed renders no aria-pressed", () => {
+      render(
+        <RowList>
+          <Row onPress={() => {}}>Plain action</Row>
+        </RowList>,
+      );
+
+      const button = screen.getByRole("button", { name: "Plain action" });
+      expect(button.hasAttribute("aria-pressed")).toBe(false);
+    });
+
+    it("pressed pressable row has data-selected='true' and the check icon", () => {
+      render(
+        <RowList>
+          <Row onPress={() => {}} pressed data-testid="pressed-row">
+            Pressed item
+          </Row>
+        </RowList>,
+      );
+
+      const row = screen.getByTestId("pressed-row");
+      expect(row.getAttribute("data-selected")).toBe("true");
+      expect(row.querySelector('[data-slot="row-check"]')).toBeTruthy();
+    });
+
+    it("pressed=false pressable row has no data-selected and no check icon", () => {
+      render(
+        <RowList>
+          <Row onPress={() => {}} pressed={false} data-testid="unpressed-row">
+            Unpressed item
+          </Row>
+        </RowList>,
+      );
+
+      const row = screen.getByTestId("unpressed-row");
+      expect(row.hasAttribute("data-selected")).toBe(false);
+      expect(row.querySelector('[data-slot="row-check"]')).toBeNull();
+    });
+
+    it("pressed never sets aria-current on the action or the li", () => {
+      render(
+        <RowList>
+          <Row onPress={() => {}} pressed data-testid="pressed-current">
+            Pressed current
+          </Row>
+        </RowList>,
+      );
+
+      const item = screen.getByTestId("pressed-current");
+      expect(item.hasAttribute("aria-current")).toBe(false);
+      expect(
+        screen
+          .getByRole("button", { name: "Pressed current" })
+          .hasAttribute("aria-current"),
+      ).toBe(false);
+    });
+
+    it("static row ignores pressed: no aria-pressed, no pressed attribute, no selected look", () => {
+      render(
+        <RowList>
+          <Row pressed data-testid="static-pressed">
+            Static pressed
+          </Row>
+        </RowList>,
+      );
+
+      const item = screen.getByTestId("static-pressed");
+      expect(item.hasAttribute("pressed")).toBe(false);
+      expect(item.hasAttribute("aria-pressed")).toBe(false);
+      expect(item.querySelector("[aria-pressed]")).toBeNull();
+      expect(item.hasAttribute("data-selected")).toBe(false);
+      expect(item.querySelector('[data-slot="row-check"]')).toBeNull();
+    });
+
+    it("asChild row ignores pressed: no aria-pressed anywhere, no pressed attribute on the li", () => {
+      render(
+        <RowList>
+          <Row asChild pressed data-testid="link-pressed">
+            <a href="/items/7" data-testid="link-pressed-action">
+              Link pressed
+            </a>
+          </Row>
+        </RowList>,
+      );
+
+      const item = screen.getByTestId("link-pressed");
+      expect(item.hasAttribute("pressed")).toBe(false);
+      expect(item.querySelector("[aria-pressed]")).toBeNull();
+      expect(
+        screen.getByTestId("link-pressed-action").hasAttribute("aria-pressed"),
+      ).toBe(false);
+      expect(item.hasAttribute("data-selected")).toBe(false);
+    });
+
     it("warns once in development for role='button' and passes the role through", () => {
       const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
       try {

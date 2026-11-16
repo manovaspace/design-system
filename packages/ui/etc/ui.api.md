@@ -9,6 +9,7 @@ import { AlertDialog as AlertDialog_3 } from 'radix-ui';
 import { ArrowRight as ArrowRightSolidIcon } from 'lucide-react';
 import { Avatar as Avatar_2 } from 'radix-ui';
 import { Zap as BoltSolidIcon } from 'lucide-react';
+import { ButtonHTMLAttributes } from 'react';
 import { Checkbox as Checkbox_3 } from 'radix-ui';
 import { Check as CheckSolidIcon } from 'lucide-react';
 import * as class_variance_authority_types from 'class-variance-authority/types';
@@ -627,6 +628,7 @@ export interface EntityBrowserProps {
     // (undocumented)
     primaryAction?: ReactNode;
     resultMeta?: ReactNode;
+    stickyToolbar?: boolean;
     title?: string;
     toolbar?: ReactNode;
 }
@@ -881,6 +883,22 @@ export type FilterPillGroup = {
 export type FilterPillOption = {
     value: string;
     label: string;
+};
+
+// @public
+export const FloatingActionButton: React_2.ForwardRefExoticComponent<Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
+    label: string;
+    icon: ReactNode;
+    extended?: boolean;
+    className?: string;
+} & React_2.RefAttributes<HTMLButtonElement>>;
+
+// @public (undocumented)
+export type FloatingActionButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
+    label: string;
+    icon: ReactNode;
+    extended?: boolean;
+    className?: string;
 };
 
 // @public

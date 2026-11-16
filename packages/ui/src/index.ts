@@ -99,6 +99,8 @@ export {
   type FilterPillBarProps,
   type FilterPillGroup,
   type FilterPillOption,
+  FloatingActionButton,
+  type FloatingActionButtonProps,
   fieldMessageVariants,
   formatDataValue,
   HoldToConfirmButton,

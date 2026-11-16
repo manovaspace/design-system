@@ -24,6 +24,41 @@ export const WithTitle: Story = {
   },
 };
 
+const STICKY_DEMO_ROWS = [
+  "علی محمدی",
+  "نرگس احمدی",
+  "رضا کریمی",
+  "مریم حسینی",
+  "حسین رضایی",
+  "زهرا موسوی",
+  "امیر جعفری",
+  "سارا نوری",
+  "محمد صادقی",
+  "فاطمه اکبری",
+  "پریسا تهرانی",
+  "کامران ملکی",
+];
+
+export const StickyToolbar: Story = {
+  args: {
+    title: "کاربران",
+    description: "مدیریت و مشاهده کاربران سامانه",
+    stickyToolbar: true,
+    primaryAction: <Button type="button">افزودن کاربر</Button>,
+    toolbar: <div className="p-2 text-sm">نوار ابزار</div>,
+    resultMeta: <span className="text-sm">۱۲ مورد</span>,
+    children: (
+      <div className="flex flex-col gap-px">
+        {STICKY_DEMO_ROWS.map((row) => (
+          <div key={row} className="p-4 text-sm">
+            {row}
+          </div>
+        ))}
+      </div>
+    ),
+  },
+};
+
 export const WithoutTitle: Story = {
   args: {
     "aria-label": "کاربران",

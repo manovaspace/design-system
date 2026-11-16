@@ -1,5 +1,11 @@
 # @manovaspace/ui
 
+## 1.8.0
+
+### Minor Changes
+
+- b9f4379: Add `DatePicker`, a date-only Jalali or Gregorian picker with `value` as `YYYY-MM-DD`, `minDate`, `maxDate` and a clear action. `DateTimePicker` now accepts `minDate` and `maxDate` to disable days outside a range.
+
 ## 1.7.0
 
 ### Minor Changes

@@ -38,6 +38,10 @@ export {
   formatDataValue,
 } from "./data-value.js";
 export {
+  DatePicker,
+  type DatePickerProps,
+} from "./date-picker.js";
+export {
   DateTimePicker,
   type DateTimePickerProps,
 } from "./date-time-picker.js";

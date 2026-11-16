@@ -83,6 +83,25 @@ export type CopyableMoneyProps = {
 };
 
 // @public
+export function DatePicker(input: DatePickerProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export type DatePickerProps = {
+    value?: string;
+    onValueChange: (value: string) => void;
+    label?: string;
+    placeholder?: string;
+    locale?: "en" | "fa";
+    disabled?: boolean;
+    clearable?: boolean;
+    onClear?: () => void;
+    minDate?: string;
+    maxDate?: string;
+    className?: string;
+    size?: "default" | "sm";
+};
+
+// @public
 export function DateTimePicker(input: DateTimePickerProps): React_2.JSX.Element;
 
 // @public (undocumented)
@@ -91,6 +110,8 @@ export type DateTimePickerProps = {
     onValueChange: (value: string | null) => void;
     locale?: "en" | "fa";
     timeZone?: string;
+    minDate?: string;
+    maxDate?: string;
     disabled?: boolean;
     className?: string;
     placeholder?: string;

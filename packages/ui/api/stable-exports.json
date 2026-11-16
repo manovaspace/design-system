@@ -131,6 +131,8 @@
   "FilterPillBarProps",
   "FilterPillGroup",
   "FilterPillOption",
+  "FloatingActionButton",
+  "FloatingActionButtonProps",
   "FolderIcon",
   "FormatTomanOptions",
   "FunnelIcon",

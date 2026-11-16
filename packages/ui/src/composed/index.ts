@@ -73,6 +73,10 @@ export {
   type FilterPillOption,
 } from "./filter-pill-bar.js";
 export {
+  FloatingActionButton,
+  type FloatingActionButtonProps,
+} from "./floating-action-button.js";
+export {
   HintTooltip,
   type HintTooltipProps,
 } from "./hint-tooltip.js";

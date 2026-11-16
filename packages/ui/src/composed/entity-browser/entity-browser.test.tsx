@@ -98,6 +98,40 @@ describe("EntityBrowser suite", () => {
       expect(screen.getByRole("region", { name: "Users" })).toBeTruthy();
     });
 
+    it("does not make the command bar sticky by default", () => {
+      render(
+        <EntityBrowser
+          aria-label="Users"
+          toolbar={<div data-testid="toolbar">toolbar</div>}
+        >
+          <div>content</div>
+        </EntityBrowser>,
+      );
+
+      const wrapper = screen.getByTestId("toolbar").parentElement;
+      expect(wrapper?.className).not.toContain("sticky");
+      expect(wrapper?.hasAttribute("data-sticky")).toBe(false);
+    });
+
+    it("pins the command bar with sticky classes when stickyToolbar is set", () => {
+      render(
+        <EntityBrowser
+          aria-label="Users"
+          stickyToolbar
+          toolbar={<div data-testid="toolbar">toolbar</div>}
+        >
+          <div>content</div>
+        </EntityBrowser>,
+      );
+
+      const wrapper = screen.getByTestId("toolbar").parentElement;
+      expect(wrapper?.className).toContain("sticky");
+      expect(wrapper?.className).toContain(
+        "top-[var(--entity-browser-sticky-top,0px)]",
+      );
+      expect(wrapper?.getAttribute("data-sticky")).toBe("true");
+    });
+
     it("keeps the title as the visible heading and section name when title is set", () => {
       render(
         <EntityBrowser title="Users" aria-label="ignored">

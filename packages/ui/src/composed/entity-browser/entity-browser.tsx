@@ -28,6 +28,12 @@ export interface EntityBrowserProps {
    * a title it moves to the header row.
    */
   resultMeta?: ReactNode;
+  /**
+   * Pins the command bar (toolbar + result meta) to the top of the scrolling
+   * page. The top offset is `--entity-browser-sticky-top` (default `0px`); set
+   * it on a parent to clear a fixed header.
+   */
+  stickyToolbar?: boolean;
   children: ReactNode;
   footer?: ReactNode;
   className?: string;
@@ -41,6 +47,7 @@ export function EntityBrowser({
   primaryAction,
   toolbar,
   resultMeta,
+  stickyToolbar = false,
   children,
   footer,
   className,
@@ -92,7 +99,14 @@ export function EntityBrowser({
 
       {(toolbar ?? barMeta) ? (
         <EntityBrowserCommandBarProvider suffix={barMeta}>
-          <div className="space-y-2">
+          <div
+            className={cn(
+              "space-y-2",
+              stickyToolbar &&
+                "sticky top-[var(--entity-browser-sticky-top,0px)] z-20 -mx-4 bg-background px-4 py-2 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8",
+            )}
+            data-sticky={stickyToolbar ? "true" : undefined}
+          >
             {toolbar}
             {!toolbar && barMeta ? (
               <div className="flex min-h-7 items-center justify-start">

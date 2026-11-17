@@ -206,6 +206,26 @@ export const badgeVariants: (props?: ({
     variant?: "default" | "destructive" | "ghost" | "link" | "outline" | "secondary" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 
+// @public
+export function BarList(input: BarListProps): React_2.JSX.Element | null;
+
+// @public (undocumented)
+export type BarListItem = {
+    key: string;
+    label: React_2.ReactNode;
+    value: number;
+    valueLabel: React_2.ReactNode;
+    description?: React_2.ReactNode;
+};
+
+// @public (undocumented)
+export type BarListProps = {
+    items: BarListItem[];
+    label: string;
+    emptyState?: React_2.ReactNode;
+    className?: string;
+};
+
 // @public (undocumented)
 export const Bars3Icon: lucide_react.LucideIcon;
 

@@ -41,6 +41,9 @@ export { ColorSwatch, type ColorSwatchProps } from "./color-swatch.js";
 export {
   AmountInput,
   type AmountInputProps,
+  BarList,
+  type BarListItem,
+  type BarListProps,
   Breadcrumb,
   type BreadcrumbItem,
   type BreadcrumbProps,

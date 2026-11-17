@@ -3,6 +3,11 @@ export {
   type AmountInputProps,
 } from "./amount-input.js";
 export {
+  BarList,
+  type BarListItem,
+  type BarListProps,
+} from "./bar-list.js";
+export {
   Breadcrumb,
   type BreadcrumbItem,
   type BreadcrumbProps,

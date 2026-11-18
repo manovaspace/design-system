@@ -395,7 +395,7 @@ export type ColorSwatchProps = React_2.ComponentProps<"span"> & VariantProps<typ
 };
 
 // @public
-export const Combobox: React_2.ForwardRefExoticComponent<ComboboxProps & React_2.RefAttributes<HTMLInputElement>>;
+export const Combobox: React_2.ForwardRefExoticComponent<ComboboxProps & React_2.RefAttributes<HTMLInputElement | HTMLButtonElement>>;
 
 // @public
 export const ComboboxAsync: React_2.ForwardRefExoticComponent<ComboboxAsyncProps & React_2.RefAttributes<HTMLInputElement>>;
@@ -428,6 +428,7 @@ export type ComboboxAsyncProps = {
 export type ComboboxOption = {
     value: string;
     label: string;
+    description?: string;
     disabled?: boolean;
     group?: string;
 };
@@ -439,20 +440,22 @@ export type ComboboxProps = {
     defaultValue?: string;
     onChange?: (value: string) => void;
     placeholder?: string;
+    searchPlaceholder?: string;
     emptyText?: string;
     size?: "lg" | "md" | "sm";
     disabled?: boolean;
     strict?: boolean;
     name?: string;
     locale?: string;
+    trigger?: "button" | "input";
     className?: string;
     id?: string;
     "aria-label"?: string;
     "aria-invalid"?: boolean;
     "aria-describedby"?: string;
     "data-testid"?: string;
-    onBlur?: React.FocusEventHandler<HTMLInputElement>;
-    onFocus?: React.FocusEventHandler<HTMLInputElement>;
+    onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLButtonElement>;
+    onFocus?: React.FocusEventHandler<HTMLInputElement | HTMLButtonElement>;
 };
 
 // @public (undocumented)

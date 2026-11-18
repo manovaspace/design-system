@@ -18,6 +18,7 @@ if (typeof document === "undefined") {
 const { cleanup, render, screen } = await import("@testing-library/react");
 const { Field } = await import("./field.js");
 const { Input } = await import("../input.js");
+const { Combobox } = await import("./combobox.js");
 
 afterEach(() => {
   cleanup();
@@ -115,5 +116,155 @@ describe("Field", () => {
       "Username already taken",
     );
     expect(container.querySelector('[data-slot="field-hint"]')).toBeNull();
+  });
+
+  it("labels the control and describes it with the hint", () => {
+    const { container } = render(
+      <Field label="Phone" hint="Digits only">
+        <Input />
+      </Field>,
+    );
+
+    const input = screen.getByLabelText("Phone");
+    const hint = container.querySelector('[data-slot="field-hint"]');
+    expect(hint?.id).toBe(`${input.id}-hint`);
+    expect(input.getAttribute("aria-describedby")).toBe(hint?.id);
+    expect(input.hasAttribute("aria-invalid")).toBe(false);
+  });
+
+  it("marks the control invalid and describes it with the error alert", () => {
+    render(
+      <Field label="Email" error="Please enter a valid email address">
+        <Input type="email" />
+      </Field>,
+    );
+
+    const input = screen.getByLabelText("Email");
+    const alert = screen.getByRole("alert");
+    expect(input.getAttribute("aria-invalid")).toBe("true");
+    expect(alert.id).toBe(`${input.id}-error`);
+    expect(input.getAttribute("aria-describedby")).toBe(alert.id);
+    expect(alert.textContent).toBe("Please enter a valid email address");
+  });
+
+  it("merges the child's existing aria-describedby with the hint id", () => {
+    const { container } = render(
+      <Field label="Code" hint="Six digits">
+        <Input aria-describedby="external-help" />
+      </Field>,
+    );
+
+    const input = screen.getByLabelText("Code");
+    const hint = container.querySelector('[data-slot="field-hint"]');
+    expect(input.getAttribute("aria-describedby")).toBe(
+      `external-help ${hint?.id}`,
+    );
+  });
+
+  it("merges the child's existing aria-describedby with the error id", () => {
+    render(
+      <Field label="Code" error="Wrong code">
+        <Input aria-describedby="external-help" />
+      </Field>,
+    );
+
+    const input = screen.getByLabelText("Code");
+    const alert = screen.getByRole("alert");
+    expect(input.getAttribute("aria-describedby")).toBe(
+      `external-help ${alert.id}`,
+    );
+    expect(input.getAttribute("aria-invalid")).toBe("true");
+  });
+
+  it("respects the child's own id for the control and message ids", () => {
+    const { container } = render(
+      <Field label="Phone" hint="Digits only">
+        <Input id="phone-input" />
+      </Field>,
+    );
+
+    const input = screen.getByLabelText("Phone");
+    expect(input.id).toBe("phone-input");
+    expect(container.querySelector('[data-slot="field-hint"]')?.id).toBe(
+      "phone-input-hint",
+    );
+    expect(input.getAttribute("aria-describedby")).toBe("phone-input-hint");
+  });
+
+  it("uses htmlFor as the control id when the child has no id", () => {
+    render(
+      <Field label="Phone" htmlFor="phone-field" hint="Digits only">
+        <Input />
+      </Field>,
+    );
+
+    const input = screen.getByLabelText("Phone");
+    expect(input.id).toBe("phone-field");
+    expect(input.getAttribute("aria-describedby")).toBe("phone-field-hint");
+  });
+
+  it("does not clone a non-element child but still renders the error with an id", () => {
+    const { container } = render(
+      <Field label="Code" error="Required">
+        <Input />
+        <span>extra</span>
+      </Field>,
+    );
+
+    const alert = screen.getByRole("alert");
+    expect(alert.id).not.toBe("");
+    const input = container.querySelector("input");
+    expect(input?.hasAttribute("aria-describedby")).toBe(false);
+    expect(input?.hasAttribute("aria-invalid")).toBe(false);
+  });
+
+  it("renders a hint for a string child without throwing", () => {
+    const { container } = render(
+      <Field label="Note" hint="Optional">
+        plain text
+      </Field>,
+    );
+
+    const hint = container.querySelector('[data-slot="field-hint"]');
+    expect(hint?.id).toMatch(/-hint$/);
+    expect(container.textContent).toContain("plain text");
+  });
+
+  it("adds no aria-describedby or aria-invalid without a hint or error", () => {
+    render(
+      <Field label="Name">
+        <Input />
+      </Field>,
+    );
+
+    const input = screen.getByLabelText("Name");
+    expect(input.hasAttribute("aria-describedby")).toBe(false);
+    expect(input.hasAttribute("aria-invalid")).toBe(false);
+  });
+
+  it("wires the kit Combobox hint the same way as Input", () => {
+    const { container } = render(
+      <Field label="City" hint="Pick one from the list">
+        <Combobox options={["تهران", "شیراز"]} />
+      </Field>,
+    );
+
+    const input = screen.getByLabelText("City");
+    const hint = container.querySelector('[data-slot="field-hint"]');
+    expect(hint?.id).toBe(`${input.id}-hint`);
+    expect(input.getAttribute("aria-describedby")).toBe(hint?.id);
+  });
+
+  it("wires the kit Combobox error the same way as Input", () => {
+    render(
+      <Field label="City" error="Choose a city">
+        <Combobox options={["تهران", "شیراز"]} />
+      </Field>,
+    );
+
+    const input = screen.getByLabelText("City");
+    const alert = screen.getByRole("alert");
+    expect(input.getAttribute("aria-invalid")).toBe("true");
+    expect(input.getAttribute("aria-describedby")).toBe(alert.id);
   });
 });

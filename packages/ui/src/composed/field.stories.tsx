@@ -45,7 +45,16 @@ export const WithError: Story = {
     required: true,
     error: "Password must be at least 8 characters long.",
     hint: "This hint is hidden when an error is present.",
-    children: <Input id="password-error" type="password" aria-invalid="true" />,
+    children: <Input id="password-error" type="password" />,
+  },
+};
+
+export const WithHint: Story = {
+  args: {
+    label: "Phone number",
+    htmlFor: "phone-hint",
+    hint: "Digits only, without spaces or the country code.",
+    children: <Input id="phone-hint" type="tel" placeholder="09123456789" />,
   },
 };
 

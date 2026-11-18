@@ -1,5 +1,11 @@
 # @manovaspace/ui
 
+## 1.10.0
+
+### Minor Changes
+
+- 7dbee6e: Add BarList composed primitive for ranked totals
+
 ## 1.9.0
 
 ### Minor Changes

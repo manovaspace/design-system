@@ -1,5 +1,11 @@
 # @manovaspace/ui
 
+## 1.11.0
+
+### Minor Changes
+
+- a333edd: Add experimental `WheelDatePicker`: a Jalali date picker in a bottom sheet with year, month (Persian names) and day scroll columns. Defaults to today in Asia/Tehran; value is Gregorian `YYYY-MM-DD`.
+
 ## 1.10.0
 
 ### Minor Changes

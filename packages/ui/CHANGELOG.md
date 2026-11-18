@@ -1,5 +1,18 @@
 # @manovaspace/ui
 
+## 1.12.0
+
+### Minor Changes
+
+- 7538def: Combobox gains `trigger="button"` popover mode with a search box, and optional option descriptions.
+- 811ff19: Field now generates ids for hint and error and passes id, aria-describedby and aria-invalid to its control.
+- 3fe285a: Add opt-in `size="touch"` (44 px tall) for Button, Input, Select trigger and Switch, plus `size="icon-touch"` for Button; defaults are unchanged.
+
+### Patch Changes
+
+- 499eaed: Day cells in `DatePicker` and `DateTimePicker` are now keyboard selectable with the arrow keys, Home and End, PageUp and PageDown, and Enter or Space, and the selected date is announced to screen readers.
+- 0e809ec: Enter no longer commits while an IME composition is active in TagsInput, MultiSelect, Combobox and ComboboxAsync.
+
 ## 1.11.0
 
 ### Minor Changes

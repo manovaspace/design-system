@@ -334,3 +334,294 @@ describe("Combobox", () => {
     expect(screen.getByText("Paris")).toBeDefined();
   });
 });
+
+const pantry = [
+  {
+    value: "olive-oil",
+    label: "Olive oil",
+    description: "Cold-pressed",
+    group: "Pantry",
+  },
+  {
+    value: "black-pepper",
+    label: "Black pepper",
+    description: "Whole peppercorns",
+    group: "Pantry",
+  },
+  {
+    value: "green-tea",
+    label: "Green tea",
+    description: "Loose leaf",
+    group: "Drinks",
+  },
+];
+
+describe('Combobox trigger="button"', () => {
+  it("renders a combobox button with the placeholder when nothing is selected", () => {
+    render(
+      <Combobox
+        trigger="button"
+        options={pantry}
+        placeholder="Choose an item"
+        locale="en-US"
+      />,
+    );
+
+    const button = screen.getByRole("combobox");
+    expect(button.tagName).toBe("BUTTON");
+    expect(button.getAttribute("type")).toBe("button");
+    expect(button.getAttribute("aria-haspopup")).toBe("listbox");
+    expect(button.getAttribute("aria-expanded")).toBe("false");
+    expect(button.textContent).toBe("Choose an item");
+  });
+
+  it("opens on click and focuses the search box", () => {
+    render(<Combobox trigger="button" options={pantry} locale="en-US" />);
+
+    const button = screen.getByRole("combobox");
+    fireEvent.click(button);
+
+    expect(button.getAttribute("aria-expanded")).toBe("true");
+    const search = screen.getByRole("searchbox");
+    expect(search.getAttribute("aria-label")).toBe("Search…");
+    expect(document.activeElement).toBe(search);
+    expect(screen.getAllByRole("option")).toHaveLength(3);
+  });
+
+  it("uses the Persian search label by default", () => {
+    render(<Combobox trigger="button" options={pantry} />);
+
+    fireEvent.click(screen.getByRole("combobox"));
+    expect(screen.getByRole("searchbox").getAttribute("aria-label")).toBe(
+      "جست‌وجو…",
+    );
+  });
+
+  it.each(["Enter", " ", "ArrowDown", "ArrowUp"])(
+    "opens with the %s key",
+    (key) => {
+      render(<Combobox trigger="button" options={pantry} locale="en-US" />);
+
+      const button = screen.getByRole("combobox");
+      fireEvent.keyDown(button, { key });
+
+      expect(button.getAttribute("aria-expanded")).toBe("true");
+      expect(screen.getByRole("searchbox")).toBeDefined();
+    },
+  );
+
+  it("toggles aria-expanded on repeated clicks", () => {
+    render(<Combobox trigger="button" options={pantry} locale="en-US" />);
+
+    const button = screen.getByRole("combobox");
+    fireEvent.click(button);
+    expect(button.getAttribute("aria-expanded")).toBe("true");
+
+    fireEvent.click(button);
+    expect(button.getAttribute("aria-expanded")).toBe("false");
+    expect(screen.queryByRole("searchbox")).toBeNull();
+  });
+
+  it("filters the listbox from the search box by label, value and description", () => {
+    render(<Combobox trigger="button" options={pantry} locale="en-US" />);
+
+    fireEvent.click(screen.getByRole("combobox"));
+    const search = screen.getByRole("searchbox");
+
+    fireEvent.change(search, { target: { value: "pep" } });
+    expect(screen.getAllByRole("option")).toHaveLength(1);
+    expect(screen.getAllByRole("option")[0]?.textContent).toContain(
+      "Black pepper",
+    );
+
+    fireEvent.change(search, { target: { value: "loose" } });
+    expect(screen.getAllByRole("option")).toHaveLength(1);
+    expect(screen.getAllByRole("option")[0]?.textContent).toContain(
+      "Green tea",
+    );
+
+    fireEvent.change(search, { target: { value: "green-tea" } });
+    expect(screen.getAllByRole("option")).toHaveLength(1);
+    expect(screen.queryByText("Olive oil")).toBeNull();
+  });
+
+  it("searches with foldPersian and ranks prefix matches first", () => {
+    const options = [
+      { value: "mohammad-ali", label: "محمد على" },
+      { value: "ali-abad", label: "علی‌آباد" },
+      { value: "tehran", label: "تهران" },
+    ];
+
+    render(<Combobox trigger="button" options={options} />);
+
+    fireEvent.click(screen.getByRole("combobox"));
+    fireEvent.change(screen.getByRole("searchbox"), {
+      target: { value: "علی" },
+    });
+
+    const matched = screen.getAllByRole("option");
+    expect(matched).toHaveLength(2);
+    expect(matched[0]?.textContent).toContain("علی‌آباد");
+    expect(matched[1]?.textContent).toContain("محمد على");
+    expect(screen.queryByText("تهران")).toBeNull();
+  });
+
+  it("selects with ArrowDown and Enter, updates the label and calls onChange", () => {
+    const onChange = vi.fn();
+    render(
+      <Combobox
+        trigger="button"
+        options={pantry}
+        onChange={onChange}
+        locale="en-US"
+      />,
+    );
+
+    const button = screen.getByRole("combobox");
+    fireEvent.click(button);
+    const search = screen.getByRole("searchbox");
+
+    fireEvent.keyDown(search, { key: "ArrowDown" });
+    fireEvent.keyDown(search, { key: "ArrowDown" });
+    const options = screen.getAllByRole("option");
+    expect(search.getAttribute("aria-activedescendant")).toBe(options[1]?.id);
+
+    fireEvent.keyDown(search, { key: "Enter" });
+
+    expect(onChange).toHaveBeenCalledWith("black-pepper");
+    expect(button.textContent).toContain("Black pepper");
+    expect(button.getAttribute("aria-expanded")).toBe("false");
+    expect(document.activeElement).toBe(button);
+  });
+
+  it("closes on Escape and returns focus to the button", () => {
+    render(<Combobox trigger="button" options={pantry} locale="en-US" />);
+
+    const button = screen.getByRole("combobox");
+    fireEvent.click(button);
+    fireEvent.keyDown(screen.getByRole("searchbox"), { key: "Escape" });
+
+    expect(button.getAttribute("aria-expanded")).toBe("false");
+    expect(document.activeElement).toBe(button);
+  });
+
+  it("resets the search text when the popover closes", () => {
+    render(<Combobox trigger="button" options={pantry} locale="en-US" />);
+
+    const button = screen.getByRole("combobox");
+    fireEvent.click(button);
+    fireEvent.change(screen.getByRole("searchbox"), {
+      target: { value: "pep" },
+    });
+    expect(screen.getAllByRole("option")).toHaveLength(1);
+
+    fireEvent.keyDown(screen.getByRole("searchbox"), { key: "Escape" });
+    fireEvent.click(button);
+
+    const search = screen.getByRole("searchbox") as HTMLInputElement;
+    expect(search.value).toBe("");
+    expect(screen.getAllByRole("option")).toHaveLength(3);
+  });
+
+  it("keeps the hidden name input in sync with the selection", () => {
+    const { container } = render(
+      <Combobox
+        trigger="button"
+        name="item"
+        options={pantry}
+        defaultValue="green-tea"
+        locale="en-US"
+      />,
+    );
+
+    const hidden = container.querySelector(
+      'input[type="hidden"][name="item"]',
+    ) as HTMLInputElement;
+    expect(hidden.value).toBe("green-tea");
+
+    fireEvent.click(screen.getByRole("combobox"));
+    fireEvent.click(screen.getByText("Olive oil"));
+
+    expect(hidden.value).toBe("olive-oil");
+    expect(screen.getByRole("combobox").textContent).toContain("Olive oil");
+  });
+
+  it("does not select disabled options", () => {
+    const onChange = vi.fn();
+    const options = [
+      { value: "a", label: "Available" },
+      { value: "b", label: "Sold out", disabled: true },
+    ];
+
+    render(
+      <Combobox
+        trigger="button"
+        options={options}
+        onChange={onChange}
+        locale="en-US"
+      />,
+    );
+
+    const button = screen.getByRole("combobox");
+    fireEvent.click(button);
+    fireEvent.click(screen.getByText("Sold out"));
+
+    expect(onChange).not.toHaveBeenCalled();
+    expect(button.getAttribute("aria-expanded")).toBe("true");
+  });
+
+  it("does not open when disabled", () => {
+    render(
+      <Combobox trigger="button" options={pantry} disabled locale="en-US" />,
+    );
+
+    const button = screen.getByRole("combobox") as HTMLButtonElement;
+    expect(button.disabled).toBe(true);
+
+    fireEvent.click(button);
+    fireEvent.keyDown(button, { key: "ArrowDown" });
+    expect(button.getAttribute("aria-expanded")).toBe("false");
+  });
+
+  it("forwards the ref to the button", async () => {
+    const { createRef } = await import("react");
+    const ref = createRef<HTMLInputElement | HTMLButtonElement>();
+
+    render(<Combobox ref={ref} trigger="button" options={pantry} />);
+
+    expect(ref.current?.tagName).toBe("BUTTON");
+  });
+});
+
+describe("Combobox option descriptions", () => {
+  it("renders descriptions in input mode and filters by description", () => {
+    render(<Combobox options={pantry} locale="en-US" />);
+
+    const input = screen.getByRole("combobox");
+    fireEvent.click(input);
+    expect(screen.getByText("Loose leaf")).toBeDefined();
+
+    fireEvent.change(input, { target: { value: "peppercorns" } });
+    const matched = screen.getAllByRole("option");
+    expect(matched).toHaveLength(1);
+    expect(matched[0]?.textContent).toContain("Black pepper");
+  });
+
+  it("renders descriptions in button mode", () => {
+    render(<Combobox trigger="button" options={pantry} locale="en-US" />);
+
+    fireEvent.click(screen.getByRole("combobox"));
+    expect(screen.getByText("Cold-pressed")).toBeDefined();
+    expect(screen.getByText("Whole peppercorns")).toBeDefined();
+  });
+});
+
+describe("Combobox trigger default", () => {
+  it("uses the input trigger when trigger is not set", () => {
+    render(<Combobox options={pantry} locale="en-US" />);
+
+    const trigger = screen.getByRole("combobox");
+    expect(trigger.tagName).toBe("INPUT");
+    expect(screen.queryByRole("searchbox")).toBeNull();
+  });
+});

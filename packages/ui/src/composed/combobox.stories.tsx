@@ -166,3 +166,132 @@ export const AsyncErrorState: Story = {
     );
   },
 };
+
+const pantryItems = [
+  {
+    value: "olive-oil",
+    label: "Olive oil",
+    group: "Pantry",
+    description: "Cold-pressed, 750 ml",
+  },
+  {
+    value: "black-pepper",
+    label: "Black pepper",
+    group: "Pantry",
+    description: "Whole peppercorns, 100 g",
+  },
+  {
+    value: "basmati",
+    label: "Basmati rice",
+    group: "Grains",
+    description: "Long grain, 5 kg",
+  },
+  {
+    value: "red-lentils",
+    label: "Red lentils",
+    group: "Grains",
+    description: "Split, 1 kg",
+  },
+  {
+    value: "yogurt",
+    label: "Plain yogurt",
+    group: "Dairy",
+    description: "Full fat, 500 g",
+  },
+];
+
+const pantryItemsFa = [
+  {
+    value: "olive-oil",
+    label: "روغن زیتون",
+    group: "انبار خشک",
+    description: "سردگیری‌شده، ۷۵۰ میلی‌لیتر",
+  },
+  {
+    value: "black-pepper",
+    label: "فلفل سیاه",
+    group: "انبار خشک",
+    description: "دانه‌ای، ۱۰۰ گرم",
+  },
+  {
+    value: "basmati",
+    label: "برنج باسماتی",
+    group: "غلات",
+    description: "دانه بلند، ۵ کیلوگرم",
+  },
+  {
+    value: "red-lentils",
+    label: "عدس قرمز",
+    group: "غلات",
+    description: "پوست‌کنده، ۱ کیلوگرم",
+  },
+  {
+    value: "yogurt",
+    label: "ماست پرچرب",
+    group: "لبنیات",
+    description: "۵۰۰ گرم",
+  },
+];
+
+export const ButtonTrigger: Story = {
+  render: () => {
+    const [val, setVal] = useState("olive-oil");
+    return (
+      <div className="w-80">
+        <Combobox
+          trigger="button"
+          options={pantryItems}
+          value={val}
+          onChange={setVal}
+          placeholder="Choose an item…"
+          searchPlaceholder="Search pantry…"
+          locale="en-US"
+        />
+        <div className="mt-4 text-xs text-muted-foreground">
+          Selected value: {val}
+        </div>
+      </div>
+    );
+  },
+};
+
+export const ButtonTriggerRtl: Story = {
+  render: () => {
+    const [val, setVal] = useState("");
+    return (
+      <div className="w-80" dir="rtl">
+        <Combobox
+          trigger="button"
+          options={pantryItemsFa}
+          value={val}
+          onChange={setVal}
+          placeholder="یک قلم انتخاب کنید…"
+          searchPlaceholder="جست‌وجوی انبار…"
+        />
+        <div className="mt-4 text-xs text-muted-foreground">
+          مقدار انتخاب شده: {val || "—"}
+        </div>
+      </div>
+    );
+  },
+};
+
+export const WithDescriptions: Story = {
+  render: () => {
+    const [val, setVal] = useState("black-pepper");
+    return (
+      <div className="w-80" dir="ltr">
+        <Combobox
+          options={pantryItems}
+          value={val}
+          onChange={setVal}
+          placeholder="Search pantry…"
+          locale="en-US"
+        />
+        <div className="mt-4 text-xs text-muted-foreground">
+          Selected value: {val}
+        </div>
+      </div>
+    );
+  },
+};

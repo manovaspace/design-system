@@ -539,6 +539,29 @@ export interface WhatsNewProps {
 }
 
 // @public
+export function WheelDatePicker(input: WheelDatePickerProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export type WheelDatePickerProps = {
+    value?: string;
+    onValueChange: (next: string) => void;
+    min?: string;
+    max?: string;
+    locale?: "fa";
+    disabled?: boolean;
+    placeholder?: string;
+    labels?: {
+        title?: string;
+        confirm?: string;
+        cancel?: string;
+        year?: string;
+        month?: string;
+        day?: string;
+    };
+    className?: string;
+};
+
+// @public
 export function WorkspaceSwitcher(input: WorkspaceSwitcherProps): React_2.JSX.Element;
 
 // @public

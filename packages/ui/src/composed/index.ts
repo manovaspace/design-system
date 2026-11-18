@@ -162,6 +162,10 @@ export {
   type TagsInputProps,
 } from "./tags-input.js";
 export {
+  WheelDatePicker,
+  type WheelDatePickerProps,
+} from "./wheel-date-picker.js";
+export {
   WorkspaceSwitcher,
   type WorkspaceSwitcherItem,
   type WorkspaceSwitcherLabels,

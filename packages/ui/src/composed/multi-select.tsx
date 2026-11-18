@@ -16,6 +16,7 @@ import {
   MagnifyingGlassIcon,
   XMarkIcon,
 } from "../icons.js";
+import { isImeComposing } from "../lib/ime.js";
 import { foldPersian, persianizeDigits } from "../lib/persian.js";
 import { cn } from "../lib/utils.js";
 import { Popover, PopoverContent, PopoverTrigger } from "../popover.js";
@@ -238,7 +239,7 @@ export function MultiSelect({
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       moveFocus(-1);
-    } else if (e.key === "Enter") {
+    } else if (e.key === "Enter" && !isImeComposing(e)) {
       e.preventDefault();
       toggleActiveOption();
     } else if (e.key === " " && searchQuery === "") {

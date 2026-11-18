@@ -220,6 +220,33 @@ describe("TagsInput", () => {
     expect(screen.getByText("#valid")).toBeDefined();
   });
 
+  it("ignores Enter and Backspace while IME composition is active", () => {
+    const handleChange = vi.fn();
+    render(
+      <TagsInput
+        defaultValue={["alpha"]}
+        onChange={handleChange}
+        locale="en"
+      />,
+    );
+
+    const input = screen.getByRole("textbox");
+    fireEvent.change(input, { target: { value: "beta" } });
+    fireEvent.keyDown(input, { key: "Enter", isComposing: true });
+    fireEvent.keyDown(input, { key: "Enter", keyCode: 229 });
+    expect(handleChange).not.toHaveBeenCalled();
+    expect((input as HTMLInputElement).value).toBe("beta");
+
+    fireEvent.keyDown(input, { key: "Enter" });
+    expect(handleChange).toHaveBeenCalledWith(["alpha", "beta"]);
+    expect(handleChange).toHaveBeenCalledTimes(1);
+
+    fireEvent.keyDown(input, { key: "Backspace", isComposing: true });
+    fireEvent.keyDown(input, { key: "Backspace", keyCode: 229 });
+    expect(handleChange).toHaveBeenCalledTimes(1);
+    expect(screen.getByText("beta")).toBeDefined();
+  });
+
   it("forwards ref to the HTMLInputElement", () => {
     const ref = React.createRef<HTMLInputElement>();
     render(<TagsInput ref={ref} />);

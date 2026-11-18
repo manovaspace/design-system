@@ -204,6 +204,38 @@ describe("ComboboxAsync", () => {
     expect(signals[1]?.aborted).toBe(false);
   });
 
+  it("does not pick an option on Enter while IME composition is active", async () => {
+    const onChange = vi.fn();
+    const loadOptions = vi
+      .fn()
+      .mockResolvedValue([{ value: "item1", label: "Selected Item" }]);
+
+    render(
+      <ComboboxAsync
+        loadOptions={loadOptions}
+        onChange={onChange}
+        debounce={100}
+      />,
+    );
+
+    const input = screen.getByRole("combobox") as HTMLInputElement;
+    fireEvent.change(input, { target: { value: "item" } });
+
+    await act(async () => {
+      vi.advanceTimersByTime(150);
+    });
+
+    fireEvent.keyDown(input, { key: "Enter", isComposing: true });
+    fireEvent.keyDown(input, { key: "Enter", keyCode: 229 });
+    expect(onChange).not.toHaveBeenCalled();
+
+    fireEvent.keyDown(input, { key: "Enter" });
+    expect(onChange).toHaveBeenCalledWith({
+      value: "item1",
+      label: "Selected Item",
+    });
+  });
+
   it("displays errorText when loadOptions rejects", async () => {
     const loadOptions = vi.fn().mockRejectedValue(new Error("Network failure"));
 

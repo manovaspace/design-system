@@ -12,6 +12,7 @@ import {
 } from "react";
 
 import { CheckIcon, ChevronDownIcon } from "../icons.js";
+import { isImeComposing } from "../lib/ime.js";
 import { cn } from "../lib/utils.js";
 import { Popover, PopoverAnchor, PopoverContent } from "../popover.js";
 import { Spinner } from "../spinner.js";
@@ -284,7 +285,7 @@ export const ComboboxAsync = forwardRef<HTMLInputElement, ComboboxAsyncProps>(
           }
           setActiveIndex(prev);
         }
-      } else if (e.key === "Enter") {
+      } else if (e.key === "Enter" && !isImeComposing(e)) {
         if (open) {
           e.preventDefault();
           const activeOpt = activeIndex >= 0 ? options[activeIndex] : undefined;

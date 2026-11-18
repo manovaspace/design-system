@@ -17,6 +17,10 @@ import {
 import { cn } from "../lib/utils.js";
 import { useLocalePreference } from "../locale-preference.js";
 import { Popover, PopoverContent, PopoverTrigger } from "../popover.js";
+import {
+  describeCalendarDay,
+  useCalendarKeyboard,
+} from "./use-calendar-keyboard.js";
 
 /** @experimental */
 export type DatePickerProps = {
@@ -162,6 +166,7 @@ export function DatePicker({
   const controlId = useId();
   const preference = useLocalePreference();
   const [open, setOpen] = useState(false);
+  const [announcement, setAnnouncement] = useState("");
   const locale = localeProp ?? (preference.locale === "fa" ? "fa" : "en");
   const compact = size === "sm";
   const calendar = locale === "fa" ? persian : gregorian;
@@ -169,6 +174,12 @@ export function DatePicker({
   const valueIso = parseIsoDate(value) ? value : undefined;
   const minValue = parseIsoDate(minDate) ? minDate : undefined;
   const maxValue = parseIsoDate(maxDate) ? maxDate : undefined;
+  const calendarRef = useCalendarKeyboard({
+    calendar,
+    locale: dateLocale,
+    minDate: minValue,
+    maxDate: maxValue,
+  });
   const selectedDate = valueIso
     ? toDateObject(valueIso, calendar, dateLocale)
     : undefined;
@@ -203,6 +214,7 @@ export function DatePicker({
     if (!next?.isValid) return;
     const iso = toIsoDate(next);
     if (!isWithinBounds(iso, minValue, maxValue)) return;
+    setAnnouncement(describeCalendarDay(iso, { calendar, locale: dateLocale }));
     onValueChange(iso);
     setOpen(false);
   };
@@ -250,7 +262,7 @@ export function DatePicker({
           </Button>
         </PopoverTrigger>
         <PopoverContent align="start" className="w-auto p-2">
-          <div className="flex flex-col gap-2">
+          <div ref={calendarRef} className="flex flex-col gap-2">
             <label
               htmlFor={inputId}
               className="text-sm font-medium text-foreground"
@@ -285,6 +297,10 @@ export function DatePicker({
           </div>
         </PopoverContent>
       </Popover>
+      {/* Outside the popover, which closes on select: the live region must survive that. */}
+      <span aria-live="polite" aria-atomic="true" className="sr-only">
+        {announcement}
+      </span>
       {clearable && valueIso && (
         <Button
           type="button"

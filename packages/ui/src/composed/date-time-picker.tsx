@@ -1,6 +1,6 @@
 "use client";
 
-import { useId } from "react";
+import { useId, useRef, useState } from "react";
 import gregorian from "react-date-object/calendars/gregorian";
 import persian from "react-date-object/calendars/persian";
 import gregorianEn from "react-date-object/locales/gregorian_en";
@@ -12,6 +12,10 @@ import { Input } from "../input.js";
 import { cn } from "../lib/utils.js";
 import { useLocalePreference } from "../locale-preference.js";
 import { Popover, PopoverContent, PopoverTrigger } from "../popover.js";
+import {
+  describeCalendarDay,
+  useCalendarKeyboard,
+} from "./use-calendar-keyboard.js";
 
 /** @experimental */
 export type DateTimePickerProps = {
@@ -134,6 +138,7 @@ export function DateTimePicker({
 }: DateTimePickerProps) {
   const controlId = useId();
   const preference = useLocalePreference();
+  const [announcement, setAnnouncement] = useState("");
   const locale = localeProp ?? (preference.locale === "fa" ? "fa" : "en");
   const calendar = locale === "fa" ? persian : gregorian;
   const dateLocale = locale === "fa" ? persianFa : gregorianEn;
@@ -151,6 +156,15 @@ export function DateTimePicker({
   }).convert(calendar);
   const minValue = normalizeIsoDate(minDate);
   const maxValue = normalizeIsoDate(maxDate);
+  const timeRef = useRef<HTMLInputElement>(null);
+  const calendarRef = useCalendarKeyboard({
+    calendar,
+    locale: dateLocale,
+    minDate: minValue,
+    maxDate: maxValue,
+    // The calendar closes after a pick; move focus to the time field rather than the body.
+    onSelectionClosed: () => timeRef.current?.focus(),
+  });
   const minDateObject = minValue
     ? new DateObject({
         date: minValue,
@@ -187,6 +201,9 @@ export function DateTimePicker({
     if (!match) return;
     const wallDay = `${gregorianValue.year}-${String(gregorianValue.month.number).padStart(2, "0")}-${String(gregorianValue.day).padStart(2, "0")}`;
     if (!isWithinBounds(wallDay, minValue, maxValue)) return;
+    setAnnouncement(
+      describeCalendarDay(wallDay, { calendar, locale: dateLocale }),
+    );
     onValueChange(
       wallTimeToInstant(
         gregorianValue.year,
@@ -200,69 +217,76 @@ export function DateTimePicker({
   };
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          type="button"
-          variant="outline"
-          disabled={disabled}
-          className={cn(
-            "w-full justify-start gap-2 text-start font-normal",
-            !value && "text-muted-foreground",
-            className,
-          )}
+    <>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            type="button"
+            variant="outline"
+            disabled={disabled}
+            className={cn(
+              "w-full justify-start gap-2 text-start font-normal",
+              !value && "text-muted-foreground",
+              className,
+            )}
+          >
+            <CalendarIcon className="size-4 shrink-0" aria-hidden="true" />
+            <span className="truncate">
+              {formatInstant(value, timeZone, locale) ||
+                placeholder ||
+                labels.placeholder}
+            </span>
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent
+          align="start"
+          className="w-[min(22rem,calc(100vw-2rem))] p-3"
         >
-          <CalendarIcon className="size-4 shrink-0" aria-hidden="true" />
-          <span className="truncate">
-            {formatInstant(value, timeZone, locale) ||
-              placeholder ||
-              labels.placeholder}
-          </span>
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent
-        align="start"
-        className="w-[min(22rem,calc(100vw-2rem))] p-3"
-      >
-        <div className="flex flex-col gap-3">
-          <label
-            htmlFor={`${controlId}-date`}
-            className="flex flex-col gap-1.5 text-sm font-medium"
-          >
-            {labels.date}
-            <DatePicker
-              id={`${controlId}-date`}
-              value={selectedDate}
-              onChange={(next) => {
-                if (next) emit(next, time || "12:00");
-              }}
-              calendar={calendar}
-              locale={dateLocale}
-              minDate={minDateObject}
-              maxDate={maxDateObject}
-              format={locale === "fa" ? "YYYY/MM/DD" : "DD/MM/YYYY"}
-              calendarPosition="bottom-center"
-              containerClassName="w-full"
-              inputClass="h-10 w-full rounded-[var(--radius-lg)] border border-input bg-background px-3 text-sm"
-            />
-          </label>
-          <label
-            htmlFor={`${controlId}-time`}
-            className="flex flex-col gap-1.5 text-sm font-medium"
-          >
-            {labels.time}
-            <Input
-              id={`${controlId}-time`}
-              type="time"
-              value={time || "12:00"}
-              onChange={(event) =>
-                emit(selectedDate, event.currentTarget.value)
-              }
-            />
-          </label>
-          <span className="sr-only">{labels.choose}</span>
-        </div>
-      </PopoverContent>
-    </Popover>
+          <div className="flex flex-col gap-3">
+            <label
+              ref={calendarRef}
+              htmlFor={`${controlId}-date`}
+              className="flex flex-col gap-1.5 text-sm font-medium"
+            >
+              {labels.date}
+              <DatePicker
+                id={`${controlId}-date`}
+                value={selectedDate}
+                onChange={(next) => {
+                  if (next) emit(next, time || "12:00");
+                }}
+                calendar={calendar}
+                locale={dateLocale}
+                minDate={minDateObject}
+                maxDate={maxDateObject}
+                format={locale === "fa" ? "YYYY/MM/DD" : "DD/MM/YYYY"}
+                calendarPosition="bottom-center"
+                containerClassName="w-full"
+                inputClass="h-10 w-full rounded-[var(--radius-lg)] border border-input bg-background px-3 text-sm"
+              />
+            </label>
+            <label
+              htmlFor={`${controlId}-time`}
+              className="flex flex-col gap-1.5 text-sm font-medium"
+            >
+              {labels.time}
+              <Input
+                ref={timeRef}
+                id={`${controlId}-time`}
+                type="time"
+                value={time || "12:00"}
+                onChange={(event) =>
+                  emit(selectedDate, event.currentTarget.value)
+                }
+              />
+            </label>
+            <span className="sr-only">{labels.choose}</span>
+          </div>
+        </PopoverContent>
+      </Popover>
+      <span aria-live="polite" aria-atomic="true" className="sr-only">
+        {announcement}
+      </span>
+    </>
   );
 }

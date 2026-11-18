@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import * as React from "react";
 
+import { LocalePreferenceProvider } from "../locale-preference.js";
 import { DatePicker } from "./date-picker.js";
 
 const meta = {
@@ -9,7 +10,24 @@ const meta = {
   tags: ["autodocs"],
   parameters: {
     layout: "centered",
+    docs: {
+      description: {
+        component:
+          "Keyboard: open the calendar, press ArrowDown from the input to reach the focused day, then use the arrow keys (visual direction, so ArrowLeft moves forward in RTL), ArrowUp and ArrowDown for a week, Home and End for the row edges, PageUp and PageDown for the previous and next month, and Enter or Space to select. The selected date is announced politely.",
+      },
+    },
   },
+  decorators: [
+    (Story: React.ComponentType) => (
+      <LocalePreferenceProvider
+        storageKey="story-locale"
+        locales={["fa", "en"]}
+        defaultLocale="en"
+      >
+        <Story />
+      </LocalePreferenceProvider>
+    ),
+  ],
   args: {
     onValueChange: () => undefined,
   },

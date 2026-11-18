@@ -34,8 +34,27 @@ changeset is versioned and published, run
 `bun scripts/switch-consumers-to-npm.mjs` and reinstall affected consumers so
 CI and production resolve registry packages.
 
-Include a changeset in each package PR. After those PRs merge, start a topic
-branch from the updated `main`:
+Include a changeset in each package PR. The release then runs in this order:
+
+1. Changesets merge to `main` in package PRs.
+2. The Version Packages bot ([`.github/workflows/version-packages.yml`](./.github/workflows/version-packages.yml))
+   opens or updates one pull request from branch `changeset-release/main`, titled
+   `chore: version packages`. Do not open a second version pull request by hand;
+   it duplicates the bot's.
+3. Review each affected package version, dependency range, generated changelog and
+   lockfile on that pull request. After CI passes, squash merge it; the conventional
+   title is `chore: version packages`. Direct pushes to `main` are forbidden.
+4. The push to `main` runs [`.github/workflows/publish.yml`](./.github/workflows/publish.yml).
+   Approve the `npm-publish` GitHub environment if prompted.
+5. Approve the staged version on npmjs.com with 2FA (or `npm stage approve`).
+   Until it is approved, the version is not public.
+6. Verify with `npm view @manovaspace/<package> version`. It must match the release.
+
+If the intended versions have already been calculated and merged, verify that state
+before publishing; do not calculate a second bump.
+
+Manual fallback, only when the bot is unavailable (the `RELEASE_TOKEN` secret is
+not set):
 
 ```bash
 git switch -c chore/version-packages
@@ -43,24 +62,22 @@ bun install --frozen-lockfile
 bun run version-packages
 ```
 
-Review each affected package version, dependency range, generated changelog and
-lockfile. Stage only the reviewed release files, commit with
-`chore: version packages`, push the topic branch and open a PR. After CI passes,
-squash merge it; the conventional title is `chore: version packages`. Direct
-pushes to `main` are forbidden. If the intended versions have already been
-calculated and merged, verify that state before publishing; do not calculate a
-second bump.
+Review the same files as step 3. Stage only the reviewed release files, commit with
+`chore: version packages`, push the topic branch and open a PR. Do not open this PR
+while the bot's pull request is open; it duplicates the bot's.
 
-[`.github/workflows/publish.yml`](./.github/workflows/publish.yml) publishes only
-by a published GitHub Release or a maintainer-selected `workflow_dispatch` of
-`.github/workflows/publish.yml`. Both pause until the owner approves the
-`npm-publish` GitHub environment.
+[`.github/workflows/publish.yml`](./.github/workflows/publish.yml) runs on every
+push to `main`. Merging the `chore: version packages` pull request is the release:
+the push publishes every package whose manifest version is not yet on npm. A push
+that changes no version skips publishing. The job pauses until the owner approves
+the `npm-publish` GitHub environment.
 
-Merging the `chore: version packages` PR no longer publishes by itself. After the
-merge, run `gh workflow run publish.yml --repo manovaspace/design-system` (or
-publish a GitHub Release) and approve the environment.
+Do not run `gh workflow run publish.yml` or publish a GitHub Release after that
+merge. A second run publishes the same version again and fails with E409
+`Cannot publish over previously staged version`. Use `workflow_dispatch` or a
+published GitHub Release only to recover when a push run did not publish.
 
-The workflow uses the npm bundled with Node 24 and fails if it is older than
+The workflow uses the npm bundled with the Node version it sets up and fails if it is older than
 11.5.1. It never installs npm at run time.
 
 The workflow builds and publishes existing manifest versions; it does not run
@@ -91,14 +108,15 @@ than modules; there are no other ignored findings.
 `bun run check:api` and `bun run check:package` now block every pull request:
 both run inside the required `check` job, so a failure stops the merge.
 
-A bot keeps one Version Packages pull request through
-[`.github/workflows/version-packages.yml`](./.github/workflows/version-packages.yml)
+A bot keeps one Version Packages pull request, on branch `changeset-release/main`,
+through [`.github/workflows/version-packages.yml`](./.github/workflows/version-packages.yml)
 using `changesets/action` in version mode. It never publishes; publishing stays in
 `.github/workflows/publish.yml`. It needs the `RELEASE_TOKEN` secret, a
 fine-grained PAT with contents and pull-request write on this repository. A PAT is
 required because pull requests opened with the default `GITHUB_TOKEN` do not
 trigger their own workflows. The owner creates the token; when the secret is empty
-the workflow prints `secret not set, skipping` and succeeds.
+the workflow prints `secret not set, skipping` and succeeds. Without the bot, use
+the manual fallback in Routine release.
 
 [`.github/workflows/consumer-matrix-trigger.yml`](./.github/workflows/consumer-matrix-trigger.yml)
 packs `@manovaspace/tokens` and `@manovaspace/ui`, uploads the tarballs, and
@@ -122,8 +140,9 @@ Configure [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/) f
 
 ## Checklist
 
-- [ ] Changeset included in the pull request
-- [ ] Versions/changelogs calculated once and reviewed on a topic branch
-- [ ] Version PR passed CI and merged
-- [ ] Publish workflow approved in the `npm-publish` environment and succeeded
+- [ ] Changeset included in the package pull request
+- [ ] Version Packages pull request reviewed once (versions and changelogs) and merged
+- [ ] Version PR passed CI and was squash merged to `main`
+- [ ] Publish workflow ran on the push to `main`; `npm-publish` environment approved if prompted
+- [ ] Staged version approved on npmjs.com with 2FA (or `npm stage approve`)
 - [ ] `npm view @manovaspace/<package> version` matches the release

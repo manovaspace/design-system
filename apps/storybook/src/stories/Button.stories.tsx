@@ -26,7 +26,7 @@ const meta = {
     },
     size: {
       control: "select",
-      options: ["default", "xs", "sm", "lg", "icon"],
+      options: ["default", "xs", "sm", "lg", "touch", "icon"],
     },
   },
 } satisfies Meta<typeof Button>;
@@ -52,6 +52,15 @@ export const Outline: Story = {
     children: "Outline",
     variant: "outline",
   },
+};
+
+export const Touch: Story = {
+  render: () => (
+    <div className="flex items-center gap-3">
+      <Button>Default</Button>
+      <Button size="touch">Touch</Button>
+    </div>
+  ),
 };
 
 export const WithCard: Story = {

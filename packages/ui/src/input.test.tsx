@@ -147,4 +147,51 @@ describe("Input", () => {
     expect(ref2.current).toBeInstanceOf(globalThis.HTMLInputElement);
     expect(ref2.current?.placeholder).toBe("Ref 2");
   });
+
+  it("size touch uses h-11 in plain variant and sets no DOM size attribute", () => {
+    render(<Input placeholder="Touch plain" size="touch" />);
+    const input = screen.getByPlaceholderText("Touch plain");
+    expect(input.className).toContain("h-11");
+    expect(input.className).not.toContain("h-10");
+    expect(input.hasAttribute("size")).toBe(false);
+  });
+
+  it("size touch uses h-11 in error variant and sets no DOM size attribute", () => {
+    render(<Input placeholder="Touch error" size="touch" error="Required" />);
+    const input = screen.getByPlaceholderText("Touch error");
+    expect(input.className).toContain("h-11");
+    expect(input.className).not.toContain("h-10");
+    expect(input.hasAttribute("size")).toBe(false);
+    expect(screen.getByRole("alert").textContent).toBe("Required");
+  });
+
+  it("size touch uses h-11 on the addon container and sets no DOM size attribute", () => {
+    const { container } = render(
+      <Input
+        placeholder="Touch addon"
+        size="touch"
+        startAddon={<span>@</span>}
+      />,
+    );
+    const root = container.querySelector('[data-slot="input-root"]');
+    expect(root?.className).toContain("h-11");
+    expect(root?.className).not.toContain("h-10");
+    const input = screen.getByPlaceholderText("Touch addon");
+    expect(input.hasAttribute("size")).toBe(false);
+  });
+
+  it("keeps default height when size is default or unset", () => {
+    render(<Input placeholder="Default height" size="default" />);
+    const input = screen.getByPlaceholderText("Default height");
+    expect(input.className).toContain("h-10");
+    expect(input.className).not.toContain("h-11");
+    expect(input.hasAttribute("size")).toBe(false);
+  });
+
+  it("passes numeric size through as the native size attribute", () => {
+    render(<Input placeholder="Native size" size={20} />);
+    const input = screen.getByPlaceholderText("Native size");
+    expect(input.getAttribute("size")).toBe("20");
+    expect(input.className).toContain("h-10");
+  });
 });

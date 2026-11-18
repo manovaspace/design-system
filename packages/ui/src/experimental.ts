@@ -43,6 +43,10 @@ export {
   phoneNumberPresets,
 } from "./composed/phone-number.js";
 export {
+  WheelDatePicker,
+  type WheelDatePickerProps,
+} from "./composed/wheel-date-picker.js";
+export {
   WorkspaceSwitcher,
   type WorkspaceSwitcherItem,
   type WorkspaceSwitcherLabels,

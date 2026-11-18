@@ -44,4 +44,27 @@ describe("buttonVariants", () => {
     expect(button.getAttribute("data-variant")).toBe("brand");
     expect(button.className).toContain("bg-[var(--color-brand)]");
   });
+
+  it("touch size is 44 px tall and icon-touch is 44 px square", () => {
+    expect(buttonVariants({ size: "touch" })).toContain("h-11");
+    expect(buttonVariants({ size: "icon-touch" })).toContain("size-11");
+  });
+
+  it("renders size touch with h-11 and data-size", () => {
+    render(<Button size="touch">Tap</Button>);
+    const button = screen.getByRole("button", { name: "Tap" });
+    expect(button.getAttribute("data-size")).toBe("touch");
+    expect(button.className).toContain("h-11");
+  });
+
+  it("renders size icon-touch with size-11", () => {
+    render(
+      <Button size="icon-touch" aria-label="Add">
+        +
+      </Button>,
+    );
+    const button = screen.getByRole("button", { name: "Add" });
+    expect(button.getAttribute("data-size")).toBe("icon-touch");
+    expect(button.className).toContain("size-11");
+  });
 });

@@ -268,7 +268,7 @@ export type ButtonProps = ComponentProps<typeof Button_2> & VariantProps<typeof 
 // @public (undocumented)
 export const buttonVariants: (props?: ({
     variant?: "brand" | "default" | "destructive" | "ghost" | "link" | "outline" | "secondary" | "solid" | null | undefined;
-    size?: "default" | "icon" | "icon-lg" | "icon-sm" | "icon-xs" | "lg" | "sm" | "xs" | null | undefined;
+    size?: "default" | "icon" | "icon-lg" | "icon-sm" | "icon-touch" | "icon-xs" | "lg" | "sm" | "touch" | "xs" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 
 // @public (undocumented)
@@ -1031,7 +1031,8 @@ export const Input: React_2.ForwardRefExoticComponent<Omit<InputProps, "ref"> & 
 // Warning: (ae-forgotten-export) The symbol "Input_2" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-export type InputProps = ComponentProps<typeof Input_2> & {
+export type InputProps = Omit<ComponentProps<typeof Input_2>, "size"> & {
+    size?: number | "default" | "touch";
     startAddon?: React.ReactNode;
     endAddon?: React.ReactNode;
     error?: React.ReactNode;

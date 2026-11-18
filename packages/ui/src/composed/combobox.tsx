@@ -648,7 +648,7 @@ export const Combobox = forwardRef<
           e.key === "ArrowDown" ? 1 : -1,
         ),
       );
-    } else if (e.key === "Enter") {
+    } else if (e.key === "Enter" && !isImeComposing(e)) {
       e.preventDefault();
       const activeOpt =
         activeIndex >= 0 ? filteredOptions[activeIndex] : undefined;

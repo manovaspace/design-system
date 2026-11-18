@@ -4,6 +4,7 @@ import * as React from "react";
 import { useCallback, useId, useMemo, useRef, useState } from "react";
 
 import { XMarkIcon } from "../icons.js";
+import { isImeComposing } from "../lib/ime.js";
 import { persianizeDigits } from "../lib/persian.js";
 import { cn } from "../lib/utils.js";
 
@@ -108,6 +109,7 @@ export const TagsInput = React.forwardRef<HTMLInputElement, TagsInputProps>(
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (disabled) return;
+      if (isImeComposing(e)) return;
 
       if (e.key === "Enter" || separators.includes(e.key)) {
         e.preventDefault();

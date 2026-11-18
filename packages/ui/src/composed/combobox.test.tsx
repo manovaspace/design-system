@@ -193,6 +193,26 @@ describe("Combobox", () => {
     expect(input.value).toBe("موز");
   });
 
+  it("does not pick an option on Enter while IME composition is active", () => {
+    const onChange = vi.fn();
+    const options = [
+      { value: "apple", label: "سیب" },
+      { value: "banana", label: "موز" },
+    ];
+
+    render(<Combobox options={options} onChange={onChange} />);
+
+    const input = screen.getByRole("combobox") as HTMLInputElement;
+    fireEvent.keyDown(input, { key: "ArrowDown" });
+    fireEvent.keyDown(input, { key: "ArrowDown" });
+    fireEvent.keyDown(input, { key: "Enter", isComposing: true });
+    fireEvent.keyDown(input, { key: "Enter", keyCode: 229 });
+    expect(onChange).not.toHaveBeenCalled();
+
+    fireEvent.keyDown(input, { key: "Enter" });
+    expect(onChange).toHaveBeenCalledWith("banana");
+  });
+
   it("reverts on blur in strict mode when input doesn't match an option", () => {
     const onChange = vi.fn();
     const options = [

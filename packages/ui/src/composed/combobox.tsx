@@ -12,6 +12,7 @@ import {
 } from "react";
 
 import { CheckIcon, ChevronDownIcon } from "../icons.js";
+import { isImeComposing } from "../lib/ime.js";
 import { foldPersian } from "../lib/persian.js";
 import { cn } from "../lib/utils.js";
 import { Popover, PopoverAnchor, PopoverContent } from "../popover.js";
@@ -290,7 +291,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(
           }
           setActiveIndex(prev);
         }
-      } else if (e.key === "Enter") {
+      } else if (e.key === "Enter" && !isImeComposing(e)) {
         if (open) {
           e.preventDefault();
           const activeOpt =

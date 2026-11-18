@@ -249,6 +249,27 @@ describe("MultiSelect", () => {
     expect(combobox.getAttribute("aria-expanded")).toBe("false");
   });
 
+  it("does not toggle an option on Enter while IME composition is active", () => {
+    const handleChange = vi.fn();
+    render(
+      <MultiSelect
+        options={sampleOptions}
+        onChange={handleChange}
+        locale="en"
+      />,
+    );
+
+    fireEvent.keyDown(screen.getByRole("combobox"), { key: "Enter" });
+    const searchInput = screen.getByPlaceholderText("Search...");
+
+    fireEvent.keyDown(searchInput, { key: "Enter", isComposing: true });
+    fireEvent.keyDown(searchInput, { key: "Enter", keyCode: 229 });
+    expect(handleChange).not.toHaveBeenCalled();
+
+    fireEvent.keyDown(searchInput, { key: "Enter" });
+    expect(handleChange).toHaveBeenCalledWith(["react"]);
+  });
+
   it("does not allow interaction when disabled", () => {
     const handleChange = vi.fn();
     render(

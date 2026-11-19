@@ -40,9 +40,7 @@ export function EntitySearchField({
   }
 
   return (
-    <div
-      className={className ?? "min-w-[12rem] flex-1 space-y-1.5 sm:max-w-sm"}
-    >
+    <div className={className ?? "min-w-[12rem] flex-1 sm:max-w-sm"}>
       <Label htmlFor={id} className="sr-only">
         {label}
       </Label>

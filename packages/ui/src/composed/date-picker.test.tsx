@@ -123,6 +123,50 @@ describe("DatePicker", () => {
   });
 });
 
+describe("DatePicker external labelling", () => {
+  it("is named by an external label through id and htmlFor", () => {
+    render(
+      <LocalePreferenceProvider
+        storageKey="test-date-picker-external-label"
+        locales={["en", "fa"]}
+        defaultLocale="en"
+      >
+        <label htmlFor="paid-on">Paid on</label>
+        <DatePicker
+          id="paid-on"
+          value="2026-11-15"
+          onValueChange={() => undefined}
+        />
+      </LocalePreferenceProvider>,
+    );
+
+    expect(screen.getByRole("button", { name: /Paid on/ })).toBeTruthy();
+  });
+
+  it("uses aria-label on the trigger when no internal label is set", () => {
+    renderPicker({
+      value: "2026-11-15",
+      locale: "en",
+      "aria-label": "Due",
+    });
+
+    expect(screen.getByRole("button", { name: "Due" })).toBeTruthy();
+  });
+
+  it("lets the internal label win over a passed aria-labelledby", () => {
+    renderPicker({
+      value: "2026-11-15",
+      locale: "en",
+      label: "Date",
+      "aria-labelledby": "external-name",
+    });
+
+    expect(
+      screen.getByRole("button", { name: "Date 2026/11/15" }),
+    ).toBeTruthy();
+  });
+});
+
 /** Opens the popover. The calendar enhancement runs from a MutationObserver (a microtask), so wait for it. */
 async function openPicker(
   locale: "fa" | "en",

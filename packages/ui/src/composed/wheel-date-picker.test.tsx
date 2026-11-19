@@ -152,3 +152,32 @@ describe("WheelDatePicker", () => {
     expect(onValueChange).toHaveBeenCalledWith("2026-09-21");
   });
 });
+
+describe("WheelDatePicker external labelling", () => {
+  it("is named by an external label through id and htmlFor", () => {
+    render(
+      <>
+        <label htmlFor="due-on">Paid on</label>
+        <WheelDatePicker
+          id="due-on"
+          value="2026-09-20"
+          onValueChange={() => undefined}
+        />
+      </>,
+    );
+
+    expect(screen.getByRole("button", { name: /Paid on/ })).toBeTruthy();
+  });
+
+  it("uses aria-label on the trigger", () => {
+    render(
+      <WheelDatePicker
+        value="2026-09-20"
+        aria-label="Due"
+        onValueChange={() => undefined}
+      />,
+    );
+
+    expect(screen.getByRole("button", { name: "Due" })).toBeTruthy();
+  });
+});

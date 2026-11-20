@@ -25,6 +25,27 @@ describe("EntityBrowser suite", () => {
       expect(body?.getAttribute("data-slot")).toBe("entity-browser-body");
     });
 
+    it("defaults the body frame to card and renders frame='flat' without the card classes", () => {
+      const { unmount } = render(
+        <EntityBrowser aria-label="Card">
+          <div data-testid="card-content">content</div>
+        </EntityBrowser>,
+      );
+      const cardBody = screen.getByTestId("card-content").parentElement;
+      expect(cardBody?.getAttribute("data-frame")).toBe("card");
+      expect(cardBody?.classList.contains("border-border")).toBe(true);
+      unmount();
+
+      render(
+        <EntityBrowser aria-label="Flat" frame="flat">
+          <div data-testid="flat-content">content</div>
+        </EntityBrowser>,
+      );
+      const flatBody = screen.getByTestId("flat-content").parentElement;
+      expect(flatBody?.getAttribute("data-frame")).toBe("flat");
+      expect(flatBody?.classList.contains("border-border")).toBe(false);
+    });
+
     it("renders page chrome with title, description, actions, and children", () => {
       render(
         <EntityBrowser

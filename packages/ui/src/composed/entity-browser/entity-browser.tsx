@@ -34,6 +34,8 @@ export interface EntityBrowserProps {
    * it on a parent to clear a fixed header.
    */
   stickyToolbar?: boolean;
+  /** Body frame. "card" (default): bordered, rounded, shadowed. "flat": no border, radius or shadow, rows run full width. */
+  frame?: "card" | "flat";
   children: ReactNode;
   footer?: ReactNode;
   className?: string;
@@ -48,6 +50,7 @@ export function EntityBrowser({
   toolbar,
   resultMeta,
   stickyToolbar = false,
+  frame = "card",
   children,
   footer,
   className,
@@ -119,7 +122,11 @@ export function EntityBrowser({
 
       <div
         data-slot="entity-browser-body"
-        className="overflow-hidden rounded-xl border border-border shadow-sm"
+        data-frame={frame}
+        className={cn(
+          "overflow-hidden",
+          frame === "card" && "rounded-xl border border-border shadow-sm",
+        )}
       >
         {children}
       </div>

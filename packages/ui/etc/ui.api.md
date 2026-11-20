@@ -643,6 +643,7 @@ export interface EntityBrowserProps {
     description?: string;
     // (undocumented)
     footer?: ReactNode;
+    frame?: "card" | "flat";
     // (undocumented)
     preset?: EntityBrowserPreset;
     // (undocumented)

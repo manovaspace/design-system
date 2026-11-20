@@ -24,6 +24,16 @@ export const WithTitle: Story = {
   },
 };
 
+export const Flat: Story = {
+  args: {
+    title: "کاربران",
+    description: "مدیریت و مشاهده کاربران سامانه",
+    frame: "flat",
+    primaryAction: <Button type="button">افزودن کاربر</Button>,
+    children: <div className="p-4 text-sm">لیست داده‌ها</div>,
+  },
+};
+
 const STICKY_DEMO_ROWS = [
   "علی محمدی",
   "نرگس احمدی",

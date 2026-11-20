@@ -1,5 +1,11 @@
 # @manovaspace/ui
 
+## 1.13.0
+
+### Minor Changes
+
+- b185011: DatePicker and WheelDatePicker accept `id`, `aria-label` and `aria-labelledby` on the trigger so a form's own label names the field. The WheelDatePicker trigger is now 44px tall like the DatePicker trigger, and the DatePicker trigger fills the width its wrapper is given.
+
 ## 1.12.0
 
 ### Minor Changes

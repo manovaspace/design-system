@@ -42,6 +42,12 @@ export type DatePickerProps = {
   minDate?: string;
   /** Latest selectable day, `YYYY-MM-DD`. Later days are disabled. */
   maxDate?: string;
+  /** Forwarded to the trigger button, so an external `<label htmlFor>` names the field. */
+  id?: string;
+  /** Accessible name for the trigger when `label` is not set. Ignored when `label` is set. */
+  "aria-label"?: string;
+  /** Accessible name source for the trigger when `label` is not set. Ignored when `label` is set. */
+  "aria-labelledby"?: string;
   className?: string;
   size?: "default" | "sm";
 };
@@ -160,6 +166,9 @@ export function DatePicker({
   onClear,
   minDate,
   maxDate,
+  id,
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
   className,
   size = "default",
 }: DatePickerProps) {
@@ -239,13 +248,15 @@ export function DatePicker({
           <Button
             type="button"
             variant="outline"
+            id={id}
             disabled={disabled}
-            aria-labelledby={label ? `${labelId} ${valueId}` : undefined}
+            aria-label={label ? undefined : ariaLabel}
+            aria-labelledby={label ? `${labelId} ${valueId}` : ariaLabelledBy}
             className={cn(
               compact
                 ? "h-8 min-w-[6.5rem] gap-1.5 rounded-md px-2.5 text-xs"
                 : "h-11 min-w-[8.5rem] gap-2 rounded-lg px-3",
-              "justify-start text-start font-normal text-foreground",
+              "flex-1 justify-start text-start font-normal text-foreground",
               !valueIso && "text-muted-foreground",
             )}
           >

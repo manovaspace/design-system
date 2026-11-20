@@ -97,6 +97,9 @@ export type DatePickerProps = {
     onClear?: () => void;
     minDate?: string;
     maxDate?: string;
+    id?: string;
+    "aria-label"?: string;
+    "aria-labelledby"?: string;
     className?: string;
     size?: "default" | "sm";
 };
@@ -558,6 +561,9 @@ export type WheelDatePickerProps = {
         month?: string;
         day?: string;
     };
+    id?: string;
+    "aria-label"?: string;
+    "aria-labelledby"?: string;
     className?: string;
 };
 

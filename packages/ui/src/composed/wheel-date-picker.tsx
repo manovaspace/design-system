@@ -41,6 +41,12 @@ export type WheelDatePickerProps = {
     month?: string;
     day?: string;
   };
+  /** Forwarded to the trigger button, so an external `<label htmlFor>` names the field. */
+  id?: string;
+  /** Accessible name for the trigger. */
+  "aria-label"?: string;
+  /** Accessible name source for the trigger, e.g. the id of an external label. */
+  "aria-labelledby"?: string;
   className?: string;
 };
 
@@ -270,6 +276,9 @@ export function WheelDatePicker({
   disabled,
   placeholder,
   labels,
+  id,
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
   className,
 }: WheelDatePickerProps) {
   const text = { ...DEFAULT_LABELS, ...labels };
@@ -356,10 +365,13 @@ export function WheelDatePicker({
         <Button
           type="button"
           variant="outline"
+          id={id}
           disabled={disabled}
           aria-haspopup="dialog"
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledBy}
           className={cn(
-            "w-full justify-start gap-2 text-start font-normal",
+            "h-11 w-full justify-start gap-2 rounded-lg px-3 text-start font-normal",
             !selected && "text-muted-foreground",
             className,
           )}

@@ -1,5 +1,11 @@
 # @manovaspace/ui
 
+## 1.14.0
+
+### Minor Changes
+
+- e7efa72: feat(EntityBrowser): add `frame` prop ("card" default, "flat" for full-width rows without a card frame).
+
 ## 1.13.0
 
 ### Minor Changes

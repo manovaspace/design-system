@@ -1,5 +1,11 @@
 # @manovaspace/ui
 
+## 1.14.1
+
+### Patch Changes
+
+- ce77c9e: fix(EntitySearchField): remove the extra 6px top gap on the input so the field aligns with the toolbar buttons beside it.
+
 ## 1.14.0
 
 ### Minor Changes

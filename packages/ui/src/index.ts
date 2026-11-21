@@ -244,9 +244,11 @@ export {
   SwatchIcon,
   TagIcon,
   TrashIcon,
+  TruckIcon,
   UserIcon,
   UsersIcon,
   UtensilsIcon,
+  WalletIcon,
   WrenchScrewdriverIcon,
   XMarkIcon,
 } from "./icons.js";

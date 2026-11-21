@@ -17,7 +17,7 @@ bun run build
 bun run test
 bun run typecheck
 bun run lint
-bun run storybook   # http://localhost:10006
+bun run storybook   # http://localhost:10027
 ```
 
 ## Changesets

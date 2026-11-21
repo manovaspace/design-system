@@ -32,7 +32,7 @@ Utilities (`tsconfig`, `markdown`, `pwa`, `observability`): [`manovaspace/ts`](.
 
 ```bash
 bun run build
-bun run storybook        # port 10006 — enables Storybook MCP while running
+bun run storybook        # port 10027 — enables Storybook MCP while running
 bun run test
 bun run typecheck
 bun run check:ds         # hex + default palette bans in packages/ui and packages/devtools

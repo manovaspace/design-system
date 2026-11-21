@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "storybook": "storybook dev -p 10006 --no-open",
+    "storybook": "storybook dev -p 10027 --no-open",
     "build-storybook": "storybook build -o storybook-static",
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf storybook-static"

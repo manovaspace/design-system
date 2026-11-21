@@ -78,6 +78,13 @@ export {
   type FilterPillOption,
 } from "./filter-pill-bar.js";
 export {
+  FilterSheet,
+  type FilterSheetField,
+  type FilterSheetOption,
+  type FilterSheetProps,
+  type FilterSheetSearch,
+} from "./filter-sheet.js";
+export {
   FloatingActionButton,
   type FloatingActionButtonProps,
 } from "./floating-action-button.js";

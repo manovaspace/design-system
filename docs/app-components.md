@@ -23,6 +23,7 @@ Need UI in any Orbit / Manova product?
 ├─ Confirm / destructive dialog?         → <ConfirmDialog> (@manovaspace/ui)
 ├─ Switch workspace?                     → <WorkspaceSwitcher> (@manovaspace/ui/experimental)
 ├─ Permission-gated UI?                  → <PermissionGate> (@manovaspace/ui/experimental)
+├─ Filter sheet of rows (navigation + toggles)? → <FilterSheet> (@manovaspace/ui)
 └─ Multi-step flow in a dialog or sheet? → <ProgressiveDialog> (@manovaspace/ui)
 ```
 
@@ -34,6 +35,7 @@ Need UI in any Orbit / Manova product?
 | --- | --- | --- |
 | Searchable list / table / catalog | `@manovaspace/ui` (`EntityBrowser`, `EntityDataTable`, `EntitySearchField`, `EntityFilterBar`) | Provides command bar, search, filter chips, data table, and empty states. |
 | Filter pills under a list search | `@manovaspace/ui` (`FilterPillBar`) | One scrollable row of single-select toggle pills and menu pills (bottom-sheet picker, searchable above 8 options). |
+| Filter sheet of rows (navigation + toggles) | `@manovaspace/ui` (`FilterSheet`) | Bottom sheet of rows: navigation rows open a single-choice, multi-choice or custom sub-page; toggle rows hold a switch. Footer has reset and apply. |
 | Load more at the end of a list | `@manovaspace/ui` (`InfiniteScrollTrigger`) | Sentinel-driven next-page loader with loading spinner, retry and button fallback. |
 | Desktop sidebar navigation | `@manovaspace/ui` (`NavRail`, `NavTree`) | Desktop aside rail with collapsible sections and badges. |
 | Mobile navigation drawer | `@manovaspace/ui` (`NavMobileSheet`) | Slide-over drawer for mobile screen navigation. |

@@ -910,6 +910,78 @@ export type FilterPillOption = {
 };
 
 // @public
+export function FilterSheet(input: FilterSheetProps): JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "FieldBase" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type FilterSheetField = (FieldBase & {
+    kind: "toggle";
+    description?: string;
+    checked: boolean;
+    onCheckedChange: (checked: boolean) => void;
+}) | (FieldBase & {
+    kind: "single";
+    options: FilterSheetOption[];
+    value: string | null;
+    onValueChange: (value: string | null) => void;
+    allLabel?: string;
+    summary?: string;
+    search?: FilterSheetSearch;
+    after?: React_2.ReactNode;
+    status?: React_2.ReactNode;
+}) | (FieldBase & {
+    kind: "multi";
+    options: FilterSheetOption[];
+    values: string[];
+    onValuesChange: (values: string[]) => void;
+    summary?: string;
+    search?: FilterSheetSearch;
+    after?: React_2.ReactNode;
+    status?: React_2.ReactNode;
+}) | (FieldBase & {
+    kind: "link";
+    summary?: string;
+    active?: boolean;
+    onPress: () => void;
+}) | (FieldBase & {
+    kind: "page";
+    summary?: string;
+    active: boolean;
+    children: React_2.ReactNode;
+});
+
+// @public
+export type FilterSheetOption = {
+    value: string;
+    label: string;
+    description?: string;
+};
+
+// @public
+export type FilterSheetProps = {
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    title: string;
+    closeLabel: string;
+    backLabel: string;
+    fields: FilterSheetField[];
+    resetLabel: string;
+    onReset: () => void;
+    resetDisabled?: boolean;
+    applyLabel: string;
+    doneLabel: string;
+    className?: string;
+};
+
+// @public
+export type FilterSheetSearch = {
+    placeholder: string;
+    value?: string;
+    onValueChange?: (value: string) => void;
+};
+
+// @public
 export const FloatingActionButton: React_2.ForwardRefExoticComponent<Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
     label: string;
     icon: ReactNode;

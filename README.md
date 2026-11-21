@@ -29,7 +29,7 @@ Related utilities (`tsconfig`, `markdown`, `pwa`, `observability`): [manovaspace
 bun install
 bun run build
 bun run test
-bun run storybook   # http://localhost:10006
+bun run storybook   # http://localhost:10027
 ```
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for pull requests and [RELEASING.md](./RELEASING.md) for versioning and publish.

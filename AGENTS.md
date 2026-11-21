@@ -1,7 +1,7 @@
 ---
 read_with:
   - handbook/docs/orbit/architecture/orbit-frontend.md
-  - handbook/docs/orbit/guides/cursor-mcp.md
+  - handbook/docs/orbit/guides/mcp.md
   - handbook/docs/orbit/guides/locale-data-display.md
   - handbook/docs/orbit/guides/open-commons.md
   - handbook/docs/orbit/guides/orbit-component-architecture.md
@@ -62,7 +62,7 @@ Architectural guide: `handbook/docs/orbit/guides/orbit-component-architecture.md
 
 ## Storybook MCP
 
-`@storybook/addon-mcp` is enabled. While `bun run storybook` runs, agents must use Storybook MCP to verify `@manovaspace/ui` component props — never invent props from memory. Details: `handbook/docs/orbit/guides/cursor-mcp.md` (Storybook MCP section).
+`@storybook/addon-mcp` is enabled. While `bun run storybook` runs, agents must use Storybook MCP to verify `@manovaspace/ui` component props — never invent props from memory. Details: `handbook/docs/orbit/guides/mcp.md` (Storybook MCP section).
 
 ## Workspace triggers
 

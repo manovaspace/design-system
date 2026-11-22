@@ -1,5 +1,15 @@
 # @manovaspace/ui
 
+## 1.16.0
+
+### Minor Changes
+
+- f87f8ec: Add WalletIcon and TruckIcon.
+
+### Patch Changes
+
+- 65b4d5d: Skeleton defaults to a neutral muted surface instead of the accent colour, so brand-coloured accents no longer tint loading placeholders.
+
 ## 1.15.0
 
 ### Minor Changes

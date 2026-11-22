@@ -190,6 +190,9 @@ export const TagIcon: lucide_react.LucideIcon;
 export const TrashIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
+export const TruckIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
 export const UserIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
@@ -197,6 +200,9 @@ export const UsersIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
 export const UtensilsIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
+export const WalletIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
 export const WrenchScrewdriverIcon: lucide_react.LucideIcon;

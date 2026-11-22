@@ -1,3 +1,4 @@
+import { Truck, Wallet } from "lucide-react";
 import { describe, expect, it } from "vitest";
 import {
   ArrowsUpDownIcon as ArrowsUpDownFromIcons,
@@ -11,7 +12,9 @@ import {
   ReceiptIcon as ReceiptFromIcons,
   SlidersIcon as SlidersFromIcons,
   SortIcon as SortFromIcons,
+  TruckIcon as TruckFromIcons,
   UtensilsIcon as UtensilsFromIcons,
+  WalletIcon as WalletFromIcons,
 } from "./icons.js";
 import {
   ArrowsUpDownIcon,
@@ -25,7 +28,9 @@ import {
   ReceiptIcon,
   SlidersIcon,
   SortIcon,
+  TruckIcon,
   UtensilsIcon,
+  WalletIcon,
 } from "./index.js";
 
 describe("icons", () => {
@@ -43,5 +48,12 @@ describe("icons", () => {
     expect(ReceiptIcon).toBe(ReceiptFromIcons);
     expect(SlidersIcon).toBe(SlidersFromIcons);
     expect(UtensilsIcon).toBe(UtensilsFromIcons);
+    expect(TruckIcon).toBe(TruckFromIcons);
+    expect(WalletIcon).toBe(WalletFromIcons);
+  });
+
+  it("maps finance icons to their lucide glyphs", () => {
+    expect(WalletFromIcons).toBe(Wallet);
+    expect(TruckFromIcons).toBe(Truck);
   });
 });

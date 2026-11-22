@@ -1936,6 +1936,9 @@ export function toLatinDigits(value: string): string;
 export const TrashIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
+export const TruckIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
 export function useAppForm<TFieldValues extends FieldValues = FieldValues, TContext = unknown>(props?: UseAppFormProps<TFieldValues, TContext>): UseFormReturn<TFieldValues, TContext>;
 
 // @public (undocumented)
@@ -1989,6 +1992,9 @@ export function useTokens(): TokenContextValue;
 
 // @public (undocumented)
 export const UtensilsIcon: lucide_react.LucideIcon;
+
+// @public (undocumented)
+export const WalletIcon: lucide_react.LucideIcon;
 
 // @public (undocumented)
 export const WrenchScrewdriverIcon: lucide_react.LucideIcon;

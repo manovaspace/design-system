@@ -64,9 +64,11 @@ import {
   Sun,
   Tag,
   Trash2,
+  Truck,
   User,
   Users,
   Utensils,
+  Wallet,
   Wrench,
   X,
   Zap,
@@ -132,9 +134,11 @@ export const SnowflakeIcon = Snowflake;
 export const SunIcon = Sun;
 export const TagIcon = Tag;
 export const TrashIcon = Trash2;
+export const TruckIcon = Truck;
 export const UserIcon = User;
 export const UsersIcon = Users;
 export const UtensilsIcon = Utensils;
+export const WalletIcon = Wallet;
 export const WrenchScrewdriverIcon = Wrench;
 export const XMarkIcon = X;
 export const BoltIcon = Zap;

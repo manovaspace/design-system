@@ -41,7 +41,7 @@ bun run check:package    # publint + attw on published packages, build first
 bun run quality          # lint + check:ds
 ```
 
-Node >= 24. Package manager: bun@1.4.0.
+Node >= 24. Package manager: bun@1.4.4.
 
 ## Layer order
 

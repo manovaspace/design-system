@@ -18,7 +18,7 @@ Related utilities (`tsconfig`, `markdown`, `pwa`, `observability`): [manovaspace
 
 ## Requirements
 
-- Node.js 24 or newer (for developing this monorepo)
+- Node.js 26.13.1 or newer (for developing this monorepo)
 - React 19 for `@manovaspace/ui` and `@manovaspace/devtools`
 - Tailwind CSS 4 when extending the token theme in an application
 - bun run (recommended; npm and yarn also work for installing published packages)

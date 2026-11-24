@@ -6,6 +6,7 @@
     "dev": "turbo dev",
     "storybook": "bun --filter @manovaspace/storybook storybook",
     "build-storybook": "bun --filter @manovaspace/storybook build-storybook",
+    "storybook:shots": "node scripts/storybook-shots.mjs",
     "lint": "biome check .",
     "check:ds": "bash scripts/check-ds.sh",
     "check:api": "turbo build --filter=@manovaspace/ui --filter=@manovaspace/tokens && bun run --filter @manovaspace/ui check:api && bun run --filter @manovaspace/tokens check:api",
@@ -25,6 +26,7 @@
     "@biomejs/biome": "catalog:",
     "@changesets/cli": "^3.0.3",
     "@microsoft/api-extractor": "^7.60.1",
+    "playwright-core": "^1.65.1",
     "publint": "^0.3.25",
     "turbo": "^2.11.10",
     "typescript": "catalog:"

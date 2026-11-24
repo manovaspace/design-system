@@ -120,6 +120,46 @@ export type DateTimePickerProps = {
     placeholder?: string;
 };
 
+// @public
+export function DetailPage(input: DetailPageProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export type DetailPageLinkProps = {
+    href: string;
+    className?: string;
+    children: React_2.ReactNode;
+};
+
+// @public (undocumented)
+export type DetailPageProps = {
+    title: string;
+    description?: React_2.ReactNode;
+    back: {
+        label: string;
+        href: string;
+    };
+    linkComponent?: React_2.ComponentType<DetailPageLinkProps>;
+    primaryAction?: React_2.ReactNode;
+    children: React_2.ReactNode;
+    destructive?: {
+        title: string;
+        children: React_2.ReactNode;
+    };
+    className?: string;
+};
+
+// @public
+export function DetailPageSection(input: DetailPageSectionProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export type DetailPageSectionProps = {
+    title: string;
+    description?: React_2.ReactNode;
+    action?: React_2.ReactNode;
+    children: React_2.ReactNode;
+    className?: string;
+};
+
 // Warning: (ae-forgotten-export) The symbol "DropdownMenu_2" needs to be exported by the entry point experimental.d.ts
 //
 // @public (undocumented)
@@ -249,6 +289,36 @@ export function FormLabel(props: ComponentProps<typeof FormLabel_2>): React_2.JS
 export function FormMessage(props: ComponentProps<typeof FormMessage_2>): React_2.JSX.Element;
 
 // @public
+export function FormSheet(input: FormSheetProps): React_2.JSX.Element;
+
+// @public
+export type FormSheetAction = {
+    label: string;
+    onClick?: () => void;
+    type?: "button" | "submit";
+    form?: string;
+    disabled?: boolean;
+    pending?: boolean;
+};
+
+// @public (undocumented)
+export type FormSheetProps = {
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    title: string;
+    description?: string;
+    closeLabel: string;
+    primaryAction: FormSheetAction;
+    secondaryAction: {
+        label: string;
+        onClick?: () => void;
+    };
+    error?: React_2.ReactNode;
+    children: React_2.ReactNode;
+    className?: string;
+};
+
+// @public
 export function HintTooltip(input: HintTooltipProps): React_2.JSX.Element;
 
 // @public (undocumented)
@@ -263,6 +333,78 @@ export type HintTooltipProps = {
 
 // @public
 export function isValidIranMobile(phone: string): boolean;
+
+// @public
+export function ListPage(input: ListPageProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export type ListPageAddAction = {
+    label: string;
+    icon: React_2.ReactNode;
+    onClick: () => void;
+    disabled?: boolean;
+};
+
+// @public (undocumented)
+export type ListPageFilterChip = {
+    id: string;
+    label: string;
+    onRemove: () => void;
+};
+
+// @public (undocumented)
+export type ListPageFilters = {
+    label: string;
+    chips: ListPageFilterChip[];
+    removeChipLabel: string;
+    sheet: Omit<FilterSheetProps, "onOpenChange" | "open" | "title">;
+};
+
+// @public
+export type ListPageName = {
+    title: string;
+    "aria-label"?: never;
+} | {
+    title?: never;
+    "aria-label": string;
+};
+
+// @public (undocumented)
+export type ListPageProps = ListPageName & {
+    description?: string;
+    addAction?: ListPageAddAction;
+    search: ListPageSearch;
+    sort?: ListPageSort;
+    filters?: ListPageFilters;
+    children: React_2.ReactNode;
+    footer?: React_2.ReactNode;
+    className?: string;
+};
+
+// @public (undocumented)
+export type ListPageSearch = {
+    id: string;
+    label: string;
+    placeholder: string;
+    value: string;
+    onValueChange: (value: string) => void;
+    clearLabel: string;
+};
+
+// @public (undocumented)
+export type ListPageSort = {
+    label: string;
+    options: ListPageSortOption[];
+    value: string;
+    onValueChange: (value: string) => void;
+    closeLabel: string;
+};
+
+// @public (undocumented)
+export type ListPageSortOption = {
+    value: string;
+    label: string;
+};
 
 // @public
 export function LocalePreferenceProvider(input: LocalePreferenceProviderProps): React_2.JSX.Element;
@@ -427,6 +569,25 @@ export function ScrollBar(input: React_2.ComponentProps<typeof ScrollArea_3.Scro
 
 // @public (undocumented)
 export function Slider(input: React_2.ComponentProps<typeof Slider_2.Root>): React_2.JSX.Element;
+
+// @public
+export function SummaryPage(input: SummaryPageProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export type SummaryPageProps = {
+    "aria-label": string;
+    stats?: React_2.ReactNode;
+    attention?: {
+        title: string;
+        emptyMessage: string;
+        children?: React_2.ReactNode;
+    };
+    links: {
+        title: string;
+        children: React_2.ReactNode;
+    };
+    className?: string;
+};
 
 // @public (undocumented)
 export function Switch(props: SwitchProps): React_2.JSX.Element;
@@ -602,6 +763,7 @@ export type WorkspaceSwitcherProps = {
 //
 // dist/composed/hint-tooltip.d.ts:11:5 - (ae-forgotten-export) The symbol "HintTooltipSide" needs to be exported by the entry point experimental.d.ts
 // dist/composed/hint-tooltip.d.ts:12:5 - (ae-forgotten-export) The symbol "HintTooltipAlign" needs to be exported by the entry point experimental.d.ts
+// dist/composed/page-templates/list-page.d.ts:35:5 - (ae-forgotten-export) The symbol "FilterSheetProps" needs to be exported by the entry point experimental.d.ts
 
 // (No @packageDocumentation comment for this package)
 

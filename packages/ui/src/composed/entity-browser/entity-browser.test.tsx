@@ -5,6 +5,7 @@ import { EntityBrowser } from "./entity-browser.js";
 import { EntityDataTable } from "./entity-data-table.js";
 import { EntityFilterBar } from "./entity-filter-bar.js";
 import type { EntityListQueryState } from "./entity-list-states.js";
+import { EntityMobileMessage } from "./entity-mobile-states.js";
 import { EntityPagination } from "./entity-pagination.js";
 import { EntitySearchField } from "./entity-search-field.js";
 
@@ -213,6 +214,44 @@ describe("EntityBrowser suite", () => {
       const input = screen.getByRole("textbox");
       fireEvent.keyDown(input, { key: "Escape" });
       expect(onClear).toHaveBeenCalledTimes(2);
+    });
+
+    it("sizes the clear button as a 44 px target at the inline end and reserves room for it", () => {
+      render(
+        <EntitySearchField
+          id="search-input"
+          label="جستجو"
+          placeholder="جستجو..."
+          value="test"
+          onValueChange={() => {}}
+          onClear={() => {}}
+          clearLabel="پاک کردن"
+        />,
+      );
+
+      const clearBtn = screen.getByRole("button", { name: "پاک کردن" });
+      expect(clearBtn.className).toContain("size-11");
+      expect(clearBtn.className).toContain("end-0");
+      expect(clearBtn.className).toContain("-translate-y-1/2");
+      const input = screen.getByRole("textbox");
+      expect(input.className).toContain("pe-11");
+      expect(input.className).not.toContain("pe-9");
+    });
+  });
+
+  describe("EntityMobileMessage", () => {
+    it("renders block content in a div so headings and blocks stay valid", () => {
+      const { container } = render(
+        <EntityMobileMessage>
+          <h2>چیزی پیدا نشد</h2>
+        </EntityMobileMessage>,
+      );
+
+      expect(container.firstElementChild?.tagName).toBe("DIV");
+      expect(container.querySelector("p")).toBeNull();
+      expect(
+        screen.getByRole("heading", { name: "چیزی پیدا نشد" }),
+      ).toBeTruthy();
     });
   });
 

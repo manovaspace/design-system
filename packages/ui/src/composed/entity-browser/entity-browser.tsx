@@ -71,7 +71,10 @@ export function EntityBrowser({
       )}
     >
       {hasHeader && hasTitle ? (
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div
+          data-slot="entity-browser-header"
+          className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between"
+        >
           <div className="min-w-0">
             <h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
             {description ? (
@@ -87,7 +90,10 @@ export function EntityBrowser({
       ) : null}
 
       {hasHeader && !hasTitle ? (
-        <div className="flex items-center justify-between gap-4">
+        <div
+          data-slot="entity-browser-header"
+          className="flex items-center justify-between gap-4"
+        >
           <div className="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-2">
             {description ? (
               <p className="text-sm text-muted-foreground">{description}</p>

@@ -35,6 +35,7 @@ function writeFixture({ reports, sources }) {
     fs.writeFileSync(path.join(etc, file), body);
   }
   for (const [file, body] of Object.entries(sources)) {
+    fs.mkdirSync(path.dirname(path.join(src, file)), { recursive: true });
     fs.writeFileSync(path.join(src, file), body);
   }
   return { reportsDir: etc, srcDir: src };
@@ -84,9 +85,28 @@ function lineFor(text, name) {
     .find((line) => line.split("|")[0].split(",").includes(name));
 }
 
+function sectionOf(text, heading) {
+  const start = text.indexOf(heading);
+  if (start < 0) return "";
+  const end = text.indexOf("\n## ", start + 1);
+  return text.slice(start, end < 0 ? undefined : end);
+}
+
+/** Prefixes of `Name*` tokens in the Templates section; they cover props and parts. */
+function templateWildcards(text) {
+  return [
+    ...sectionOf(text, "## Templates").matchAll(
+      /(^|[|,\s])([A-Za-z0-9_]+)\*/gm,
+    ),
+  ].map((match) => match[2]);
+}
+
 function appears(text, name) {
   const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return new RegExp(`(^|[|,\\s])${escaped}([|,\\s]|$)`, "m").test(text);
+  if (new RegExp(`(^|[|,\\s])${escaped}([|,\\s]|$)`, "m").test(text)) {
+    return true;
+  }
+  return templateWildcards(text).some((prefix) => name.startsWith(prefix));
 }
 
 describe("generated agent index", () => {
@@ -224,6 +244,52 @@ export function Beta(_props: BetaProps) {
     expect(text).toContain("## Experimental");
     const experimental = text.slice(text.indexOf("## Experimental"));
     expect(experimental).toContain("Beta");
+  });
+
+  test("keeps experimental page templates in the Templates area", () => {
+    const fixture = writeFixture({
+      reports: {
+        "ui-experimental.api.md": report(`
+// @public @experimental (undocumented)
+export function Demo(input: DemoProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export type DemoProps = {
+    title: string;
+};
+`),
+      },
+      sources: {
+        "composed/page-templates/demo.tsx": `
+/** @experimental */
+export type DemoProps = {
+  title: string;
+};
+
+/**
+ * Demo template.
+ *
+ * Usage rules:
+ * - One per page.
+ * @experimental
+ */
+export function Demo(_props: DemoProps) {
+  return null;
+}
+`,
+      },
+    });
+
+    const { text } = generateAgentIndex(fixture);
+    const templates = sectionOf(text, "## Templates (experimental)");
+    expect(templates).toContain(
+      "Demo|function|Demo template.||@ui/experimental",
+    );
+    expect(templates).toContain("Demo*|type|props and parts||@ui/experimental");
+    expect(templates).not.toContain("EXPERIMENTAL");
+    expect(text).not.toContain("EXPERIMENTAL");
+    expect(text).not.toContain("## Experimental");
+    expect(appears(text, "DemoProps")).toBe(true);
   });
 
   test("omits @internal exports and keeps @deprecated notes", () => {

@@ -6,12 +6,14 @@ import { useId } from "react";
 import { ChevronLeftIcon } from "../../icons.js";
 import { cn } from "../../lib/utils.js";
 
+/** @experimental */
 export type DetailPageLinkProps = {
   href: string;
   className?: string;
   children: React.ReactNode;
 };
 
+/** @experimental */
 export type DetailPageProps = {
   /** Page heading (h1): the record's name. */
   title: string;
@@ -30,6 +32,7 @@ export type DetailPageProps = {
   className?: string;
 };
 
+/** @experimental */
 export type DetailPageSectionProps = {
   /** Section heading; the section's accessible name. */
   title: string;
@@ -56,6 +59,7 @@ function DefaultLink({ href, className, children }: DetailPageLinkProps) {
  * - Use only inside `DetailPage`.
  * - Put the content of one topic in each section.
  * - At most one secondary `action` per section.
+ * @experimental
  */
 export function DetailPageSection({
   title,
@@ -95,6 +99,7 @@ export function DetailPageSection({
  * - One primary action, in `primaryAction`.
  * - Content goes in `DetailPageSection`s.
  * - Destructive actions go in `destructive`, which always renders last.
+ * @experimental
  */
 export function DetailPage({
   title,

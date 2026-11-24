@@ -6,6 +6,7 @@ import { Children, useId } from "react";
 import { cn } from "../../lib/utils.js";
 import { RowList } from "../row-list.js";
 
+/** @experimental */
 export type SummaryPageProps = {
   /** Page name; the section's accessible name. The app shell shows the visible title. */
   "aria-label": string;
@@ -31,6 +32,7 @@ export type SummaryPageProps = {
  * - Attention lists only items that need action now. When empty, it says so with `emptyMessage`.
  * - Links are `Row asChild chevron` wrapping the router link, one per module page.
  * - No hover-only cards or icon grids.
+ * @experimental
  */
 export function SummaryPage({
   "aria-label": ariaLabel,

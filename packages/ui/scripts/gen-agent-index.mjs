@@ -52,6 +52,8 @@ const AREA_ORDER = [
   "Experimental",
 ];
 
+const TEMPLATE_TYPE_PURPOSE = "props and parts";
+
 /** Template components always get a detail line, even when the index is sparse. */
 const PINNED_DETAIL_NAMES = [
   "MobileBottomTabBar",
@@ -64,7 +66,7 @@ const PINNED_DETAIL_NAMES = [
 
 const HEADER = [
   "# @manovaspace/ui agent index (generated; do not edit)",
-  "# Templates first; JSDoc has usage rules.",
+  "# Templates first (experimental); JSDoc has usage rules.",
   "# Read before writing UI; match names, props and paths.",
   "# Format: Names|kind|purpose|props|path. @ui=@manovaspace/ui; subpaths @ui/<name>.",
   "# Props: name:type[?][=default]; +N = more.",
@@ -759,7 +761,7 @@ function detailLine(entry) {
     entry.deprecated
       ? `DEPRECATED${entry.deprecatedNote ? `: ${field(entry.deprecatedNote)}` : ""}`
       : "",
-    entry.experimental ? "EXPERIMENTAL" : "",
+    entry.experimental && entry.area !== "Templates" ? "EXPERIMENTAL" : "",
   ]
     .filter(Boolean)
     .join(" ");
@@ -783,21 +785,55 @@ function groupLine(entries, kind, purpose = "") {
   ].join("|");
 }
 
+/**
+ * One type line for the Templates area. `Name*` covers the component's props
+ * type and its parts, so the index does not list each one.
+ */
+function templateTypeLine(entries) {
+  const components = entries
+    .filter((entry) => entry.kind === "function")
+    .map((entry) => entry.name);
+  // A name already covered by a shorter component's `*` gets no line of its own.
+  const names = components
+    .filter(
+      (name) =>
+        !components.some((other) => other !== name && name.startsWith(other)),
+    )
+    .map((name) => `${name}*`)
+    .sort(compareByKey);
+  if (names.length === 0) return null;
+  return [
+    names.join(","),
+    "type",
+    TEMPLATE_TYPE_PURPOSE,
+    "",
+    shortPath(entries[0].importPath),
+  ].join("|");
+}
+
 function render(entries, { detailNames = null } = {}) {
   const lines = [...HEADER, ""];
   const areas = new Map();
   for (const entry of entries) {
-    const area = entry.experimental ? "Experimental" : entry.area;
+    // Templates stay in their own area even when experimental.
+    const area =
+      entry.experimental && entry.area !== "Templates"
+        ? "Experimental"
+        : entry.area;
     if (!areas.has(area)) areas.set(area, []);
     areas.get(area).push(entry);
   }
+  const templateEntries = entries.filter((entry) => entry.area === "Templates");
+  const templatesExperimental =
+    templateEntries.length > 0 &&
+    templateEntries.every((entry) => entry.experimental);
 
   const shouldDetail = (entry) => {
     // Experimental exports stay grouped by kind and import path: they are
     // outside the promise and their full prop lists do not fit the 8 KB cap.
     if (entry.deprecated) return true;
-    if (entry.experimental) return false;
     if (entry.area === "Templates") return true;
+    if (entry.experimental) return false;
     if (detailNames) return detailNames.has(entry.name);
     return Boolean(entry.purpose || entry.props.length > 0);
   };
@@ -805,7 +841,11 @@ function render(entries, { detailNames = null } = {}) {
   for (const area of AREA_ORDER) {
     const areaEntries = areas.get(area);
     if (!areaEntries?.length) continue;
-    lines.push(`## ${area}`);
+    lines.push(
+      area === "Templates" && templatesExperimental
+        ? "## Templates (experimental)"
+        : `## ${area}`,
+    );
 
     if (area === "Icons") {
       const packs = new Map();
@@ -838,7 +878,9 @@ function render(entries, { detailNames = null } = {}) {
     // Interfaces share the `type` line: one type line per area.
     if (types.length) {
       types.sort(compareByName);
-      lines.push(groupLine(types, "type"));
+      const wildcardLine =
+        area === "Templates" ? templateTypeLine(areaEntries) : null;
+      lines.push(wildcardLine ?? groupLine(types, "type"));
     }
 
     const detailed = [];

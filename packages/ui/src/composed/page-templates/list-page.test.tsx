@@ -3,6 +3,7 @@ import {
   fireEvent,
   render,
   screen,
+  waitFor,
   within,
 } from "@testing-library/react";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
@@ -12,6 +13,9 @@ import {
   ListPage,
   type ListPageFilterChip,
   type ListPageProps,
+  type ListPageSearch,
+  type ListPageSort,
+  type ListPageSortOption,
 } from "./list-page.js";
 
 beforeAll(() => {
@@ -57,7 +61,9 @@ function filtersProps(
   };
 }
 
-function renderPage(overrides: Partial<ListPageProps> = {}) {
+function renderPage(
+  overrides: Partial<Omit<ListPageProps, "title" | "aria-label">> = {},
+) {
   const props: ListPageProps = {
     "aria-label": SECTION_NAME,
     search: {
@@ -79,6 +85,51 @@ const addAction = {
   icon: <PlusIcon />,
   onClick: vi.fn(),
 };
+
+const TITLE = "کالاهای انبار مرکزی";
+const SORT_LABEL = "مرتب‌سازی";
+const SORT_OPTIONS: ListPageSortOption[] = [
+  { value: "newest", label: "جدیدترین" },
+  { value: "oldest", label: "قدیمی‌ترین" },
+  { value: "name", label: "نام کالا" },
+  { value: "stock", label: "بیشترین موجودی" },
+];
+
+function searchProps(): ListPageSearch {
+  return {
+    id: "titled-items-search",
+    label: "جستجوی کالا",
+    placeholder: "جستجو در ۱۲ کالا",
+    value: "",
+    onValueChange: vi.fn(),
+    clearLabel: "پاک کردن جستجو",
+  };
+}
+
+function sortProps(onValueChange = vi.fn()): ListPageSort {
+  return {
+    label: SORT_LABEL,
+    options: SORT_OPTIONS,
+    value: "newest",
+    onValueChange,
+    closeLabel: "بستن",
+  };
+}
+
+function renderTitled(
+  extra: Partial<
+    Pick<ListPageProps, "addAction" | "description" | "sort">
+  > = {},
+) {
+  return render(
+    <ListPage title={TITLE} search={searchProps()} {...extra}>
+      <div>نتایج</div>
+    </ListPage>,
+  );
+}
+
+const HIDE_HEADER_CLASS = "max-lg:[&>[data-slot=entity-browser-header]]:hidden";
+const CLEAR_FAB_CLASS = "max-lg:pb-[calc(6rem+var(--fab-bottom-offset,0px))]";
 
 describe("ListPage", () => {
   it("names the section with aria-label", () => {
@@ -246,5 +297,62 @@ describe("ListPage", () => {
       results.compareDocumentPosition(footer) &
         Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
+  });
+
+  it("shows the title as h2 and names the section with it", () => {
+    renderTitled({ addAction });
+
+    expect(screen.getByRole("heading", { level: 2, name: TITLE })).toBeTruthy();
+    expect(screen.getByRole("region", { name: TITLE })).toBeTruthy();
+  });
+
+  it("keeps the add action as a header button at every width when titled", () => {
+    const { container } = renderTitled({ addAction });
+
+    const buttons = screen.getAllByRole("button", { name: "افزودن کالا" });
+    expect(buttons).toHaveLength(1);
+    expect(buttons[0]?.classList.contains("hidden")).toBe(false);
+    expect(
+      container.querySelector('[data-slot="floating-action-button"]'),
+    ).toBeNull();
+    expect(screen.getByRole("region", { name: TITLE }).className).not.toContain(
+      CLEAR_FAB_CLASS,
+    );
+  });
+
+  it("does not hide the titled header row below lg, even without description", () => {
+    renderTitled();
+
+    const section = screen.getByRole("region", { name: TITLE });
+    expect(section.className).not.toContain(HIDE_HEADER_CLASS);
+  });
+
+  it("renders no sort button without sort", () => {
+    renderPage();
+
+    expect(screen.queryByRole("button", { name: /مرتب/ })).toBeNull();
+  });
+
+  it("names the sort button with the current option and applies a choice from the sheet", async () => {
+    const onValueChange = vi.fn();
+    renderPage({ sort: sortProps(onValueChange) });
+
+    const sortButton = screen.getByRole("button", {
+      name: `${SORT_LABEL}: جدیدترین`,
+    });
+    expect(sortButton.getAttribute("aria-haspopup")).toBe("dialog");
+    fireEvent.click(sortButton);
+
+    const dialog = screen.getByRole("dialog", { name: SORT_LABEL });
+    expect(
+      within(dialog)
+        .getByRole("button", { name: "جدیدترین" })
+        .getAttribute("aria-current"),
+    ).toBe("true");
+
+    fireEvent.click(within(dialog).getByRole("button", { name: "نام کالا" }));
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange).toHaveBeenCalledWith("name");
+    await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
   });
 });

@@ -19,6 +19,8 @@ import {
   ListPage,
   type ListPageFilterChip,
   type ListPageFilters,
+  type ListPageName,
+  type ListPageSortOption,
 } from "./list-page.js";
 
 const meta = {
@@ -201,7 +203,38 @@ const TABLE_HEADER = (
   </TableHeader>
 );
 
+type SortKey = "newest" | "oldest" | "name" | "stock";
+
+const SORT_KEYS: readonly SortKey[] = ["newest", "oldest", "name", "stock"];
+
+const SORT_OPTIONS: ListPageSortOption[] = [
+  { value: "newest", label: "جدیدترین" },
+  { value: "oldest", label: "قدیمی‌ترین" },
+  { value: "name", label: "نام کالا" },
+  { value: "stock", label: "بیشترین موجودی" },
+];
+
+// Ids are issued in entry order, so a higher id is a newer item.
+const SORT_COMPARATORS: Record<
+  SortKey,
+  (a: WarehouseItem, b: WarehouseItem) => number
+> = {
+  newest: (a, b) => Number(b.id) - Number(a.id),
+  oldest: (a, b) => Number(a.id) - Number(b.id),
+  name: (a, b) => a.name.localeCompare(b.name, "fa"),
+  stock: (a, b) => b.stock - a.stock,
+};
+
+function toSortKey(value: string): SortKey {
+  return SORT_KEYS.find((key) => key === value) ?? "newest";
+}
+
 type DemoProps = {
+  /** Visible heading. Without it the list is named by `aria-label` only. */
+  title?: string;
+  description?: string;
+  /** Unique per list on one page. */
+  searchId?: string;
   items?: readonly WarehouseItem[];
   initialSearch?: string;
   initialWarehouse?: WarehouseKey | null;
@@ -212,6 +245,9 @@ type DemoProps = {
 };
 
 function WarehouseListDemo({
+  title,
+  description,
+  searchId = "warehouse-items-search",
   items = WAREHOUSE_ITEMS,
   initialSearch = "",
   initialWarehouse = null,
@@ -225,14 +261,21 @@ function WarehouseListDemo({
     initialWarehouse,
   );
   const [lowOnly, setLowOnly] = useState(initialLowOnly);
+  const [sortKey, setSortKey] = useState<SortKey>("newest");
 
   const query = search.trim();
-  const visible = items.filter(
-    (item) =>
-      (query === "" || item.name.includes(query)) &&
-      (warehouse === null || item.warehouse === warehouse) &&
-      (!lowOnly || isLowStock(item)),
-  );
+  const visible = items
+    .filter(
+      (item) =>
+        (query === "" || item.name.includes(query)) &&
+        (warehouse === null || item.warehouse === warehouse) &&
+        (!lowOnly || isLowStock(item)),
+    )
+    .sort(SORT_COMPARATORS[sortKey]);
+
+  const nameProps: ListPageName = title
+    ? { title }
+    : { "aria-label": "کالاها" };
 
   const chips: ListPageFilterChip[] = [];
   if (warehouse !== null) {
@@ -299,19 +342,27 @@ function WarehouseListDemo({
 
   return (
     <ListPage
-      aria-label="کالاها"
+      {...nameProps}
+      description={description}
       addAction={{
         label: "افزودن کالا",
         icon: <PlusIcon />,
         onClick: noop,
       }}
       search={{
-        id: "warehouse-items-search",
+        id: searchId,
         label: "جستجوی کالا",
         placeholder: `جستجو در ${toPersian(visible.length)} کالا`,
         value: search,
         onValueChange: setSearch,
         clearLabel: "پاک کردن جستجو",
+      }}
+      sort={{
+        label: "مرتب‌سازی",
+        options: SORT_OPTIONS,
+        value: sortKey,
+        onValueChange: (value) => setSortKey(toSortKey(value)),
+        closeLabel: "بستن",
       }}
       filters={filters}
     >
@@ -418,4 +469,31 @@ export const WithActiveFilters: Story = {
 
 export const FilteredEmpty: Story = {
   render: () => <WarehouseListDemo withFilters initialSearch="سیب" />,
+};
+
+export const Titled: Story = {
+  render: () => (
+    <WarehouseListDemo
+      title="کالاهای انبار مرکزی"
+      description="کالاهای ثبت‌شده در انبار مرکزی و موجودی هر کدام."
+      items={WAREHOUSE_ITEMS.filter((item) => item.warehouse === "main")}
+    />
+  ),
+};
+
+export const SeveralLists: Story = {
+  render: () => (
+    <div className="flex flex-col gap-8">
+      <WarehouseListDemo
+        title="ورودی‌های امروز"
+        searchId="incoming-items-search"
+        items={WAREHOUSE_ITEMS.slice(0, 3)}
+      />
+      <WarehouseListDemo
+        title="خروجی‌های امروز"
+        searchId="outgoing-items-search"
+        items={WAREHOUSE_ITEMS.slice(3, 6)}
+      />
+    </div>
+  ),
 };

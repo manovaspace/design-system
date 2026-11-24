@@ -15,8 +15,11 @@ export {
   type ListPageAddAction,
   type ListPageFilterChip,
   type ListPageFilters,
+  type ListPageName,
   type ListPageProps,
   type ListPageSearch,
+  type ListPageSort,
+  type ListPageSortOption,
 } from "./list-page.js";
 export {
   SummaryPage,

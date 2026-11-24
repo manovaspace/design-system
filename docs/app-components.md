@@ -36,6 +36,8 @@ A page template is one component per kind of page. It fixes the layout, the orde
 responsive behaviour, so two pages of the same kind look and behave the same. Use the template; do not
 rebuild its layout from primitives. Each template's JSDoc lists its usage rules.
 
+Templates ship from `@manovaspace/ui/experimental` while their contracts settle; import them from there. They may change in a minor release.
+
 ```text
 What is this page or flow?
 ├─ A list of records (directory, ledger, catalog) with search?   → <ListPage>
@@ -48,8 +50,10 @@ What is this page or flow?
 
 Rules every template follows:
 
+- **Lists:** untitled for the page's main list (the app shell shows the title); titled when a page holds several lists. Sort opens a sheet of choices titled with the sort button label.
 - **Add action:** a labelled header button from `lg`, a `FloatingActionButton` below `lg` (bottom
-  inline-end, lifted by `--fab-bottom-offset`).
+  inline-end, lifted by `--fab-bottom-offset`). A titled list keeps the header button at every
+  width.
 - **Counts:** the filtered total goes in the search placeholder («جستجو در ۵۲ کالا»). No count line.
 - **Filters:** a filter button beside the search opens a `FilterSheet` titled with the button label.
   Only active filters show, as removable chips in one horizontally scrolling row.
@@ -71,7 +75,7 @@ Screenshots of every template story at 390, 768 and 1440 px: `bun run storybook:
 
 | Need | Import from | Notes |
 | --- | --- | --- |
-| Whole page layout | `@manovaspace/ui` (`ListPage`, `SummaryPage`, `DetailPage`, `FormSheet`) | Page templates; see "Page templates". |
+| Whole page layout | `@manovaspace/ui/experimental` (`ListPage`, `SummaryPage`, `DetailPage`, `FormSheet`) | Page templates; see "Page templates". |
 | Searchable list / table / catalog | `@manovaspace/ui` (`EntityBrowser`, `EntityDataTable`, `EntitySearchField`, `EntityFilterBar`) | Provides command bar, search, filter chips, data table, and empty states. |
 | Filter pills under a list search | `@manovaspace/ui` (`FilterPillBar`) | One scrollable row of single-select toggle pills and menu pills (bottom-sheet picker, searchable above 8 options). |
 | Filter sheet of rows (navigation + toggles) | `@manovaspace/ui` (`FilterSheet`) | Bottom sheet of rows: navigation rows open a single-choice, multi-choice or custom sub-page; toggle rows hold a switch. Footer has reset and apply. |

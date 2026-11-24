@@ -15,7 +15,10 @@ import { useKeyboardInset } from "../../lib/use-keyboard-inset.js";
 import { cn } from "../../lib/utils.js";
 import { SheetActions } from "../sheet-actions.js";
 
-/** Primary footer action of a `FormSheet`. */
+/**
+ * Primary footer action of a `FormSheet`.
+ * @experimental
+ */
 export type FormSheetAction = {
   label: string;
   onClick?: () => void;
@@ -28,6 +31,7 @@ export type FormSheetAction = {
   pending?: boolean;
 };
 
+/** @experimental */
 export type FormSheetProps = {
   /** Whether the sheet is open. */
   open: boolean;
@@ -60,6 +64,7 @@ export type FormSheetProps = {
  * - Submit with `primaryAction.type = "submit"` and `form` set to the id of the form in `children`.
  * - The footer stays above the on-screen keyboard and respects the safe area.
  * - Use ProgressiveDialog for multi-step flows.
+ * @experimental
  */
 export function FormSheet({
   open,

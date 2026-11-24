@@ -142,6 +142,32 @@ describe("generated agent index", () => {
       expect(line.split("|")).toHaveLength(5);
     }
   });
+
+  test("lists the Templates area before Layout", () => {
+    const templates = text.indexOf("## Templates");
+    expect(templates).toBeGreaterThanOrEqual(0);
+    expect(templates).toBeLessThan(text.indexOf("## Layout"));
+  });
+
+  test("gives each page template a detail line with a purpose", () => {
+    const templates = text.slice(
+      text.indexOf("## Templates"),
+      text.indexOf("## Layout"),
+    );
+    for (const name of [
+      "ListPage",
+      "FormSheet",
+      "SummaryPage",
+      "DetailPage",
+      "DetailPageSection",
+    ]) {
+      const line = templates
+        .split("\n")
+        .find((candidate) => candidate.startsWith(`${name}|function|`));
+      expect(line, `${name} has no Templates detail line`).toBeDefined();
+      expect(line.split("|")[2].length, `${name} purpose`).toBeGreaterThan(0);
+    }
+  });
 });
 
 describe("fixture behaviour", () => {

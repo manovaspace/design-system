@@ -38,7 +38,7 @@ export function EntityMobileMessage({
   tone?: "muted" | "destructive";
 }) {
   return (
-    <p
+    <div
       className={
         tone === "destructive"
           ? "px-4 py-10 text-center text-sm text-destructive"
@@ -46,7 +46,7 @@ export function EntityMobileMessage({
       }
     >
       {children}
-    </p>
+    </div>
   );
 }
 

@@ -56,16 +56,16 @@ export function EntitySearchField({
           placeholder={placeholder}
           onChange={(event) => onValueChange(toLatinDigits(event.target.value))}
           onKeyDown={onKeyDown}
-          className="pe-9 ps-9"
+          className="pe-11 ps-9"
           autoComplete="off"
         />
         {value ? (
           <Button
             type="button"
             variant="ghost"
-            size="icon-xs"
+            size="icon-touch"
             onClick={onClear}
-            className="absolute end-1 top-1/2 -translate-y-1/2 text-muted-foreground"
+            className="absolute end-0 top-1/2 -translate-y-1/2 text-muted-foreground"
             aria-label={clearLabel}
           >
             <XMarkIcon />

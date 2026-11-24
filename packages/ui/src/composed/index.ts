@@ -113,6 +113,7 @@ export {
   OtpInput,
   type OtpInputProps,
 } from "./otp-input.js";
+export * from "./page-templates/index.js";
 export {
   Pagination,
   type PaginationProps,

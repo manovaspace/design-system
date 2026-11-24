@@ -22,19 +22,24 @@ const preview: Preview = {
     layout: "padded",
     viewport: {
       options: {
-        mobile: { name: "Mobile", styles: { width: "375px", height: "667px" } },
+        phone: {
+          name: "Phone 390",
+          styles: { width: "390px", height: "844px" },
+        },
         tablet: {
-          name: "Tablet",
+          name: "Tablet 768",
           styles: { width: "768px", height: "1024px" },
         },
         laptop: {
-          name: "Laptop",
+          name: "Laptop 1024",
           styles: { width: "1024px", height: "768px" },
         },
         desktop: {
-          name: "Desktop",
-          styles: { width: "1280px", height: "800px" },
+          name: "Desktop 1440",
+          styles: { width: "1440px", height: "900px" },
         },
+        // Legacy alias: ProgressiveDialog.stories.tsx uses defaultViewport "mobile".
+        mobile: { name: "Mobile", styles: { width: "375px", height: "667px" } },
       },
     },
   },

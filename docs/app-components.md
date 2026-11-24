@@ -11,6 +11,7 @@ Product language is **bilingual (Persian `fa` RTL-first and English `en`)**. Cod
 
 ```text
 Need UI in any Orbit / Manova product?
+├─ A whole page or a form/flow sheet?       → Page templates (below): ListPage, SummaryPage, DetailPage, FormSheet, ProgressiveDialog
 ├─ Brand color / radius / spacing?       → @manovaspace/tokens (CSS vars: --background, --surface-sunken, --sidebar-*)
 ├─ Basic primitive (Button, Dialog)?     → @manovaspace/ui primitives
 ├─ Searchable list / directory / queue?  → @manovaspace/ui/composed/entity-browser (EntityBrowser)
@@ -29,10 +30,48 @@ Need UI in any Orbit / Manova product?
 
 ---
 
+## Page templates
+
+A page template is one component per kind of page. It fixes the layout, the order of actions and the
+responsive behaviour, so two pages of the same kind look and behave the same. Use the template; do not
+rebuild its layout from primitives. Each template's JSDoc lists its usage rules.
+
+```text
+What is this page or flow?
+├─ A list of records (directory, ledger, catalog) with search?   → <ListPage>
+├─ The home of a module (overview, dashboard)?                   → <SummaryPage>
+├─ One record and its sections?                                  → <DetailPage> + <DetailPageSection>
+├─ Create or edit one record in a form?                          → <FormSheet>
+├─ A flow with more than one step (pick, then fill, then review)?→ <ProgressiveDialog>
+└─ Edit one field of a record?                                   → <EditFieldSheet>
+```
+
+Rules every template follows:
+
+- **Add action:** a labelled header button from `lg`, a `FloatingActionButton` below `lg` (bottom
+  inline-end, lifted by `--fab-bottom-offset`).
+- **Counts:** the filtered total goes in the search placeholder («جستجو در ۵۲ کالا»). No count line.
+- **Filters:** a filter button beside the search opens a `FilterSheet` titled with the button label.
+  Only active filters show, as removable chips in one horizontally scrolling row.
+- **Empty state:** say what the list holds and offer the next step (`EmptyState` with an action).
+- **Sheets:** full screen below `md`, dialog from `md`. Footer: secondary first, primary last; cancel
+  is the secondary. The footer stays above the on-screen keyboard and inside the safe area.
+- **Sheet title** equals the label of the button that opened it.
+- **Wizards:** same steps and progress cue at every width; one primary action per step.
+- **Detail pages:** back to the parent list, one primary action, destructive actions last.
+- **Everywhere:** logical properties only (RTL), 44 px touch targets, no hover-only affordances,
+  tokens only.
+
+Screenshots of every template story at 390, 768 and 1440 px: `bun run storybook:shots` (writes
+`storybook-shots/`, gitignored).
+
+---
+
 ## Import cheat sheet
 
 | Need | Import from | Notes |
 | --- | --- | --- |
+| Whole page layout | `@manovaspace/ui` (`ListPage`, `SummaryPage`, `DetailPage`, `FormSheet`) | Page templates; see "Page templates". |
 | Searchable list / table / catalog | `@manovaspace/ui` (`EntityBrowser`, `EntityDataTable`, `EntitySearchField`, `EntityFilterBar`) | Provides command bar, search, filter chips, data table, and empty states. |
 | Filter pills under a list search | `@manovaspace/ui` (`FilterPillBar`) | One scrollable row of single-select toggle pills and menu pills (bottom-sheet picker, searchable above 8 options). |
 | Filter sheet of rows (navigation + toggles) | `@manovaspace/ui` (`FilterSheet`) | Bottom sheet of rows: navigation rows open a single-choice, multi-choice or custom sub-page; toggle rows hold a switch. Footer has reset and apply. |

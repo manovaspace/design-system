@@ -537,6 +537,46 @@ export type DecimalInputProps = Omit<ComponentPropsWithoutRef<"input">, "inputMo
     locale?: string;
 };
 
+// @public
+export function DetailPage(input: DetailPageProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export type DetailPageLinkProps = {
+    href: string;
+    className?: string;
+    children: React_2.ReactNode;
+};
+
+// @public (undocumented)
+export type DetailPageProps = {
+    title: string;
+    description?: React_2.ReactNode;
+    back: {
+        label: string;
+        href: string;
+    };
+    linkComponent?: React_2.ComponentType<DetailPageLinkProps>;
+    primaryAction?: React_2.ReactNode;
+    children: React_2.ReactNode;
+    destructive?: {
+        title: string;
+        children: React_2.ReactNode;
+    };
+    className?: string;
+};
+
+// @public
+export function DetailPageSection(input: DetailPageSectionProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export type DetailPageSectionProps = {
+    title: string;
+    description?: React_2.ReactNode;
+    action?: React_2.ReactNode;
+    children: React_2.ReactNode;
+    className?: string;
+};
+
 // @public (undocumented)
 export const DevicePhoneMobileIcon: lucide_react.LucideIcon;
 
@@ -1026,6 +1066,36 @@ export interface FormatTomanOptions {
     showUnit?: boolean;
 }
 
+// @public
+export function FormSheet(input: FormSheetProps): React_2.JSX.Element;
+
+// @public
+export type FormSheetAction = {
+    label: string;
+    onClick?: () => void;
+    type?: "button" | "submit";
+    form?: string;
+    disabled?: boolean;
+    pending?: boolean;
+};
+
+// @public (undocumented)
+export type FormSheetProps = {
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    title: string;
+    description?: string;
+    closeLabel: string;
+    primaryAction: FormSheetAction;
+    secondaryAction: {
+        label: string;
+        onClick?: () => void;
+    };
+    error?: React_2.ReactNode;
+    children: React_2.ReactNode;
+    className?: string;
+};
+
 // @public (undocumented)
 export const FunnelIcon: lucide_react.LucideIcon;
 
@@ -1122,6 +1192,54 @@ export function Label(input: React_2.ComponentProps<typeof Label_2.Root>): React
 
 // @public (undocumented)
 export const ListIcon: lucide_react.LucideIcon;
+
+// @public
+export function ListPage(input: ListPageProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export type ListPageAddAction = {
+    label: string;
+    icon: React_2.ReactNode;
+    onClick: () => void;
+    disabled?: boolean;
+};
+
+// @public (undocumented)
+export type ListPageFilterChip = {
+    id: string;
+    label: string;
+    onRemove: () => void;
+};
+
+// @public (undocumented)
+export type ListPageFilters = {
+    label: string;
+    chips: ListPageFilterChip[];
+    removeChipLabel: string;
+    sheet: Omit<FilterSheetProps, "onOpenChange" | "open" | "title">;
+};
+
+// @public (undocumented)
+export type ListPageProps = {
+    "aria-label": string;
+    description?: string;
+    addAction?: ListPageAddAction;
+    search: ListPageSearch;
+    filters?: ListPageFilters;
+    children: React_2.ReactNode;
+    footer?: React_2.ReactNode;
+    className?: string;
+};
+
+// @public (undocumented)
+export type ListPageSearch = {
+    id: string;
+    label: string;
+    placeholder: string;
+    value: string;
+    onValueChange: (value: string) => void;
+    clearLabel: string;
+};
 
 // @public (undocumented)
 export const LockIcon: lucide_react.LucideIcon;
@@ -1742,6 +1860,25 @@ export type StepperStep = {
     label: React_2.ReactNode;
     description?: React_2.ReactNode;
     optional?: boolean;
+};
+
+// @public
+export function SummaryPage(input: SummaryPageProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export type SummaryPageProps = {
+    "aria-label": string;
+    stats?: React_2.ReactNode;
+    attention?: {
+        title: string;
+        emptyMessage: string;
+        children?: React_2.ReactNode;
+    };
+    links: {
+        title: string;
+        children: React_2.ReactNode;
+    };
+    className?: string;
 };
 
 // @public (undocumented)

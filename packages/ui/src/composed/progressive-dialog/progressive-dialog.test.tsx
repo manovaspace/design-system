@@ -65,6 +65,17 @@ describe("ProgressiveDialog", () => {
     expect(props.onBack).toHaveBeenCalledTimes(1);
   });
 
+  it("renders back before the primary action with the secondary variant", () => {
+    setViewport(true);
+    renderDialog({ stepIndex: 1 });
+    const back = screen.getByRole("button", { name: "Back" });
+    const primary = screen.getByRole("button", { name: "Continue" });
+    expect(
+      back.compareDocumentPosition(primary) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(back.getAttribute("data-variant")).toBe("secondary");
+  });
+
   it("runs the primary action and disables it while pending", () => {
     setViewport(true);
     const onClick = vi.fn();
@@ -102,6 +113,7 @@ describe("ProgressiveDialog", () => {
     expect(alert.textContent).toContain("Insufficient stock");
     const retry = screen.getByRole("button", { name: "Retry" });
     expect(alert.contains(retry)).toBe(true);
+    expect(retry.className).toContain("min-h-11");
     fireEvent.click(retry);
     expect(onClick).toHaveBeenCalledTimes(1);
 

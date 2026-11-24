@@ -11,10 +11,11 @@ import {
   DialogTitle,
 } from "../../dialog.js";
 import { XMarkIcon } from "../../icons.js";
+import { useKeyboardInset } from "../../lib/use-keyboard-inset.js";
 import { cn } from "../../lib/utils.js";
 import { Progress } from "../../progress.js";
 import { Sheet, SheetContent } from "../../sheet.js";
-import { Spinner } from "../../spinner.js";
+import { SheetActions } from "../sheet-actions.js";
 
 const DESKTOP_MEDIA_QUERY = "(min-width: 768px)";
 
@@ -145,6 +146,7 @@ export function ProgressiveDialog({
   className,
 }: ProgressiveDialogProps) {
   const isDesktop = useIsDesktop();
+  const keyboardInset = useKeyboardInset(open && !isDesktop);
   const requestClose = (nextOpen: boolean) => {
     if (!nextOpen && !primaryAction.pending) onClose();
   };
@@ -185,6 +187,7 @@ export function ProgressiveDialog({
         side="bottom"
         showCloseButton={false}
         className="inset-0 h-dvh max-h-dvh gap-0 border-0 p-0"
+        style={{ paddingBottom: keyboardInset }}
       >
         {content}
       </SheetContent>
@@ -311,7 +314,7 @@ function ProgressiveDialogFrame({
         </DialogTitle>
         <Button
           variant="ghost"
-          size="icon"
+          size="icon-touch"
           aria-label={labels.close}
           onClick={onClose}
         >
@@ -395,47 +398,34 @@ function ProgressiveDialogFrame({
         {children}
       </div>
 
-      <div className="flex flex-col gap-2 border-t border-border p-4">
-        {error ? (
-          <div
-            role="alert"
-            aria-busy={errorAction?.pending || undefined}
-            data-slot="progressive-dialog-error"
-            className="flex w-full items-start justify-between gap-3"
-          >
-            <p className="min-w-0 flex-1 text-sm font-medium text-destructive">
-              {error}
-            </p>
-            {errorAction ? (
-              <Button
-                variant="outline"
-                size="sm"
-                className="shrink-0"
-                disabled={errorAction.pending}
-                onClick={errorAction.onClick}
-              >
-                {errorAction.label}
-              </Button>
-            ) : null}
-          </div>
-        ) : null}
-        <div className="flex items-center gap-2">
-          {showBack ? (
-            <Button variant="outline" className="flex-1" onClick={onBack}>
-              {labels.back}
+      <SheetActions
+        secondary={
+          showBack && onBack
+            ? { label: labels.back, onClick: onBack }
+            : undefined
+        }
+        primary={{
+          label: primaryAction.label,
+          onClick: primaryAction.onClick,
+          disabled: primaryAction.disabled,
+          pending: primaryAction.pending,
+        }}
+        error={error}
+        errorBusy={errorAction?.pending}
+        errorAction={
+          errorAction ? (
+            <Button
+              variant="outline"
+              size="sm"
+              className="min-h-11 shrink-0"
+              disabled={errorAction.pending}
+              onClick={errorAction.onClick}
+            >
+              {errorAction.label}
             </Button>
-          ) : null}
-          <Button
-            className="flex-1"
-            aria-busy={primaryAction.pending || undefined}
-            disabled={primaryAction.disabled || primaryAction.pending}
-            onClick={primaryAction.onClick}
-          >
-            {primaryAction.pending ? <Spinner size="sm" decorative /> : null}
-            {primaryAction.label}
-          </Button>
-        </div>
-      </div>
+          ) : undefined
+        }
+      />
     </div>
   );
 }

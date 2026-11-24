@@ -4,3 +4,4 @@ fonts/
 .turbo/
 temp/
 *.tsbuildinfo
+storybook-shots/

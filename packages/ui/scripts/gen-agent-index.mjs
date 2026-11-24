@@ -37,6 +37,7 @@ const REPORT_PATHS = [
 ];
 
 const AREA_ORDER = [
+  "Templates",
   "Layout",
   "Forms",
   "Navigation",
@@ -51,13 +52,23 @@ const AREA_ORDER = [
   "Experimental",
 ];
 
+/** Template components always get a detail line, even when the index is sparse. */
+const PINNED_DETAIL_NAMES = [
+  "MobileBottomTabBar",
+  "ListPage",
+  "FormSheet",
+  "SummaryPage",
+  "DetailPage",
+  "DetailPageSection",
+];
+
 const HEADER = [
   "# @manovaspace/ui agent index (generated; do not edit)",
+  "# Templates first; JSDoc has usage rules.",
   "# Read before writing UI; match names, props and paths.",
   "# Format: Names|kind|purpose|props|path. @ui=@manovaspace/ui; subpaths @ui/<name>.",
   "# Props: name:type[?][=default]; +N = more.",
   "# Run `o audit usage SYMBOL` before changing a shared component.",
-  "# Icons grouped; import by name.",
 ];
 
 function readFile(file) {
@@ -570,6 +581,7 @@ function canonicalImportPath(entry, sourceRel) {
 
 function areaFor(sourceRel, importPath, isIcon) {
   if (isIcon) return "Icons";
+  if (sourceRel.startsWith("composed/page-templates/")) return "Templates";
   if (sourceRel.startsWith("motion/") || importPath.endsWith("/motion")) {
     return "Motion";
   }
@@ -719,6 +731,8 @@ function compareByKey(a, b) {
 }
 
 function formatProps(entry) {
+  // Template props live in the .d.ts JSDoc; the index keeps only the purpose.
+  if (entry.area === "Templates") return "";
   const defaults = entry.defaults ?? new Map();
   let props = entry.props.map((prop) => {
     const type =
@@ -783,6 +797,7 @@ function render(entries, { detailNames = null } = {}) {
     // outside the promise and their full prop lists do not fit the 8 KB cap.
     if (entry.deprecated) return true;
     if (entry.experimental) return false;
+    if (entry.area === "Templates") return true;
     if (detailNames) return detailNames.has(entry.name);
     return Boolean(entry.purpose || entry.props.length > 0);
   };
@@ -820,11 +835,10 @@ function render(entries, { detailNames = null } = {}) {
       (entry) => entry.kind !== "type" && entry.kind !== "interface",
     );
 
-    for (const kind of ["type", "interface"]) {
-      const sameKind = types.filter((entry) => entry.kind === kind);
-      if (!sameKind.length) continue;
-      sameKind.sort(compareByName);
-      lines.push(groupLine(sameKind, kind));
+    // Interfaces share the `type` line: one type line per area.
+    if (types.length) {
+      types.sort(compareByName);
+      lines.push(groupLine(types, "type"));
     }
 
     const detailed = [];
@@ -875,8 +889,9 @@ function applyCuts(entries, { maxBytes }) {
 
   // Cap forces a sparse index: every name stays, but only a deterministic
   // priority set keeps its props. MobileBottomTabBar is pinned because the
-  // index is expected to answer its props without opening Storybook.
-  const detailNames = new Set(["MobileBottomTabBar"]);
+  // index is expected to answer its props without opening Storybook; the
+  // template components are pinned so every page template has a purpose line.
+  const detailNames = new Set(PINNED_DETAIL_NAMES);
   text = render(entries, { detailNames });
   if (Buffer.byteLength(text) > maxBytes) {
     throw new Error(

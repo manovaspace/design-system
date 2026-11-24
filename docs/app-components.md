@@ -92,6 +92,8 @@ Screenshots of every template story at 390, 768 and 1440 px: `bun run storybook:
 | Workspace chooser | `@manovaspace/ui/experimental` (`WorkspaceSwitcher`) | RTL-aware trigger and listbox for switching workspaces; experimental. |
 | Permission-gated UI | `@manovaspace/ui/experimental` (`PermissionGate`) | Hide or disable caller-authorized content; experimental, no auth hooks. |
 
+`EntityDataTable` shows the `mobile` rows below `md` and the table from `md`; pass `tableFrom="lg"` for a wide table so tablets (768–1023 px) get the rows.
+
 ---
 
 ## Architectural Rules for Agents

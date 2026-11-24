@@ -13,16 +13,40 @@ import {
   EntityMobileListBody,
 } from "./entity-list-states.js";
 
+/**
+ * Static Tailwind class strings per breakpoint (JIT needs literal class names).
+ * `md` is the default switch point; `lg` suits wide tables.
+ */
+const BREAKPOINT_CLASSES = {
+  md: {
+    mobile: "md:hidden",
+    desktop: "hidden md:block",
+    table: "hidden table-fixed md:table",
+  },
+  lg: {
+    mobile: "lg:hidden",
+    desktop: "hidden lg:block",
+    table: "hidden table-fixed lg:table",
+  },
+} as const;
+
 export type EntityDataTableProps = {
   colSpan: number;
   state: EntityListQueryState;
   header: ReactNode;
   colgroup?: ReactNode;
   tableClassName?: string;
-  /** Wrapper around the desktop table (e.g. `hidden md:block max-w-3xl`). */
+  /** Wrapper around the desktop table (e.g. `max-w-3xl`). */
   desktopClassName?: string;
   /** Mobile list when data is present — omit when the page is table-only. */
   mobile?: ReactNode;
+  /**
+   * Width where the mobile list gives way to the table. `md` (default) suits
+   * tables of a few columns; use `lg` for wide tables so tablets get the rows.
+   * Applies only with `mobile`.
+   * @defaultValue "md"
+   */
+  tableFrom?: "md" | "lg";
   children: ReactNode;
 };
 
@@ -34,14 +58,16 @@ export function EntityDataTable({
   tableClassName,
   desktopClassName,
   mobile,
+  tableFrom = "md",
   children,
 }: EntityDataTableProps) {
   const hasMobile = mobile != null;
+  const breakpoint = BREAKPOINT_CLASSES[tableFrom];
 
   return (
     <>
       {hasMobile ? (
-        <div className="md:hidden">
+        <div className={breakpoint.mobile}>
           <EntityMobileListBody state={state}>{mobile}</EntityMobileListBody>
         </div>
       ) : null}
@@ -49,16 +75,11 @@ export function EntityDataTable({
       <div
         className={cn(
           "w-full",
-          hasMobile && "hidden md:block",
+          hasMobile && breakpoint.desktop,
           desktopClassName,
         )}
       >
-        <Table
-          className={cn(
-            tableClassName,
-            hasMobile && "hidden table-fixed md:table",
-          )}
-        >
+        <Table className={cn(tableClassName, hasMobile && breakpoint.table)}>
           {colgroup}
           {header}
           <TableBody>

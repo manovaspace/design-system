@@ -669,6 +669,7 @@ export type EntityDataTableProps = {
     tableClassName?: string;
     desktopClassName?: string;
     mobile?: ReactNode;
+    tableFrom?: "lg" | "md";
     children: ReactNode;
 };
 

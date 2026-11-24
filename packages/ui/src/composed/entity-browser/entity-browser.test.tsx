@@ -427,6 +427,80 @@ describe("EntityBrowser suite", () => {
       expect(screen.getByText("علی محمدی")).toBeTruthy();
       expect(screen.getByText("ویرایش")).toBeTruthy();
     });
+
+    describe("mobile breakpoint (tableFrom)", () => {
+      const renderWithMobile = (tableFrom?: "md" | "lg") =>
+        render(
+          <EntityDataTable
+            colSpan={2}
+            header={header}
+            state={defaultState}
+            mobile={<div>کارت موبایل</div>}
+            tableFrom={tableFrom}
+          >
+            <tr>
+              <td>علی محمدی</td>
+              <td>ویرایش</td>
+            </tr>
+          </EntityDataTable>,
+        );
+
+      it("switches from mobile rows to table at md by default", () => {
+        const { container } = renderWithMobile();
+
+        const mobileWrapper = container.querySelector(".md\\:hidden");
+        expect(mobileWrapper?.textContent).toContain("کارت موبایل");
+        expect(container.querySelector(".lg\\:hidden")).toBeNull();
+
+        expect(container.querySelector(".hidden.md\\:block")).not.toBeNull();
+        expect(container.querySelector(".lg\\:block")).toBeNull();
+
+        const table = container.querySelector("table");
+        expect(table?.classList.contains("hidden")).toBe(true);
+        expect(table?.classList.contains("table-fixed")).toBe(true);
+        expect(table?.classList.contains("md:table")).toBe(true);
+        expect(table?.classList.contains("lg:table")).toBe(false);
+      });
+
+      it("switches from mobile rows to table at lg when tableFrom is lg", () => {
+        const { container } = renderWithMobile("lg");
+
+        const mobileWrapper = container.querySelector(".lg\\:hidden");
+        expect(mobileWrapper?.textContent).toContain("کارت موبایل");
+
+        expect(container.querySelector(".hidden.lg\\:block")).not.toBeNull();
+
+        const table = container.querySelector("table");
+        expect(table?.classList.contains("hidden")).toBe(true);
+        expect(table?.classList.contains("table-fixed")).toBe(true);
+        expect(table?.classList.contains("lg:table")).toBe(true);
+
+        expect(container.querySelector(".md\\:hidden")).toBeNull();
+        expect(container.querySelector(".md\\:block")).toBeNull();
+        expect(container.innerHTML).not.toMatch(/md:/);
+      });
+
+      it("adds no breakpoint hiding classes without mobile", () => {
+        const { container } = render(
+          <EntityDataTable
+            colSpan={2}
+            header={header}
+            state={defaultState}
+            tableFrom="lg"
+          >
+            <tr>
+              <td>علی محمدی</td>
+            </tr>
+          </EntityDataTable>,
+        );
+
+        expect(container.querySelector(".hidden")).toBeNull();
+        expect(container.innerHTML).not.toMatch(/md:|lg:/);
+        expect(container.querySelector("table")?.className).not.toContain(
+          "table-fixed",
+        );
+      });
+    });
   });
 
   describe("EntityPagination", () => {

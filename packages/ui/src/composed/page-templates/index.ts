@@ -13,13 +13,17 @@ export {
 export {
   ListPage,
   type ListPageAddAction,
+  type ListPageClearAll,
   type ListPageFilterChip,
   type ListPageFilters,
+  type ListPageInset,
   type ListPageName,
   type ListPageProps,
   type ListPageSearch,
   type ListPageSort,
   type ListPageSortOption,
+  type ListPageVariant,
+  type ListPageWidth,
 } from "./list-page.js";
 export {
   SummaryPage,

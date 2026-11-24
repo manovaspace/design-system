@@ -67,4 +67,22 @@ describe("buttonVariants", () => {
     expect(button.getAttribute("data-size")).toBe("icon-touch");
     expect(button.className).toContain("size-11");
   });
+
+  it("applies shadow-sm to solid/default variants", () => {
+    render(<Button variant="default">Default</Button>);
+    const button = screen.getByRole("button", { name: "Default" });
+    expect(button.className).toContain("shadow-[var(--shadow-sm)]");
+  });
+
+  it("does not apply shadow-sm to ghost variant", () => {
+    render(<Button variant="ghost">Ghost</Button>);
+    const button = screen.getByRole("button", { name: "Ghost" });
+    expect(button.className).not.toContain("shadow-[var(--shadow-sm)]");
+  });
+
+  it("does not apply shadow-sm to link variant", () => {
+    render(<Button variant="link">Link</Button>);
+    const button = screen.getByRole("button", { name: "Link" });
+    expect(button.className).not.toContain("shadow-[var(--shadow-sm)]");
+  });
 });

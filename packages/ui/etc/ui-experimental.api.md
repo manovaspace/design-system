@@ -345,6 +345,12 @@ export type ListPageAddAction = {
     disabled?: boolean;
 };
 
+// @public
+export type ListPageClearAll = {
+    label: string;
+    onClear: () => void;
+};
+
 // @public (undocumented)
 export type ListPageFilterChip = {
     id: string;
@@ -357,8 +363,15 @@ export type ListPageFilters = {
     label: string;
     chips: ListPageFilterChip[];
     removeChipLabel: string;
+    clearAll?: ListPageClearAll;
+    activeCount?: number;
+    formatCount?: (count: number) => string;
+    onOpenChange?: (open: boolean) => void;
     sheet: Omit<FilterSheetProps, "onOpenChange" | "open" | "title">;
 };
+
+// @public
+export type ListPageInset = "page" | "shell";
 
 // @public
 export type ListPageName = {
@@ -376,6 +389,9 @@ export type ListPageProps = ListPageName & {
     search: ListPageSearch;
     sort?: ListPageSort;
     filters?: ListPageFilters;
+    variant?: ListPageVariant;
+    width?: ListPageWidth;
+    inset?: ListPageInset;
     children: React_2.ReactNode;
     footer?: React_2.ReactNode;
     className?: string;
@@ -405,6 +421,12 @@ export type ListPageSortOption = {
     value: string;
     label: string;
 };
+
+// @public
+export type ListPageVariant = "default" | "framed";
+
+// @public
+export type ListPageWidth = "default" | "full" | "wide";
 
 // @public
 export function LocalePreferenceProvider(input: LocalePreferenceProviderProps): React_2.JSX.Element;
@@ -763,7 +785,7 @@ export type WorkspaceSwitcherProps = {
 //
 // dist/composed/hint-tooltip.d.ts:11:5 - (ae-forgotten-export) The symbol "HintTooltipSide" needs to be exported by the entry point experimental.d.ts
 // dist/composed/hint-tooltip.d.ts:12:5 - (ae-forgotten-export) The symbol "HintTooltipAlign" needs to be exported by the entry point experimental.d.ts
-// dist/composed/page-templates/list-page.d.ts:35:5 - (ae-forgotten-export) The symbol "FilterSheetProps" needs to be exported by the entry point experimental.d.ts
+// dist/composed/page-templates/list-page.d.ts:64:5 - (ae-forgotten-export) The symbol "FilterSheetProps" needs to be exported by the entry point experimental.d.ts
 
 // (No @packageDocumentation comment for this package)
 

@@ -19,8 +19,11 @@ import {
   ListPage,
   type ListPageFilterChip,
   type ListPageFilters,
+  type ListPageInset,
   type ListPageName,
   type ListPageSortOption,
+  type ListPageVariant,
+  type ListPageWidth,
 } from "./list-page.js";
 
 const meta = {
@@ -239,7 +242,12 @@ type DemoProps = {
   initialSearch?: string;
   initialWarehouse?: WarehouseKey | null;
   initialLowOnly?: boolean;
+  initialInStockOnly?: boolean;
   withFilters?: boolean;
+  withClearAll?: boolean;
+  variant?: ListPageVariant;
+  width?: ListPageWidth;
+  inset?: ListPageInset;
   isLoading?: boolean;
   isError?: boolean;
 };
@@ -252,7 +260,12 @@ function WarehouseListDemo({
   initialSearch = "",
   initialWarehouse = null,
   initialLowOnly = false,
+  initialInStockOnly = false,
   withFilters = false,
+  withClearAll = false,
+  variant = "default",
+  width = "default",
+  inset = "page",
   isLoading = false,
   isError = false,
 }: DemoProps): JSX.Element {
@@ -261,6 +274,7 @@ function WarehouseListDemo({
     initialWarehouse,
   );
   const [lowOnly, setLowOnly] = useState(initialLowOnly);
+  const [inStockOnly, setInStockOnly] = useState(initialInStockOnly);
   const [sortKey, setSortKey] = useState<SortKey>("newest");
 
   const query = search.trim();
@@ -269,7 +283,8 @@ function WarehouseListDemo({
       (item) =>
         (query === "" || item.name.includes(query)) &&
         (warehouse === null || item.warehouse === warehouse) &&
-        (!lowOnly || isLowStock(item)),
+        (!lowOnly || isLowStock(item)) &&
+        (!inStockOnly || item.stock > 0),
     )
     .sort(SORT_COMPARATORS[sortKey]);
 
@@ -292,6 +307,13 @@ function WarehouseListDemo({
       onRemove: () => setLowOnly(false),
     });
   }
+  if (inStockOnly) {
+    chips.push({
+      id: "in-stock",
+      label: "دارای موجودی",
+      onRemove: () => setInStockOnly(false),
+    });
+  }
 
   const hasActiveFilters = query !== "" || chips.length > 0;
 
@@ -299,6 +321,7 @@ function WarehouseListDemo({
     setSearch("");
     setWarehouse(null);
     setLowOnly(false);
+    setInStockOnly(false);
   }
 
   const filters: ListPageFilters | undefined = withFilters
@@ -306,6 +329,10 @@ function WarehouseListDemo({
         label: "فیلترها",
         chips,
         removeChipLabel: "حذف فیلتر",
+        clearAll: withClearAll
+          ? { label: "پاک کردن همه", onClear: clearAll }
+          : undefined,
+        formatCount: toPersian,
         sheet: {
           fields: [
             {
@@ -327,6 +354,13 @@ function WarehouseListDemo({
               description: "کالاهایی که به حداقل موجودی رسیده‌اند",
               checked: lowOnly,
               onCheckedChange: setLowOnly,
+            },
+            {
+              id: "in-stock",
+              kind: "toggle",
+              label: "دارای موجودی",
+              checked: inStockOnly,
+              onCheckedChange: setInStockOnly,
             },
           ],
           closeLabel: "بستن فیلترها",
@@ -365,6 +399,9 @@ function WarehouseListDemo({
         closeLabel: "بستن",
       }}
       filters={filters}
+      variant={variant}
+      width={width}
+      inset={inset}
     >
       <EntityDataTable
         colSpan={3}
@@ -493,6 +530,55 @@ export const SeveralLists: Story = {
         title="خروجی‌های امروز"
         searchId="outgoing-items-search"
         items={WAREHOUSE_ITEMS.slice(3, 6)}
+      />
+    </div>
+  ),
+};
+
+export const Framed: Story = {
+  render: () => <WarehouseListDemo withFilters variant="framed" />,
+};
+
+export const ClearAllChips: Story = {
+  render: () => (
+    <WarehouseListDemo
+      withFilters
+      withClearAll
+      initialWarehouse="main"
+      initialLowOnly
+      initialInStockOnly
+    />
+  ),
+};
+
+export const ActiveCountBadge: Story = {
+  render: () => (
+    <WarehouseListDemo withFilters initialWarehouse="north" initialLowOnly />
+  ),
+};
+
+export const WideWidth: Story = {
+  render: () => <WarehouseListDemo width="wide" />,
+};
+
+const SHELL_ITEMS: readonly WarehouseItem[] = [0, 1, 2].flatMap((round) =>
+  WAREHOUSE_ITEMS.map((item) => ({
+    ...item,
+    id: String(Number(item.id) + round * 100),
+  })),
+);
+
+export const InsideAppShell: Story = {
+  render: () => (
+    <div className="min-h-screen bg-background p-4 [--entity-browser-sticky-top:3.5rem] [--list-page-gutter:1rem] sm:p-6 sm:[--list-page-gutter:1.5rem]">
+      <header className="sticky top-0 z-30 -mx-[var(--list-page-gutter)] mb-4 flex h-14 items-center border-b border-border bg-background px-[var(--list-page-gutter)] text-sm font-medium text-foreground">
+        انبار من
+      </header>
+      <WarehouseListDemo
+        inset="shell"
+        items={SHELL_ITEMS}
+        withFilters
+        initialInStockOnly
       />
     </div>
   ),

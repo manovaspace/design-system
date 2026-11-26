@@ -12,6 +12,10 @@ import {
 } from "react";
 
 import { CheckIcon, ChevronDownIcon } from "../icons.js";
+import {
+  fieldControlVariants,
+  resolveFieldState,
+} from "../lib/field-control.js";
 import { isImeComposing } from "../lib/ime.js";
 import { foldPersian } from "../lib/persian.js";
 import { cn } from "../lib/utils.js";
@@ -35,7 +39,7 @@ export type ComboboxProps = {
   /** Button trigger only: placeholder of the search box inside the popover. */
   searchPlaceholder?: string;
   emptyText?: string;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "default" | "touch";
   disabled?: boolean;
   strict?: boolean; // On blur, if query doesn't match an option, revert to value or clear (input trigger only)
   name?: string; // renders hidden input for standard HTML forms
@@ -68,33 +72,25 @@ function normalizeSearch(text: string): string {
   return foldPersian(text).toLowerCase();
 }
 
-const sizeStyles: Record<"sm" | "md" | "lg", { input: string; icon: string }> =
-  {
-    sm: {
-      input: "h-8 text-xs ps-2.5 pe-7",
-      icon: "size-3.5 end-2",
-    },
-    md: {
-      input: "h-9 text-sm ps-3 pe-8",
-      icon: "size-4 end-2.5",
-    },
-    lg: {
-      input: "h-11 text-base ps-4 pe-9",
-      icon: "size-5 end-3",
-    },
-  };
+const sizeStyles: Record<
+  "sm" | "md" | "lg" | "default" | "touch",
+  { icon: string }
+> = {
+  sm: { icon: "size-3.5 end-2" },
+  md: { icon: "size-4 end-2.5" },
+  default: { icon: "size-4 end-2.5" },
+  lg: { icon: "size-4 end-3" },
+  touch: { icon: "size-4 end-3" },
+};
 
-const fieldClass =
-  "w-full rounded-[var(--rounded-field,var(--radius-lg))] border border-[var(--border-line-field,1px)] border-input bg-[var(--bg-field,var(--color-card))] shadow-[var(--shadow-field)] text-foreground placeholder:text-muted-foreground transition-[color,box-shadow] outline-none text-start";
-
-const fieldStateClass = [
-  "focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50",
-  "aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40",
-  "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
-].join(" ");
-
-const searchClass =
-  "mb-1 h-9 w-full rounded-[var(--rounded-field,var(--radius-lg))] border border-[var(--border-line-field,1px)] border-input bg-[var(--bg-field,var(--color-card))] text-sm text-foreground placeholder:text-muted-foreground ps-3 pe-3 text-start outline-none transition-[color,box-shadow] focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50";
+const searchClass = cn(
+  fieldControlVariants({
+    size: "default",
+    state: "default",
+    adornment: "none",
+  }),
+  "mb-1 h-9",
+);
 
 type ComboboxGroup = {
   name?: string;
@@ -678,6 +674,12 @@ export const Combobox = forwardRef<
   };
 
   const currentSize = sizeStyles[size];
+  const fieldSize = size === "lg" || size === "touch" ? "touch" : "default";
+  const triggerControlClass = fieldControlVariants({
+    size: fieldSize,
+    state: resolveFieldState({ disabled, invalid: ariaInvalid }),
+    adornment: "end",
+  });
   const selectedLabel =
     normalizedOptions.find((opt) => opt.value === selectedValue)?.label ??
     selectedValue;
@@ -720,10 +722,9 @@ export const Combobox = forwardRef<
               onBlur={handleButtonBlur}
               data-testid={testId}
               className={cn(
-                fieldClass,
-                fieldStateClass,
+                triggerControlClass,
                 "relative flex cursor-pointer items-center",
-                currentSize.input,
+                size === "sm" && "h-8 text-xs ps-2.5 pe-7",
                 className,
               )}
             >
@@ -778,9 +779,8 @@ export const Combobox = forwardRef<
                 onClick={handleClick}
                 data-testid={testId}
                 className={cn(
-                  fieldClass,
-                  fieldStateClass,
-                  currentSize.input,
+                  triggerControlClass,
+                  size === "sm" && "h-8 text-xs ps-2.5 pe-7",
                   className,
                 )}
               />

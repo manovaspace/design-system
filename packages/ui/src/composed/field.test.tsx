@@ -18,7 +18,13 @@ if (typeof document === "undefined") {
 const { cleanup, render, screen } = await import("@testing-library/react");
 const { Field } = await import("./field.js");
 const { Input } = await import("../input.js");
+const { Textarea } = await import("../textarea.js");
+const { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } =
+  await import("../select.js");
 const { Combobox } = await import("./combobox.js");
+const { WheelDatePicker } = await import("./wheel-date-picker.js");
+const { AmountInput } = await import("./amount-input.js");
+const { PickerTrigger } = await import("./picker-trigger.js");
 
 afterEach(() => {
   cleanup();
@@ -266,5 +272,143 @@ describe("Field", () => {
     const alert = screen.getByRole("alert");
     expect(input.getAttribute("aria-invalid")).toBe("true");
     expect(input.getAttribute("aria-describedby")).toBe(alert.id);
+  });
+
+  it("renders counter with data-slot='field-counter' without altering aria-describedby", () => {
+    const { container, rerender } = render(
+      <Field label="Bio" counter="12 / 140">
+        <Input />
+      </Field>,
+    );
+
+    const input = screen.getByLabelText("Bio");
+    const counter = container.querySelector('[data-slot="field-counter"]');
+    expect(counter?.textContent).toBe("12 / 140");
+    expect(input.hasAttribute("aria-describedby")).toBe(false);
+
+    rerender(
+      <Field label="Bio" hint="Short summary" counter="12 / 140">
+        <Input />
+      </Field>,
+    );
+    const hint = container.querySelector('[data-slot="field-hint"]');
+    expect(input.getAttribute("aria-describedby")).toBe(hint?.id);
+    expect(
+      container.querySelector('[data-slot="field-counter"]')?.textContent,
+    ).toBe("12 / 140");
+
+    rerender(
+      <Field label="Bio" error="Too long" counter="150 / 140">
+        <Input />
+      </Field>,
+    );
+    const alert = screen.getByRole("alert");
+    expect(input.getAttribute("aria-describedby")).toBe(alert.id);
+    expect(
+      container.querySelector('[data-slot="field-counter"]')?.textContent,
+    ).toBe("150 / 140");
+  });
+
+  it("wires Textarea id, aria-describedby, and aria-invalid", () => {
+    render(
+      <Field label="Notes" error="Required">
+        <Textarea />
+      </Field>,
+    );
+
+    const textarea = screen.getByLabelText("Notes");
+    const alert = screen.getByRole("alert");
+    expect(textarea.tagName).toBe("TEXTAREA");
+    expect(textarea.getAttribute("aria-invalid")).toBe("true");
+    expect(textarea.getAttribute("aria-describedby")).toBe(alert.id);
+  });
+
+  it("wires composite SelectTrigger id, aria-describedby, and aria-invalid via context", () => {
+    const { container, rerender } = render(
+      <Field label="Plan" hint="Choose tier">
+        <Select>
+          <SelectTrigger>
+            <SelectValue placeholder="Pick a plan" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="pro">Pro</SelectItem>
+          </SelectContent>
+        </Select>
+      </Field>,
+    );
+
+    const trigger = screen.getByRole("combobox", { name: "Plan" });
+    const hint = container.querySelector('[data-slot="field-hint"]');
+    expect(trigger.id).not.toBe("");
+    expect(trigger.className).toContain("data-[size=default]:h-10");
+    expect(trigger.className).not.toContain("data-[size=default]:h-9");
+    expect(trigger.className).toContain("shadow-[shadow:var(--shadow-field)]");
+    expect(trigger.className).not.toContain("shadow-xs");
+    expect(hint?.id).toBe(`${trigger.id}-hint`);
+    expect(trigger.getAttribute("aria-describedby")).toBe(hint?.id);
+    expect(trigger.hasAttribute("aria-invalid")).toBe(false);
+
+    rerender(
+      <Field label="Plan" error="Plan is required">
+        <Select>
+          <SelectTrigger>
+            <SelectValue placeholder="Pick a plan" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="pro">Pro</SelectItem>
+          </SelectContent>
+        </Select>
+      </Field>,
+    );
+
+    const alert = screen.getByRole("alert");
+    expect(trigger.getAttribute("aria-invalid")).toBe("true");
+    expect(trigger.getAttribute("aria-describedby")).toBe(alert.id);
+    expect(trigger.className).toContain("border-destructive");
+  });
+
+  it("wires WheelDatePicker id, aria-describedby, and aria-invalid", () => {
+    render(
+      <Field label="Start date" error="Date required">
+        <WheelDatePicker onValueChange={() => undefined} />
+      </Field>,
+    );
+
+    const trigger = screen.getByRole("button", { name: "Start date" });
+    const alert = screen.getByRole("alert");
+    expect(trigger.getAttribute("aria-invalid")).toBe("true");
+    expect(trigger.getAttribute("aria-describedby")).toBe(alert.id);
+    expect(trigger.className).toContain("border-destructive");
+  });
+
+  it("wires AmountInput id, aria-describedby, and aria-invalid", () => {
+    const { container } = render(
+      <Field label="Price" error="Enter price">
+        <AmountInput />
+      </Field>,
+    );
+
+    const input = screen.getByLabelText("Price");
+    const alert = screen.getByRole("alert");
+    const control = container.querySelector(
+      '[data-slot="amount-input-control"]',
+    );
+    expect(input.getAttribute("aria-invalid")).toBe("true");
+    expect(input.getAttribute("aria-describedby")).toBe(alert.id);
+    expect(control?.className).toContain("border-destructive");
+  });
+
+  it("wires PickerTrigger id, aria-describedby, and aria-invalid", () => {
+    render(
+      <Field label="Customer" error="Select a customer">
+        <PickerTrigger placeholder="Choose customer" />
+      </Field>,
+    );
+
+    const trigger = screen.getByRole("button", { name: "Customer" });
+    const alert = screen.getByRole("alert");
+    expect(trigger.getAttribute("aria-invalid")).toBe("true");
+    expect(trigger.getAttribute("aria-describedby")).toBe(alert.id);
+    expect(trigger.className).toContain("border-destructive");
   });
 });

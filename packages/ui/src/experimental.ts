@@ -72,6 +72,10 @@ export {
   phoneNumberPresets,
 } from "./composed/phone-number.js";
 export {
+  PickerTrigger,
+  type PickerTriggerProps,
+} from "./composed/picker-trigger.js";
+export {
   WheelDatePicker,
   type WheelDatePickerProps,
 } from "./composed/wheel-date-picker.js";

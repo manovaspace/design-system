@@ -2,6 +2,11 @@
 
 import type * as React from "react";
 
+import { useFieldContextOptional } from "./composed/field.js";
+import {
+  fieldControlVariants,
+  resolveFieldState,
+} from "./lib/field-control.js";
 import { cn } from "./lib/utils.js";
 import {
   Select as PrimitiveSelect,
@@ -19,12 +24,38 @@ export function Select(props: React.ComponentProps<typeof PrimitiveSelect>) {
 
 export function SelectTrigger({
   className,
+  size = "default",
+  id,
+  "aria-describedby": ariaDescribedBy,
+  "aria-invalid": ariaInvalid,
   ...props
-}: React.ComponentProps<typeof PrimitiveSelectTrigger>) {
+}: React.ComponentProps<typeof PrimitiveSelectTrigger> & {
+  size?: "sm" | "default" | "touch";
+}) {
+  const fieldContext = useFieldContextOptional();
+  const resolvedId = id ?? fieldContext?.id;
+  const resolvedAriaDescribedBy = ariaDescribedBy ?? fieldContext?.describedBy;
+  const resolvedAriaInvalid =
+    ariaInvalid ?? (fieldContext?.invalid ? true : undefined);
+
   return (
     <PrimitiveSelectTrigger
+      id={resolvedId}
+      size={size}
+      aria-describedby={resolvedAriaDescribedBy}
+      aria-invalid={resolvedAriaInvalid}
       className={cn(
-        "h-10 rounded-[var(--radius-lg)] px-[var(--space-3)] text-[length:var(--font-size-body)]",
+        fieldControlVariants({
+          size: size === "touch" ? "touch" : "default",
+          state: resolveFieldState({
+            disabled: props.disabled,
+            invalid:
+              resolvedAriaInvalid === true || resolvedAriaInvalid === "true",
+          }),
+          adornment: "none",
+        }),
+        "w-fit data-[size=default]:h-10",
+        size === "sm" && "h-8 text-xs px-2.5",
         className,
       )}
       {...props}

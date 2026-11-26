@@ -118,7 +118,7 @@ export const alertVariants: (props?: ({
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 
 // @public
-export const AmountInput: React_2.ForwardRefExoticComponent<Omit<Omit<React_2.DetailedHTMLProps<React_2.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "ref">, "defaultValue" | "max" | "min" | "onChange" | "value"> & {
+export const AmountInput: React_2.ForwardRefExoticComponent<Omit<Omit<React_2.DetailedHTMLProps<React_2.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "ref">, "defaultValue" | "max" | "min" | "onChange" | "size" | "value"> & {
     value?: number | null;
     defaultValue?: number | null;
     onChange?: (value: number | null) => void;
@@ -129,6 +129,7 @@ export const AmountInput: React_2.ForwardRefExoticComponent<Omit<Omit<React_2.De
     quick?: number[];
     placeholder?: string;
     locale?: string;
+    size?: "default" | "touch";
     disabled?: boolean;
     className?: string;
     id?: string;
@@ -136,7 +137,7 @@ export const AmountInput: React_2.ForwardRefExoticComponent<Omit<Omit<React_2.De
 } & React_2.RefAttributes<HTMLInputElement>>;
 
 // @public (undocumented)
-export type AmountInputProps = Omit<React_2.ComponentPropsWithoutRef<"input">, "defaultValue" | "max" | "min" | "onChange" | "value"> & {
+export type AmountInputProps = Omit<React_2.ComponentPropsWithoutRef<"input">, "defaultValue" | "max" | "min" | "onChange" | "size" | "value"> & {
     value?: number | null;
     defaultValue?: number | null;
     onChange?: (value: number | null) => void;
@@ -147,6 +148,7 @@ export type AmountInputProps = Omit<React_2.ComponentPropsWithoutRef<"input">, "
     quick?: number[];
     placeholder?: string;
     locale?: string;
+    size?: "default" | "touch";
     disabled?: boolean;
     className?: string;
     id?: string;
@@ -442,7 +444,7 @@ export type ComboboxProps = {
     placeholder?: string;
     searchPlaceholder?: string;
     emptyText?: string;
-    size?: "lg" | "md" | "sm";
+    size?: "default" | "lg" | "md" | "sm" | "touch";
     disabled?: boolean;
     strict?: boolean;
     name?: string;
@@ -863,6 +865,7 @@ export type FieldProps = {
     htmlFor?: string;
     hint?: React_2.ReactNode;
     error?: React_2.ReactNode;
+    counter?: React_2.ReactNode;
     required?: boolean;
     className?: string;
     children: React_2.ReactNode;
@@ -1596,7 +1599,9 @@ export function SelectLabel(props: React_2.ComponentProps<typeof SelectLabel_2>)
 // Warning: (ae-forgotten-export) The symbol "SelectTrigger_2" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-export function SelectTrigger(input: React_2.ComponentProps<typeof SelectTrigger_2>): React_2.JSX.Element;
+export function SelectTrigger(input: React_2.ComponentProps<typeof SelectTrigger_2> & {
+    size?: "default" | "sm" | "touch";
+}): React_2.JSX.Element;
 
 // Warning: (ae-forgotten-export) The symbol "SelectValue_2" needs to be exported by the entry point index.d.ts
 //

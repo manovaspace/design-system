@@ -33,9 +33,11 @@ describe("Input", () => {
     expect(input.className).toContain(
       "rounded-[var(--rounded-field,var(--radius-lg))]",
     );
-    expect(input.className).toContain("border-[var(--border-line-field,1px)]");
+    expect(input.className).toContain(
+      "border-[length:var(--border-line-field,1px)]",
+    );
     expect(input.className).toContain("bg-[var(--bg-field,var(--color-card))]");
-    expect(input.className).toContain("shadow-[var(--shadow-field)]");
+    expect(input.className).toContain("shadow-[shadow:var(--shadow-field)]");
     expect(input.className).toContain("ps-3");
     expect(input.className).toContain("pe-3");
     // No wrapper div when no addons or errors
@@ -55,9 +57,11 @@ describe("Input", () => {
     expect(root?.className).toContain(
       "rounded-[var(--rounded-field,var(--radius-lg))]",
     );
-    expect(root?.className).toContain("border-[var(--border-line-field,1px)]");
+    expect(root?.className).toContain(
+      "border-[length:var(--border-line-field,1px)]",
+    );
     expect(root?.className).toContain("bg-[var(--bg-field,var(--color-card))]");
-    expect(root?.className).toContain("shadow-[var(--shadow-field)]");
+    expect(root?.className).toContain("shadow-[shadow:var(--shadow-field)]");
     expect(root?.className).toContain("ps-3");
     expect(root?.className).toContain("pe-3");
     expect(root?.className).toContain("gap-2");

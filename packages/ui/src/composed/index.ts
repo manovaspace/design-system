@@ -131,6 +131,10 @@ export {
   type PhoneNumberVariant,
   phoneNumberPresets,
 } from "./phone-number.js";
+export {
+  PickerTrigger,
+  type PickerTriggerProps,
+} from "./picker-trigger.js";
 export * from "./progressive-dialog/index.js";
 export {
   Rating,

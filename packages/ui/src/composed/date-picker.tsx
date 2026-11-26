@@ -14,6 +14,10 @@ import {
   ChevronRightIcon,
   XMarkIcon,
 } from "../icons.js";
+import {
+  fieldControlVariants,
+  resolveFieldState,
+} from "../lib/field-control.js";
 import { cn } from "../lib/utils.js";
 import { useLocalePreference } from "../locale-preference.js";
 import { Popover, PopoverContent, PopoverTrigger } from "../popover.js";
@@ -48,8 +52,10 @@ export type DatePickerProps = {
   "aria-label"?: string;
   /** Accessible name source for the trigger when `label` is not set. Ignored when `label` is set. */
   "aria-labelledby"?: string;
+  "aria-invalid"?: boolean | "true" | "false";
+  "aria-describedby"?: string;
   className?: string;
-  size?: "default" | "sm";
+  size?: "default" | "touch" | "sm";
 };
 
 type IsoDateParts = { year: number; month: number; day: number };
@@ -169,6 +175,8 @@ export function DatePicker({
   id,
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
+  "aria-invalid": ariaInvalid,
+  "aria-describedby": ariaDescribedBy,
   className,
   size = "default",
 }: DatePickerProps) {
@@ -245,18 +253,25 @@ export function DatePicker({
       )}
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button
+          <button
             type="button"
-            variant="outline"
             id={id}
             disabled={disabled}
+            aria-invalid={ariaInvalid}
+            aria-describedby={ariaDescribedBy}
             aria-label={label ? undefined : ariaLabel}
             aria-labelledby={label ? `${labelId} ${valueId}` : ariaLabelledBy}
             className={cn(
-              compact
-                ? "h-8 min-w-[6.5rem] gap-1.5 rounded-md px-2.5 text-xs"
-                : "h-11 min-w-[8.5rem] gap-2 rounded-lg px-3",
-              "flex-1 justify-start text-start font-normal text-foreground",
+              fieldControlVariants({
+                size: size === "touch" ? "touch" : "default",
+                state: resolveFieldState({
+                  disabled,
+                  invalid: ariaInvalid === true || ariaInvalid === "true",
+                }),
+                adornment: "none",
+              }),
+              "flex min-w-[8.5rem] flex-1 cursor-pointer items-center justify-start gap-2 font-normal",
+              compact && "h-8 min-w-[6.5rem] gap-1.5 px-2.5 text-xs",
               !valueIso && "text-muted-foreground",
             )}
           >
@@ -270,7 +285,7 @@ export function DatePicker({
             <span id={valueId} className="truncate">
               {displayText || placeholder || labels.placeholder}
             </span>
-          </Button>
+          </button>
         </PopoverTrigger>
         <PopoverContent align="start" className="w-auto p-2">
           <div ref={calendarRef} className="flex flex-col gap-2">
@@ -293,8 +308,12 @@ export function DatePicker({
               containerClassName="w-full"
               className={compact ? undefined : "[&_.rmdp-day]:size-11"}
               inputClass={cn(
-                "w-full rounded-[var(--radius-lg)] border border-input bg-background px-3 text-sm",
-                compact ? "h-8" : "h-11",
+                fieldControlVariants({
+                  size: size === "touch" ? "touch" : "default",
+                  state: "default",
+                  adornment: "none",
+                }),
+                compact && "h-8 px-2.5 text-xs",
               )}
               renderButton={
                 <CalendarArrow

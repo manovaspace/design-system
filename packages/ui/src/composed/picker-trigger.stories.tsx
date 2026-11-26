@@ -49,7 +49,7 @@ export const States: Story = {
   ),
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
-    const trigger = canvas.getByRole("button", { name: /Select vendor/ });
+    const trigger = canvas.getByRole("button", { name: /Empty trigger/ });
     await userEvent.click(trigger);
     expect(args.onClick).toHaveBeenCalledTimes(1);
   },

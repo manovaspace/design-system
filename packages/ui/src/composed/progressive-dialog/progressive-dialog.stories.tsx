@@ -3,7 +3,10 @@ import { useState } from "react";
 import { expect, fn, userEvent, waitFor, within } from "storybook/test";
 
 import { Button } from "../../button.js";
-import { ProgressiveDialog } from "./progressive-dialog.js";
+import {
+  ProgressiveDialog,
+  type ProgressiveDialogProgress,
+} from "./progressive-dialog.js";
 
 const steps = [
   { id: "source", label: "Source" },
@@ -17,6 +20,7 @@ const labels = { close: "Close", back: "Back", steps: "Progress" };
 type DemoProps = {
   initialStep: number;
   pending?: boolean;
+  progress?: ProgressiveDialogProgress;
   error?: string;
   retryLabel?: string;
   onClose: () => void;
@@ -25,6 +29,7 @@ type DemoProps = {
 function ProgressiveDialogDemo({
   initialStep,
   pending = false,
+  progress,
   error,
   retryLabel,
   onClose,
@@ -49,6 +54,7 @@ function ProgressiveDialogDemo({
         title="Transfer"
         steps={steps}
         stepIndex={stepIndex}
+        progress={progress}
         onBack={() => setStepIndex((index) => Math.max(0, index - 1))}
         primaryAction={{
           label: isLast ? "Submit" : "Continue",
@@ -87,15 +93,19 @@ export const FirstStep: Story = {
   play: async ({ args }) => {
     const dialog = within(document.body);
     expect(dialog.getByRole("heading", { name: "Transfer" })).toBeTruthy();
-    expect(dialog.getByText("Source").getAttribute("aria-current")).toBe(
-      "step",
-    );
+    expect(
+      dialog.getByText("Source").closest("li")?.getAttribute("aria-current"),
+    ).toBe("step");
 
-    dialog.getByRole("button", { name: "Continue" }).click();
+    const continueBtn = dialog.getByRole("button", { name: "Continue" });
     await waitFor(() =>
-      expect(dialog.getByText("Items").getAttribute("aria-current")).toBe(
-        "step",
-      ),
+      expect(getComputedStyle(continueBtn).pointerEvents).not.toBe("none"),
+    );
+    await userEvent.click(continueBtn);
+    await waitFor(() =>
+      expect(
+        dialog.getByText("Items").closest("li")?.getAttribute("aria-current"),
+      ).toBe("step"),
     );
 
     await userEvent.keyboard("{Escape}");
@@ -118,14 +128,15 @@ export const WithError: Story = {
 export const WithErrorAction: Story = {
   args: {
     initialStep: 2,
+    progress: "segments",
     error: "Insufficient stock for Rice.",
     retryLabel: "Retry",
   },
   play: async () => {
     const dialog = within(document.body);
-    expect(dialog.getByText("Details").getAttribute("aria-current")).toBe(
-      "step",
-    );
+    expect(
+      dialog.getByText("Details").closest("li")?.getAttribute("aria-current"),
+    ).toBe("step");
     const states = Array.from(
       document.querySelectorAll('[data-slot="progressive-dialog-step-bar"]'),
     ).map((bar) =>
@@ -137,12 +148,14 @@ export const WithErrorAction: Story = {
 
     const alert = dialog.getByRole("alert");
     expect(alert.textContent).toContain("Insufficient stock for Rice.");
-    expect(alert.contains(dialog.getByRole("button", { name: "Retry" }))).toBe(
-      true,
-    );
+    const retryBtn = dialog.getByRole("button", { name: "Retry" });
+    expect(alert.contains(retryBtn)).toBe(true);
     expect(dialog.getByRole("button", { name: "Continue" })).toBeTruthy();
 
-    dialog.getByRole("button", { name: "Retry" }).click();
+    await waitFor(() =>
+      expect(getComputedStyle(retryBtn).pointerEvents).not.toBe("none"),
+    );
+    await userEvent.click(retryBtn);
     await waitFor(() => expect(dialog.queryByRole("alert")).toBeNull());
   },
 };

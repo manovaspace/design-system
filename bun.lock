@@ -17,10 +17,10 @@
     },
     "apps/storybook": {
       "name": "@manovaspace/storybook",
-      "version": "0.0.13",
+      "version": "0.0.14",
       "dependencies": {
         "@manovaspace/tokens": "^1.0.0",
-        "@manovaspace/ui": "^1.2.0",
+        "@manovaspace/ui": "^1.17.0",
         "react": "19.3.1",
         "react-dom": "19.3.1",
         "react-hook-form": "^7.91.0",
@@ -76,6 +76,7 @@
         "@fontsource/ibm-plex-mono": "^5.3.0",
         "@fontsource/inter": "^5.3.0",
         "@fontsource/vazirmatn": "^5.3.0",
+        "@material/material-color-utilities": "0.3.0",
       },
       "devDependencies": {
         "@manovaspace/build": "^0.1.0",
@@ -88,7 +89,7 @@
     },
     "packages/ui": {
       "name": "@manovaspace/ui",
-      "version": "1.16.0",
+      "version": "1.18.0",
       "dependencies": {
         "@manovaspace/tokens": "^1.1.0",
         "class-variance-authority": "^0.7.1",
@@ -377,6 +378,8 @@
     "@manypkg/get-packages": ["@manypkg/get-packages@3.1.0", "", { "dependencies": { "@manypkg/find-root": "^3.1.0", "@manypkg/tools": "^2.1.0" } }, "sha512-0TbBVyvPrP7xGYBI/cP8UP+yl/z+HtbTttAD7FMAJgn/kXOTwh5/60TsqP9ZYY710forNfyV0N8P/IE/ujGZJg=="],
 
     "@manypkg/tools": ["@manypkg/tools@2.1.2", "", { "dependencies": { "jju": "^1.4.0", "tinyglobby": "^0.2.13", "yaml": "^2.9.0" } }, "sha512-6QEf6yqFbETdwGITKq57aYoPfX/3K8XFNwsAlx0C1M7o8cb79sv1M3w+tWuWvIcSbNqrLF7OD7YpZMVVz335hQ=="],
+
+    "@material/material-color-utilities": ["@material/material-color-utilities@0.3.0", "", {}, "sha512-ztmtTd6xwnuh2/xu+Vb01btgV8SQWYCaK56CkRK8gEkWe5TuDyBcYJ0wgkMRn+2VcE9KUmhvkz+N9GHrqw/C0g=="],
 
     "@mdx-js/react": ["@mdx-js/react@3.1.1", "", { "dependencies": { "@types/mdx": "^2.0.0" }, "peerDependencies": { "@types/react": ">=16", "react": ">=16" } }, "sha512-f++rKLQgUVYDAtECQ6fn/is15GkEH9+nZPM3MS0RcxVqoTfawHvDlSCH7JbMhAM6uJ32v3eXLvLmLvjGu7PTQw=="],
 

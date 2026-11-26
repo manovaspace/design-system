@@ -4,13 +4,20 @@
 
 ```ts
 
+import { Hct } from '@material/material-color-utilities';
+import { TonalPalette } from '@material/material-color-utilities';
+
 // @public (undocumented)
 export function applyFamilyAnchorColor(color: Record<string, Record<string, string>>, family: string, anchorHex: string): Record<string, Record<string, string>>;
 
-// Warning: (ae-forgotten-export) The symbol "ApplyTokensTarget" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
-export function applyTokens(raw: OrbitTokensRaw, target?: ApplyTokensTarget): void;
+export function applyTokens(raw: RuntimeTokenInput, target?: ApplyTokensTarget): void;
+
+// @public (undocumented)
+export type ApplyTokensTarget = HTMLElement | null | undefined;
+
+// @public
+export function assertWcagContrast(pairs: readonly ContrastCheckPair[]): void;
 
 // @public (undocumented)
 export const BRAND_ANCHORS: Record<string, string>;
@@ -19,6 +26,93 @@ export const BRAND_ANCHORS: Record<string, string>;
 //
 // @public
 export function brandAnchorStep(family: string): ColorStep;
+
+// @public (undocumented)
+export type BrandTokensConfig = {
+    seed: BrandTokensSeed;
+    font: {
+        sans: string;
+        data: string;
+    };
+    shape: ShapeScale;
+    density: DensityScale;
+    motion: MotionScale;
+    contrast: ContrastLevel;
+};
+
+// @public (undocumented)
+export type BrandTokensFont = {
+    sans?: string;
+    data?: string;
+};
+
+// @public (undocumented)
+export type BrandTokensInput = {
+    $schema?: string;
+    $description?: string;
+    seed: {
+        primary: string | DtcgColorValue | DtcgToken<string | DtcgColorValue>;
+        secondary?: string | DtcgColorValue | DtcgToken<string | DtcgColorValue>;
+        tertiary?: string | DtcgColorValue | DtcgToken<string | DtcgColorValue>;
+        neutral?: string | DtcgColorValue | DtcgToken<string | DtcgColorValue>;
+        error?: string | DtcgColorValue | DtcgToken<string | DtcgColorValue>;
+    };
+    font?: {
+        sans?: string | string[] | DtcgToken<string | string[]>;
+        data?: string | string[] | DtcgToken<string | string[]>;
+    };
+    shape?: ShapeScale | DtcgToken<ShapeScale>;
+    density?: DensityScale | DtcgToken<DensityScale>;
+    motion?: MotionScale | DtcgToken<MotionScale>;
+    contrast?: ContrastLevel | DtcgToken<ContrastLevel>;
+};
+
+// @public (undocumented)
+export type BrandTokensSeed = {
+    primary: string;
+    secondary?: string;
+    tertiary?: string;
+    neutral?: string;
+    error?: string;
+};
+
+// @public (undocumented)
+export type BrandTonalPalettes = {
+    sourceArgb: number;
+    sourceHct: Hct;
+    primary: TonalPalette;
+    secondary: TonalPalette;
+    tertiary: TonalPalette;
+    neutral: TonalPalette;
+    neutralVariant: TonalPalette;
+    error: TonalPalette;
+    success: TonalPalette;
+    warning: TonalPalette;
+};
+
+// @public
+export function buildBrandPalettes(seed: BrandTokensSeed): BrandTonalPalettes;
+
+// @public
+export function buildChartPalette(primaryHex: string, surfaceHex: string, cardHex: string, isDark: boolean, contrast: ContrastLevel): [string, string, string, string, string];
+
+// @public
+export function buildComponentCssVars(): Record<string, string>;
+
+// @public
+export function buildDtcgDefaultDocument(legacy: LegacyBaseScales, seedConfig?: BrandTokensConfig): DtcgDocument;
+
+// @public
+export function buildHctTonalPalette(seedHex: string): Record<number, string>;
+
+// @public
+export function buildSchemeContrastPairs(m3: M3ColorRoles, semanticHex: Record<string, string>, meta: {
+    scheme: TokenColorScheme;
+    contrast: ContrastLevel;
+}): ContrastCheckPair[];
+
+// @public
+export function buildShadcnAliasCssVars(scheme: TokenColorScheme): Record<string, string>;
 
 // @public (undocumented)
 export function clearAppliedTokens(): void;
@@ -33,16 +127,167 @@ export const COLOR_STEPS: readonly ["50", "100", "200", "300", "400", "500", "60
 export type ColorScheme = "dark" | "light";
 
 // @public (undocumented)
+export const CONTRAST_LEVEL_NUMBER: Record<ContrastLevel, number>;
+
+// @public (undocumented)
+export const CONTRAST_LEVELS: readonly ContrastLevel[];
+
+// @public (undocumented)
+export type ContrastCheckPair = {
+    pair: string;
+    foreground: string;
+    background: string;
+    level: ContrastTargetLevel;
+    minRatio?: number;
+    scheme?: TokenColorScheme;
+    contrast?: ContrastLevel;
+};
+
+// @public
+export type ContrastLevel = "high" | "medium" | "standard";
+
+// @public
+export function contrastRatio(foregroundHex: string, backgroundHex: string): number;
+
+// @public (undocumented)
+export type ContrastTargetLevel = "text" | "ui";
+
+// @public (undocumented)
+export type ContrastViolation = {
+    pair: string;
+    foreground: string;
+    background: string;
+    ratio: number;
+    required: number;
+    level: ContrastTargetLevel;
+    scheme?: TokenColorScheme;
+    contrast?: ContrastLevel;
+};
+
+// @public (undocumented)
+export const DEFAULT_BRAND_FONT: {
+    readonly sans: "Estedad, Fredoka, Inter, Arial, sans-serif";
+    readonly data: "Vazirmatn, Estedad, Arial, sans-serif";
+};
+
+// @public (undocumented)
+export const DEFAULT_BRAND_SEEDS: {
+    readonly primary: "#2563eb";
+    readonly secondary: "#525252";
+    readonly tertiary: "#1d4ed8";
+    readonly neutral: "#727272";
+    readonly error: "#dc2626";
+    readonly success: "#059669";
+    readonly warning: "#d97706";
+};
+
+// @public (undocumented)
+export const defaultDtcgDocument: DtcgDocument;
+
+// @public (undocumented)
 export const defaultTokens: OrbitTokens;
 
 // @public (undocumented)
 export const defaultTokensRaw: OrbitTokensRaw;
 
+// @public (undocumented)
+export const DENSITY_SCALES: readonly DensityScale[];
+
+// @public (undocumented)
+export type DensityScale = "comfortable" | "compact" | "default";
+
 // @public
 export function deriveHoverCss(baseCss: string, scheme: ColorScheme, delta: number): string;
 
+// @public
+export function deriveM3SchemeRoles(palettes: BrandTonalPalettes, options: {
+    isDark: boolean;
+    contrast: ContrastLevel;
+}): M3ColorRoles;
+
 // @public (undocumented)
 export function deriveSemanticDark(light: Record<string, string>): Record<string, string>;
+
+// @public
+export function dtcgColorToHex(value: string | DtcgColorValue): string;
+
+// @public (undocumented)
+export type DtcgColorValue = {
+    colorSpace: "srgb";
+    components: [number, number, number];
+    alpha?: number;
+    hex?: string;
+};
+
+// @public (undocumented)
+export type DtcgDocument = {
+    $schema?: string;
+    $description?: string;
+    $extensions?: Record<string, unknown>;
+    ref: DtcgGroup;
+    sys: DtcgGroup;
+    comp: DtcgGroup;
+    resolver: DtcgResolver;
+    themes?: Record<string, unknown>;
+};
+
+// @public
+export function dtcgDocumentToOrbitTokensRaw(doc: DtcgDocument): OrbitTokensRaw;
+
+// @public (undocumented)
+export interface DtcgGroup {
+    // (undocumented)
+    $description?: string;
+    // (undocumented)
+    $extensions?: Record<string, unknown>;
+    // (undocumented)
+    $type?: DtcgTokenType;
+    // (undocumented)
+    [key: string]: unknown;
+}
+
+// @public (undocumented)
+export type DtcgResolver = {
+    version: "2025.10";
+    sets: Record<string, string>;
+    modifiers: {
+        colorScheme: DtcgResolverModifier;
+        contrast: DtcgResolverModifier;
+    };
+    resolutionOrder: Array<string | {
+        modifier: string;
+    }>;
+};
+
+// @public (undocumented)
+export type DtcgResolverModifier = {
+    description?: string;
+    default: string;
+    contexts: Record<string, Record<string, unknown>>;
+};
+
+// @public (undocumented)
+export type DtcgToken<T = unknown> = {
+    $value: T;
+    $type?: DtcgTokenType;
+    $description?: string;
+    $extensions?: Record<string, unknown>;
+};
+
+// @public (undocumented)
+export type DtcgTokenType = "color" | "cubicBezier" | "dimension" | "duration" | "fontFamily" | "number" | "shadow" | "string";
+
+// @public (undocumented)
+export type FlattenedHexTokens = {
+    scheme: TokenColorScheme;
+    contrast: ContrastLevel;
+    colors: Record<string, string>;
+    typography: {
+        fontSans: string;
+        fontData: string;
+    };
+    radii: ScaleTokens["radii"];
+};
 
 // @public (undocumented)
 export const fontFamily: {
@@ -56,6 +301,9 @@ export const fontFamily: {
 // @public
 export function generateColorScale(anchorHex: string, anchorStep: ColorStep): Record<ColorStep, string>;
 
+// @public
+export function hexToDtcgColor(hex: string): DtcgColorValue;
+
 // Warning: (ae-forgotten-export) The symbol "Oklch" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
@@ -67,10 +315,111 @@ export const INTERACTION_HOVER_SOURCES: Readonly<Record<string, {
 }>>;
 
 // @public (undocumented)
+export function isBrandOrTenantInput(value: unknown): value is BrandTokensInput | TenantSeedInput;
+
+// @public (undocumented)
+export function isResolvedBrandTokens(value: unknown): value is ResolvedBrandTokens;
+
+// @public (undocumented)
+export type LegacyBaseScales = {
+    color: Record<string, Record<string, string>>;
+    spacing: Record<string, string>;
+    typography: {
+        fontFamily: Record<string, string>;
+        fontSize: Record<string, string>;
+        lineHeight: Record<string, string>;
+    };
+    radii: Record<string, string>;
+    shadow: Record<string, string>;
+    breakpoint: Record<string, string>;
+    v1SemanticLight: Record<string, string>;
+};
+
+// @public
+export const M3_STATE_LAYER_OPACITIES: M3StateLayers;
+
+// @public (undocumented)
+export const M3_TONES: readonly [0, 4, 6, 10, 12, 17, 20, 22, 24, 30, 40, 50, 60, 70, 80, 87, 90, 92, 94, 95, 96, 98, 99, 100];
+
+// @public (undocumented)
+export type M3ColorRoles = {
+    primary: string;
+    onPrimary: string;
+    primaryContainer: string;
+    onPrimaryContainer: string;
+    inversePrimary: string;
+    secondary: string;
+    onSecondary: string;
+    secondaryContainer: string;
+    onSecondaryContainer: string;
+    tertiary: string;
+    onTertiary: string;
+    tertiaryContainer: string;
+    onTertiaryContainer: string;
+    error: string;
+    onError: string;
+    errorContainer: string;
+    onErrorContainer: string;
+    background: string;
+    onBackground: string;
+    surface: string;
+    onSurface: string;
+    surfaceVariant: string;
+    onSurfaceVariant: string;
+    surfaceDim: string;
+    surfaceBright: string;
+    surfaceContainerLowest: string;
+    surfaceContainerLow: string;
+    surfaceContainer: string;
+    surfaceContainerHigh: string;
+    surfaceContainerHighest: string;
+    inverseSurface: string;
+    inverseOnSurface: string;
+    outline: string;
+    outlineVariant: string;
+    shadow: string;
+    scrim: string;
+    surfaceTint: string;
+    success: string;
+    onSuccess: string;
+    successContainer: string;
+    onSuccessContainer: string;
+    warning: string;
+    onWarning: string;
+    warningContainer: string;
+    onWarningContainer: string;
+    primaryHover: string;
+    secondaryContainerHover: string;
+    errorHover: string;
+    surfaceContainerHover: string;
+    chart1: string;
+    chart2: string;
+    chart3: string;
+    chart4: string;
+    chart5: string;
+};
+
+// @public (undocumented)
+export function m3RolesToCssVars(m3: M3ColorRoles): Record<string, string>;
+
+// @public (undocumented)
+export type M3StateLayers = {
+    hoverOpacity: number;
+    focusOpacity: number;
+    pressedOpacity: number;
+    draggedOpacity: number;
+    disabledContentOpacity: number;
+    disabledContainerOpacity: number;
+};
+
+// @public (undocumented)
 export function mergeTokenOverrides(base: OrbitTokensRaw, ...overrides: (OrbitTokenOverride | undefined)[]): OrbitTokens;
 
 // @public (undocumented)
 export function mergeTokenOverridesRaw(base: OrbitTokensRaw, ...overrides: (OrbitTokenOverride | undefined)[]): OrbitTokensRaw;
+
+// @public
+export function minRatioForLevel(level: ContrastTargetLevel): number;
 
 // @public (undocumented)
 export type MnvColorFamily = keyof typeof mnvColors;
@@ -161,6 +510,12 @@ export const mnvColors: {
 export type MnvColorStep = keyof (typeof mnvColors)["primary"];
 
 // @public (undocumented)
+export const MOTION_SCALES: readonly MotionScale[];
+
+// @public (undocumented)
+export type MotionScale = "expressive" | "reduced" | "standard";
+
+// @public (undocumented)
 export function normalizeSemanticColor(value: string): string;
 
 // @public (undocumented)
@@ -212,28 +567,201 @@ export type OrbitTokensRaw = {
     breakpoint: Record<string, string>;
 };
 
+// @public
+export function parseBrandTokens(input: unknown): BrandTokensConfig;
+
 // Warning: (ae-forgotten-export) The symbol "Hsl" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
 export function parseColorToHsl(value: string): Hsl;
 
+// @public
+export function parseHexOrDtcgColor(value: unknown, path: string): string;
+
+// @public
+export function parseTenantSeed(input: unknown): TenantSeedConfig;
+
+// @public (undocumented)
+export function parseTokenOrBrandPayload(data: unknown): OrbitTokenOverride | BrandTokensInput | TenantSeedInput | undefined;
+
 // @public (undocumented)
 export function parseTokenOverridePayload(data: unknown): OrbitTokenOverride | undefined;
+
+// @public
+export function relativeLuminance(hex: string): number;
+
+// @public
+export function resolveBrandTokens(input: BrandTokensInput | unknown): ResolvedBrandTokens;
+
+// @public (undocumented)
+export function resolveBrandTokensFromConfig(config: BrandTokensConfig): ResolvedBrandTokens;
+
+// @public (undocumented)
+export type ResolvedBrandTokens = {
+    version: 2;
+    config: BrandTokensConfig;
+    palettes: {
+        primary: Record<number, string>;
+        secondary: Record<number, string>;
+        tertiary: Record<number, string>;
+        neutral: Record<number, string>;
+        neutralVariant: Record<number, string>;
+        error: Record<number, string>;
+    };
+    stateLayers: M3StateLayers;
+    scale: ScaleTokens;
+    schemes: {
+        light: Record<ContrastLevel, ResolvedSchemeTokens>;
+        dark: Record<ContrastLevel, ResolvedSchemeTokens>;
+    };
+};
+
+// @public
+export function resolvedBrandTokensToCss(resolved: ResolvedBrandTokens): string;
+
+// @public (undocumented)
+export type ResolvedSchemeTokens = {
+    scheme: TokenColorScheme;
+    contrast: ContrastLevel;
+    m3: M3ColorRoles;
+    mdSysColorVars: Record<string, string>;
+    semanticHex: Record<string, string>;
+    shadcnAliasVars: Record<string, string>;
+};
+
+// @public (undocumented)
+export type ResolvedTenantBranding = {
+    tenant: TenantSeedConfig;
+    resolved: ResolvedBrandTokens;
+};
+
+// @public (undocumented)
+export function resolveScaleTokens(options: {
+    shape: ShapeScale;
+    density: DensityScale;
+    motion: MotionScale;
+}): ScaleTokens;
+
+// @public
+export function resolveSemanticHexMap(m3: M3ColorRoles, scale: ScaleTokens, scheme: TokenColorScheme): Record<string, string>;
+
+// @public
+export function resolveTenantBranding(input: TenantSeedInput | unknown, base?: BrandTokensInput | BrandTokensConfig): ResolvedTenantBranding;
 
 // @public (undocumented)
 export function resolveTokens(raw: OrbitTokensRaw, base?: OrbitTokensRaw): OrbitTokens;
 
 // @public (undocumented)
+export type RuntimeTokenInput = OrbitTokensRaw | BrandTokensInput | TenantSeedInput | ResolvedBrandTokens;
+
+// @public (undocumented)
+export type ScaleTokens = {
+    shape: ShapeScale;
+    density: DensityScale;
+    motion: MotionScale;
+    radii: {
+        sm: string;
+        md: string;
+        lg: string;
+        xl: string;
+        "2xl": string;
+        full: string;
+        field: string;
+        button: string;
+    };
+    densityVars: {
+        controlHeightDefault: string;
+        controlHeightTouch: string;
+        rowMinHeight: string;
+        spaceUnit: string;
+    };
+    motionVars: {
+        duration: string;
+        durationSlow: string;
+        ease: string;
+        press: string;
+    };
+};
+
+// @public (undocumented)
+export function scaleTokensToCssVars(scale: ScaleTokens): Record<string, string>;
+
+// @public (undocumented)
 export const SEMANTIC_DARK_EXCLUDE: Set<string>;
+
+// @public
+export const SHADCN_SEMANTIC_VAR_NAMES: readonly ["background", "foreground", "card", "card-foreground", "popover", "popover-foreground", "primary", "primary-foreground", "secondary", "secondary-foreground", "muted", "muted-foreground", "accent", "accent-foreground", "destructive", "destructive-foreground", "border", "input", "ring", "chart-1", "chart-2", "chart-3", "chart-4", "chart-5", "radius", "sidebar", "sidebar-foreground", "sidebar-primary", "sidebar-primary-foreground", "sidebar-accent", "sidebar-accent-foreground", "sidebar-border", "sidebar-ring", "surface-sunken", "status-success", "status-success-foreground", "status-warning", "status-warning-foreground", "status-danger", "status-danger-foreground", "press", "color-brand", "color-brand-foreground", "rounded-field", "border-line-field", "bg-field", "motion", "ease-motion", "primary-hover", "secondary-hover", "destructive-hover", "accent-hover", "muted-hover"];
+
+// @public (undocumented)
+export const SHAPE_SCALES: readonly ShapeScale[];
+
+// @public (undocumented)
+export type ShapeScale = "default" | "round" | "sharp";
 
 // @public (undocumented)
 export function shiftHslLightness(hsl: Hsl, delta: number): Hsl;
 
 // @public (undocumented)
+export function stateLayersToCssVars(layers?: M3StateLayers): Record<string, string>;
+
+// @public (undocumented)
+export type TenantSeedConfig = {
+    seed: {
+        primary: string;
+    };
+    logo?: string;
+};
+
+// @public (undocumented)
+export type TenantSeedInput = {
+    $schema?: string;
+    $description?: string;
+    seed: {
+        primary: string | DtcgColorValue | DtcgToken<string | DtcgColorValue>;
+    };
+    logo?: string | DtcgToken<string>;
+};
+
+// @public
+export function toFlattenedHexTokens(resolved: ResolvedBrandTokens, options?: {
+    scheme?: TokenColorScheme;
+    contrast?: ContrastLevel;
+}): FlattenedHexTokens;
+
+// @public (undocumented)
+export type TokenColorScheme = "dark" | "light";
+
+// @public (undocumented)
+export class TokenContrastError extends Error {
+    constructor(violations: ContrastViolation[]);
+    // (undocumented)
+    readonly code: "WCAG_CONTRAST_VIOLATION";
+    // (undocumented)
+    readonly violations: ContrastViolation[];
+}
+
+// @public (undocumented)
+export class TokenSchemaError extends Error {
+    constructor(message: string, options: {
+        path: string;
+        expected?: string;
+        actual?: unknown;
+    });
+    // (undocumented)
+    readonly actual?: unknown;
+    // (undocumented)
+    readonly code: "SCHEMA_VALIDATION_ERROR";
+    // (undocumented)
+    readonly expected?: string;
+    // (undocumented)
+    readonly path: string;
+}
+
+// @public (undocumented)
 export function tokensToCss(tokens: OrbitTokens): string;
 
 // @public (undocumented)
-export function tokensToRuntimeCss(raw: OrbitTokensRaw): string;
+export function tokensToRuntimeCss(raw: RuntimeTokenInput): string;
 
 // @public (undocumented)
 export function tokensToSplitCss(tokens: OrbitTokens): {
@@ -244,11 +772,26 @@ export function tokensToSplitCss(tokens: OrbitTokens): {
     semantic: string;
 };
 
+// @public
+export function validateBrandTokens(input: unknown): BrandTokensConfig;
+
+// @public (undocumented)
+export function validateDtcgDocument(doc: DtcgDocument): void;
+
 // @public (undocumented)
 export function validateMnvColors(): void;
 
+// @public
+export function validateTenantSeed(input: unknown): TenantSeedConfig;
+
 // @public (undocumented)
 export function validateTokens(raw: OrbitTokensRaw): void;
+
+// @public (undocumented)
+export function verifyResolvedSchemeContrast(m3: M3ColorRoles, semanticHex: Record<string, string>, meta: {
+    scheme: TokenColorScheme;
+    contrast: ContrastLevel;
+}): void;
 
 // @public
 export function withInteractionStates(semantic: Record<string, string>, scheme: ColorScheme): Record<string, string>;

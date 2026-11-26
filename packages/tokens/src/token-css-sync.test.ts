@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 import { describe, expect, it } from "vitest";
 
-import defaultJson from "./default.json" with { type: "json" };
+import { defaultTokensRaw } from "./default-tokens.js";
 
 const cssDir = join(dirname(fileURLToPath(import.meta.url)), "css");
 
@@ -22,11 +22,11 @@ function extractCssVars(block: string): string[] {
 }
 
 describe("token CSS sync", () => {
-  it("semantic.light keys exist in generated :root CSS", () => {
+  it("semantic.light keys and canonical --md-sys-color-* exist in generated :root CSS", () => {
     const semanticCss = readCss("semantic.css");
     const rootBlock = semanticCss.match(/:root\s*\{([^}]+)\}/s)?.[1] ?? "";
     const cssVars = new Set(extractCssVars(rootBlock));
-    const lightKeys = Object.keys(defaultJson.semantic.light);
+    const lightKeys = Object.keys(defaultTokensRaw.semantic.light);
 
     for (const key of lightKeys) {
       expect(cssVars.has(`--${key}`)).toBe(true);
@@ -41,13 +41,24 @@ describe("token CSS sync", () => {
     ]) {
       expect(cssVars.has(`--${base}-hover`)).toBe(true);
     }
+
+    for (const m3Var of [
+      "--md-sys-color-primary",
+      "--md-sys-color-on-primary",
+      "--md-sys-color-surface",
+      "--md-sys-color-surface-container-lowest",
+      "--md-sys-color-outline",
+      "--md-sys-state-hover-opacity",
+    ]) {
+      expect(cssVars.has(m3Var)).toBe(true);
+    }
   });
 
-  it("semantic.dark keys exist in generated .dark CSS", () => {
+  it("semantic.dark keys and canonical --md-sys-color-* exist in generated .dark CSS", () => {
     const semanticCss = readCss("semantic.css");
     const darkBlock = semanticCss.match(/\.dark\s*\{([^}]+)\}/s)?.[1] ?? "";
     const cssVars = new Set(extractCssVars(darkBlock));
-    const darkKeys = Object.keys(defaultJson.semantic.light);
+    const darkKeys = Object.keys(defaultTokensRaw.semantic.light);
 
     for (const key of darkKeys) {
       expect(cssVars.has(`--${key}`)).toBe(true);
@@ -62,13 +73,26 @@ describe("token CSS sync", () => {
     ]) {
       expect(cssVars.has(`--${base}-hover`)).toBe(true);
     }
+
+    expect(cssVars.has("--md-sys-color-primary")).toBe(true);
+    expect(cssVars.has("--md-sys-color-surface")).toBe(true);
   });
 
-  it("color families emit scale vars in colors.css", () => {
+  it("emits medium and high contrast override blocks", () => {
+    const semanticCss = readCss("semantic.css");
+    expect(semanticCss).toContain('[data-contrast="medium"]');
+    expect(semanticCss).toContain('.dark[data-contrast="medium"]');
+    expect(semanticCss).toContain('[data-contrast="high"]');
+    expect(semanticCss).toContain('.dark[data-contrast="high"]');
+  });
+
+  it("color families emit legacy and M3 palette scale vars in colors.css", () => {
     const colorsCss = readCss("colors.css");
-    for (const family of Object.keys(defaultJson.color)) {
+    for (const family of Object.keys(defaultTokensRaw.color)) {
       expect(colorsCss).toContain(`--mnv-${family}-900`);
       expect(colorsCss).toContain(`--mnv-${family}-50`);
     }
+    expect(colorsCss).toContain("--md-ref-palette-primary-40");
+    expect(colorsCss).toContain("--md-ref-palette-neutral-98");
   });
 });

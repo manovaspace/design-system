@@ -156,3 +156,11 @@ export function mergeTokenOverrides(
 ): OrbitTokens {
   return resolveTokens(mergeTokenOverridesRaw(base, ...overrides));
 }
+
+export {
+  resolveBrandTokens,
+  resolveBrandTokensFromConfig,
+  resolvedBrandTokensToCss,
+  resolveTenantBranding,
+  toFlattenedHexTokens,
+} from "./dtcg/brand-pipeline.js";

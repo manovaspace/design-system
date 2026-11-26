@@ -2,11 +2,19 @@
 
 import {
   applyTokens,
+  type BrandTokensInput,
   defaultTokensRaw,
+  isBrandOrTenantInput,
+  isResolvedBrandTokens,
   mergeTokenOverridesRaw,
   type OrbitTokenOverride,
   type OrbitTokensRaw,
+  parseBrandTokens,
   parseTokenOverridePayload,
+  type ResolvedBrandTokens,
+  resolveBrandTokens,
+  resolveTenantBranding,
+  type TenantSeedInput,
 } from "@manovaspace/tokens";
 import {
   createContext,
@@ -23,6 +31,10 @@ export type TokenProviderProps = {
   initialTokens?: OrbitTokensRaw;
   /** Static override merged on top of defaults */
   tokens?: OrbitTokenOverride;
+  /** DTCG brand.tokens.json input or pre-resolved v2 tokens */
+  brandTokens?: BrandTokensInput | ResolvedBrandTokens;
+  /** White-label tenant seed (`seed.primary` + optional `logo`) */
+  tenantSeed?: TenantSeedInput;
   /** Fetch remote theme JSON (client branding) */
   remoteUrl?: string;
   /** Path to local override file served from public/ */
@@ -31,6 +43,7 @@ export type TokenProviderProps = {
 
 export type TokenContextValue = {
   tokens: OrbitTokensRaw;
+  brand: ResolvedBrandTokens | null;
   reload: () => Promise<void>;
   /** Dev preview layer; when set, overrides `tokens` for runtime CSS only */
   setPreviewTokens: (tokens: OrbitTokensRaw | null) => void;
@@ -38,14 +51,11 @@ export type TokenContextValue = {
 
 const TokenContext = createContext<TokenContextValue | null>(null);
 
-async function fetchOverride(
-  path: string,
-): Promise<OrbitTokenOverride | undefined> {
+async function fetchPayload(path: string): Promise<unknown> {
   try {
     const response = await fetch(path, { cache: "no-store" });
     if (!response.ok) return undefined;
-    const data: unknown = await response.json();
-    return parseTokenOverridePayload(data);
+    return await response.json();
   } catch {
     return undefined;
   }
@@ -61,34 +71,90 @@ export function mergeLoadedTokens(
   return mergeTokenOverridesRaw(base, local, remote, staticOverride);
 }
 
+function resolveBrandPair(
+  brandInput: BrandTokensInput | ResolvedBrandTokens | undefined,
+  tenantInput: TenantSeedInput | undefined,
+): ResolvedBrandTokens | null {
+  if (!brandInput && !tenantInput) return null;
+
+  const baseConfig = brandInput
+    ? isResolvedBrandTokens(brandInput)
+      ? brandInput.config
+      : parseBrandTokens(brandInput)
+    : undefined;
+
+  if (tenantInput) {
+    return resolveTenantBranding(tenantInput, baseConfig).resolved;
+  }
+
+  if (brandInput) {
+    return isResolvedBrandTokens(brandInput)
+      ? brandInput
+      : resolveBrandTokens(brandInput);
+  }
+
+  return null;
+}
+
 export function TokenProvider({
   children,
   initialTokens,
   tokens: staticOverride,
+  brandTokens,
+  tenantSeed,
   remoteUrl,
   overridePath = "/theme.override.json",
 }: TokenProviderProps) {
   const [merged, setMerged] = useState<OrbitTokensRaw>(
     initialTokens ?? defaultTokensRaw,
   );
+  const [resolvedBrand, setResolvedBrand] =
+    useState<ResolvedBrandTokens | null>(() =>
+      resolveBrandPair(brandTokens, tenantSeed),
+    );
   const [previewTokens, setPreviewTokens] = useState<OrbitTokensRaw | null>(
     null,
   );
 
   const load = useCallback(async () => {
-    const [remote, local] = await Promise.all([
-      remoteUrl ? fetchOverride(remoteUrl) : undefined,
-      fetchOverride(overridePath),
+    const [remoteRaw, localRaw] = await Promise.all([
+      remoteUrl ? fetchPayload(remoteUrl) : undefined,
+      fetchPayload(overridePath),
     ]);
+
+    const nextBrandInput = isBrandOrTenantInput(localRaw)
+      ? (localRaw as BrandTokensInput)
+      : brandTokens;
+    const nextTenantInput = isBrandOrTenantInput(remoteRaw)
+      ? (remoteRaw as TenantSeedInput)
+      : tenantSeed;
+
+    const nextBrand = resolveBrandPair(nextBrandInput, nextTenantInput);
+    setResolvedBrand(nextBrand);
+
+    const local = isBrandOrTenantInput(localRaw)
+      ? undefined
+      : parseTokenOverridePayload(localRaw);
+    const remote = isBrandOrTenantInput(remoteRaw)
+      ? undefined
+      : parseTokenOverridePayload(remoteRaw);
+
     const base = initialTokens ?? defaultTokensRaw;
     setMerged(mergeLoadedTokens(base, local, remote, staticOverride));
-  }, [initialTokens, overridePath, remoteUrl, staticOverride]);
+  }, [
+    brandTokens,
+    initialTokens,
+    overridePath,
+    remoteUrl,
+    staticOverride,
+    tenantSeed,
+  ]);
 
   useEffect(() => {
     void load();
   }, [load]);
 
-  const runtimeTokens = previewTokens ?? merged;
+  const runtimeTokens = previewTokens ?? resolvedBrand ?? merged;
 
   useEffect(() => {
     applyTokens(runtimeTokens);
@@ -97,10 +163,11 @@ export function TokenProvider({
   const value = useMemo(
     () => ({
       tokens: merged,
+      brand: resolvedBrand,
       reload: load,
       setPreviewTokens,
     }),
-    [merged, load],
+    [merged, resolvedBrand, load],
   );
 
   return (

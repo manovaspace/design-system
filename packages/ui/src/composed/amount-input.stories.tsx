@@ -83,3 +83,36 @@ export function Interactive() {
     </div>
   );
 }
+
+export function StringDigitsMode() {
+  const [digits, setDigits] = React.useState("12500000000");
+
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-4">
+      <div className="space-y-1.5">
+        <label
+          htmlFor="digits-amount"
+          className="text-sm font-medium text-foreground"
+        >
+          مبلغ کل (حالت رشته ارقام)
+        </label>
+        <AmountInput
+          id="digits-amount"
+          size="touch"
+          value={digits}
+          onValueChange={setDigits}
+          words={false}
+          placeholder="0"
+        />
+      </div>
+      <div className="rounded-md border bg-muted/40 p-3 text-xs">
+        <p className="font-semibold text-muted-foreground">
+          رشته ارقام خام (ASCII digits):
+        </p>
+        <code className="font-mono text-foreground">
+          {JSON.stringify(digits)}
+        </code>
+      </div>
+    </div>
+  );
+}

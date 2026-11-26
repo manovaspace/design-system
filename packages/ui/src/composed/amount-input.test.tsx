@@ -28,6 +28,29 @@ const { cleanup, createEvent, fireEvent, render, screen } = await import(
 );
 const { AmountInput } = await import("./amount-input.js");
 
+function ControlledDigitsHarness({
+  initialDigits,
+  locale,
+  onValueChange,
+}: {
+  initialDigits: string;
+  locale?: string;
+  onValueChange?: (next: string) => void;
+}) {
+  const [digits, setDigits] = React.useState(initialDigits);
+  return (
+    <AmountInput
+      locale={locale}
+      value={digits}
+      onValueChange={(next) => {
+        onValueChange?.(next);
+        setDigits(next);
+      }}
+      words={false}
+    />
+  );
+}
+
 describe("AmountInput", () => {
   afterEach(() => {
     cleanup();
@@ -188,5 +211,139 @@ describe("AmountInput", () => {
 
     fireEvent.click(chip);
     expect(handleChange).not.toHaveBeenCalled();
+  });
+
+  it("supports controlled string-digits mode and arbitrary-precision integers", () => {
+    const handleValueChange = vi.fn();
+    render(
+      <ControlledDigitsHarness
+        initialDigits="12345678901234567890"
+        onValueChange={handleValueChange}
+      />,
+    );
+    const input = screen.getByRole("textbox") as HTMLInputElement;
+    // Exact 20-digit grouping in Persian without float precision loss
+    expect(input.value).toBe("۱۲٬۳۴۵٬۶۷۸٬۹۰۱٬۲۳۴٬۵۶۷٬۸۹۰");
+    // Beyond Number.MAX_SAFE_INTEGER so words do not show wrong rounded text
+    expect(screen.queryByText(/صفر/)).toBeNull();
+
+    fireEvent.change(input, {
+      target: { value: "۱۲٬۳۴۵٬۶۷۸٬۹۰۱٬۲۳۴٬۵۶۷٬۸۹۰۱" },
+    });
+    expect(handleValueChange).toHaveBeenLastCalledWith("123456789012345678901");
+    expect(input.value).toBe("۱۲۳٬۴۵۶٬۷۸۹٬۰۱۲٬۳۴۵٬۶۷۸٬۹۰۱");
+
+    fireEvent.change(input, { target: { value: "" } });
+    expect(handleValueChange).toHaveBeenLastCalledWith("");
+    expect(input.value).toBe("");
+  });
+
+  it("preserves caret position across grouping changes when typing in the middle", () => {
+    render(<ControlledDigitsHarness initialDigits="1234567" locale="en" />);
+    const input = screen.getByRole("textbox") as HTMLInputElement;
+    expect(input.value).toBe("1,234,567");
+
+    // Simulate typing '9' right after '4' (between '4' and ','): "1,2349,567" with caret at 6
+    fireEvent.change(input, {
+      target: { value: "1,2349,567", selectionStart: 6 },
+    });
+    expect(input.value).toBe("12,349,567");
+    expect(input.selectionStart).toBe(6);
+    expect(input.selectionEnd).toBe(6);
+  });
+
+  it("deletes adjacent digit when pressing Backspace or Delete across grouping marks", () => {
+    const { rerender } = render(
+      <ControlledDigitsHarness initialDigits="12345" locale="fa" />,
+    );
+    const input = screen.getByRole("textbox") as HTMLInputElement;
+    expect(input.value).toBe("۱۲٬۳۴۵");
+
+    // Caret right after '٬' (index 3): Backspace deletes '2', leaving "1,345" with caret after '1' (index 1)
+    input.setSelectionRange(3, 3);
+    fireEvent.keyDown(input, { key: "Backspace" });
+    expect(input.value).toBe("۱٬۳۴۵");
+    expect(input.selectionStart).toBe(1);
+
+    // Caret right before '٬' (index 1): Delete removes '3', leaving "145" with caret at index 1
+    input.setSelectionRange(1, 1);
+    fireEvent.keyDown(input, { key: "Delete" });
+    expect(input.value).toBe("۱۴۵");
+    expect(input.selectionStart).toBe(1);
+
+    rerender(<ControlledDigitsHarness initialDigits="12345" locale="en" />);
+    // In English locale: update to "12,345"
+    fireEvent.change(input, { target: { value: "12345", selectionStart: 5 } });
+    expect(input.value).toBe("12,345");
+    input.setSelectionRange(3, 3);
+    fireEvent.keyDown(input, { key: "Backspace" });
+    expect(input.value).toBe("1,345");
+    expect(input.selectionStart).toBe(1);
+  });
+
+  it("copies raw ASCII digits for collapsed and ranged selections in digits mode", () => {
+    render(
+      <AmountInput
+        value="12345678901234567890"
+        onValueChange={() => undefined}
+        words={false}
+      />,
+    );
+    const input = screen.getByRole("textbox") as HTMLInputElement;
+    const setData = vi.fn();
+
+    // Collapsed copy copies all raw ASCII digits
+    input.setSelectionRange(0, 0);
+    fireEvent(
+      input,
+      createEvent.copy(input, {
+        clipboardData: { setData },
+      }),
+    );
+    expect(setData).toHaveBeenLastCalledWith(
+      "text/plain",
+      "12345678901234567890",
+    );
+
+    // Ranged copy over "۱۲٬۳۴۵" -> "12345" without grouping separator
+    input.setSelectionRange(0, 6);
+    fireEvent(
+      input,
+      createEvent.copy(input, {
+        clipboardData: { setData },
+      }),
+    );
+    expect(setData).toHaveBeenLastCalledWith("text/plain", "12345");
+  });
+
+  it("validates min/max accurately in string-digits mode including huge values", () => {
+    render(
+      <AmountInput
+        value="99999999999999999999"
+        onValueChange={() => undefined}
+        max={2000000}
+      />,
+    );
+    const input = screen.getByRole("textbox");
+    expect(input.getAttribute("aria-invalid")).toBe("true");
+    expect(screen.getByRole("alert").textContent).toContain("۲٬۰۰۰٬۰۰۰");
+  });
+
+  it("supports uncontrolled digits mode and quick chips", () => {
+    const handleValueChange = vi.fn();
+    render(
+      <AmountInput
+        mode="digits"
+        defaultValue="250000"
+        quick={[100_000, 500_000]}
+        onValueChange={handleValueChange}
+      />,
+    );
+    const input = screen.getByRole("textbox") as HTMLInputElement;
+    expect(input.value).toBe("۲۵۰٬۰۰۰");
+
+    fireEvent.click(screen.getByRole("button", { name: "۵۰۰ هزار" }));
+    expect(handleValueChange).toHaveBeenCalledWith("500000");
+    expect(input.value).toBe("۵۰۰٬۰۰۰");
   });
 });

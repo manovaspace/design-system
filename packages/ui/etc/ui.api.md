@@ -119,9 +119,11 @@ export const alertVariants: (props?: ({
 
 // @public
 export const AmountInput: React_2.ForwardRefExoticComponent<Omit<Omit<React_2.DetailedHTMLProps<React_2.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "ref">, "defaultValue" | "max" | "min" | "onChange" | "size" | "value"> & {
-    value?: number | null;
-    defaultValue?: number | null;
+    value?: number | string | null;
+    defaultValue?: number | string | null;
     onChange?: (value: number | null) => void;
+    onValueChange?: (digits: string) => void;
+    mode?: "digits" | "number";
     unit?: string;
     min?: number;
     max?: number;
@@ -138,9 +140,11 @@ export const AmountInput: React_2.ForwardRefExoticComponent<Omit<Omit<React_2.De
 
 // @public (undocumented)
 export type AmountInputProps = Omit<React_2.ComponentPropsWithoutRef<"input">, "defaultValue" | "max" | "min" | "onChange" | "size" | "value"> & {
-    value?: number | null;
-    defaultValue?: number | null;
+    value?: number | string | null;
+    defaultValue?: number | string | null;
     onChange?: (value: number | null) => void;
+    onValueChange?: (digits: string) => void;
+    mode?: "digits" | "number";
     unit?: string;
     min?: number;
     max?: number;

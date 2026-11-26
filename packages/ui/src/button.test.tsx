@@ -67,4 +67,36 @@ describe("buttonVariants", () => {
     expect(button.getAttribute("data-size")).toBe("icon-touch");
     expect(button.className).toContain("size-11");
   });
+
+  it("uses M3 neutral disabled tokens (12% container, 38% content) instead of opacity dimming", () => {
+    const def = buttonVariants({ variant: "default" });
+    expect(def).toContain("disabled:bg-foreground/12");
+    expect(def).toContain("disabled:text-foreground/38");
+    expect(def).toContain("disabled:border-foreground/12");
+    expect(def).toContain("disabled:opacity-100");
+    expect(def).toContain("disabled:shadow-none");
+    expect(def).not.toContain("disabled:opacity-50");
+
+    const ghost = buttonVariants({ variant: "ghost" });
+    expect(ghost).toContain("disabled:bg-transparent");
+    expect(ghost).toContain("disabled:border-transparent");
+    expect(ghost).toContain("disabled:text-foreground/38");
+
+    const link = buttonVariants({ variant: "link" });
+    expect(link).toContain("disabled:bg-transparent");
+    expect(link).toContain("disabled:border-transparent");
+    expect(link).toContain("disabled:text-foreground/38");
+
+    render(
+      <Button disabled variant="default">
+        Save
+      </Button>,
+    );
+    const btn = screen.getByRole("button", {
+      name: "Save",
+    }) as HTMLButtonElement;
+    expect(btn.disabled).toBe(true);
+    expect(btn.className).toContain("disabled:bg-foreground/12");
+    expect(btn.className).toContain("disabled:text-foreground/38");
+  });
 });

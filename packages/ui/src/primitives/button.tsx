@@ -5,7 +5,7 @@ import type * as React from "react";
 import { cn } from "../lib/utils.js";
 
 const buttonVariants = cva(
-  "inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 active:[transform:var(--press)] disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 active:[transform:var(--press)] disabled:pointer-events-none disabled:opacity-100 disabled:shadow-none disabled:bg-foreground/12 disabled:text-foreground/38 disabled:border-foreground/12 dark:disabled:bg-foreground/12 dark:disabled:border-foreground/12 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
@@ -19,8 +19,8 @@ const buttonVariants = cva(
         solid:
           "border border-border bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary-hover",
         ghost:
-          "hover:bg-accent-hover hover:text-accent-foreground dark:hover:bg-accent-hover",
-        link: "text-primary underline-offset-4 hover:underline",
+          "hover:bg-accent-hover hover:text-accent-foreground dark:hover:bg-accent-hover disabled:bg-transparent disabled:border-transparent dark:disabled:bg-transparent dark:disabled:border-transparent",
+        link: "text-primary underline-offset-4 hover:underline disabled:bg-transparent disabled:border-transparent disabled:no-underline dark:disabled:bg-transparent dark:disabled:border-transparent",
         brand:
           "bg-[var(--color-brand)] text-[var(--color-brand-foreground)] hover:bg-[var(--color-brand)]/90 shadow-[var(--shadow-control)] active:shadow-[var(--shadow-press)]",
       },

@@ -1,0 +1,29 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { defaultTokensRaw } from "@manovaspace/tokens";
+
+<Meta title="Foundations/Spacing" />
+
+# Spacing & Breakpoints
+
+Generated from `@manovaspace/tokens` (`--space-*` and `--breakpoint-*`).
+
+## Spacing scale
+
+| Token | Value | Preview |
+| --- | --- | --- |
+{Object.entries(defaultTokensRaw.spacing)
+  .map(
+    ([step, val]) =>
+      `| \`--space-${step}\` | \`${val}\` | <div style="height: 12px; width: ${val}; background: var(--primary); border-radius: 3px;" /> |`,
+  )
+  .join("\n")}
+
+## Responsive breakpoints
+
+| Token | Value | Typical layout |
+| --- | --- | --- |
+| `sm` | `{defaultTokensRaw.breakpoint.sm}` | Large phones |
+| `md` | `{defaultTokensRaw.breakpoint.md}` | Tablets (sheets become dialogs) |
+| `lg` | `{defaultTokensRaw.breakpoint.lg}` | Laptops (`NavRail`, `EntityDataTable` wide mode) |
+| `xl` | `{defaultTokensRaw.breakpoint.xl}` | Desktops |
+| `2xl` | `{defaultTokensRaw.breakpoint["2xl"]}` | Wide monitors |

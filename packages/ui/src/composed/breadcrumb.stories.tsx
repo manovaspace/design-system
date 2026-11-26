@@ -4,7 +4,7 @@ import { DirectionProvider } from "../direction-provider.js";
 import { Breadcrumb } from "./breadcrumb.js";
 
 const meta = {
-  title: "Composed/Breadcrumb",
+  title: "Components/Navigation/Breadcrumb",
   component: Breadcrumb,
   tags: ["autodocs"],
   parameters: {
@@ -46,17 +46,18 @@ export const WithoutLinks: Story = {
 };
 
 export const PersianRtl: Story = {
-  render: () => (
+  args: {
+    items: [
+      { label: "خانه", href: "/" },
+      { label: "محصولات", href: "/products" },
+      { label: "الکترونیک", href: "/products/electronics" },
+      { label: "لپ‌تاپ گیمینگ" },
+    ],
+  },
+  render: (args) => (
     <DirectionProvider direction="rtl">
       <div dir="rtl" className="p-4">
-        <Breadcrumb
-          items={[
-            { label: "خانه", href: "/" },
-            { label: "محصولات", href: "/products" },
-            { label: "الکترونیک", href: "/products/electronics" },
-            { label: "لپ‌تاپ گیمینگ" },
-          ]}
-        />
+        <Breadcrumb {...args} />
       </div>
     </DirectionProvider>
   ),

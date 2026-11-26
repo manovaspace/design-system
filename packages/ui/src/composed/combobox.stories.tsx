@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
+import { expect, userEvent, waitFor, within } from "storybook/test";
 
 import { Combobox } from "./combobox.js";
 import { ComboboxAsync } from "./combobox-async.js";
 
 const meta = {
-  title: "Composed/Combobox",
+  title: "Components/Selection/Combobox",
   component: Combobox,
   tags: ["autodocs"],
   parameters: {
@@ -14,7 +15,7 @@ const meta = {
 } satisfies Meta<typeof Combobox>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj;
 
 const iranCities = [
   { value: "tehran", label: "تهران", group: "استان تهران" },
@@ -63,10 +64,26 @@ export const English: Story = {
           onChange={setVal}
           locale="en-US"
         />
-        <div className="mt-4 text-xs text-muted-foreground">
+        <div
+          className="mt-4 text-xs text-muted-foreground"
+          data-testid="selected-country"
+        >
           Selected value: {val}
         </div>
       </div>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole("combobox");
+    await userEvent.click(input);
+    const body = within(document.body);
+    const germany = await body.findByRole("option", { name: "Germany" });
+    await userEvent.click(germany);
+    await waitFor(() =>
+      expect(canvas.getByTestId("selected-country").textContent).toContain(
+        "de",
+      ),
     );
   },
 };

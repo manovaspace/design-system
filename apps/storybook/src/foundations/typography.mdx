@@ -1,31 +1,43 @@
 import { Meta } from "@storybook/addon-docs/blocks";
-import { fontFamily } from "@manovaspace/tokens";
+import { defaultTokensRaw, fontFamily } from "@manovaspace/tokens";
 
 <Meta title="Foundations/Typography" />
 
 # Typography
 
-| Token | Stack |
+Generated from `@manovaspace/tokens`. Products may override `font.sans` and `font.data` in `brand.tokens.json`.
+
+## Font families
+
+| CSS variable | Stack |
 | --- | --- |
-| `--font-sans` | `{fontFamily.sans}` |
-| `--font-latin` | `{fontFamily.latin}` |
-| `--font-arabic` | `{fontFamily.arabic}` |
-| `--font-mono` | `{fontFamily.mono}` |
+| `--font-sans` | `{defaultTokensRaw.typography.fontFamily.sans}` |
+| `--font-data` | `{defaultTokensRaw.typography.fontFamily.data}` |
+| `--font-numeric` | `{defaultTokensRaw.typography.fontFamily.numeric}` |
+| `--font-mono` | `{defaultTokensRaw.typography.fontFamily.mono}` |
 
-Fonts load via `@manovaspace/tokens/fonts.css` (Estedad, Inter, IBM Plex Mono).
+## Type scale & line heights
 
-## Samples
+| Role | Size | Line height |
+| --- | --- | --- |
+| `display` | `{defaultTokensRaw.typography.fontSize.display}` | `tight` (`{defaultTokensRaw.typography.lineHeight.tight}`) |
+| `heading` | `{defaultTokensRaw.typography.fontSize.heading}` | `tight` (`{defaultTokensRaw.typography.lineHeight.tight}`) |
+| `body` | `{defaultTokensRaw.typography.fontSize.body}` | `normal` (`{defaultTokensRaw.typography.lineHeight.normal}`) |
+| `caption` | `{defaultTokensRaw.typography.fontSize.caption}` | `relaxed` (`{defaultTokensRaw.typography.lineHeight.relaxed}`) |
 
-<p style={{ fontFamily: fontFamily.arabic, fontSize: "1.25rem" }}>
-  نمونه فارسی — Estedad
-</p>
+## Specimens
 
-<p style={{ fontFamily: fontFamily.latin, fontSize: "1.25rem" }}>
-  Latin sample — Inter
-</p>
-
-<p style={{ fontFamily: fontFamily.mono, fontSize: "1rem" }}>
-  const sample = "IBM Plex Mono";
-</p>
-
-Use logical CSS (`margin-inline-start`, `padding-inline`) for RTL/LTR layouts.
+<div className="space-y-4 rounded-lg border border-border bg-card p-4">
+  <p dir="rtl" style={{ fontFamily: fontFamily.arabic, fontSize: "1.25rem" }}>
+    نمونه متن فارسی — Estedad / Vazirmatn
+  </p>
+  <p dir="ltr" style={{ fontFamily: fontFamily.latin, fontSize: "1.25rem" }}>
+    Latin UI specimen — Inter
+  </p>
+  <p dir="ltr" className="mnv-data--tabular text-sm text-muted-foreground">
+    0912 345 6789 · 6037-9911-2233-4455 (tabular data)
+  </p>
+  <p dir="ltr" style={{ fontFamily: fontFamily.mono, fontSize: "0.95rem" }}>
+    --md-sys-color-primary: #1a56db
+  </p>
+</div>

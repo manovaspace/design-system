@@ -1,0 +1,14 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Guidelines/RTL & locale" />
+
+# RTL & locale
+
+All kit components support right-to-left (`dir="rtl"`) and left-to-right (`dir="ltr"`) through `DirectionProvider` and CSS logical properties.
+
+## Rules
+
+- **Logical properties only:** Always use `ms-*`, `me-*`, `ps-*`, `pe-*`, `start-*`, `end-*`, `text-start`, `text-end` — never physical `ml-*`, `mr-*`, `left-*`, `right-*`, `text-left`, `text-right`.
+- **Directional icon mirroring:** Flip directional navigation icons (`ChevronRightIcon`, `ArrowLeftIcon`, `PickerTrigger` chevron) in RTL via `useDirection()` or `rtl:-scale-x-100`. Never flip clocks, checkmarks, search glasses, trash cans, or brand logos.
+- **Explicit `dir="ltr"` for LTR literals:** Set `dir="ltr"` on phone numbers, bank card digits, IBANs, OTP codes, email addresses, and CSS token names (e.g. `--md-sys-color-primary`) so punctuation never reorders in RTL.
+- **Calendars:** Use `locale="fa"` (Jalali / Solar Hijri, Saturday-first week) or `locale="en"` (Gregorian) on `DatePicker` and `WheelDatePicker`.

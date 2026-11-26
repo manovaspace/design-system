@@ -4,7 +4,7 @@ import { useState } from "react";
 import { WheelDatePicker } from "./wheel-date-picker.js";
 
 const meta = {
-  title: "Components/WheelDatePicker",
+  title: "Components/Selection/WheelDatePicker",
   component: WheelDatePicker,
   tags: ["autodocs"],
   parameters: {
@@ -13,7 +13,7 @@ const meta = {
 } satisfies Meta<typeof WheelDatePicker>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj;
 
 function WheelDatePickerDemo(
   props: Partial<React.ComponentProps<typeof WheelDatePicker>>,

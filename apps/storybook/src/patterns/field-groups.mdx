@@ -1,0 +1,16 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Patterns/Field groups" />
+
+# Field groups
+
+Composed form layouts combine `Field` with unified `fieldControlVariants` controls so every row aligns at `40 px` (`size="default"`) or `44 px` (`size="touch"`).
+
+## Standard combinations
+
+- **Input with prefix / suffix:** Use `Input` `startAddon` and `endAddon` rather than custom wrapper divs.
+- **Character limits:** Pass `counter` to `Field` alongside `Textarea` or `Input`.
+- **Money & decimal entry:** Use `AmountInput` (`mode="digits"` for big integer strings like IRR/Toman) and `DecimalInput` (Persian numerals on screen, ASCII digits in state).
+- **Phone & OTP:** Pair `MsisdnInput` with `OtpInput` for authentication and invite verification.
+- **Entity selection:** Use `Combobox` / `ComboboxAsync` for searchable lists, or `PickerTrigger` to open a sheet/dialog entity picker.
+- **Submit error handling:** Wire `useAppForm` + `focusFirstError` so invalid submits focus the first failing `Field`.

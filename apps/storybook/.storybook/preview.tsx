@@ -1,3 +1,4 @@
+import type { BrandTokensInput, ContrastLevel } from "@manovaspace/tokens";
 import {
   DirectionProvider,
   ThemeProvider,
@@ -5,11 +6,61 @@ import {
 } from "@manovaspace/ui";
 import { withThemeByClassName } from "@storybook/addon-themes";
 import type { Preview } from "@storybook/react-vite";
+import { useEffect } from "react";
 
 import "../src/styles.css";
 
+const BRAND_SEEDS: Record<string, string | undefined> = {
+  manova: undefined,
+  fryto: "#b82132",
+  teal: "#0d9488",
+};
+
+function StoryEnvironment({
+  direction,
+  contrast,
+  brand,
+  children,
+}: {
+  direction: "ltr" | "rtl";
+  contrast: ContrastLevel;
+  brand: string;
+  children: React.ReactNode;
+}) {
+  useEffect(() => {
+    const root = document.documentElement;
+    if (contrast === "standard") {
+      delete root.dataset.contrast;
+    } else {
+      root.dataset.contrast = contrast;
+    }
+  }, [contrast]);
+
+  const seedPrimary = BRAND_SEEDS[brand];
+  const brandTokens: BrandTokensInput | undefined =
+    seedPrimary || contrast !== "standard"
+      ? {
+          seed: { primary: seedPrimary ?? "#2563eb" },
+          contrast,
+        }
+      : undefined;
+
+  return (
+    <div dir={direction}>
+      <TokenProvider brandTokens={brandTokens}>
+        <DirectionProvider direction={direction}>
+          <ThemeProvider>{children}</ThemeProvider>
+        </DirectionProvider>
+      </TokenProvider>
+    </div>
+  );
+}
+
 const preview: Preview = {
   parameters: {
+    a11y: {
+      test: "error",
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -20,6 +71,48 @@ const preview: Preview = {
       toc: true,
     },
     layout: "padded",
+    options: {
+      storySort: {
+        order: [
+          "Introduction",
+          "Foundations",
+          [
+            "Color roles",
+            "Typography",
+            "Spacing",
+            "Shape",
+            "Elevation",
+            "Motion",
+            "Icons",
+            "Density",
+            "Brand playground",
+          ],
+          "Guidelines",
+          [
+            "Forms",
+            "Content & microcopy",
+            "Accessibility",
+            "RTL & locale",
+            "Data display",
+          ],
+          "Components",
+          [
+            "Actions",
+            "Inputs",
+            "Selection",
+            "Navigation",
+            "Containment",
+            "Feedback",
+            "Data display",
+          ],
+          "Patterns",
+          ["Entity browser", "Field groups", "Wizards"],
+          "Templates",
+          ["ListPage", "DetailPage", "FormSheet", "SummaryPage"],
+          "Falak",
+        ],
+      },
+    },
     viewport: {
       options: {
         phone: {
@@ -57,21 +150,50 @@ const preview: Preview = {
         dynamicTitle: true,
       },
     },
+    contrast: {
+      name: "Contrast",
+      description: "WCAG / M3 contrast level",
+      defaultValue: "standard",
+      toolbar: {
+        icon: "contrast",
+        items: [
+          { value: "standard", title: "Standard contrast" },
+          { value: "medium", title: "Medium contrast" },
+          { value: "high", title: "High contrast" },
+        ],
+        dynamicTitle: true,
+      },
+    },
+    brand: {
+      name: "Brand",
+      description: "Seed brand preview",
+      defaultValue: "manova",
+      toolbar: {
+        icon: "paintbrush",
+        items: [
+          { value: "manova", title: "Manova (#2563eb)" },
+          { value: "fryto", title: "Fryto (#b82132)" },
+          { value: "teal", title: "Teal (#0d9488)" },
+        ],
+        dynamicTitle: true,
+      },
+    },
   },
   decorators: [
     (Story, context) => {
       const direction = (context.globals.direction ?? "ltr") as "ltr" | "rtl";
+      const contrast = (context.globals.contrast ??
+        "standard") as ContrastLevel;
+      const brand = String(context.globals.brand ?? "manova");
 
       return (
-        <div dir={direction}>
-          <TokenProvider>
-            <DirectionProvider direction={direction}>
-              <ThemeProvider>
-                <Story />
-              </ThemeProvider>
-            </DirectionProvider>
-          </TokenProvider>
-        </div>
+        <StoryEnvironment
+          direction={direction}
+          contrast={contrast}
+          brand={brand}
+        >
+          <Story />
+        </StoryEnvironment>
       );
     },
     withThemeByClassName({

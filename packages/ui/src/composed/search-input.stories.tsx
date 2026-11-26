@@ -6,7 +6,7 @@ import { DirectionProvider } from "../direction-provider.js";
 import { SearchInput } from "./search-input.js";
 
 const meta = {
-  title: "Composed/SearchInput",
+  title: "Components/Inputs/SearchInput",
   component: SearchInput,
   tags: ["autodocs"],
   parameters: {

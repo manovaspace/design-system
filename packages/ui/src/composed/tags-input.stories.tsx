@@ -5,7 +5,7 @@ import { DirectionProvider } from "../direction-provider.js";
 import { TagsInput } from "./tags-input.js";
 
 const meta = {
-  title: "Composed/TagsInput",
+  title: "Components/Inputs/TagsInput",
   component: TagsInput,
   tags: ["autodocs"],
   parameters: {

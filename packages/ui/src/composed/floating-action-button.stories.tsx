@@ -4,7 +4,7 @@ import { PlusIcon } from "../icons.js";
 import { FloatingActionButton } from "./floating-action-button.js";
 
 const meta = {
-  title: "Composed/FloatingActionButton",
+  title: "Components/Actions/FloatingActionButton",
   component: FloatingActionButton,
   tags: ["autodocs"],
   parameters: {

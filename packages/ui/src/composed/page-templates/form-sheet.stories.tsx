@@ -22,7 +22,7 @@ const meta = {
 } satisfies Meta<typeof FormSheet>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<{ open?: boolean }>;
 
 type FieldSpec = {
   id: string;

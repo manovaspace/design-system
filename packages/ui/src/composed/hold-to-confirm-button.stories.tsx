@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { HoldToConfirmButton } from "./hold-to-confirm-button.js";
 
 const meta = {
-  title: "Composed/HoldToConfirmButton",
+  title: "Components/Actions/HoldToConfirmButton",
   component: HoldToConfirmButton,
   tags: ["autodocs"],
   parameters: {

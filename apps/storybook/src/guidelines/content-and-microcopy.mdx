@@ -1,0 +1,15 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Guidelines/Content & microcopy" />
+
+# Content & microcopy
+
+Manova products are **Persian (`fa`) RTL-first** and **English (`en`)** bilingual.
+
+## Rules
+
+- **Use action verbs on buttons:** Prefer *"ذخیره"*, *"ثبت هزینه"*, *"حذف کالا"* (or *"Save"*, *"Record expense"*) over vague *"OK"* / *"تایید"*.
+- **Match dialog & sheet titles to triggers:** The sheet or dialog title must match the label of the button that opened it.
+- **Empty states state what is missing and offer one next step:** Use `EmptyState` with a concise title, short description, and a single primary action.
+- **Actionable errors:** Render validation and server errors inside `role="alert"` (`Field` error or `FieldFeedback`) explaining what failed and how to recover.
+- **Digits & units:** Display Persian digits (`۰-۹`) with proportional Vazirmatn (`mnv-data`) for currency/quantities and tabular (`mnv-data--tabular`) for phone numbers, card numbers, IDs, and page counts.

@@ -7,7 +7,7 @@ import { cn } from "../lib/utils.js";
 import { Collapse, collapseChevronClassName } from "./collapse.js";
 
 const meta = {
-  title: "Motion/Collapse",
+  title: "Components/Containment/Collapse",
   component: Collapse,
   tags: ["autodocs"],
   parameters: {

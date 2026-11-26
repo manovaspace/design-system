@@ -7,7 +7,7 @@ import { DirectionProvider } from "../direction-provider.js";
 import { FilterSheet, type FilterSheetField } from "./filter-sheet.js";
 
 const meta = {
-  title: "Composed/FilterSheet",
+  title: "Components/Selection/FilterSheet",
   component: FilterSheet,
   tags: ["autodocs"],
   parameters: {
@@ -16,7 +16,7 @@ const meta = {
 } satisfies Meta<typeof FilterSheet>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj;
 
 const englishCopy = {
   title: "Filters",

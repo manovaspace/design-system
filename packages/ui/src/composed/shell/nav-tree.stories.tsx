@@ -74,7 +74,7 @@ const sampleNavItems: NavItemConfig[] = [
 ];
 
 const meta = {
-  title: "Composed/Shell/NavTree",
+  title: "Components/Navigation/NavTree",
   component: NavTree,
   tags: ["autodocs"],
   parameters: {

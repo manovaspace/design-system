@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import * as React from "react";
+import { expect, userEvent, within } from "storybook/test";
 
 import { DirectionProvider } from "../direction-provider.js";
 import { MagnifyingGlassIcon, UserIcon } from "../icons.js";
@@ -22,7 +23,7 @@ import { SearchInput } from "./search-input.js";
 import { WheelDatePicker } from "./wheel-date-picker.js";
 
 const meta = {
-  title: "Composed/Field",
+  title: "Components/Inputs/Field",
   component: Field,
   tags: ["autodocs"],
   parameters: {
@@ -83,39 +84,54 @@ export const WithSearchInput: Story = {
   },
 };
 
-export function Interactive() {
-  const [value, setValue] = React.useState("");
-  const [error, setError] = React.useState<string | undefined>(undefined);
+export const Interactive: Story = {
+  args: {
+    children: null,
+  },
+  render: () => {
+    const [value, setValue] = React.useState("");
+    const [error, setError] = React.useState<string | undefined>(undefined);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const next = e.target.value;
-    setValue(next);
-    if (next.length > 0 && next.length < 3) {
-      setError("Username must be at least 3 characters.");
-    } else {
-      setError(undefined);
-    }
-  };
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const next = e.target.value;
+      setValue(next);
+      if (next.length > 0 && next.length < 3) {
+        setError("Username must be at least 3 characters.");
+      } else {
+        setError(undefined);
+      }
+    };
 
-  return (
-    <div className="w-80">
-      <Field
-        label="Username"
-        htmlFor="interactive-user"
-        required
-        hint="Pick a unique handle (3+ characters)."
-        error={error}
-      >
-        <Input
-          id="interactive-user"
-          value={value}
-          onChange={handleChange}
-          placeholder="e.g. jsmith"
-        />
-      </Field>
-    </div>
-  );
-}
+    return (
+      <div className="w-80">
+        <Field
+          label="Username"
+          htmlFor="interactive-user"
+          required
+          hint="Pick a unique handle (3+ characters)."
+          error={error}
+        >
+          <Input
+            id="interactive-user"
+            value={value}
+            onChange={handleChange}
+            placeholder="e.g. jsmith"
+          />
+        </Field>
+      </div>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByLabelText(/Username/);
+    await userEvent.type(input, "ab");
+    expect(canvas.getByRole("alert").textContent).toContain(
+      "Username must be at least 3 characters.",
+    );
+    await userEvent.type(input, "c");
+    expect(canvas.queryByRole("alert")).toBeNull();
+  },
+};
 
 type MatrixState = "default" | "invalid" | "disabled" | "readonly";
 type MatrixSize = "default" | "touch";

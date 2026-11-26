@@ -4,7 +4,7 @@ import * as React from "react";
 import { Rating } from "./rating.js";
 
 const meta = {
-  title: "Composed/Rating",
+  title: "Components/Selection/Rating",
   component: Rating,
   tags: ["autodocs"],
   parameters: {

@@ -1,0 +1,26 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Introduction" />
+
+# Manova Orbit Design System
+
+`@manovaspace/tokens` and `@manovaspace/ui` form the single shared UI foundation across Manova products (bilingual **Persian `fa` RTL-first** and **English `en`**).
+
+- **Spec baseline:** Material 3 (color roles, HCT tonal palettes, state layers, shape, density, motion, accessibility) + shadcn/Radix primitives + Manova domain controls (RTL/Persian typography, money formatting, Jalali calendar, entity browsers).
+- **Single visual truth:** This Storybook (`ui.manova.space`) is the visual reference for foundations, components, patterns, templates, and composed product Storybooks (`STORYBOOK_FALAK_URL`).
+- **Agent index:** `@manovaspace/ui` ships `dist/agents/index.md` generated from API Extractor reports and JSDoc.
+
+## Customisation escalation ladder (ADR-078)
+
+Stop at the first step that solves the need. Product code may pass **layout** classes (`w-*`, `grid`, `gap-*`, `m*-*`) and never **look** classes (`bg-*`, `text-*`, `border-*`, `rounded-*`, `h-*`, `shadow-*`), enforced by `check:ui` and `check:ds`.
+
+1. Use the kit component as is.
+2. Use a prop or variant on the kit component.
+3. Supply a schema-validated `brand.tokens.json` (or tenant `seed.primary`) via `@manovaspace/tokens`.
+4. Compose kit parts in a product component using layout classes only.
+5. Use a slot, `asChild`, or render prop.
+6. Propose a kit addition in `@manovaspace/ui/experimental`.
+
+## Component documentation template
+
+Every component page documents: **Overview** → **When to use / not** → **Anatomy** → **Variants** → **States** → **Accessibility (keyboard map)** → **Content** → **Props (autodocs)** → **Related**.

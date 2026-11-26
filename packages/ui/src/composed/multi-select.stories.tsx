@@ -25,7 +25,7 @@ const persianCities: MultiSelectOption[] = [
 ];
 
 const meta = {
-  title: "Composed/MultiSelect",
+  title: "Components/Selection/MultiSelect",
   component: MultiSelect,
   tags: ["autodocs"],
   parameters: {
@@ -52,14 +52,15 @@ export const Default: Story = {
 };
 
 export const PersianRtl: Story = {
-  render: () => (
+  args: {
+    options: persianCities,
+    placeholder: "انتخاب شهرها...",
+    locale: "fa",
+  },
+  render: (args) => (
     <DirectionProvider direction="rtl">
       <div dir="rtl">
-        <MultiSelect
-          options={persianCities}
-          placeholder="انتخاب شهرها..."
-          locale="fa"
-        />
+        <MultiSelect {...args} />
       </div>
     </DirectionProvider>
   ),
@@ -83,15 +84,16 @@ export const CollapsedExcessBadges: Story = {
 };
 
 export const CollapsedExcessPersian: Story = {
-  render: () => (
+  args: {
+    options: persianCities,
+    defaultValue: ["tehran", "mashhad", "isfahan", "shiraz"],
+    maxVisible: 2,
+    locale: "fa",
+  },
+  render: (args) => (
     <DirectionProvider direction="rtl">
       <div dir="rtl">
-        <MultiSelect
-          options={persianCities}
-          defaultValue={["tehran", "mashhad", "isfahan", "shiraz"]}
-          maxVisible={2}
-          locale="fa"
-        />
+        <MultiSelect {...args} />
       </div>
     </DirectionProvider>
   ),

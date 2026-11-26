@@ -15,7 +15,7 @@
     "quality": "bun run lint && bun run check:ds",
     "format": "biome format --write .",
     "typecheck": "turbo typecheck",
-    "test": "bun test scripts/api-report.test.mjs scripts/check-ds-look-override.test.mjs && turbo test",
+    "test": "bun test scripts/api-report.test.mjs scripts/check-ds-look-override.test.mjs scripts/storybook-structure.test.mjs && turbo test",
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "turbo build && changeset publish",

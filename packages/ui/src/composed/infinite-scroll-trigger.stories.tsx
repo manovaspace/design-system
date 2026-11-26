@@ -4,7 +4,7 @@ import { DirectionProvider } from "../direction-provider.js";
 import { InfiniteScrollTrigger } from "./infinite-scroll-trigger.js";
 
 const meta = {
-  title: "Composed/InfiniteScrollTrigger",
+  title: "Components/Feedback/InfiniteScrollTrigger",
   component: InfiniteScrollTrigger,
   tags: ["autodocs"],
   parameters: {

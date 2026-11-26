@@ -7,7 +7,7 @@ import { DirectionProvider } from "../direction-provider.js";
 import { Row, RowList } from "./row-list.js";
 
 const meta = {
-  title: "Composed/RowList",
+  title: "Components/Containment/RowList",
   component: RowList,
   tags: ["autodocs"],
   parameters: {

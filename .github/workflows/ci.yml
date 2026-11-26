@@ -36,3 +36,7 @@ jobs:
       # Blocking since 1.0 (ADR-038 D4).
       - name: Package checks
         run: bun run check:package
+
+      # Blocking visual truth build (ADR-078).
+      - name: Build Storybook
+        run: bun run build-storybook

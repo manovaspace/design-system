@@ -1,0 +1,19 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Guidelines/Forms" />
+
+# Forms
+
+All form controls (`Input`, `Textarea`, `SelectTrigger`, `Combobox`, `DatePicker`, `WheelDatePicker`, `AmountInput`, `DecimalInput`, `PickerTrigger`) share the `fieldControlVariants` recipe.
+
+## Rules
+
+- **Consistent height and surface:** Use `size="default"` (`40 px`) on desktop-only forms and `size="touch"` (`44 px`) on mobile / POS / field flows. Never override border, radius, height, or background with utility classes.
+- **Wrap every input in `Field`:** `Field` wires `htmlFor`, `aria-invalid`, `aria-describedby`, required asterisk, helper `hint`, `counter`, and live-region `error` (`role="alert"`).
+- **Selecting the right control:**
+  - `Select`: fixed list of up to ~8 options.
+  - `Combobox`: searchable or async list (`ComboboxAsync`).
+  - `PickerTrigger`: launches a dedicated bottom sheet or nested picker flow (`@manovaspace/ui/experimental`).
+  - `AmountInput` (`mode="digits"`): monetary amounts with grouped Persian display and clean ASCII digit state.
+  - `DatePicker` / `WheelDatePicker`: Jalali (`fa`) and Gregorian (`en`) date selection.
+- **Validation & focus:** Call `focusFirstError` on submit failure so screen readers and keyboard users jump directly to the first invalid control.

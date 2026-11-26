@@ -4,7 +4,7 @@ import type * as React from "react";
 import { BarList } from "./bar-list.js";
 
 const meta = {
-  title: "Composed/BarList",
+  title: "Components/Data display/BarList",
   component: BarList,
   tags: ["autodocs"],
   parameters: {

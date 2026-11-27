@@ -2,7 +2,6 @@ import { createRef } from "react";
 import { afterEach, describe, expect, it } from "vitest";
 
 const { cleanup, render, screen } = await import("@testing-library/react");
-const { DirectionProvider } = await import("../direction-provider.js");
 const { PickerTrigger } = await import("./picker-trigger.js");
 
 afterEach(() => {
@@ -78,19 +77,26 @@ describe("PickerTrigger", () => {
     expect(ref.current?.getAttribute("data-slot")).toBe("picker-trigger");
   });
 
-  it("flips chevron only when nearest DirectionProvider is rtl", () => {
+  it("mirrors the trailing chevron with the CSS rtl variant, not JS direction", () => {
+    const { container } = render(<PickerTrigger placeholder="Chevron" />);
+
+    const svg = container.querySelector("svg");
+    const wrapper = svg?.parentElement;
+    expect(wrapper?.className ?? "").toContain("rtl:-scale-x-100");
+    expect(wrapper?.getAttribute("aria-hidden")).toBe("true");
+    expect(svg?.getAttribute("class") ?? "").not.toContain("-scale-x-100");
+  });
+
+  it("applies rtl:-scale-x-100 to a custom trailingIcon wrapper", () => {
     const { container } = render(
-      <DirectionProvider direction="rtl">
-        <DirectionProvider direction="ltr">
-          <PickerTrigger placeholder="LTR inside RTL" />
-        </DirectionProvider>
-        <PickerTrigger placeholder="RTL" />
-      </DirectionProvider>,
+      <PickerTrigger
+        placeholder="Custom"
+        trailingIcon={<span data-testid="custom-trailing">v</span>}
+      />,
     );
 
-    const svgs = container.querySelectorAll("svg");
-    expect(svgs).toHaveLength(2);
-    expect(svgs[0]?.getAttribute("class") ?? "").not.toContain("-scale-x-100");
-    expect(svgs[1]?.getAttribute("class") ?? "").toContain("-scale-x-100");
+    const custom = screen.getByTestId("custom-trailing");
+    expect(custom.parentElement?.className ?? "").toContain("rtl:-scale-x-100");
+    expect(container.querySelector("svg")).toBeNull();
   });
 });

@@ -98,6 +98,7 @@ export function StringDigitsMode() {
         </label>
         <AmountInput
           id="digits-amount"
+          mode="digits"
           size="touch"
           value={digits}
           onValueChange={setDigits}

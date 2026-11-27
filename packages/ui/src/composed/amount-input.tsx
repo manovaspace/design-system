@@ -23,20 +23,10 @@ const DIGIT_CHAR = /[0-9۰-۹٠-٩]/;
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
-export type AmountInputProps = Omit<
+type AmountInputBaseProps = Omit<
   React.ComponentPropsWithoutRef<"input">,
   "value" | "defaultValue" | "onChange" | "min" | "max" | "size"
 > & {
-  /** Controlled amount: a `number | null` in numeric mode, or an ASCII digit string in digits mode. */
-  value?: number | string | null;
-  /** Uncontrolled initial amount (`number | null` or ASCII digit string). */
-  defaultValue?: number | string | null;
-  /** Numeric change handler (receives `number | null`). */
-  onChange?: (value: number | null) => void;
-  /** String-digits change handler (receives normalized ASCII digits, or `""` when cleared). */
-  onValueChange?: (digits: string) => void;
-  /** Value mode when uncontrolled or ambiguous; `"digits"` preserves arbitrary-precision digit strings. */
-  mode?: "number" | "digits";
   unit?: string; // default "تومان" in fa, "" in en
   min?: number;
   max?: number;
@@ -50,6 +40,43 @@ export type AmountInputProps = Omit<
   id?: string;
   "aria-label"?: string;
 };
+
+/** Numeric mode (the default): the amount is a `number`, or `null` when empty. */
+export type AmountInputNumberProps = AmountInputBaseProps & {
+  /** Optional; omit or set to `"number"`. */
+  mode?: "number";
+  /** Controlled amount as a number, or `null` when empty. */
+  value?: number | null;
+  /** Uncontrolled initial amount as a number, or `null` when empty. */
+  defaultValue?: number | null;
+  /** Numeric change handler; receives `null` when cleared. */
+  onChange?: (value: number | null) => void;
+  /** Not available in numeric mode. Use `mode="digits"`. */
+  onValueChange?: never;
+};
+
+/**
+ * String-digits mode. Must be requested with `mode="digits"`; the amount is an
+ * ASCII digit string of any length, so values beyond `Number.MAX_SAFE_INTEGER` stay exact.
+ */
+export type AmountInputDigitsProps = AmountInputBaseProps & {
+  /** Required. Selects string-digits mode. */
+  mode: "digits";
+  /** Controlled amount as ASCII digits (`""` when empty). */
+  value?: string;
+  /** Uncontrolled initial amount as ASCII digits. */
+  defaultValue?: string;
+  /** Digits change handler; receives normalized ASCII digits, or `""` when cleared. */
+  onValueChange?: (digits: string) => void;
+  /**
+   * Numeric change handler in digits mode. Receives `null` when cleared and a
+   * number only when the digits are a safe integer (`Number.isSafeInteger`).
+   * For larger values it is NOT called; read `onValueChange` instead.
+   */
+  onChange?: (value: number | null) => void;
+};
+
+export type AmountInputProps = AmountInputNumberProps | AmountInputDigitsProps;
 
 /**
  * Formats an ASCII digit string with thousands separator and locale digits.
@@ -93,6 +120,18 @@ function indexAfterDigits(display: string, count: number): number {
     }
   }
   return display.length;
+}
+
+/**
+ * Numeric `onChange` value for digits mode: `null` when empty, the number when
+ * the digits are a safe integer, `undefined` (do not call) otherwise.
+ */
+function digitsToChangeNumber(digits: string): number | null | undefined {
+  if (digits === "") {
+    return null;
+  }
+  const parsed = Number(digits);
+  return Number.isSafeInteger(parsed) ? parsed : undefined;
 }
 
 function isGroupingMark(char: string): boolean {
@@ -155,11 +194,7 @@ export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
     const resolvedUnit = unit !== undefined ? unit : isFa ? "تومان" : "";
     const showWords = words !== undefined ? words : isFa;
 
-    const isDigitsMode =
-      mode === "digits" ||
-      typeof value === "string" ||
-      typeof defaultValue === "string" ||
-      (onValueChange !== undefined && onChange === undefined);
+    const isDigitsMode = mode === "digits";
 
     const isControlled = value !== undefined;
     const [uncontrolledValue, setUncontrolledValue] = useState<
@@ -291,7 +326,14 @@ export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
           setUncontrolledValue(isDigitsMode ? nextDigits : nextNumber);
         }
         onValueChange?.(nextDigits);
-        onChange?.(nextNumber);
+        if (!isDigitsMode) {
+          onChange?.(nextNumber);
+        } else {
+          const digitsNumber = digitsToChangeNumber(nextDigits);
+          if (digitsNumber !== undefined) {
+            onChange?.(digitsNumber);
+          }
+        }
 
         if (digitCaret !== null) {
           if (nextDigits === currentDigits && !isNegativeNumber) {
@@ -367,7 +409,9 @@ export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
         setUncontrolledValue(isDigitsMode ? qDigits : q);
       }
       onValueChange?.(qDigits);
-      onChange?.(q);
+      if (!isDigitsMode || Number.isSafeInteger(q)) {
+        onChange?.(q);
+      }
       inputRef.current?.focus();
     };
 

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
+import { expect, userEvent, within } from "storybook/test";
 
 import { Field } from "./field.js";
 import { MsisdnInput } from "./msisdn-input.js";
@@ -41,6 +42,16 @@ type Story = StoryObj<typeof meta>;
 
 export const PersianDisplay: Story = {
   render: () => <PhoneAndOtpDemo locale="fa" />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const phoneInput = canvas.getByRole("textbox", {
+      name: "Mobile number",
+    }) as HTMLInputElement;
+    await userEvent.clear(phoneInput);
+    await userEvent.type(phoneInput, "۰۹۱۲۱۱۱۲۲۳۳");
+    expect(phoneInput.value).toBe("۰۹۱۲۱۱۱۲۲۳۳");
+    expect(canvas.getByText("State: 09121112233")).toBeTruthy();
+  },
 };
 
 export const EnglishDisplay: Story = {

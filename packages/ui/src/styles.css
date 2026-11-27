@@ -84,6 +84,49 @@
   html {
     @apply font-sans;
   }
+
+  /* Keep keyboard focus and anchor jumps clear of sticky shell headers. */
+  :where(a, button, input, select, textarea, summary, [tabindex], [id]) {
+    scroll-margin-block-start: var(--sticky-header-offset, 5rem);
+  }
+
+  /* Forced-colors fallback: preserve boundaries, checked affordances, and focus outlines. */
+  @media (forced-colors: active) {
+    :where(
+        [data-slot="card"],
+        [data-slot="dialog-content"],
+        [data-slot="sheet-content"],
+        [data-slot="popover-content"],
+        [data-slot="alert"],
+        [role="alert"]
+      ) {
+      border: 1px solid CanvasText;
+    }
+
+    :where(
+        button,
+        input,
+        select,
+        textarea,
+        [role="button"],
+        [role="combobox"],
+        [role="switch"],
+        [role="checkbox"],
+        [role="radio"],
+        [role="tab"]
+      ):focus-visible {
+      outline: 2px solid Highlight;
+      outline-offset: 2px;
+    }
+
+    :where(
+        [role="switch"][aria-checked="true"],
+        [role="checkbox"][aria-checked="true"],
+        [data-state="checked"]
+      ) {
+      border: 1px solid Highlight;
+    }
+  }
 }
 
 /* Scroll-aware edge fades (shadcn scroll-fade pattern). */

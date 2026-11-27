@@ -86,6 +86,7 @@ const preview: Preview = {
             "Icons",
             "Density",
             "Brand playground",
+            "Charts & email hex",
           ],
           "Guidelines",
           [
@@ -94,6 +95,7 @@ const preview: Preview = {
             "Accessibility",
             "RTL & locale",
             "Data display",
+            "Corner cases",
           ],
           "Components",
           [
@@ -115,6 +117,10 @@ const preview: Preview = {
     },
     viewport: {
       options: {
+        reflow320: {
+          name: "Reflow 320 (200% zoom)",
+          styles: { width: "320px", height: "640px" },
+        },
         phone: {
           name: "Phone 390",
           styles: { width: "390px", height: "844px" },

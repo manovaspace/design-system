@@ -122,7 +122,8 @@ export const StringDigitsMode: Story = {
     const canvas = within(canvasElement);
     const input = canvas.getByRole("textbox");
     await userEvent.clear(input);
-    await userEvent.type(input, "250000");
-    expect(canvas.getByTestId("raw-digits").textContent).toBe('"250000"');
+    await userEvent.type(input, "۱۲۳۴۵۰");
+    expect(canvas.getByTestId("raw-digits").textContent).toBe('"123450"');
+    expect((input as HTMLInputElement).value).toBe("۱۲۳٬۴۵۰");
   },
 };

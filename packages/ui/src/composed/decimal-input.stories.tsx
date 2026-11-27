@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import * as React from "react";
+import { expect, userEvent, within } from "storybook/test";
 
 import { DecimalInput } from "./decimal-input.js";
 
@@ -86,10 +87,30 @@ export function Interactive() {
         <p className="font-semibold text-muted-foreground">
           Internal State (Latin):
         </p>
-        <code className="font-mono text-foreground">
+        <code
+          data-testid="decimal-latin-state"
+          className="font-mono text-foreground"
+        >
           {JSON.stringify(value)}
         </code>
       </div>
     </div>
   );
 }
+
+export const PersianDigitsInteraction: Story = {
+  args: {
+    value: "",
+    onValueChange: () => {},
+  },
+  render: () => <Interactive />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole("textbox");
+    await userEvent.clear(input);
+    await userEvent.type(input, "۱۲۳۴.۵");
+    expect(canvas.getByTestId("decimal-latin-state").textContent).toBe(
+      '"1234.5"',
+    );
+  },
+};

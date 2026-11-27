@@ -1,8 +1,12 @@
 import * as React from "react";
 
 import { Label } from "../label.js";
+import {
+  FieldContext,
+  type FieldContextValue,
+  isSelectFieldControl,
+} from "../lib/field-context.js";
 import { cn } from "../lib/utils.js";
-import { Select } from "../select.js";
 
 export type FieldProps = {
   label?: React.ReactNode;
@@ -15,22 +19,6 @@ export type FieldProps = {
   children: React.ReactNode;
   id?: string;
 };
-
-type FieldContextValue = {
-  id: string;
-  describedBy?: string;
-  invalid: boolean;
-};
-
-const FieldContext = React.createContext<FieldContextValue | null>(null);
-
-/**
- * Returns the nearest enclosing `Field` wiring (`id`, `describedBy`, `invalid`)
- * for composite controls like `SelectTrigger`, or `null` outside a `Field`.
- */
-export function useFieldContextOptional(): FieldContextValue | null {
-  return React.useContext(FieldContext);
-}
 
 type ControlProps = {
   id?: string;
@@ -73,7 +61,7 @@ export function Field({
       ? children
       : null;
 
-  const isSelectControl = control?.type === Select;
+  const isSelectControl = control ? isSelectFieldControl(control.type) : false;
 
   const controlId = control?.props.id ?? htmlFor ?? generatedId;
   const hintId = `${controlId}-hint`;
@@ -96,13 +84,26 @@ export function Field({
   }
 
   const labelFor = control ? controlId : htmlFor;
+  const ownerRef = React.useRef<object | null>(null);
+  const claim = React.useCallback((owner: object) => {
+    if (ownerRef.current === null || ownerRef.current === owner) {
+      ownerRef.current = owner;
+      return true;
+    }
+    return false;
+  }, []);
+  const release = React.useCallback((owner: object) => {
+    if (ownerRef.current === owner) ownerRef.current = null;
+  }, []);
   const contextValue = React.useMemo<FieldContextValue>(
     () => ({
       id: controlId,
       describedBy: target,
       invalid: hasError,
+      claim,
+      release,
     }),
-    [controlId, target, hasError],
+    [controlId, target, hasError, claim, release],
   );
 
   return (

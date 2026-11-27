@@ -32,13 +32,17 @@ describe("Phase 5 corner cases", () => {
       (svg) => svg !== searchIcon && svg !== checkIcon,
     );
 
-    expect(trailingChevron?.getAttribute("class") ?? "").toContain(
-      "-scale-x-100",
+    // Mirroring is pure CSS: the trailing icon's wrapper carries rtl:-scale-x-100,
+    // so it flips under any dir="rtl" ancestor without DirectionProvider.
+    expect(
+      trailingChevron?.parentElement?.getAttribute("class") ?? "",
+    ).toContain("rtl:-scale-x-100");
+    const hasMirror = (el: Element | null) =>
+      (el?.getAttribute("class") ?? "").includes("-scale-x-100");
+    expect(hasMirror(searchIcon) || hasMirror(searchIcon.parentElement)).toBe(
+      false,
     );
-    expect(searchIcon.getAttribute("class") ?? "").not.toContain(
-      "-scale-x-100",
-    );
-    expect(checkIcon.getAttribute("class") ?? "").not.toContain("-scale-x-100");
+    expect(hasMirror(checkIcon)).toBe(false);
   });
 
   it("supports logical start/end SheetContent docking", () => {

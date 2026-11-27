@@ -118,6 +118,7 @@
     "@hookform/resolvers": "^7.0.1",
     "@manovaspace/build": "^0.1.0",
     "@manovaspace/tsconfig": "^0.1.2",
+    "@storybook/addon-docs": "^10.6.5",
     "@storybook/react-vite": "^10.6.5",
     "@tailwindcss/cli": "^4.3.3",
     "@testing-library/react": "^16.3.3",

@@ -11,6 +11,7 @@ const config: StorybookConfig = {
   stories: [
     "../../../packages/ui/src/**/*.stories.@(ts|tsx)",
     "../src/**/*.stories.@(ts|tsx)",
+    "../../../packages/ui/src/**/*.mdx",
     "../src/**/*.mdx",
   ],
   typescript: {

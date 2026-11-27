@@ -205,7 +205,7 @@ export function deriveM3SchemeRoles(palettes: BrandTonalPalettes, options: {
     contrast: ContrastLevel;
 }): M3ColorRoles;
 
-// @public (undocumented)
+// @public @deprecated (undocumented)
 export function deriveSemanticDark(light: Record<string, string>): Record<string, string>;
 
 // @public
@@ -648,7 +648,7 @@ export function resolveSemanticHexMap(m3: M3ColorRoles, scale: ScaleTokens, sche
 // @public
 export function resolveTenantBranding(input: TenantSeedInput | unknown, base?: BrandTokensInput | BrandTokensConfig): ResolvedTenantBranding;
 
-// @public (undocumented)
+// @public
 export function resolveTokens(raw: OrbitTokensRaw, base?: OrbitTokensRaw): OrbitTokens;
 
 // @public (undocumented)

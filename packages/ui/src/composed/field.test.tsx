@@ -411,4 +411,80 @@ describe("Field", () => {
     expect(trigger.getAttribute("aria-describedby")).toBe(alert.id);
     expect(trigger.className).toContain("border-destructive");
   });
+
+  it("gives the Field id and messages to only the first SelectTrigger", () => {
+    const { container, rerender } = render(
+      <Field label="Two selects" hint="Pick both">
+        <>
+          <Select>
+            <SelectTrigger>
+              <SelectValue placeholder="First" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="a">A</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select>
+            <SelectTrigger>
+              <SelectValue placeholder="Second" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="b">B</SelectItem>
+            </SelectContent>
+          </Select>
+        </>
+      </Field>,
+    );
+
+    const [first, second] = screen.getAllByRole("combobox");
+    const hint = container.querySelector('[data-slot="field-hint"]');
+    expect(first?.id).not.toBe("");
+    expect(hint?.id).toBe(first?.id + "-hint");
+    expect(second?.id).not.toBe(first?.id);
+    expect(first?.getAttribute("aria-describedby")).toBe(hint?.id);
+    expect(second?.hasAttribute("aria-describedby")).toBe(false);
+
+    const ids = [...container.querySelectorAll("[id]")].map((el) => el.id);
+    expect(new Set(ids).size).toBe(ids.length);
+
+    rerender(
+      <Field label="Two selects" error="Pick both">
+        <>
+          <Select>
+            <SelectTrigger>
+              <SelectValue placeholder="First" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="a">A</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select>
+            <SelectTrigger>
+              <SelectValue placeholder="Second" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="b">B</SelectItem>
+            </SelectContent>
+          </Select>
+        </>
+      </Field>,
+    );
+
+    const alert = screen.getByRole("alert");
+    const [firstInvalid, secondInvalid] = screen.getAllByRole("combobox");
+    expect(firstInvalid?.getAttribute("aria-invalid")).toBe("true");
+    expect(firstInvalid?.getAttribute("aria-describedby")).toBe(alert.id);
+    expect(secondInvalid?.hasAttribute("aria-invalid")).toBe(false);
+    expect(secondInvalid?.hasAttribute("aria-describedby")).toBe(false);
+  });
+
+  it("still labels a plain Input inside a Field", () => {
+    render(
+      <Field label="Full name">
+        <Input />
+      </Field>,
+    );
+
+    expect(screen.getByLabelText("Full name").tagName).toBe("INPUT");
+  });
 });

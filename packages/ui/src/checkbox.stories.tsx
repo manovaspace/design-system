@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, within } from "storybook/test";
 
 import { Checkbox } from "./checkbox.js";
-import { Label } from "./primitives/label.js";
+import { Label } from "./label.js";
 
 const meta = {
   title: "Components/Selection/Checkbox",

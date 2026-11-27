@@ -1,0 +1,62 @@
+import { Meta, Canvas, ArgTypes } from "@storybook/addon-docs/blocks";
+
+import * as ButtonStories from "./button.stories";
+
+<Meta of={ButtonStories} />
+
+# Button
+
+## Overview
+
+`Button` runs one action: submit a form, open a dialog, confirm, or navigate with a link style. It wraps a native `<button>` and takes its look from `buttonVariants`.
+
+## When to use / When not to use
+
+**Use** for a command the user triggers on the current screen.
+
+**Do not use** for navigation between pages (use a link), for choosing one of several options (use `Tabs`, `Select` or `ToggleGroup`), or for a destructive action without confirmation (use `ConfirmDialog` or `HoldToConfirmButton`).
+
+## Anatomy
+
+A single text label, with an optional leading or trailing icon. No wrapper element; the size and variant set height, radius and colour.
+
+## Variants
+
+Variants: `default`, `secondary`, `outline`, `ghost`, `destructive`, `link`.
+
+<Canvas of={ButtonStories.VariantsAndDisabled} />
+
+## States
+
+Default, hover, focus-visible, pressed, disabled. Disabled buttons keep their size and drop the hover surface; they are not focusable.
+
+<Canvas of={ButtonStories.Default} />
+
+## Accessibility
+
+Use the native button element. The label is the accessible name, so keep it a visible verb.
+
+| Key | Action |
+| --- | --- |
+| `Tab` / `Shift+Tab` | Move focus to the next or previous enabled button |
+| `Enter` | Activate the focused button |
+| `Space` | Activate the focused button |
+
+Touch targets are 44 px with `size="touch"`. Do not put a `Button` inside another interactive element.
+
+## Content
+
+- Start with a verb: "Save", "Add customer", "Send code".
+- Two words or fewer where possible; never end with a full stop.
+- Name the object when the screen holds more than one action: "Delete account", not "Delete".
+- Follow the microcopy rules in [Content & microcopy](?path=/docs/guidelines-content-and-microcopy--docs).
+
+## Props
+
+<ArgTypes />
+
+## Related
+
+- `Input`, `Select` (form controls that share the field recipe)
+- `ConfirmDialog`, `HoldToConfirmButton` (destructive actions)
+- [Writing component docs](?path=/docs/guidelines-writing-component-docs--docs)

@@ -40,6 +40,7 @@ function ControlledDigitsHarness({
   const [digits, setDigits] = React.useState(initialDigits);
   return (
     <AmountInput
+      mode="digits"
       locale={locale}
       value={digits}
       onValueChange={(next) => {
@@ -284,6 +285,7 @@ describe("AmountInput", () => {
   it("copies raw ASCII digits for collapsed and ranged selections in digits mode", () => {
     render(
       <AmountInput
+        mode="digits"
         value="12345678901234567890"
         onValueChange={() => undefined}
         words={false}
@@ -319,6 +321,7 @@ describe("AmountInput", () => {
   it("validates min/max accurately in string-digits mode including huge values", () => {
     render(
       <AmountInput
+        mode="digits"
         value="99999999999999999999"
         onValueChange={() => undefined}
         max={2000000}
@@ -345,5 +348,119 @@ describe("AmountInput", () => {
     fireEvent.click(screen.getByRole("button", { name: "۵۰۰ هزار" }));
     expect(handleValueChange).toHaveBeenCalledWith("500000");
     expect(input.value).toBe("۵۰۰٬۰۰۰");
+  });
+
+  it("digits mode calls onChange with a number for a safe integer", () => {
+    const handleChange = vi.fn();
+    const handleValueChange = vi.fn();
+    render(
+      <AmountInput
+        mode="digits"
+        onChange={handleChange}
+        onValueChange={handleValueChange}
+      />,
+    );
+    const input = screen.getByRole("textbox") as HTMLInputElement;
+
+    fireEvent.change(input, { target: { value: "1250000" } });
+    expect(handleValueChange).toHaveBeenLastCalledWith("1250000");
+    expect(handleChange).toHaveBeenLastCalledWith(1250000);
+  });
+
+  it("digits mode does not call onChange when the digits exceed the safe-integer range", () => {
+    const handleChange = vi.fn();
+    const handleValueChange = vi.fn();
+    render(
+      <AmountInput
+        mode="digits"
+        onChange={handleChange}
+        onValueChange={handleValueChange}
+      />,
+    );
+    const input = screen.getByRole("textbox") as HTMLInputElement;
+
+    // 21 digits: Number() would round this silently, so onChange must stay silent.
+    fireEvent.change(input, { target: { value: "123456789012345678901" } });
+    expect(handleValueChange).toHaveBeenLastCalledWith("123456789012345678901");
+    expect(handleChange).not.toHaveBeenCalled();
+  });
+
+  it("digits mode keeps leading zeros in onValueChange and emits the parsed number", () => {
+    const handleChange = vi.fn();
+    const handleValueChange = vi.fn();
+    render(
+      <AmountInput
+        mode="digits"
+        onChange={handleChange}
+        onValueChange={handleValueChange}
+      />,
+    );
+    const input = screen.getByRole("textbox") as HTMLInputElement;
+
+    fireEvent.change(input, { target: { value: "0005" } });
+    expect(handleValueChange).toHaveBeenLastCalledWith("0005");
+    expect(handleChange).toHaveBeenLastCalledWith(5);
+    expect(input.value).toBe("۰٬۰۰۵");
+  });
+
+  it("digits mode replaces a fully selected value when typing a single digit", () => {
+    const handleValueChange = vi.fn();
+    render(
+      <ControlledDigitsHarness
+        initialDigits="1250000"
+        onValueChange={handleValueChange}
+      />,
+    );
+    const input = screen.getByRole("textbox") as HTMLInputElement;
+
+    input.setSelectionRange(0, input.value.length);
+    fireEvent.change(input, { target: { value: "7", selectionStart: 1 } });
+    expect(handleValueChange).toHaveBeenLastCalledWith("7");
+    expect(input.value).toBe("۷");
+  });
+
+  it("digits mode normalizes pasted Persian digits and Persian separators", () => {
+    const handleValueChange = vi.fn();
+    render(
+      <AmountInput
+        mode="digits"
+        locale="en"
+        onValueChange={handleValueChange}
+      />,
+    );
+    const input = screen.getByRole("textbox") as HTMLInputElement;
+
+    fireEvent.change(input, { target: { value: "۱۲۳٬۴۵۶" } });
+    expect(handleValueChange).toHaveBeenLastCalledWith("123456");
+    expect(input.value).toBe("123,456");
+  });
+
+  it("digits mode validates min and shows the error", () => {
+    render(
+      <AmountInput mode="digits" value="50000" min={100000} words={false} />,
+    );
+
+    const input = screen.getByRole("textbox");
+    expect(input.getAttribute("aria-invalid")).toBe("true");
+    expect(screen.getByRole("alert").textContent).toContain("۱۰۰٬۰۰۰");
+  });
+
+  it("digits mode clears to empty string and null", () => {
+    const handleChange = vi.fn();
+    const handleValueChange = vi.fn();
+    render(
+      <AmountInput
+        mode="digits"
+        defaultValue="1250000"
+        onChange={handleChange}
+        onValueChange={handleValueChange}
+      />,
+    );
+    const input = screen.getByRole("textbox") as HTMLInputElement;
+
+    fireEvent.change(input, { target: { value: "" } });
+    expect(handleValueChange).toHaveBeenLastCalledWith("");
+    expect(handleChange).toHaveBeenLastCalledWith(null);
+    expect(input.value).toBe("");
   });
 });

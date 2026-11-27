@@ -121,46 +121,13 @@ export const alertVariants: (props?: ({
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 
 // @public
-export const AmountInput: React_2.ForwardRefExoticComponent<Omit<Omit<React_2.DetailedHTMLProps<React_2.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "ref">, "defaultValue" | "max" | "min" | "onChange" | "size" | "value"> & {
-    value?: number | string | null;
-    defaultValue?: number | string | null;
-    onChange?: (value: number | null) => void;
-    onValueChange?: (digits: string) => void;
-    mode?: "digits" | "number";
-    unit?: string;
-    min?: number;
-    max?: number;
-    words?: boolean;
-    quick?: number[];
-    placeholder?: string;
-    locale?: string;
-    size?: "default" | "touch";
-    disabled?: boolean;
-    className?: string;
-    id?: string;
-    "aria-label"?: string;
-} & React_2.RefAttributes<HTMLInputElement>>;
+export const AmountInput: React_2.ForwardRefExoticComponent<AmountInputProps & React_2.RefAttributes<HTMLInputElement>>;
 
+// Warning: (ae-forgotten-export) The symbol "AmountInputNumberProps" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "AmountInputDigitsProps" needs to be exported by the entry point index.d.ts
+//
 // @public (undocumented)
-export type AmountInputProps = Omit<React_2.ComponentPropsWithoutRef<"input">, "defaultValue" | "max" | "min" | "onChange" | "size" | "value"> & {
-    value?: number | string | null;
-    defaultValue?: number | string | null;
-    onChange?: (value: number | null) => void;
-    onValueChange?: (digits: string) => void;
-    mode?: "digits" | "number";
-    unit?: string;
-    min?: number;
-    max?: number;
-    words?: boolean;
-    quick?: number[];
-    placeholder?: string;
-    locale?: string;
-    size?: "default" | "touch";
-    disabled?: boolean;
-    className?: string;
-    id?: string;
-    "aria-label"?: string;
-};
+export type AmountInputProps = AmountInputNumberProps | AmountInputDigitsProps;
 
 // @public
 export function amountToWords(n: number, unit?: string): string;
@@ -1564,6 +1531,12 @@ export type SegmentedControlProps = {
 // @public (undocumented)
 export function Select(props: React_2.ComponentProps<typeof Select_2>): React_2.JSX.Element;
 
+// @public (undocumented)
+export namespace Select {
+    var // (undocumented)
+    fieldControl: "select";
+}
+
 // @public
 export function SelectableOptionCard(input: SelectableOptionCardProps): React_2.JSX.Element;
 
@@ -1816,8 +1789,10 @@ export function TabsContent(input: React_2.ComponentProps<typeof Tabs_2.Content>
 // @public (undocumented)
 export function TabsList(input: React_2.ComponentProps<typeof Tabs_2.List> & VariantProps<typeof tabsListVariants>): React_2.JSX.Element;
 
-// @public (undocumented)
-export function TabsTrigger(input: React_2.ComponentProps<typeof Tabs_2.Trigger>): React_2.JSX.Element;
+// Warning: (ae-forgotten-export) The symbol "TabsTrigger_2" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function TabsTrigger(input: React_2.ComponentProps<typeof TabsTrigger_2>): React_2.JSX.Element;
 
 // @public (undocumented)
 export const TagIcon: lucide_react.LucideIcon;

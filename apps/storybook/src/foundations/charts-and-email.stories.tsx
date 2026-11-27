@@ -255,7 +255,7 @@ function ChartAndEmailShowcase() {
 
             <pre
               dir="ltr"
-              className="max-h-40 overflow-auto rounded-md border border-border bg-surface-sunken p-3 text-[11px]"
+              className="whitespace-pre-wrap break-all rounded-md border border-border bg-surface-sunken p-3 text-[11px]"
             >
               {JSON.stringify(
                 {

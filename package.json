@@ -6,6 +6,7 @@
     "dev": "turbo dev",
     "storybook": "bun --filter @manovaspace/storybook storybook",
     "build-storybook": "bun --filter @manovaspace/storybook build-storybook",
+    "test:stories": "bun --filter @manovaspace/storybook test:stories",
     "storybook:shots": "node scripts/storybook-shots.mjs",
     "lint": "biome check .",
     "check:ds": "bash scripts/check-ds.sh",

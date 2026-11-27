@@ -29,7 +29,7 @@ export type OrbitTokenOverride = Partial<{
   color: Partial<Record<string, Partial<Record<string, string>>>>;
   semantic: {
     light?: Partial<Record<string, string>>;
-    /** @deprecated Ignored — dark is derived from light via HSL L inversion */
+    /** @deprecated Ignored — dark is derived from the M3 HCT pipeline seeded by the light anchors */
     dark?: Partial<Record<string, string>>;
   };
   spacing: Partial<Record<string, string>>;

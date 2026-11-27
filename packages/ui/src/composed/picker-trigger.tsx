@@ -3,7 +3,6 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { forwardRef } from "react";
 
-import { useDirection } from "../direction-provider.js";
 import { ChevronRightIcon } from "../icons.js";
 import {
   fieldControlVariants,
@@ -49,7 +48,6 @@ export const PickerTrigger = forwardRef<HTMLButtonElement, PickerTriggerProps>(
     },
     ref,
   ) {
-    const direction = useDirection();
     return (
       <button
         {...props}
@@ -91,12 +89,14 @@ export const PickerTrigger = forwardRef<HTMLButtonElement, PickerTriggerProps>(
               {changeLabel}
             </span>
           ) : null}
-          {trailingIcon ?? (
-            <ChevronRightIcon
-              className={cn("size-4", direction === "rtl" && "-scale-x-100")}
-              aria-hidden="true"
-            />
-          )}
+          <span
+            className="inline-flex shrink-0 rtl:-scale-x-100"
+            aria-hidden="true"
+          >
+            {trailingIcon ?? (
+              <ChevronRightIcon className="size-4" aria-hidden="true" />
+            )}
+          </span>
         </span>
       </button>
     );

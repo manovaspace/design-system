@@ -1528,6 +1528,12 @@ export type SegmentedControlProps = {
 // @public (undocumented)
 export function Select(props: React_2.ComponentProps<typeof Select_2>): React_2.JSX.Element;
 
+// @public (undocumented)
+export namespace Select {
+    var // (undocumented)
+    fieldControl: "select";
+}
+
 // @public
 export function SelectableOptionCard(input: SelectableOptionCardProps): React_2.JSX.Element;
 

@@ -1,8 +1,8 @@
 "use client";
 
-import type * as React from "react";
+import * as React from "react";
 
-import { useFieldContextOptional } from "./composed/field.js";
+import { useFieldContextOptional } from "./lib/field-context.js";
 import {
   fieldControlVariants,
   resolveFieldState,
@@ -21,6 +21,8 @@ import {
 export function Select(props: React.ComponentProps<typeof PrimitiveSelect>) {
   return <PrimitiveSelect {...props} />;
 }
+// Marks the root so Field can wire its SelectTrigger without importing this module.
+Select.fieldControl = "select" as const;
 
 export function SelectTrigger({
   className,
@@ -33,10 +35,23 @@ export function SelectTrigger({
   size?: "sm" | "default" | "touch";
 }) {
   const fieldContext = useFieldContextOptional();
-  const resolvedId = id ?? fieldContext?.id;
-  const resolvedAriaDescribedBy = ariaDescribedBy ?? fieldContext?.describedBy;
+  const [owner] = React.useState(() => ({}));
+  // Only the first SelectTrigger in a Field takes the Field id and messages.
+  const claimed = fieldContext ? fieldContext.claim(owner) : false;
+  const claimFn = fieldContext?.claim;
+  const claimRelease = fieldContext?.release;
+  React.useEffect(() => {
+    if (!claimed || !claimFn || !claimRelease) return;
+    // Re-claim on (re)mount: StrictMode runs cleanup then setup again.
+    claimFn(owner);
+    return () => claimRelease(owner);
+  }, [claimed, claimFn, claimRelease, owner]);
+
+  const resolvedId = id ?? (claimed ? fieldContext?.id : undefined);
+  const resolvedAriaDescribedBy =
+    ariaDescribedBy ?? (claimed ? fieldContext?.describedBy : undefined);
   const resolvedAriaInvalid =
-    ariaInvalid ?? (fieldContext?.invalid ? true : undefined);
+    ariaInvalid ?? (claimed && fieldContext?.invalid ? true : undefined);
 
   return (
     <PrimitiveSelectTrigger

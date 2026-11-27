@@ -180,7 +180,7 @@ export function SegmentedControl({
             onClick={() => selectOption(option.value)}
             onKeyDown={(e) => handleKeyDown(e, option.value)}
             className={cn(
-              "relative inline-flex items-center justify-center font-medium whitespace-nowrap transition-all outline-none cursor-pointer focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 active:[transform:var(--press)]",
+              "relative inline-flex items-center justify-center font-medium whitespace-nowrap transition-all outline-hidden cursor-pointer focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 active:[transform:var(--press)]",
               sizeStyle.option,
               sizeStyle.icon,
               isSelected

@@ -50,3 +50,7 @@ jobs:
       # Screenshots of the page templates at 390/768/1440 (uses the build above).
       - name: Storybook screenshots
         run: bun run storybook:shots -- --no-build
+
+      # 320px reflow, forced-colors focus, reduced motion and touch targets.
+      - name: Storybook corner-case gates
+        run: bun run storybook:shots -- --no-build --corner-cases

@@ -246,7 +246,7 @@ const CHIP_VARIANTS_REDUCED: Variants = {
  *   an `EmptyState` that says what the list holds and offers the next step.
  * - Sticky search uses `--entity-browser-sticky-top`.
  * - Layout hooks (set on a parent or the app shell, not on the list):
- *   - `--entity-browser-sticky-top`: top offset of the sticky toolbar (default `0px`).
+ *   - `--entity-browser-sticky-top`: top offset of the sticky toolbar (default `--sticky-header-offset`).
  *   - `--fab-bottom-offset`: lifts the floating add button (default `0px`).
  *   - `--list-page-gutter`: shell gutter for `inset="shell"` (default `1rem`).
  *     Set it to the shell's top padding; responsive values are fine.

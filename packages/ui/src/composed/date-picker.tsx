@@ -148,7 +148,7 @@ function CalendarArrow({
       onClick={handleClick}
       onKeyDown={onKeyDown}
       className={cn(
-        "inline-flex shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors outline-none hover:bg-accent-hover hover:text-accent-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50",
+        "inline-flex shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors outline-hidden hover:bg-accent-hover hover:text-accent-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50",
         compact ? "size-8" : "size-11",
       )}
     >

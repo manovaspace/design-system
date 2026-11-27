@@ -95,7 +95,7 @@ describe("WorkspaceSwitcher", () => {
 
     expect(trigger.getAttribute("aria-expanded")).toBe("true");
     expect(trigger.getAttribute("aria-controls")).toBe(listbox.id);
-    expect(listbox.className).toContain("outline-none");
+    expect(listbox.className).toContain("outline-hidden");
 
     const items = options();
     expect(items).toHaveLength(3);

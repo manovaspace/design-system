@@ -121,7 +121,7 @@ export function Stepper({
                     <button
                       type="button"
                       onClick={() => onStepClick(index)}
-                      className="cursor-pointer rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:[transform:var(--press)]"
+                      className="cursor-pointer rounded-full focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:[transform:var(--press)]"
                       aria-label={`Step ${stepNumber}: ${String(step.label)}`}
                     >
                       {circle}
@@ -151,7 +151,7 @@ export function Stepper({
                     <button
                       type="button"
                       onClick={() => onStepClick(index)}
-                      className="cursor-pointer text-start rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      className="cursor-pointer text-start rounded-md focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       {textBlock}
                     </button>
@@ -175,7 +175,7 @@ export function Stepper({
                 <button
                   type="button"
                   onClick={() => onStepClick(index)}
-                  className="flex items-center gap-2.5 cursor-pointer rounded-md p-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:[transform:var(--press)] text-start"
+                  className="flex items-center gap-2.5 cursor-pointer rounded-md p-1 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring active:[transform:var(--press)] text-start"
                   aria-label={`Step ${stepNumber}: ${String(step.label)}`}
                 >
                   {circle}

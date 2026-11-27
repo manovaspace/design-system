@@ -17,11 +17,16 @@ const VIEWPORTS = [
   { width: 768, height: 1024 },
   { width: 1440, height: 900 },
 ];
+const CORNER_CASE_VIEWPORTS = [{ width: 320, height: 640 }, ...VIEWPORTS];
 const SMOKE_IDS = new Set([
   "foundations-color-roles--m-3-roles",
   "foundations-brand-playground--interactive",
+  "foundations-charts-email-hex--chart-palette-and-email-export",
   "components-actions-button--variants-and-disabled",
   "components-inputs-field--matrix",
+  "guidelines-corner-cases--rtl-icon-mirroring",
+  "guidelines-corner-cases--long-strings-and-data-states",
+  "guidelines-corner-cases--touch-targets-and-sticky-focus",
 ]);
 const TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -40,11 +45,13 @@ function parseArgs(argv) {
     directions: ["rtl"],
     smoke: false,
     check: false,
+    cornerCases: false,
   };
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === "--no-build") opts.build = false;
     else if (argv[i] === "--smoke") opts.smoke = true;
     else if (argv[i] === "--check") opts.check = true;
+    else if (argv[i] === "--corner-cases") opts.cornerCases = true;
     else if (argv[i] === "--filter" && argv[i + 1]) opts.filter = argv[++i];
     else if (argv[i] === "--directions" && argv[i + 1]) {
       opts.directions = argv[++i]
@@ -85,6 +92,12 @@ function serveStatic(dir) {
 }
 
 function matchesFilter(id, opts) {
+  if (opts.cornerCases) {
+    return (
+      id.startsWith("guidelines-corner-cases--") ||
+      id.startsWith("foundations-charts-email-hex--")
+    );
+  }
   if (opts.smoke) {
     return SMOKE_IDS.has(id) || id.startsWith("templates-");
   }
@@ -152,9 +165,12 @@ async function main() {
 
     await mkdir(OUT_DIR, { recursive: true });
     let count = 0;
+    const activeViewports = opts.cornerCases
+      ? CORNER_CASE_VIEWPORTS
+      : VIEWPORTS;
     for (const story of stories) {
       for (const dir of opts.directions) {
-        for (const vp of VIEWPORTS) {
+        for (const vp of activeViewports) {
           const page = await browser.newPage({ viewport: vp });
           const pageErrors = [];
           page.on("pageerror", (err) => pageErrors.push(err.message));
@@ -168,10 +184,20 @@ async function main() {
               undefined,
               { timeout: 30_000 },
             );
-            await page.waitForLoadState("networkidle").catch(() => {});
-            await page.waitForTimeout(400);
+            await page.waitForFunction(
+              () => document.fonts.status === "loaded",
+              undefined,
+              { timeout: 30_000 },
+            );
+            await page
+              .waitForLoadState("networkidle", { timeout: 10_000 })
+              .catch((err) => {
+                console.warn(
+                  `storybook-shots: ${story.id} (${dir} ${vp.width}px): networkidle not reached: ${err.message}`,
+                );
+              });
 
-            if (opts.check) {
+            if (opts.check || opts.cornerCases) {
               const overflow = await page.evaluate(() => {
                 const doc = document.documentElement;
                 return doc.scrollWidth - window.innerWidth;
@@ -184,6 +210,79 @@ async function main() {
               if (pageErrors.length > 0) {
                 failures.push(
                   `${story.id} (${dir} ${vp.width}px): ${pageErrors.join("; ")}`,
+                );
+              }
+            }
+
+            if (opts.cornerCases && story.id.includes("touch-targets")) {
+              const badTargets = await page.evaluate(() => {
+                const els = Array.from(
+                  document.querySelectorAll(
+                    "[data-testid='touch-target'], [data-testid='compact-target']",
+                  ),
+                );
+                const bad = [];
+                for (const el of els) {
+                  const rect = el.getBoundingClientRect();
+                  const minRequired =
+                    el.getAttribute("data-testid") === "touch-target" ? 44 : 24;
+                  if (rect.width < minRequired || rect.height < minRequired) {
+                    bad.push(
+                      `${el.textContent?.trim()}: ${Math.round(rect.width)}x${Math.round(rect.height)} < ${minRequired}`,
+                    );
+                  }
+                }
+                return bad;
+              });
+              if (badTargets.length > 0) {
+                failures.push(
+                  `${story.id} (${dir} ${vp.width}px): target size failure ${badTargets.join(", ")}`,
+                );
+              }
+            }
+
+            if (opts.cornerCases && vp.width === 320 && dir === "rtl") {
+              await page.emulateMedia({
+                forcedColors: "active",
+                reducedMotion: "reduce",
+              });
+              await page.waitForFunction(
+                () =>
+                  window.matchMedia("(forced-colors: active)").matches &&
+                  window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+                undefined,
+                { timeout: 5_000 },
+              );
+              const fcState = await page.evaluate(() => ({
+                forced: window.matchMedia("(forced-colors: active)").matches,
+                reduced: window.matchMedia("(prefers-reduced-motion: reduce)")
+                  .matches,
+              }));
+              if (!fcState.forced || !fcState.reduced) {
+                failures.push(
+                  `${story.id}: failed forced-colors / reduced-motion media emulation`,
+                );
+              }
+
+              // Keyboard focus must stay visible under forced colors.
+              await page.keyboard.press("Tab");
+              const focusState = await page.evaluate(() => {
+                const el = document.activeElement;
+                if (!el || el === document.body) return null;
+                const style = getComputedStyle(el);
+                return {
+                  tag: el.tagName.toLowerCase(),
+                  outlineStyle: style.outlineStyle,
+                  outlineWidth: style.outlineWidth,
+                };
+              });
+              if (
+                focusState === null ||
+                focusState.outlineStyle === "none" ||
+                focusState.outlineWidth === "0px"
+              ) {
+                failures.push(
+                  `${story.id} (${dir} ${vp.width}px): no visible focus outline under forced colors ${JSON.stringify(focusState)}`,
                 );
               }
             }

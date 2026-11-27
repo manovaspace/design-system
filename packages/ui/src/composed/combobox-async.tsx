@@ -367,7 +367,7 @@ export const ComboboxAsync = forwardRef<HTMLInputElement, ComboboxAsyncProps>(
               onClick={handleClick}
               data-testid={testId}
               className={cn(
-                "w-full rounded-[var(--rounded-field,var(--radius-lg))] border border-[var(--border-line-field,1px)] border-input bg-[var(--bg-field,var(--color-card))] shadow-[var(--shadow-field)] text-foreground placeholder:text-muted-foreground transition-[color,box-shadow] outline-none text-start",
+                "w-full rounded-[var(--rounded-field,var(--radius-lg))] border border-[var(--border-line-field,1px)] border-input bg-[var(--bg-field,var(--color-card))] shadow-[var(--shadow-field)] text-foreground placeholder:text-muted-foreground transition-[color,box-shadow] outline-hidden text-start",
                 "focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50",
                 "aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40",
                 "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
@@ -482,7 +482,7 @@ export const ComboboxAsync = forwardRef<HTMLInputElement, ComboboxAsyncProps>(
                     }
                   }}
                   className={cn(
-                    "relative flex w-full cursor-pointer select-none items-center rounded-sm py-1.5 ps-2.5 pe-8 text-start text-sm outline-none transition-colors",
+                    "relative flex w-full cursor-pointer select-none items-center rounded-sm py-1.5 ps-2.5 pe-8 text-start text-sm outline-hidden transition-colors",
                     isActive && "bg-accent text-accent-foreground",
                     isSelected && !isActive && "text-foreground font-medium",
                     option.disabled &&

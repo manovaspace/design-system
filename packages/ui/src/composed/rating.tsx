@@ -191,7 +191,7 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(function Rating(
       }}
       data-slot="rating"
       className={cn(
-        "inline-flex items-center gap-1 select-none outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm",
+        "inline-flex items-center gap-1 select-none outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm",
         disabled && "opacity-50 pointer-events-none cursor-not-allowed",
         readOnly && "cursor-default",
         !readOnly && !disabled && "cursor-pointer",

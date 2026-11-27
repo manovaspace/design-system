@@ -176,7 +176,7 @@ export function HoldToConfirmButton({
       aria-busy={progress >= 1}
       aria-disabled={disabled}
       className={cn(
-        "relative inline-flex items-center justify-center font-medium rounded-[var(--radius-lg)] overflow-hidden select-none touch-none transition-colors outline-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
+        "relative inline-flex items-center justify-center font-medium rounded-[var(--radius-lg)] overflow-hidden select-none touch-none transition-colors outline-hidden focus-visible:ring-[3px] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
         variantConfig.button,
         sizeConfig,
         className,

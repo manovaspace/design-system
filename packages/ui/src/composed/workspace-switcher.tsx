@@ -396,7 +396,7 @@ export function WorkspaceSwitcher({
           }
         }}
         onKeyDown={handleTriggerKeyDown}
-        className="flex min-h-11 w-full cursor-pointer items-center justify-between gap-2 rounded-[var(--radius-lg)] border border-input bg-background px-3 py-2 text-start text-foreground shadow-xs transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
+        className="flex min-h-11 w-full cursor-pointer items-center justify-between gap-2 rounded-[var(--radius-lg)] border border-input bg-background px-3 py-2 text-start text-foreground shadow-xs transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-hidden focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
       >
         <span className="flex min-w-0 items-center gap-2">
           {current ? <WorkspaceMark workspace={current} /> : null}
@@ -430,7 +430,7 @@ export function WorkspaceSwitcher({
               activeWorkspace ? optionId(activeIndex) : undefined
             }
             onKeyDown={handleListboxKeyDown}
-            className="flex flex-col outline-none"
+            className="flex flex-col outline-hidden"
           >
             {workspaces.map((workspace, index) => {
               const selected = workspace.id === currentId;
@@ -492,7 +492,7 @@ export function WorkspaceSwitcher({
                   onCreate();
                 }}
                 onKeyDown={handleCreateKeyDown}
-                className="flex min-h-11 w-full cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] px-2 py-2 text-start text-sm font-medium text-foreground select-none hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex min-h-11 w-full cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] px-2 py-2 text-start text-sm font-medium text-foreground select-none hover:bg-accent hover:text-accent-foreground focus-visible:outline-hidden focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <PlusIcon {...iconProps({ size: "sm" })} />
                 <span className="truncate">{labels.create}</span>

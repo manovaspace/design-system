@@ -423,7 +423,7 @@ export const COMPOSED_LOOK_OVERRIDE_ALLOW = {
     {
       reason: "pre-existing; migrate per ADR-078",
     },
-  "filter-sheet.tsx::SheetTitle::font-semibold outline-none text-base text-foreground":
+  "filter-sheet.tsx::SheetTitle::font-semibold outline-hidden text-base text-foreground":
     {
       reason: "pre-existing; migrate per ADR-078",
     },

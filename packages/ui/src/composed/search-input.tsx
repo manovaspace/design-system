@@ -91,7 +91,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           type="button"
           onClick={handleClear}
           aria-label={isPersian ? "پاک کردن جستجو" : "Clear search"}
-          className="flex size-5 items-center justify-center rounded-sm text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring cursor-pointer"
+          className="flex size-5 items-center justify-center rounded-sm text-muted-foreground hover:text-foreground focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring cursor-pointer"
           data-slot="search-input-clear"
         >
           <XMarkIcon className="size-3.5" aria-hidden="true" />

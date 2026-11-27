@@ -4,7 +4,7 @@ import path from "node:path";
 
 const ROOT = path.resolve(import.meta.dir, "..");
 const ALLOWED_TITLE_RE =
-  /^(Introduction|Foundations\/(Color roles|Typography|Spacing|Shape|Elevation|Motion|Icons|Density|Brand playground)|Guidelines\/(Forms|Content & microcopy|Accessibility|RTL & locale|Data display|Writing component docs)|Components\/(Actions|Inputs|Selection|Navigation|Containment|Feedback|Data display)\/.+|Patterns\/(App catalog|Entity browser|Field groups|Wizards)|Templates\/(ListPage|DetailPage|FormSheet|SummaryPage))$/;
+  /^(Introduction|Foundations\/(Color roles|Typography|Spacing|Shape|Elevation|Motion|Icons|Density|Brand playground|Charts & email hex)|Guidelines\/(Forms|Content & microcopy|Accessibility|RTL & locale|Data display|Corner cases|Writing component docs)|Components\/(Actions|Inputs|Selection|Navigation|Containment|Feedback|Data display)\/.+|Patterns\/(App catalog|Entity browser|Field groups|Wizards)|Templates\/(ListPage|DetailPage|FormSheet|SummaryPage))$/;
 
 function collectFiles(dir, matchRe, out = []) {
   if (!fs.existsSync(dir)) return out;

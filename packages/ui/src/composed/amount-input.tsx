@@ -496,7 +496,7 @@ export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             onCopy={handleCopy}
-            className="h-full w-full min-w-0 bg-transparent border-0 p-0 text-start font-[family-name:var(--font-data)] tracking-[-0.02em] shadow-none outline-none focus:outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed selection:bg-primary selection:text-primary-foreground"
+            className="h-full w-full min-w-0 bg-transparent border-0 p-0 text-start font-[family-name:var(--font-data)] tracking-[-0.02em] shadow-none outline-hidden focus:outline-hidden placeholder:text-muted-foreground disabled:cursor-not-allowed selection:bg-primary selection:text-primary-foreground"
             {...props}
           />
           {resolvedUnit ? (
@@ -554,7 +554,7 @@ export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
                   className={cn(
                     "inline-flex items-center justify-center rounded-full px-2.5 py-1 text-xs font-medium transition-colors",
                     "border border-border/80 bg-secondary/50 text-secondary-foreground hover:bg-secondary cursor-pointer",
-                    "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+                    "focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring",
                     "disabled:pointer-events-none disabled:opacity-50",
                     isSelected &&
                       "border-primary bg-primary/10 text-primary font-semibold",

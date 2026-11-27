@@ -127,7 +127,7 @@ export function CopyableMoney({
         "rounded-[var(--radius-md)] px-1.5 py-0.5 -mx-1.5",
         "cursor-copy transition-colors",
         "hover:bg-muted/70 active:bg-muted",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+        "focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring/50",
         className,
       )}
       aria-label={copied ? copiedLabel : copyLabel}

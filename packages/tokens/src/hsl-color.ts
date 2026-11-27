@@ -171,6 +171,10 @@ export function hslToCss({ h, s, l }: Hsl): string {
   return `hsl(${h} ${s}% ${l}%)`;
 }
 
+/**
+ * @deprecated v1 dark derivation. Not used by `resolveTokens`; dark colours come
+ * from the M3 HCT pipeline. Kept for API compatibility.
+ */
 export function invertHslLightness(hsl: Hsl): Hsl {
   return { ...hsl, l: clamp(100 - hsl.l, 0, 100) };
 }
@@ -212,6 +216,11 @@ export function normalizeSemanticColor(value: string): string {
   return hslToCss(parseColorToHsl(value));
 }
 
+/**
+ * @deprecated v1 dark derivation (HSL lightness inversion). Not used by
+ * `resolveTokens`; dark colours come from the M3 HCT pipeline. Kept for API
+ * compatibility.
+ */
 export function deriveSemanticDark(
   light: Record<string, string>,
 ): Record<string, string> {

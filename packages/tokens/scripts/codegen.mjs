@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -11,7 +12,11 @@ import {
   DEFAULT_BRAND_FONT,
   DEFAULT_BRAND_SEEDS,
 } from "../src/dtcg/constants.js";
-import { dtcgDocumentToOrbitTokensRaw } from "../src/dtcg/dtcg-document.js";
+import {
+  buildDtcgDefaultDocument,
+  dtcgDocumentToLegacyScales,
+  dtcgDocumentToOrbitTokensRaw,
+} from "../src/dtcg/dtcg-document.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const srcDir = join(root, "src");
@@ -20,7 +25,18 @@ const cssDir = join(srcDir, "css");
 const HEADER =
   "/* AUTO-GENERATED from default.json — do not edit by hand. */\n\n";
 
-const doc = JSON.parse(readFileSync(join(srcDir, "default.json"), "utf8"));
+// Regenerate src/default.json. The legacy --mnv-* scales and v1 semantic anchors
+// are the only inputs read back from the previous file; everything derived
+// (HCT palettes, roles, aliases, components, themes) comes from src/dtcg/.
+const defaultJsonPath = join(srcDir, "default.json");
+const previousDoc = JSON.parse(readFileSync(defaultJsonPath, "utf8"));
+const doc = buildDtcgDefaultDocument(dtcgDocumentToLegacyScales(previousDoc));
+writeFileSync(defaultJsonPath, `${JSON.stringify(doc, null, 2)}\n`);
+// Format like the rest of the repo (biome), so a clean regeneration leaves no diff.
+execFileSync("bun", ["x", "biome", "format", "--write", defaultJsonPath], {
+  cwd: root,
+  stdio: "inherit",
+});
 const legacyRaw = dtcgDocumentToOrbitTokensRaw(doc);
 
 // Run M3 HCT + WCAG 2.1 verification across all schemes and contrast levels.

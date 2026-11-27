@@ -32,7 +32,10 @@ export function breakpointVarName(key: string): string {
   return `--breakpoint-${key}`;
 }
 
-export function tokensToCssVars(tokens: OrbitTokens): Map<string, string> {
+/** Non-semantic v1 variables: colour scales, spacing, typography, radii, shadow, breakpoint. */
+export function tokensToLegacyCssVars(
+  tokens: OrbitTokens,
+): Map<string, string> {
   const vars = new Map<string, string>();
 
   for (const [family, scale] of Object.entries(tokens.color)) {
@@ -69,6 +72,11 @@ export function tokensToCssVars(tokens: OrbitTokens): Map<string, string> {
     vars.set(breakpointVarName(key), value);
   }
 
+  return vars;
+}
+
+export function tokensToCssVars(tokens: OrbitTokens): Map<string, string> {
+  const vars = tokensToLegacyCssVars(tokens);
   for (const [key, value] of Object.entries(tokens.semantic.light)) {
     vars.set(`--${key}`, value);
   }

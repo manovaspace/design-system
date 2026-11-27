@@ -1,8 +1,4 @@
-import {
-  mapToCssBlock,
-  tokensToCssVars,
-  tokensToDarkCssVars,
-} from "./css-vars.js";
+import { mapToCssBlock, tokensToLegacyCssVars } from "./css-vars.js";
 import {
   isBrandOrTenantInput,
   isResolvedBrandTokens,
@@ -13,9 +9,11 @@ import {
 import type {
   BrandTokensInput,
   ResolvedBrandTokens,
+  ResolvedSchemeTokens,
   TenantSeedInput,
 } from "./dtcg/types.js";
-import { resolveTokens } from "./resolve-tokens.js";
+import { recallBrandTokens } from "./dtcg/v1-bridge.js";
+import { resolveTokensWithBrand } from "./resolve-tokens.js";
 import type { OrbitTokens, OrbitTokensRaw } from "./schema/types.js";
 
 const STYLE_ID = "orbit-tokens-runtime";
@@ -27,18 +25,36 @@ export type RuntimeTokenInput =
   | TenantSeedInput
   | ResolvedBrandTokens;
 
-function runtimeCssFromResolved(tokens: OrbitTokens): string {
-  const rootVars = tokensToCssVars(tokens);
-  const darkVars = tokensToDarkCssVars(tokens);
+/**
+ * v1 runtime CSS: the non-colour v1 variables, then the M3 colour block that
+ * `semantic.css` is generated from. The M3 block comes last so shared names
+ * (for example `--radius-lg`) resolve the same way as in the static CSS.
+ */
+function v1RuntimeCss(tokens: OrbitTokens, brand: ResolvedBrandTokens): string {
+  const legacyCss = mapToCssBlock(":root", tokensToLegacyCssVars(tokens));
+  return `${legacyCss}\n${resolvedBrandTokensToCss(brand)}`;
+}
 
-  const rootCss = mapToCssBlock(":root", rootVars, {
-    "color-scheme": "light",
-  });
-  const darkCss = mapToCssBlock(".dark", darkVars, {
-    "color-scheme": "dark",
-  });
+function schemeTargetEntries(
+  scheme: ResolvedSchemeTokens,
+): Array<[string, string]> {
+  return [
+    ...Object.entries(scheme.mdSysColorVars),
+    ...Object.entries(scheme.shadcnAliasVars),
+  ];
+}
 
-  return `${rootCss}\n${darkCss}`;
+/**
+ * Resolve a v1 input. Output of `resolveTokens` is reused as-is: re-resolving
+ * it would seed M3 from its own tones instead of the original anchors.
+ */
+function resolveV1Input(raw: OrbitTokensRaw | OrbitTokens): {
+  tokens: OrbitTokens;
+  brand: ResolvedBrandTokens;
+} {
+  const known = recallBrandTokens(raw as OrbitTokens);
+  if (known) return { tokens: raw as OrbitTokens, brand: known };
+  return resolveTokensWithBrand(raw as OrbitTokensRaw);
 }
 
 function resolveV2Input(
@@ -55,7 +71,8 @@ export function tokensToRuntimeCss(raw: RuntimeTokenInput): string {
   if (isResolvedBrandTokens(raw) || isBrandOrTenantInput(raw)) {
     return resolvedBrandTokensToCss(resolveV2Input(raw));
   }
-  return runtimeCssFromResolved(resolveTokens(raw));
+  const { tokens, brand } = resolveV1Input(raw);
+  return v1RuntimeCss(tokens, brand);
 }
 
 export function applyTokens(
@@ -70,15 +87,15 @@ export function applyTokens(
   if (isResolvedBrandTokens(raw) || isBrandOrTenantInput(raw)) {
     const resolved = resolveV2Input(raw);
     css = resolvedBrandTokensToCss(resolved);
-    const scheme = resolved.schemes.dark[resolved.config.contrast];
-    darkTargetEntries = [
-      ...Object.entries(scheme.mdSysColorVars),
-      ...Object.entries(scheme.shadcnAliasVars),
-    ];
+    darkTargetEntries = schemeTargetEntries(
+      resolved.schemes.dark[resolved.config.contrast],
+    );
   } else {
-    const tokens = resolveTokens(raw);
-    css = runtimeCssFromResolved(tokens);
-    darkTargetEntries = [...tokensToDarkCssVars(tokens).entries()];
+    const { tokens, brand } = resolveV1Input(raw);
+    css = v1RuntimeCss(tokens, brand);
+    darkTargetEntries = schemeTargetEntries(
+      brand.schemes.dark[brand.config.contrast],
+    );
   }
 
   let style = document.getElementById(STYLE_ID) as HTMLStyleElement | null;

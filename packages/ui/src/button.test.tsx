@@ -100,3 +100,64 @@ describe("buttonVariants", () => {
     expect(btn.className).toContain("disabled:text-foreground/38");
   });
 });
+
+describe("buttonVariants disabled styling per variant", () => {
+  const variants = [
+    "default",
+    "destructive",
+    "outline",
+    "secondary",
+    "solid",
+    "ghost",
+    "link",
+    "brand",
+  ] as const;
+  const containerVariants = [
+    "default",
+    "destructive",
+    "outline",
+    "secondary",
+    "solid",
+    "brand",
+  ] as const;
+  const transparentVariants = ["ghost", "link"] as const;
+
+  it.each(variants)(
+    "%s keeps the shared disabled text, press and shadow rules",
+    (variant) => {
+      const classes = buttonVariants({ variant });
+      expect(classes).toContain("disabled:pointer-events-none");
+      expect(classes).toContain("disabled:opacity-100");
+      expect(classes).toContain("disabled:text-foreground/38");
+      expect(classes).toContain("disabled:shadow-none");
+    },
+  );
+
+  it.each(containerVariants)(
+    "%s fills a disabled container with foreground/12",
+    (variant) => {
+      const classes = buttonVariants({ variant });
+      expect(classes).toContain("disabled:bg-foreground/12");
+      expect(classes).toContain("disabled:border-foreground/12");
+      expect(classes).not.toContain("disabled:bg-transparent");
+    },
+  );
+
+  it.each(transparentVariants)(
+    "%s keeps a transparent disabled container",
+    (variant) => {
+      const classes = buttonVariants({ variant });
+      expect(classes).toContain("disabled:bg-transparent");
+      expect(classes).toContain("disabled:border-transparent");
+      expect(classes).not.toContain("disabled:bg-foreground/12");
+      expect(classes).not.toContain("disabled:border-foreground/12");
+    },
+  );
+
+  it("does not repeat disabled container classes in the shared base or dark: duplicates", () => {
+    const base = buttonVariants({ variant: "default" });
+    expect(base).not.toContain("dark:disabled:bg-foreground/12");
+    expect(base).not.toContain("dark:disabled:border-foreground/12");
+    expect(base).not.toContain("dark:disabled:bg-transparent");
+  });
+});

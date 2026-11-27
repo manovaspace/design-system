@@ -5,24 +5,25 @@ import type * as React from "react";
 import { cn } from "../lib/utils.js";
 
 const buttonVariants = cva(
-  "inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 active:[transform:var(--press)] disabled:pointer-events-none disabled:opacity-100 disabled:shadow-none disabled:bg-foreground/12 disabled:text-foreground/38 disabled:border-foreground/12 dark:disabled:bg-foreground/12 dark:disabled:border-foreground/12 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 active:[transform:var(--press)] disabled:pointer-events-none disabled:opacity-100 disabled:text-foreground/38 disabled:shadow-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary-hover",
+        default:
+          "bg-primary text-primary-foreground hover:bg-primary-hover disabled:bg-foreground/12 disabled:border-foreground/12",
         destructive:
-          "bg-destructive text-white hover:bg-destructive-hover focus-visible:ring-destructive/20 dark:bg-destructive/60 dark:focus-visible:ring-destructive/40",
+          "bg-destructive text-white hover:bg-destructive-hover focus-visible:ring-destructive/20 dark:bg-destructive/60 dark:focus-visible:ring-destructive/40 disabled:bg-foreground/12 disabled:border-foreground/12",
         outline:
-          "border bg-background shadow-xs hover:bg-accent-hover hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-accent-hover",
+          "border bg-background shadow-xs hover:bg-accent-hover hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-accent-hover disabled:bg-foreground/12 disabled:border-foreground/12",
         secondary:
-          "border border-border bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary-hover",
+          "border border-border bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary-hover disabled:bg-foreground/12 disabled:border-foreground/12",
         solid:
-          "border border-border bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary-hover",
+          "border border-border bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary-hover disabled:bg-foreground/12 disabled:border-foreground/12",
         ghost:
-          "hover:bg-accent-hover hover:text-accent-foreground dark:hover:bg-accent-hover disabled:bg-transparent disabled:border-transparent dark:disabled:bg-transparent dark:disabled:border-transparent",
-        link: "text-primary underline-offset-4 hover:underline disabled:bg-transparent disabled:border-transparent disabled:no-underline dark:disabled:bg-transparent dark:disabled:border-transparent",
+          "hover:bg-accent-hover hover:text-accent-foreground dark:hover:bg-accent-hover disabled:bg-transparent disabled:border-transparent",
+        link: "text-primary underline-offset-4 hover:underline disabled:bg-transparent disabled:border-transparent disabled:no-underline",
         brand:
-          "bg-[var(--color-brand)] text-[var(--color-brand-foreground)] hover:bg-[var(--color-brand)]/90 shadow-[var(--shadow-control)] active:shadow-[var(--shadow-press)]",
+          "bg-[var(--color-brand)] text-[var(--color-brand-foreground)] hover:bg-[var(--color-brand)]/90 shadow-[var(--shadow-control)] active:shadow-[var(--shadow-press)] disabled:bg-foreground/12 disabled:border-foreground/12",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

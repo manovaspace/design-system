@@ -294,7 +294,7 @@ export function MultiSelect({
             "flex min-h-10 w-full cursor-pointer items-center justify-between gap-2 ps-3 pe-2 py-1.5 text-start text-sm select-none",
             "rounded-[var(--rounded-field,var(--radius-lg))] border border-[var(--border-line-field,1px)] border-input",
             "bg-[var(--bg-field,var(--color-card))] shadow-[var(--shadow-field)]",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+            "focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
             disabled && "cursor-not-allowed opacity-50 pointer-events-none",
             className,
           )}
@@ -321,7 +321,7 @@ export function MultiSelect({
                           aria-label={
                             isPersian ? `حذف ${label}` : `Remove ${label}`
                           }
-                          className="inline-flex size-3.5 items-center justify-center rounded-xs text-muted-foreground hover:bg-muted-foreground/20 hover:text-foreground focus:outline-none ms-0.5"
+                          className="inline-flex size-3.5 items-center justify-center rounded-xs text-muted-foreground hover:bg-muted-foreground/20 hover:text-foreground focus:outline-hidden ms-0.5"
                           onClick={(e) => removeOption(val, e)}
                         >
                           <XMarkIcon className="size-3" aria-hidden="true" />
@@ -370,7 +370,7 @@ export function MultiSelect({
               }}
               onKeyDown={handleSearchKeyDown}
               placeholder={isPersian ? "جستجو..." : "Search..."}
-              className="w-full bg-transparent text-sm placeholder:text-muted-foreground focus:outline-none text-start"
+              className="w-full bg-transparent text-sm placeholder:text-muted-foreground focus:outline-hidden text-start"
               // biome-ignore lint/a11y/noAutofocus: popover search input expects immediate focus when opened
               autoFocus
             />
@@ -387,7 +387,7 @@ export function MultiSelect({
               ? `${controlId}-opt-${activeIndex}`
               : undefined
           }
-          className="max-h-60 overflow-y-auto p-0.5 space-y-0.5 outline-none"
+          className="max-h-60 overflow-y-auto p-0.5 space-y-0.5 outline-hidden"
           onKeyDown={handleTriggerKeyDown}
         >
           {filteredOptions.length === 0 ? (
@@ -414,7 +414,7 @@ export function MultiSelect({
                   aria-disabled={isOptDisabled || undefined}
                   data-active={idx === activeIndex}
                   className={cn(
-                    "relative flex cursor-pointer select-none items-center justify-between rounded-[var(--radius-sm,4px)] ps-2.5 pe-2 py-1.5 text-sm text-start outline-none transition-colors",
+                    "relative flex cursor-pointer select-none items-center justify-between rounded-[var(--radius-sm,4px)] ps-2.5 pe-2 py-1.5 text-sm text-start outline-hidden transition-colors",
                     idx === activeIndex && "bg-accent text-accent-foreground",
                     isOptDisabled && "cursor-not-allowed opacity-50",
                     !isOptDisabled &&

@@ -182,7 +182,7 @@ function ComboboxOptionList({
                   }
                 }}
                 className={cn(
-                  "relative flex w-full cursor-pointer select-none items-center rounded-sm py-1.5 ps-2.5 pe-8 text-start text-sm outline-none transition-colors",
+                  "relative flex w-full cursor-pointer select-none items-center rounded-sm py-1.5 ps-2.5 pe-8 text-start text-sm outline-hidden transition-colors",
                   isActive && "bg-accent text-accent-foreground",
                   isSelected && !isActive && "text-foreground font-medium",
                   option.disabled &&

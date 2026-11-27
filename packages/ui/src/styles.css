@@ -67,6 +67,9 @@
 @layer base {
   :root {
     --row-divider: color-mix(in srgb, var(--foreground) 8%, transparent);
+    /* Sticky app header height that focus and anchor jumps clear. Apps whose
+       sticky header is a different height override this on :root. */
+    --sticky-header-offset: 3.5rem;
   }
 
   .dark {
@@ -89,43 +92,45 @@
   :where(a, button, input, select, textarea, summary, [tabindex], [id]) {
     scroll-margin-block-start: var(--sticky-header-offset, 5rem);
   }
+}
 
-  /* Forced-colors fallback: preserve boundaries, checked affordances, and focus outlines. */
-  @media (forced-colors: active) {
-    :where(
-        [data-slot="card"],
-        [data-slot="dialog-content"],
-        [data-slot="sheet-content"],
-        [data-slot="popover-content"],
-        [data-slot="alert"],
-        [role="alert"]
-      ) {
-      border: 1px solid CanvasText;
-    }
+/* Forced-colors fallback: preserve boundaries, checked affordances, and focus outlines.
+   Unlayered on purpose: utility classes (outline-*, border-*) live in @layer utilities
+   and would override these rules if they sat inside @layer base. */
+@media (forced-colors: active) {
+  :where(
+    [data-slot="card"],
+    [data-slot="dialog-content"],
+    [data-slot="sheet-content"],
+    [data-slot="popover-content"],
+    [data-slot="alert"],
+    [role="alert"]
+  ) {
+    border: 1px solid CanvasText;
+  }
 
-    :where(
-        button,
-        input,
-        select,
-        textarea,
-        [role="button"],
-        [role="combobox"],
-        [role="switch"],
-        [role="checkbox"],
-        [role="radio"],
-        [role="tab"]
-      ):focus-visible {
-      outline: 2px solid Highlight;
-      outline-offset: 2px;
-    }
+  :where(
+    button,
+    input,
+    select,
+    textarea,
+    [role="button"],
+    [role="combobox"],
+    [role="switch"],
+    [role="checkbox"],
+    [role="radio"],
+    [role="tab"]
+  ):focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
 
-    :where(
-        [role="switch"][aria-checked="true"],
-        [role="checkbox"][aria-checked="true"],
-        [data-state="checked"]
-      ) {
-      border: 1px solid Highlight;
-    }
+  :where(
+    [role="switch"][aria-checked="true"],
+    [role="checkbox"][aria-checked="true"],
+    [data-state="checked"]
+  ) {
+    border: 1px solid Highlight;
   }
 }
 

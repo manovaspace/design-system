@@ -111,7 +111,7 @@ const triggerClassName = cn(
   "group/card-number inline-flex items-center gap-1 leading-none",
   "rounded-[var(--radius-md)] px-1.5 py-0.5 -mx-1.5",
   "transition-colors",
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+  "focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring/50",
 );
 
 /**

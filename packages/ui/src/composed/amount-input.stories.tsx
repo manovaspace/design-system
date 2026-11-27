@@ -101,6 +101,7 @@ export const StringDigitsMode: Story = {
           <AmountInput
             id="digits-amount"
             size="touch"
+            mode="digits"
             value={digits}
             onValueChange={setDigits}
             words={false}
@@ -125,5 +126,48 @@ export const StringDigitsMode: Story = {
     await userEvent.type(input, "۱۲۳۴۵۰");
     expect(canvas.getByTestId("raw-digits").textContent).toBe('"123450"');
     expect((input as HTMLInputElement).value).toBe("۱۲۳٬۴۵۰");
+  },
+};
+
+export const StringDigitsModeLatin: Story = {
+  render: () => {
+    const [digits, setDigits] = React.useState("250000");
+
+    return (
+      <div className="flex w-full max-w-sm flex-col gap-4">
+        <div className="space-y-1.5">
+          <label
+            htmlFor="digits-amount-latin"
+            className="text-sm font-medium text-foreground"
+          >
+            Amount (string digits mode, Latin)
+          </label>
+          <AmountInput
+            id="digits-amount-latin"
+            size="touch"
+            mode="digits"
+            value={digits}
+            onValueChange={setDigits}
+            words={false}
+            placeholder="0"
+          />
+        </div>
+        <div className="rounded-md border bg-muted/40 p-3 text-xs">
+          <p className="font-semibold text-muted-foreground">
+            Raw digit string (ASCII digits):
+          </p>
+          <code className="font-mono text-foreground" data-testid="raw-digits">
+            {JSON.stringify(digits)}
+          </code>
+        </div>
+      </div>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole("textbox");
+    await userEvent.clear(input);
+    await userEvent.type(input, "250000");
+    expect(canvas.getByTestId("raw-digits").textContent).toBe('"250000"');
   },
 };

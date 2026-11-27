@@ -95,7 +95,7 @@ function Pill({
       data-pill-key={key}
       data-active={active ? "true" : undefined}
       className={cn(
-        "group inline-flex min-h-11 shrink-0 snap-start items-center whitespace-nowrap rounded-full outline-none cursor-pointer",
+        "group inline-flex min-h-11 shrink-0 snap-start items-center whitespace-nowrap rounded-full outline-hidden cursor-pointer",
         className,
       )}
       {...props}
@@ -265,7 +265,7 @@ function MenuOption({
       role="radio"
       aria-checked={checked}
       onClick={onSelect}
-      className="flex min-h-11 w-full items-center justify-between gap-3 rounded-md px-3 text-start text-sm text-foreground outline-none cursor-pointer hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring"
+      className="flex min-h-11 w-full items-center justify-between gap-3 rounded-md px-3 text-start text-sm text-foreground outline-hidden cursor-pointer hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring"
     >
       <span>{children}</span>
       {checked ? (

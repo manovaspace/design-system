@@ -393,7 +393,7 @@ function ProgressiveDialogFrame({
         ref={contentRef}
         tabIndex={-1}
         data-slot="progressive-dialog-content"
-        className="flex-1 overflow-y-auto px-4 py-4 outline-none"
+        className="flex-1 overflow-y-auto px-4 py-4 outline-hidden"
       >
         {children}
       </div>

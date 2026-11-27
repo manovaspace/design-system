@@ -225,7 +225,7 @@ export const TagsInput = React.forwardRef<HTMLInputElement, TagsInputProps>(
                 type="button"
                 tabIndex={-1}
                 aria-label={isPersian ? `حذف ${tag}` : `Remove ${tag}`}
-                className="inline-flex size-3.5 items-center justify-center rounded-xs text-muted-foreground hover:bg-muted-foreground/20 hover:text-foreground focus:outline-none ms-0.5"
+                className="inline-flex size-3.5 items-center justify-center rounded-xs text-muted-foreground hover:bg-muted-foreground/20 hover:text-foreground focus:outline-hidden ms-0.5"
                 onClick={(e) => {
                   e.stopPropagation();
                   removeTag(index);
@@ -247,7 +247,7 @@ export const TagsInput = React.forwardRef<HTMLInputElement, TagsInputProps>(
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           onPaste={handlePaste}
-          className="flex-1 min-w-[80px] bg-transparent text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed text-start ps-1"
+          className="flex-1 min-w-[80px] bg-transparent text-sm outline-hidden placeholder:text-muted-foreground disabled:cursor-not-allowed text-start ps-1"
         />
         {counterText && (
           <span

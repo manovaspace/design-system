@@ -231,7 +231,7 @@ function WheelColumn({ label, options, selected, onSelect }: WheelColumnProps) {
           aria-label={label}
           onScroll={handleScroll}
           onKeyDown={handleKeyDown}
-          className="relative h-[200px] snap-y snap-mandatory overflow-y-auto overscroll-contain rounded-[var(--radius-lg)] py-20 outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+          className="relative h-[200px] snap-y snap-mandatory overflow-y-auto overscroll-contain rounded-[var(--radius-lg)] py-20 outline-hidden focus-visible:ring-2 focus-visible:ring-ring/50"
         >
           {options.map((option) => (
             <div

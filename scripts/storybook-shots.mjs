@@ -184,8 +184,18 @@ async function main() {
               undefined,
               { timeout: 30_000 },
             );
-            await page.waitForLoadState("networkidle").catch(() => {});
-            await page.waitForTimeout(400);
+            await page.waitForFunction(
+              () => document.fonts.status === "loaded",
+              undefined,
+              { timeout: 30_000 },
+            );
+            await page
+              .waitForLoadState("networkidle", { timeout: 10_000 })
+              .catch((err) => {
+                console.warn(
+                  `storybook-shots: ${story.id} (${dir} ${vp.width}px): networkidle not reached: ${err.message}`,
+                );
+              });
 
             if (opts.check || opts.cornerCases) {
               const overflow = await page.evaluate(() => {
@@ -236,7 +246,13 @@ async function main() {
                 forcedColors: "active",
                 reducedMotion: "reduce",
               });
-              await page.waitForTimeout(150);
+              await page.waitForFunction(
+                () =>
+                  window.matchMedia("(forced-colors: active)").matches &&
+                  window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+                undefined,
+                { timeout: 5_000 },
+              );
               const fcState = await page.evaluate(() => ({
                 forced: window.matchMedia("(forced-colors: active)").matches,
                 reduced: window.matchMedia("(prefers-reduced-motion: reduce)")
@@ -245,6 +261,28 @@ async function main() {
               if (!fcState.forced || !fcState.reduced) {
                 failures.push(
                   `${story.id}: failed forced-colors / reduced-motion media emulation`,
+                );
+              }
+
+              // Keyboard focus must stay visible under forced colors.
+              await page.keyboard.press("Tab");
+              const focusState = await page.evaluate(() => {
+                const el = document.activeElement;
+                if (!el || el === document.body) return null;
+                const style = getComputedStyle(el);
+                return {
+                  tag: el.tagName.toLowerCase(),
+                  outlineStyle: style.outlineStyle,
+                  outlineWidth: style.outlineWidth,
+                };
+              });
+              if (
+                focusState === null ||
+                focusState.outlineStyle === "none" ||
+                focusState.outlineWidth === "0px"
+              ) {
+                failures.push(
+                  `${story.id} (${dir} ${vp.width}px): no visible focus outline under forced colors ${JSON.stringify(focusState)}`,
                 );
               }
             }

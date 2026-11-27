@@ -73,7 +73,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
           aria-invalid={isInvalid ? "true" : undefined}
           disabled={props.disabled}
           size={nativeSize}
-          className="h-full w-full min-w-0 bg-transparent border-0 p-0 text-[length:var(--font-size-body)] shadow-none outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:border-0 placeholder:text-muted-foreground disabled:pointer-events-none disabled:cursor-not-allowed selection:bg-primary selection:text-primary-foreground"
+          className="h-full w-full min-w-0 bg-transparent border-0 p-0 text-[length:var(--font-size-body)] shadow-none outline-hidden focus:outline-hidden focus:ring-0 focus-visible:ring-0 focus-visible:border-0 placeholder:text-muted-foreground disabled:pointer-events-none disabled:cursor-not-allowed selection:bg-primary selection:text-primary-foreground"
           {...props}
         />
         {endAddon && (

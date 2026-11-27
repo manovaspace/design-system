@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
  * Combobox, DatePicker, WheelDatePicker, AmountInput, PickerTrigger).
  */
 export const fieldControlVariants = cva(
-  "w-full min-w-0 rounded-[var(--rounded-field,var(--radius-lg))] border-solid border-[length:var(--border-line-field,1px)] border-input bg-[var(--bg-field,var(--color-card))] text-[length:var(--font-size-body)] text-foreground shadow-[shadow:var(--shadow-field)] transition-[color,box-shadow] outline-none text-start placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed aria-disabled:opacity-50",
+  "w-full min-w-0 rounded-[var(--rounded-field,var(--radius-lg))] border-solid border-[length:var(--border-line-field,1px)] border-input bg-[var(--bg-field,var(--color-card))] text-[length:var(--font-size-body)] text-foreground shadow-[shadow:var(--shadow-field)] transition-[color,box-shadow] outline-hidden text-start placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed aria-disabled:opacity-50",
   {
     variants: {
       size: {

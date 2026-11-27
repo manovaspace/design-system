@@ -73,7 +73,10 @@ describe("resolveInitialBrandTokens (v2 DTCG SSR)", () => {
 
       const resolved = resolveInitialBrandTokens({
         cwd: dir,
-        tenantSeed: { seed: { primary: "#b82132" }, logo: "fryto.svg" },
+        tenantSeed: {
+          seed: { primary: "#b82132" },
+          logo: "https://cdn.example.com/fryto.svg",
+        },
       });
 
       expect(resolved.version).toBe(2);

@@ -78,10 +78,13 @@ describe("WCAG contrast CI across M3 roles x light/dark x standard/medium/high",
     }
 
     const tenant = resolveTenantBranding(
-      { seed: { primary: "#b82132" }, logo: "fryto.svg" },
+      {
+        seed: { primary: "#b82132" },
+        logo: "https://cdn.example.com/fryto.svg",
+      },
       brand.config,
     );
-    expect(tenant.tenant.logo).toBe("fryto.svg");
+    expect(tenant.tenant.logo).toBe("https://cdn.example.com/fryto.svg");
     expect(tenant.resolved.config.font).toEqual(brand.config.font);
     expect(tenant.resolved.config.shape).toBe("round");
   });

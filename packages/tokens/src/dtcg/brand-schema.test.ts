@@ -115,6 +115,72 @@ describe("brand.tokens.json schema validator", () => {
   });
 });
 
+describe("tenant logo validation", () => {
+  const seed = { primary: "#b82132" };
+
+  it("accepts https URLs and small png/svg data URIs", () => {
+    expect(
+      parseTenantSeed({ seed, logo: "https://cdn.example.com/a.png" }).logo,
+    ).toBe("https://cdn.example.com/a.png");
+    const png = "data:image/png;base64,iVBORw0KGgo=";
+    expect(parseTenantSeed({ seed, logo: png }).logo).toBe(png);
+  });
+
+  it("rejects javascript:, http:, credentialed and oversized logos", () => {
+    expect(() =>
+      parseTenantSeed({ seed, logo: "javascript:alert(1)" }),
+    ).toThrow(TokenSchemaError);
+    expect(() =>
+      parseTenantSeed({ seed, logo: "http://cdn.example.com/a.png" }),
+    ).toThrow(/https/);
+    expect(() =>
+      parseTenantSeed({ seed, logo: "https://user:pass@x/y.png" }),
+    ).toThrow(/credentials/);
+    expect(() =>
+      parseTenantSeed({
+        seed,
+        logo: `https://cdn.example.com/${"a".repeat(2048)}.png`,
+      }),
+    ).toThrow(/2048/);
+    const oversized = `data:image/png;base64,${"A".repeat(256 * 1024 + 4)}`;
+    expect(() => parseTenantSeed({ seed, logo: oversized })).toThrow(/256 KB/);
+    expect(() =>
+      parseTenantSeed({ seed, logo: "data:text/html;base64,PGgxPg==" }),
+    ).toThrow(TokenSchemaError);
+  });
+});
+
+describe("font stack validation", () => {
+  it("rejects CSS/HTML control characters in font families", () => {
+    expect(() =>
+      parseBrandTokens({
+        seed: { primary: "#2563eb" },
+        font: { sans: "Inter</style><script>" },
+      }),
+    ).toThrow(TokenSchemaError);
+    expect(() =>
+      parseBrandTokens({
+        seed: { primary: "#2563eb" },
+        font: { data: "Inter; } body { display:none" },
+      }),
+    ).toThrow(/Unsafe font family/);
+    expect(() =>
+      parseBrandTokens({
+        seed: { primary: "#2563eb" },
+        font: { sans: "Inter /* x */" },
+      }),
+    ).toThrow(TokenSchemaError);
+  });
+
+  it("accepts a normal font-family list", () => {
+    const config = parseBrandTokens({
+      seed: { primary: "#2563eb" },
+      font: { sans: '"Vazirmatn", system-ui, sans-serif' },
+    });
+    expect(config.font.sans).toBe('"Vazirmatn", system-ui, sans-serif');
+  });
+});
+
 describe("white-label tenant seed validator", () => {
   it("accepts seed.primary and optional logo only", () => {
     const minimal = parseTenantSeed({ seed: { primary: "#b82132" } });
@@ -122,11 +188,11 @@ describe("white-label tenant seed validator", () => {
 
     const withLogo = parseTenantSeed({
       seed: { primary: { $value: "#0d9488", $type: "color" } },
-      logo: "tenants/fryto/logo.svg",
+      logo: "https://cdn.example.com/tenants/fryto/logo.svg",
     });
     expect(withLogo).toEqual({
       seed: { primary: "#0d9488" },
-      logo: "tenants/fryto/logo.svg",
+      logo: "https://cdn.example.com/tenants/fryto/logo.svg",
     });
   });
 

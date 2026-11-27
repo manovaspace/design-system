@@ -66,9 +66,43 @@ export function resolveBrandTokens(
   return resolveBrandTokensFromConfig(config);
 }
 
+const MEMO_MAX_ENTRIES = 64;
+
+/**
+ * Bounded memo for pipeline results. Keys are `JSON.stringify` of the normalized
+ * input (already validated, so key order is fixed). Eviction drops the oldest
+ * inserted entry. Cached results are shared: callers must treat them as immutable.
+ */
+const resolvedMemo = new Map<string, unknown>();
+
+function memoGet<T>(key: string): T | undefined {
+  return resolvedMemo.get(key) as T | undefined;
+}
+
+function memoSet<T>(key: string, value: T): T {
+  if (resolvedMemo.size >= MEMO_MAX_ENTRIES) {
+    const oldest = resolvedMemo.keys().next();
+    if (!oldest.done) resolvedMemo.delete(oldest.value);
+  }
+  resolvedMemo.set(key, value);
+  return value;
+}
+
+/** Test helper: drop all memoized pipeline results. */
+export function clearBrandPipelineMemo(): void {
+  resolvedMemo.clear();
+}
+
 export function resolveBrandTokensFromConfig(
   config: BrandTokensConfig,
 ): ResolvedBrandTokens {
+  const key = `brand:${JSON.stringify(config)}`;
+  const hit = memoGet<ResolvedBrandTokens>(key);
+  if (hit) return hit;
+  return memoSet(key, computeBrandTokens(config));
+}
+
+function computeBrandTokens(config: BrandTokensConfig): ResolvedBrandTokens {
   const palettes = buildBrandPalettes(config.seed);
   const scale = resolveScaleTokens({
     shape: config.shape,
@@ -143,10 +177,13 @@ export function resolveTenantBranding(
     contrast: baseConfig.contrast,
   };
 
-  return {
+  const key = `tenant:${JSON.stringify({ tenant, config: mergedConfig })}`;
+  const hit = memoGet<ResolvedTenantBranding>(key);
+  if (hit) return hit;
+  return memoSet(key, {
     tenant,
     resolved: resolveBrandTokensFromConfig(mergedConfig),
-  };
+  });
 }
 
 function formatCssBlock(

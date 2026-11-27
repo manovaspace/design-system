@@ -100,8 +100,10 @@ export type DatePickerProps = {
     id?: string;
     "aria-label"?: string;
     "aria-labelledby"?: string;
+    "aria-invalid"?: boolean | "true" | "false";
+    "aria-describedby"?: string;
     className?: string;
-    size?: "default" | "sm";
+    size?: "default" | "sm" | "touch";
 };
 
 // @public
@@ -571,6 +573,32 @@ export type PhoneNumberProps = {
 export type PhoneNumberVariant = "copy" | "link" | "menu" | "static";
 
 // @public
+export const PickerTrigger: React_2.ForwardRefExoticComponent<Omit<Omit<React_2.DetailedHTMLProps<React_2.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>, "ref">, "children"> & {
+    id?: string;
+    icon?: ReactNode;
+    label?: ReactNode;
+    placeholder: ReactNode;
+    changeLabel?: ReactNode;
+    trailingIcon?: ReactNode;
+    size?: "default" | "touch";
+    disabled?: boolean;
+    className?: string;
+} & React_2.RefAttributes<HTMLButtonElement>>;
+
+// @public (undocumented)
+export type PickerTriggerProps = Omit<ComponentPropsWithoutRef<"button">, "children"> & {
+    id?: string;
+    icon?: ReactNode;
+    label?: ReactNode;
+    placeholder: ReactNode;
+    changeLabel?: ReactNode;
+    trailingIcon?: ReactNode;
+    size?: "default" | "touch";
+    disabled?: boolean;
+    className?: string;
+};
+
+// @public
 export function Progress(input: React_2.ComponentProps<typeof Progress_2.Root>): React_2.JSX.Element;
 
 // @public (undocumented)
@@ -625,7 +653,9 @@ export function Textarea(input: TextareaProps): React_2.JSX.Element;
 // Warning: (ae-forgotten-export) The symbol "Textarea_2" needs to be exported by the entry point experimental.d.ts
 //
 // @public (undocumented)
-export type TextareaProps = ComponentProps<typeof Textarea_2>;
+export type TextareaProps = React_2.ComponentProps<typeof Textarea_2> & {
+    size?: "default" | "touch";
+};
 
 // @public (undocumented)
 export type TextDirection = "ltr" | "rtl";
@@ -747,6 +777,9 @@ export type WheelDatePickerProps = {
     id?: string;
     "aria-label"?: string;
     "aria-labelledby"?: string;
+    "aria-invalid"?: boolean | "true" | "false";
+    "aria-describedby"?: string;
+    size?: "default" | "touch";
     className?: string;
 };
 

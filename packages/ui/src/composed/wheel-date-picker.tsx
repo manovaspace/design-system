@@ -6,6 +6,10 @@ import gregorian from "react-date-object/calendars/gregorian";
 import persian from "react-date-object/calendars/persian";
 import { Button } from "../button.js";
 import { CalendarIcon } from "../icons.js";
+import {
+  fieldControlVariants,
+  resolveFieldState,
+} from "../lib/field-control.js";
 import { persianizeDigits } from "../lib/persian.js";
 import { cn } from "../lib/utils.js";
 import {
@@ -47,6 +51,9 @@ export type WheelDatePickerProps = {
   "aria-label"?: string;
   /** Accessible name source for the trigger, e.g. the id of an external label. */
   "aria-labelledby"?: string;
+  "aria-invalid"?: boolean | "true" | "false";
+  "aria-describedby"?: string;
+  size?: "default" | "touch";
   className?: string;
 };
 
@@ -279,6 +286,9 @@ export function WheelDatePicker({
   id,
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
+  "aria-invalid": ariaInvalid,
+  "aria-describedby": ariaDescribedBy,
+  size = "default",
   className,
 }: WheelDatePickerProps) {
   const text = { ...DEFAULT_LABELS, ...labels };
@@ -362,23 +372,32 @@ export function WheelDatePicker({
   return (
     <Sheet open={open} onOpenChange={handleOpenChange}>
       <SheetTrigger asChild>
-        <Button
+        <button
           type="button"
-          variant="outline"
           id={id}
           disabled={disabled}
           aria-haspopup="dialog"
           aria-label={ariaLabel}
           aria-labelledby={ariaLabelledBy}
+          aria-invalid={ariaInvalid}
+          aria-describedby={ariaDescribedBy}
           className={cn(
-            "h-11 w-full justify-start gap-2 rounded-lg px-3 text-start font-normal",
+            fieldControlVariants({
+              size,
+              state: resolveFieldState({
+                disabled,
+                invalid: ariaInvalid === true || ariaInvalid === "true",
+              }),
+              adornment: "none",
+            }),
+            "flex cursor-pointer items-center justify-start gap-2 font-normal",
             !selected && "text-muted-foreground",
             className,
           )}
         >
           <CalendarIcon className="size-4 shrink-0" aria-hidden="true" />
           <span className="truncate">{triggerText}</span>
-        </Button>
+        </button>
       </SheetTrigger>
       <SheetContent
         side="bottom"

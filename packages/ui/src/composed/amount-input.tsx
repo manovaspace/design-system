@@ -3,13 +3,17 @@
 import type * as React from "react";
 import { forwardRef, useCallback, useId, useRef, useState } from "react";
 
+import {
+  fieldControlVariants,
+  resolveFieldState,
+} from "../lib/field-control.js";
 import { persianizeDigits, sanitizeIntegerInput } from "../lib/numeric.js";
 import { amountToWords, shortAmount } from "../lib/persian.js";
 import { cn } from "../lib/utils.js";
 
 export type AmountInputProps = Omit<
   React.ComponentPropsWithoutRef<"input">,
-  "value" | "defaultValue" | "onChange" | "min" | "max"
+  "value" | "defaultValue" | "onChange" | "min" | "max" | "size"
 > & {
   value?: number | null;
   defaultValue?: number | null;
@@ -21,6 +25,7 @@ export type AmountInputProps = Omit<
   quick?: number[]; // preset chips e.g. [100_000, 500_000, 1_000_000, 2_000_000]
   placeholder?: string;
   locale?: string;
+  size?: "default" | "touch";
   disabled?: boolean;
   className?: string;
   id?: string;
@@ -59,10 +64,13 @@ export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
       quick,
       placeholder,
       locale,
+      size = "default",
       disabled = false,
       className,
       id,
       "aria-label": ariaLabelProp,
+      "aria-invalid": ariaInvalidProp,
+      "aria-describedby": ariaDescribedByProp,
       onCopy,
       ...props
     },
@@ -172,7 +180,12 @@ export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
     const defaultAriaLabel = isFa ? "مبلغ" : "Amount";
     const ariaLabel = ariaLabelProp ?? defaultAriaLabel;
 
+    const externalInvalid =
+      ariaInvalidProp === true || ariaInvalidProp === "true";
+    const effectiveInvalid = isInvalid || externalInvalid;
+
     const describedByIds: string[] = [];
+    if (ariaDescribedByProp) describedByIds.push(ariaDescribedByProp);
     if (errorMessage) describedByIds.push(errorId);
     if (wordsText) describedByIds.push(wordsId);
     const ariaDescribedBy =
@@ -186,11 +199,16 @@ export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
         <div
           data-slot="amount-input-control"
           className={cn(
-            "relative flex h-10 w-full items-center gap-2 rounded-[var(--rounded-field,var(--radius-lg))] border border-[var(--border-line-field,1px)] border-input bg-[var(--bg-field,var(--color-card))] px-3 text-sm shadow-[var(--shadow-field)] transition-[color,box-shadow]",
-            "focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/50",
-            isInvalid &&
-              "border-destructive focus-within:border-destructive focus-within:ring-destructive/20 dark:focus-within:ring-destructive/40",
-            disabled && "opacity-50 cursor-not-allowed pointer-events-none",
+            fieldControlVariants({
+              size,
+              state: resolveFieldState({
+                disabled,
+                readOnly: props.readOnly,
+                invalid: effectiveInvalid,
+              }),
+              adornment: "none",
+            }),
+            "relative flex items-center gap-2",
           )}
         >
           <input
@@ -202,7 +220,7 @@ export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
             value={displayValue}
             placeholder={displayPlaceholder}
             disabled={disabled}
-            aria-invalid={isInvalid ? "true" : undefined}
+            aria-invalid={effectiveInvalid ? "true" : undefined}
             aria-label={ariaLabel}
             aria-describedby={ariaDescribedBy}
             onChange={handleInputChange}

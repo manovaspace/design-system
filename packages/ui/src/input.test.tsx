@@ -33,9 +33,11 @@ describe("Input", () => {
     expect(input.className).toContain(
       "rounded-[var(--rounded-field,var(--radius-lg))]",
     );
-    expect(input.className).toContain("border-[var(--border-line-field,1px)]");
+    expect(input.className).toContain(
+      "border-[length:var(--border-line-field,1px)]",
+    );
     expect(input.className).toContain("bg-[var(--bg-field,var(--color-card))]");
-    expect(input.className).toContain("shadow-[var(--shadow-field)]");
+    expect(input.className).toContain("shadow-[shadow:var(--shadow-field)]");
     expect(input.className).toContain("ps-3");
     expect(input.className).toContain("pe-3");
     // No wrapper div when no addons or errors
@@ -55,9 +57,11 @@ describe("Input", () => {
     expect(root?.className).toContain(
       "rounded-[var(--rounded-field,var(--radius-lg))]",
     );
-    expect(root?.className).toContain("border-[var(--border-line-field,1px)]");
+    expect(root?.className).toContain(
+      "border-[length:var(--border-line-field,1px)]",
+    );
     expect(root?.className).toContain("bg-[var(--bg-field,var(--color-card))]");
-    expect(root?.className).toContain("shadow-[var(--shadow-field)]");
+    expect(root?.className).toContain("shadow-[shadow:var(--shadow-field)]");
     expect(root?.className).toContain("ps-3");
     expect(root?.className).toContain("pe-3");
     expect(root?.className).toContain("gap-2");
@@ -193,5 +197,26 @@ describe("Input", () => {
     const input = screen.getByPlaceholderText("Native size");
     expect(input.getAttribute("size")).toBe("20");
     expect(input.className).toContain("h-10");
+  });
+
+  it("plain Input keeps field tokens and drops the primitive 3px ring", () => {
+    render(<Input placeholder="Plain guard" />);
+    const input = screen.getByPlaceholderText("Plain guard");
+    const cls = input.className;
+
+    expect(cls).toContain("h-10");
+    expect(cls).toContain("rounded-[var(--rounded-field,var(--radius-lg))]");
+    expect(cls).toContain("bg-[var(--bg-field,var(--color-card))]");
+    expect(cls).toContain("ps-3");
+    expect(cls).toContain("pe-3");
+    expect(cls).toContain("focus-visible:ring-2");
+    expect(cls).not.toContain("ring-[3px]");
+  });
+
+  it("size touch on plain Input uses h-11", () => {
+    render(<Input placeholder="Plain touch" size="touch" />);
+    expect(screen.getByPlaceholderText("Plain touch").className).toContain(
+      "h-11",
+    );
   });
 });

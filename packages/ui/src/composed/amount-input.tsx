@@ -1,7 +1,15 @@
 "use client";
 
 import type * as React from "react";
-import { forwardRef, useCallback, useId, useRef, useState } from "react";
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 
 import {
   fieldControlVariants,
@@ -11,13 +19,14 @@ import { persianizeDigits, sanitizeIntegerInput } from "../lib/numeric.js";
 import { amountToWords, shortAmount } from "../lib/persian.js";
 import { cn } from "../lib/utils.js";
 
-export type AmountInputProps = Omit<
+const DIGIT_CHAR = /[0-9۰-۹٠-٩]/;
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+type AmountInputBaseProps = Omit<
   React.ComponentPropsWithoutRef<"input">,
   "value" | "defaultValue" | "onChange" | "min" | "max" | "size"
 > & {
-  value?: number | null;
-  defaultValue?: number | null;
-  onChange?: (value: number | null) => void;
   unit?: string; // default "تومان" in fa, "" in en
   min?: number;
   max?: number;
@@ -32,6 +41,55 @@ export type AmountInputProps = Omit<
   "aria-label"?: string;
 };
 
+/** Numeric mode (the default): the amount is a `number`, or `null` when empty. */
+export type AmountInputNumberProps = AmountInputBaseProps & {
+  /** Optional; omit or set to `"number"`. */
+  mode?: "number";
+  /** Controlled amount as a number, or `null` when empty. */
+  value?: number | null;
+  /** Uncontrolled initial amount as a number, or `null` when empty. */
+  defaultValue?: number | null;
+  /** Numeric change handler; receives `null` when cleared. */
+  onChange?: (value: number | null) => void;
+  /** Not available in numeric mode. Use `mode="digits"`. */
+  onValueChange?: never;
+};
+
+/**
+ * String-digits mode. Must be requested with `mode="digits"`; the amount is an
+ * ASCII digit string of any length, so values beyond `Number.MAX_SAFE_INTEGER` stay exact.
+ */
+export type AmountInputDigitsProps = AmountInputBaseProps & {
+  /** Required. Selects string-digits mode. */
+  mode: "digits";
+  /** Controlled amount as ASCII digits (`""` when empty). */
+  value?: string;
+  /** Uncontrolled initial amount as ASCII digits. */
+  defaultValue?: string;
+  /** Digits change handler; receives normalized ASCII digits, or `""` when cleared. */
+  onValueChange?: (digits: string) => void;
+  /**
+   * Numeric change handler in digits mode. Receives `null` when cleared and a
+   * number only when the digits are a safe integer (`Number.isSafeInteger`).
+   * For larger values it is NOT called; read `onValueChange` instead.
+   */
+  onChange?: (value: number | null) => void;
+};
+
+export type AmountInputProps = AmountInputNumberProps | AmountInputDigitsProps;
+
+/**
+ * Formats an ASCII digit string with thousands separator and locale digits.
+ */
+function formatDigits(digits: string, isFa: boolean): string {
+  if (!digits) {
+    return "";
+  }
+  const sep = isFa ? "٬" : ",";
+  const withSep = digits.replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+  return isFa ? persianizeDigits(withSep) : withSep;
+}
+
 /**
  * Formats a numeric amount with thousands separator and locale digits.
  */
@@ -40,15 +98,63 @@ function formatAmount(num: number | null | undefined, isFa: boolean): string {
     return "";
   }
   const isNegative = num < 0;
-  const abs = Math.abs(Math.trunc(num)).toString();
-  const sep = isFa ? "٬" : ",";
-  const withSep = abs.replace(/\B(?=(\d{3})+(?!\d))/g, sep);
-  const digits = isFa ? persianizeDigits(withSep) : withSep;
+  const digits = formatDigits(Math.abs(Math.trunc(num)).toString(), isFa);
   return isNegative ? `-${digits}` : digits;
+}
+
+function digitsBefore(display: string, index: number): number {
+  return sanitizeIntegerInput(display.slice(0, Math.max(0, index))).length;
+}
+
+function indexAfterDigits(display: string, count: number): number {
+  if (count <= 0) {
+    return 0;
+  }
+  let seen = 0;
+  for (let i = 0; i < display.length; i++) {
+    if (DIGIT_CHAR.test(display.charAt(i))) {
+      seen += 1;
+      if (seen === count) {
+        return i + 1;
+      }
+    }
+  }
+  return display.length;
+}
+
+/**
+ * Numeric `onChange` value for digits mode: `null` when empty, the number when
+ * the digits are a safe integer, `undefined` (do not call) otherwise.
+ */
+function digitsToChangeNumber(digits: string): number | null | undefined {
+  if (digits === "") {
+    return null;
+  }
+  const parsed = Number(digits);
+  return Number.isSafeInteger(parsed) ? parsed : undefined;
+}
+
+function isGroupingMark(char: string): boolean {
+  return char === "٬" || char === ",";
+}
+
+function removeDigitAt(digits: string, index: number): string {
+  return digits.slice(0, index) + digits.slice(index + 1);
+}
+
+function compareDigitString(digits: string, bound: number): number {
+  if (Number.isInteger(bound)) {
+    const a = BigInt(digits);
+    const b = BigInt(bound);
+    return a < b ? -1 : a > b ? 1 : 0;
+  }
+  const a = Number(digits);
+  return a < bound ? -1 : a > bound ? 1 : 0;
 }
 
 /**
  * Fintech amount entry with Persian numerals, thousands separator ("٬"),
+ * caret-preserving grouping, arbitrary-precision string-digits mode,
  * spelled-out words in Persian, validation, and preset chips.
  */
 export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
@@ -57,6 +163,8 @@ export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
       value,
       defaultValue,
       onChange,
+      onValueChange,
+      mode,
       unit,
       min,
       max,
@@ -71,6 +179,7 @@ export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
       "aria-label": ariaLabelProp,
       "aria-invalid": ariaInvalidProp,
       "aria-describedby": ariaDescribedByProp,
+      onKeyDown,
       onCopy,
       ...props
     },
@@ -85,13 +194,39 @@ export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
     const resolvedUnit = unit !== undefined ? unit : isFa ? "تومان" : "";
     const showWords = words !== undefined ? words : isFa;
 
+    const isDigitsMode = mode === "digits";
+
     const isControlled = value !== undefined;
-    const [uncontrolledValue, setUncontrolledValue] = useState<number | null>(
-      defaultValue ?? null,
-    );
-    const currentValue = isControlled ? value : uncontrolledValue;
+    const [uncontrolledValue, setUncontrolledValue] = useState<
+      number | string | null
+    >(() => defaultValue ?? (isDigitsMode ? "" : null));
+    const rawCurrentValue = isControlled ? value : uncontrolledValue;
+
+    const currentDigits =
+      typeof rawCurrentValue === "string"
+        ? sanitizeIntegerInput(rawCurrentValue)
+        : rawCurrentValue != null && Number.isFinite(rawCurrentValue)
+          ? Math.abs(Math.trunc(rawCurrentValue)).toString()
+          : "";
+
+    const isNegativeNumber =
+      typeof rawCurrentValue === "number" &&
+      Number.isFinite(rawCurrentValue) &&
+      rawCurrentValue < 0;
+
+    const safeNumericValue =
+      typeof rawCurrentValue === "number"
+        ? Number.isFinite(rawCurrentValue)
+          ? rawCurrentValue
+          : null
+        : currentDigits === ""
+          ? null
+          : Number.isSafeInteger(Number(currentDigits))
+            ? Number(currentDigits)
+            : null;
 
     const inputRef = useRef<HTMLInputElement | null>(null);
+    const pendingCaretRef = useRef<number | null>(null);
 
     const setRefs = useCallback(
       (node: HTMLInputElement | null) => {
@@ -106,18 +241,60 @@ export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
       [ref],
     );
 
+    const applyPendingCaret = useCallback(() => {
+      const caretDigits = pendingCaretRef.current;
+      if (caretDigits === null) {
+        return;
+      }
+      pendingCaretRef.current = null;
+      const el = inputRef.current;
+      if (!el) {
+        return;
+      }
+      const pos = indexAfterDigits(el.value, caretDigits);
+      el.setSelectionRange(pos, pos);
+    }, []);
+
+    useIsomorphicLayoutEffect(() => {
+      applyPendingCaret();
+    });
+
     // Min / max validation
     let isInvalid = false;
     let errorMessage: string | null = null;
 
-    if (currentValue != null && Number.isFinite(currentValue)) {
-      if (min !== undefined && currentValue < min) {
+    if (typeof rawCurrentValue === "string") {
+      if (currentDigits !== "") {
+        if (
+          min !== undefined &&
+          Number.isFinite(min) &&
+          compareDigitString(currentDigits, min) < 0
+        ) {
+          isInvalid = true;
+          const minDisplay = formatAmount(min, isFa);
+          errorMessage = isFa
+            ? `مبلغ نمی‌تواند کمتر از ${minDisplay}${resolvedUnit ? ` ${resolvedUnit}` : ""} باشد`
+            : `Amount must be at least ${minDisplay}${resolvedUnit ? ` ${resolvedUnit}` : ""}`;
+        } else if (
+          max !== undefined &&
+          Number.isFinite(max) &&
+          compareDigitString(currentDigits, max) > 0
+        ) {
+          isInvalid = true;
+          const maxDisplay = formatAmount(max, isFa);
+          errorMessage = isFa
+            ? `مبلغ نمی‌تواند بیشتر از ${maxDisplay}${resolvedUnit ? ` ${resolvedUnit}` : ""} باشد`
+            : `Amount cannot exceed ${maxDisplay}${resolvedUnit ? ` ${resolvedUnit}` : ""}`;
+        }
+      }
+    } else if (rawCurrentValue != null && Number.isFinite(rawCurrentValue)) {
+      if (min !== undefined && rawCurrentValue < min) {
         isInvalid = true;
         const minDisplay = formatAmount(min, isFa);
         errorMessage = isFa
           ? `مبلغ نمی‌تواند کمتر از ${minDisplay}${resolvedUnit ? ` ${resolvedUnit}` : ""} باشد`
           : `Amount must be at least ${minDisplay}${resolvedUnit ? ` ${resolvedUnit}` : ""}`;
-      } else if (max !== undefined && currentValue > max) {
+      } else if (max !== undefined && rawCurrentValue > max) {
         isInvalid = true;
         const maxDisplay = formatAmount(max, isFa);
         errorMessage = isFa
@@ -126,7 +303,10 @@ export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
       }
     }
 
-    const displayValue = formatAmount(currentValue, isFa);
+    const displayValue =
+      typeof rawCurrentValue === "string"
+        ? formatDigits(currentDigits, isFa)
+        : formatAmount(rawCurrentValue, isFa);
     const displayPlaceholder =
       placeholder !== undefined
         ? isFa
@@ -134,47 +314,136 @@ export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
           : placeholder
         : undefined;
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const raw = event.target.value;
-      const sanitized = sanitizeIntegerInput(raw);
-      const nextVal = sanitized === "" ? null : Number.parseInt(sanitized, 10);
+    const commitDigits = useCallback(
+      (nextDigits: string, digitCaret: number | null) => {
+        if (digitCaret !== null) {
+          pendingCaretRef.current = digitCaret;
+        }
+        const nextNumber =
+          nextDigits === "" ? null : Number.parseInt(nextDigits, 10);
 
-      if (!isControlled) {
-        setUncontrolledValue(nextVal);
+        if (!isControlled) {
+          setUncontrolledValue(isDigitsMode ? nextDigits : nextNumber);
+        }
+        onValueChange?.(nextDigits);
+        if (!isDigitsMode) {
+          onChange?.(nextNumber);
+        } else {
+          const digitsNumber = digitsToChangeNumber(nextDigits);
+          if (digitsNumber !== undefined) {
+            onChange?.(digitsNumber);
+          }
+        }
+
+        if (digitCaret !== null) {
+          if (nextDigits === currentDigits && !isNegativeNumber) {
+            queueMicrotask(() => {
+              applyPendingCaret();
+            });
+          } else {
+            requestAnimationFrame(() => {
+              applyPendingCaret();
+            });
+          }
+        }
+      },
+      [
+        applyPendingCaret,
+        currentDigits,
+        isControlled,
+        isDigitsMode,
+        isNegativeNumber,
+        onChange,
+        onValueChange,
+      ],
+    );
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const el = event.currentTarget;
+      const raw = el.value;
+      const caret = el.selectionStart ?? raw.length;
+      const nextDigits = sanitizeIntegerInput(raw);
+      commitDigits(nextDigits, digitsBefore(raw, caret));
+    };
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      onKeyDown?.(event);
+      if (event.defaultPrevented || isNegativeNumber || props.readOnly) {
+        return;
       }
-      onChange?.(nextVal);
+      const el = event.currentTarget;
+      const start = el.selectionStart ?? 0;
+      const collapsed = start === (el.selectionEnd ?? 0);
+      if (!collapsed) {
+        return;
+      }
+      // Backspace or Delete on a grouping mark removes the adjacent digit
+      // in one keystroke instead of only moving the caret past the separator.
+      if (
+        event.key === "Backspace" &&
+        start > 0 &&
+        isGroupingMark(displayValue.charAt(start - 1))
+      ) {
+        event.preventDefault();
+        const at = digitsBefore(displayValue, start) - 1;
+        if (at >= 0) {
+          commitDigits(removeDigitAt(currentDigits, at), at);
+        }
+      } else if (
+        event.key === "Delete" &&
+        start < displayValue.length &&
+        isGroupingMark(displayValue.charAt(start))
+      ) {
+        event.preventDefault();
+        const at = digitsBefore(displayValue, start);
+        if (at < currentDigits.length) {
+          commitDigits(removeDigitAt(currentDigits, at), at);
+        }
+      }
     };
 
     const handleSelectQuick = (q: number) => {
       if (disabled) return;
+      const qDigits = Math.abs(Math.trunc(q)).toString();
       if (!isControlled) {
-        setUncontrolledValue(q);
+        setUncontrolledValue(isDigitsMode ? qDigits : q);
       }
-      onChange?.(q);
+      onValueChange?.(qDigits);
+      if (!isDigitsMode || Number.isSafeInteger(q)) {
+        onChange?.(q);
+      }
       inputRef.current?.focus();
     };
 
     const handleCopy = (event: React.ClipboardEvent<HTMLInputElement>) => {
+      onCopy?.(event);
+      if (event.defaultPrevented) {
+        return;
+      }
       const el = event.currentTarget;
       const start = el.selectionStart ?? 0;
       const end = el.selectionEnd ?? 0;
       const selection = displayValue.slice(start, end);
       const plain =
         start === end || !selection
-          ? currentValue != null
-            ? String(currentValue)
-            : ""
-          : sanitizeIntegerInput(selection);
+          ? isNegativeNumber && rawCurrentValue != null
+            ? String(rawCurrentValue)
+            : currentDigits
+          : isNegativeNumber && start === 0
+            ? `-${sanitizeIntegerInput(selection)}`
+            : currentDigits.slice(
+                digitsBefore(displayValue, start),
+                digitsBefore(displayValue, end),
+              );
       if (plain) {
         event.preventDefault();
         event.clipboardData?.setData("text/plain", plain);
       }
-      onCopy?.(event);
     };
 
     const wordsText =
-      showWords && currentValue != null && Number.isFinite(currentValue)
-        ? amountToWords(currentValue, resolvedUnit)
+      showWords && safeNumericValue != null
+        ? amountToWords(safeNumericValue, resolvedUnit)
         : null;
 
     const defaultAriaLabel = isFa ? "مبلغ" : "Amount";
@@ -217,6 +486,7 @@ export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
             type="text"
             inputMode="numeric"
             dir="ltr"
+            spellCheck={false}
             value={displayValue}
             placeholder={displayPlaceholder}
             disabled={disabled}
@@ -224,6 +494,7 @@ export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
             aria-label={ariaLabel}
             aria-describedby={ariaDescribedBy}
             onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
             onCopy={handleCopy}
             className="h-full w-full min-w-0 bg-transparent border-0 p-0 text-start font-[family-name:var(--font-data)] tracking-[-0.02em] shadow-none outline-none focus:outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed selection:bg-primary selection:text-primary-foreground"
             {...props}
@@ -268,7 +539,10 @@ export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
               const chipLabel = isFa
                 ? shortAmount(q)
                 : `${formatAmount(q, false)} ${resolvedUnit}`.trim();
-              const isSelected = currentValue === q;
+              const isSelected =
+                typeof rawCurrentValue === "string"
+                  ? currentDigits === Math.abs(Math.trunc(q)).toString()
+                  : rawCurrentValue === q;
               return (
                 <button
                   key={q}

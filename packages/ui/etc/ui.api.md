@@ -1789,8 +1789,10 @@ export function TabsContent(input: React_2.ComponentProps<typeof Tabs_2.Content>
 // @public (undocumented)
 export function TabsList(input: React_2.ComponentProps<typeof Tabs_2.List> & VariantProps<typeof tabsListVariants>): React_2.JSX.Element;
 
-// @public (undocumented)
-export function TabsTrigger(input: React_2.ComponentProps<typeof Tabs_2.Trigger>): React_2.JSX.Element;
+// Warning: (ae-forgotten-export) The symbol "TabsTrigger_2" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function TabsTrigger(input: React_2.ComponentProps<typeof TabsTrigger_2>): React_2.JSX.Element;
 
 // @public (undocumented)
 export const TagIcon: lucide_react.LucideIcon;

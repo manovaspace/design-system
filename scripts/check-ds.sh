@@ -63,4 +63,6 @@ if [[ "$failures" -gt 0 ]]; then
   exit 1
 fi
 
+bun scripts/check-ds-look-override.mjs
+
 echo "check-ds: ok"

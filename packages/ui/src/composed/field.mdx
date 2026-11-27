@@ -1,0 +1,58 @@
+import { Meta, Canvas, ArgTypes } from "@storybook/addon-docs/blocks";
+
+import * as FieldStories from "./field.stories";
+
+<Meta of={FieldStories} />
+
+# Field
+
+## Overview
+
+`Field` wraps one form control with its label, hint, counter and error. It gives the control its `id`, `aria-describedby` and `aria-invalid` through context, so every control is wired the same way.
+
+## When to use / When not to use
+
+**Use** around every `Input`, `Textarea`, `Select`, `Combobox`, `DatePicker` and `AmountInput` in a form.
+
+**Do not use** for a checkbox or switch row, which has its own label (use `Label` with the control), or for a standalone message (use `FieldFeedback` or `Alert`).
+
+## Anatomy
+
+Label (with required mark), control slot, hint line, counter, and error line in a live region (`role="alert"`).
+
+## Variants
+
+Layouts: label above the control (default), hint, counter, required. The error replaces the hint while it is shown.
+
+<Canvas of={FieldStories.Default} />
+
+## States
+
+Default, required, hint shown, error shown (control marked invalid), disabled through the wrapped control.
+
+<Canvas of={FieldStories.WithError} />
+
+## Accessibility
+
+| Key | Action |
+| --- | --- |
+| `Tab` / `Shift+Tab` | Move focus to the wrapped control |
+
+`Field` has no keys of its own. The error is announced when it appears, and `focusFirstError` moves focus to the first invalid control on submit.
+
+## Content
+
+- Label is a noun phrase: "Full name".
+- Required is marked on the field, and the form says what the mark means once.
+- Hint states the format before the user types; error states the fix after they type.
+
+## Props
+
+<ArgTypes />
+
+## Related
+
+- `Input`, `Textarea`, `Select`, `Combobox`, `AmountInput`
+- `FieldFeedback`
+- [Forms guideline](?path=/docs/guidelines-forms--docs)
+- [Writing component docs](?path=/docs/guidelines-writing-component-docs--docs)

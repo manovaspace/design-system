@@ -4,7 +4,7 @@ import * as React from "react";
 import { DecimalInput } from "./decimal-input.js";
 
 const meta = {
-  title: "Composed/DecimalInput",
+  title: "Components/Inputs/DecimalInput",
   component: DecimalInput,
   tags: ["autodocs"],
   parameters: {

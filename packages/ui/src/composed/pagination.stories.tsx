@@ -5,7 +5,7 @@ import { DirectionProvider } from "../direction-provider.js";
 import { Pagination } from "./pagination.js";
 
 const meta = {
-  title: "Composed/Pagination",
+  title: "Components/Navigation/Pagination",
   component: Pagination,
   tags: ["autodocs"],
   parameters: {
@@ -35,16 +35,17 @@ export const MiddlePageWithDots: Story = {
 };
 
 export const PersianRtl: Story = {
-  render: () => (
+  args: {
+    page: 3,
+    pageSize: 10,
+    total: 80,
+    locale: "fa",
+    onChange: () => {},
+  },
+  render: (args) => (
     <DirectionProvider direction="rtl">
       <div dir="rtl" className="p-4">
-        <Pagination
-          page={3}
-          pageSize={10}
-          total={80}
-          locale="fa"
-          onChange={() => {}}
-        />
+        <Pagination {...args} />
       </div>
     </DirectionProvider>
   ),

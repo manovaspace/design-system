@@ -1,0 +1,62 @@
+import { Meta, Canvas, ArgTypes } from "@storybook/addon-docs/blocks";
+
+import * as SelectStories from "./select.stories";
+
+<Meta of={SelectStories} />
+
+# Select
+
+## Overview
+
+`Select` picks one value from a short, fixed list. It is built on the Radix select: the trigger opens a listbox of `SelectItem` rows.
+
+## When to use / When not to use
+
+**Use** for up to about eight options that the user can scan.
+
+**Do not use** for a longer or searchable list (use `Combobox` or `ComboboxAsync`), for a bottom-sheet picker on mobile (use `PickerTrigger`), or for two to three options that show at once (use `ToggleGroup` or `SegmentedControl`).
+
+## Anatomy
+
+`Select` (root), `SelectTrigger` with `SelectValue`, `SelectContent` holding `SelectGroup`, `SelectLabel` and `SelectItem`. The trigger is wrapped in `Field` for the label and error.
+
+## Variants
+
+Trigger size: `default` (40 px) and `touch` (44 px).
+
+<Canvas of={SelectStories.Touch} />
+
+## States
+
+Closed, open, focused, disabled, invalid, placeholder shown (no value).
+
+## Accessibility
+
+The trigger has the `combobox` role; the listbox has `listbox` and each row `option`. The `Field` label names the trigger.
+
+| Key | Action |
+| --- | --- |
+| `Enter` / `Space` / `ArrowDown` | Open the list (focus moves to the selected row) |
+| `ArrowDown` / `ArrowUp` | Move between rows |
+| `Home` / `End` | Jump to the first or last row |
+| Letter keys | Jump to the next row that starts with that letter |
+| `Enter` / `Space` | Choose the focused row and close the list |
+| `Escape` | Close the list without a change; focus returns to the trigger |
+| `Tab` | Close the list and move on |
+
+## Content
+
+- Rows are nouns the user recognises: "Tehran", not "Tehran province, Iran".
+- Placeholder asks for the choice: "Choose a city".
+- Keep row labels the same length where possible; the trigger truncates the rest.
+
+## Props
+
+<ArgTypes />
+
+## Related
+
+- `Field`, `Combobox`, `ComboboxAsync`, `PickerTrigger`
+- `ToggleGroup`, `SegmentedControl`
+- [Forms guideline](?path=/docs/guidelines-forms--docs)
+- [Writing component docs](?path=/docs/guidelines-writing-component-docs--docs)

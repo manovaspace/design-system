@@ -1,0 +1,15 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Patterns/Entity browser" />
+
+# Entity browser
+
+All searchable lists, directories, ledgers, and catalogs standardize on `EntityBrowser` and its companion components (`EntitySearchField`, `EntityFilterBar`, `EntityFilterPillBar`, `EntityDataTable`, `EntityPagination`, `InfiniteScrollTrigger`).
+
+## Rules
+
+- **Header vs FAB add action:** Show a labelled header button from `lg` and a `FloatingActionButton` below `lg` (`--fab-bottom-offset`). Titled secondary lists keep their header button at every width.
+- **Counts & search:** Place the filtered count in the search placeholder (*"جستجو در ۵۲ کالا"*) rather than adding a separate count line.
+- **Filters:** Place a filter trigger beside search opening a `FilterSheet` titled with the button label; render active filters as removable chips in one horizontally scrolling row (`FilterPillBar`).
+- **Empty, loading, error states:** Always provide `EntityMobileLoadingList` / `EntityTableLoadingRows`, `EntityMobileEmptyFiltered` / `EntityTableEmptyFiltered`, and an actionable `EmptyState`.
+- **Responsive table switch:** `EntityDataTable` switches from mobile `RowList` rows to table at `md` (or `lg` when `tableFrom="lg"` is passed for wide tables).

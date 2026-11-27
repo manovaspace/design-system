@@ -29,10 +29,24 @@ jobs:
           GH_READ_TOKEN: ${{ secrets.GH_READ_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      # Blocking since 1.0 (ADR-038 D4).
+      # Blocking gate: API reports must match the committed reports.
       - name: API reports
         run: bun run check:api
 
-      # Blocking since 1.0 (ADR-038 D4).
+      # Blocking gate: package metadata and exports must pass publint and attw.
       - name: Package checks
         run: bun run check:package
+
+      - name: Build Storybook
+        run: bun run build-storybook
+
+      - name: Install Chromium for Storybook tests
+        run: bun --filter @manovaspace/storybook playwright:install
+
+      # Play functions and a11y checks (headless Chromium, Vitest browser mode).
+      - name: Storybook play tests
+        run: bun run test:stories
+
+      # Screenshots of the page templates at 390/768/1440 (uses the build above).
+      - name: Storybook screenshots
+        run: bun run storybook:shots -- --no-build

@@ -4,7 +4,7 @@ import { Button } from "../../button.js";
 import { EntityBrowser } from "./entity-browser.js";
 
 const meta = {
-  title: "Composed/EntityBrowser",
+  title: "Components/Data display/EntityBrowser",
   component: EntityBrowser,
   tags: ["autodocs"],
   parameters: {

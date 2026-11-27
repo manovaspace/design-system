@@ -5,7 +5,7 @@ import { DirectionProvider } from "../direction-provider.js";
 import { Stepper } from "./stepper.js";
 
 const meta = {
-  title: "Composed/Stepper",
+  title: "Components/Navigation/Stepper",
   component: Stepper,
   tags: ["autodocs"],
   parameters: {
@@ -53,23 +53,24 @@ export const Vertical: Story = {
 };
 
 export const PersianRtl: Story = {
-  render: () => (
+  args: {
+    steps: [
+      { label: "اطلاعات حساب", description: "ایمیل و رمز عبور" },
+      { label: "تایید هویت", description: "کد پیامکی ارسال شد" },
+      {
+        label: "مشخصات کسب‌وکار",
+        description: "نام شرکت و شناسه ملی",
+        optional: true,
+      },
+      { label: "تکمیل ثبت‌نام", description: "ورود به داشبورد" },
+    ],
+    current: 1,
+    locale: "fa",
+  },
+  render: (args) => (
     <DirectionProvider direction="rtl">
       <div dir="rtl" className="w-[600px] p-6">
-        <Stepper
-          steps={[
-            { label: "اطلاعات حساب", description: "ایمیل و رمز عبور" },
-            { label: "تایید هویت", description: "کد پیامکی ارسال شد" },
-            {
-              label: "مشخصات کسب‌وکار",
-              description: "نام شرکت و شناسه ملی",
-              optional: true,
-            },
-            { label: "تکمیل ثبت‌نام", description: "ورود به داشبورد" },
-          ]}
-          current={1}
-          locale="fa"
-        />
+        <Stepper {...args} />
       </div>
     </DirectionProvider>
   ),

@@ -8,7 +8,7 @@ import {
 } from "./menu-morph-glyph.js";
 
 const meta = {
-  title: "Motion/MenuMorphGlyph",
+  title: "Components/Navigation/MenuMorphGlyph",
   component: MenuMorphGlyph,
   tags: ["autodocs"],
   parameters: {

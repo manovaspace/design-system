@@ -6,7 +6,7 @@ import { FilterPillBar, type FilterPillGroup } from "./filter-pill-bar.js";
 import { SearchInput } from "./search-input.js";
 
 const meta = {
-  title: "Composed/FilterPillBar",
+  title: "Components/Selection/FilterPillBar",
   component: FilterPillBar,
   tags: ["autodocs"],
   parameters: {

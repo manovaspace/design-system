@@ -6,7 +6,7 @@ import { BoltIcon, CubeIcon } from "../icons.js";
 import { SelectableOptionCard } from "./selectable-option-card.js";
 
 const meta = {
-  title: "Composed/SelectableOptionCard",
+  title: "Components/Selection/SelectableOptionCard",
   component: SelectableOptionCard,
   tags: ["autodocs"],
   parameters: {

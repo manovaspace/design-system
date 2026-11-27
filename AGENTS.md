@@ -57,7 +57,7 @@ exported from the package barrel.
 - **Adaptive Shell Suite**: `NavRail` (desktop sidebar), `NavTree` (collapsible tree), `NavMobileSheet` (mobile navigation sheet), `ShellHeader` (adaptive top bar), `AppShellChrome`.
 - **Composed Form & Data Widgets**: `DecimalInput` (Persian on-screen, Latin in state), `SelectableOptionCard` (touch selection), `CopyableMoney` (Toman with copy), `PhoneNumber`, `CardNumber`, `DataValue`, `FieldFeedback`, `HintTooltip`.
 
-Canonical App Catalog & Decision Tree: [`docs/app-components.md`](docs/app-components.md).
+Canonical App Catalog & Decision Tree: [`apps/storybook/src/patterns/app-catalog.mdx`](apps/storybook/src/patterns/app-catalog.mdx) (Storybook `Patterns/App catalog`; pointer: [`docs/app-components.md`](docs/app-components.md)).
 Architectural guide: `handbook/docs/orbit/guides/orbit-component-architecture.md`. Hydration for consuming apps: `handbook/docs/orbit/guides/orbit-frontend-hydration.md`.
 
 ## Storybook MCP

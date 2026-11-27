@@ -6,7 +6,7 @@ import { DirectionProvider } from "../direction-provider.js";
 import { EditFieldSheet } from "./edit-field-sheet.js";
 
 const meta = {
-  title: "Composed/EditFieldSheet",
+  title: "Components/Containment/EditFieldSheet",
   component: EditFieldSheet,
   tags: ["autodocs"],
   parameters: {
@@ -15,7 +15,7 @@ const meta = {
 } satisfies Meta<typeof EditFieldSheet>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj;
 
 function EditFieldSheetDemo(
   props: Partial<React.ComponentProps<typeof EditFieldSheet>>,

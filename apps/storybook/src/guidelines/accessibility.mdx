@@ -1,0 +1,14 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Guidelines/Accessibility" />
+
+# Accessibility
+
+Every story in this Storybook runs `@storybook/addon-a11y` in **`test: "error"`** mode.
+
+## Standards
+
+- **WCAG 2.1 AA contrast:** `>= 4.5:1` for normal text and `>= 3.0:1` for UI borders, icons, and chart marks — enforced automatically at token build/save time by `@manovaspace/tokens`.
+- **Target sizes:** Touch controls use `size="touch"` / `size="icon-touch"` (`44 × 44 px`); compact desktop interactive controls remain at least `24 × 24 px`.
+- **Keyboard & focus:** All interactive controls are reachable via `Tab`, expose visible `:focus-visible` rings (`--ring`), keep `scroll-margin-top` clear of sticky `ShellHeader` bars, and trap focus inside `Dialog`, `AlertDialog`, `Sheet`, and `ProgressiveDialog`.
+- **Motion & forced colors:** Components respect `prefers-reduced-motion` (`useReducedMotion()` / `--motion: 0ms`) and maintain visible borders and focus outlines under `forced-colors: active`.

@@ -11,7 +11,7 @@ const labels = {
 };
 
 const meta = {
-  title: "Composed/CardNumber",
+  title: "Components/Data display/CardNumber",
   component: CardNumber,
   tags: ["autodocs"],
   parameters: {

@@ -65,9 +65,9 @@ const PINNED_DETAIL_NAMES = [
 ];
 
 const HEADER = [
-  "# @manovaspace/ui agent index (generated; read before writing UI; `o audit usage SYMBOL` before edits)",
-  "# Templates first (experimental; JSDoc has usage rules). @ui=@manovaspace/ui; subpaths @ui/<name>.",
-  "# Format: Names|kind|purpose|props|path  Props: name:type[?][=default]; +N = more.",
+  "# @manovaspace/ui agent index — https://ui.manova.space (`o audit usage SYMBOL`)",
+  "# Templates first (experimental). @ui=@manovaspace/ui; subpaths @ui/<name>.",
+  "# Names|kind|purpose|props|path  Props: name:type[?][=default]; +N = more.",
 ];
 
 function readFile(file) {

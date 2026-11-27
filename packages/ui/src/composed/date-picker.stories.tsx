@@ -5,7 +5,7 @@ import { LocalePreferenceProvider } from "../locale-preference.js";
 import { DatePicker } from "./date-picker.js";
 
 const meta = {
-  title: "Composed/DatePicker",
+  title: "Components/Selection/DatePicker",
   component: DatePicker,
   tags: ["autodocs"],
   parameters: {

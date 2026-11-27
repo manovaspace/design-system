@@ -1,0 +1,25 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Guidelines/Data display" />
+
+# Data display
+
+## Numeric & identity widgets
+
+| Need | Component | Import |
+| --- | --- | --- |
+| Locale-aware numbers & money | `DataValue` | `@manovaspace/ui` |
+| Toman amount with copy | `CopyableMoney` | `@manovaspace/ui/experimental` |
+| Iranian mobile (MSISDN) | `PhoneNumber` | `@manovaspace/ui/experimental` |
+| 16-digit bank card | `CardNumber` | `@manovaspace/ui` |
+| Ranked breakdown bars | `BarList` | `@manovaspace/ui` |
+| Executive KPI figure | `Stat` | `@manovaspace/ui` |
+
+## Tabular vs proportional numerals
+
+- Use **proportional** (`mnv-data`, default on `DataValue` & `CopyableMoney`) for amounts and KPIs.
+- Use **tabular** (`tabular={true}` / `mnv-data--tabular`) for phone numbers, card numbers, pagination counters, and table numeric columns so digits align vertically.
+
+## Responsive tables
+
+- `EntityDataTable` renders `mobile` row cards below `md` and the full table from `md` (pass `tableFrom="lg"` for wide multi-column tables so tablets `768–1023 px` keep stacked rows).

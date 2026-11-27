@@ -6,7 +6,7 @@ import { CalendarIcon, MoonIcon, SunIcon } from "../icons.js";
 import { SegmentedControl } from "./segmented-control.js";
 
 const meta = {
-  title: "Composed/SegmentedControl",
+  title: "Components/Selection/SegmentedControl",
   component: SegmentedControl,
   tags: ["autodocs"],
   parameters: {
@@ -43,11 +43,15 @@ export const WithIcons: Story = {
 };
 
 export const Sizes: Story = {
-  render: () => (
+  args: {
+    options: viewOptions,
+    defaultValue: "week",
+  },
+  render: (args) => (
     <div className="flex flex-col items-center gap-4">
-      <SegmentedControl options={viewOptions} defaultValue="week" size="sm" />
-      <SegmentedControl options={viewOptions} defaultValue="week" size="md" />
-      <SegmentedControl options={viewOptions} defaultValue="week" size="lg" />
+      <SegmentedControl {...args} size="sm" />
+      <SegmentedControl {...args} size="md" />
+      <SegmentedControl {...args} size="lg" />
     </div>
   ),
 };
@@ -64,18 +68,19 @@ export const DisabledOption: Story = {
 };
 
 export const PersianRtl: Story = {
-  render: () => (
+  args: {
+    options: [
+      { value: "daily", label: "روزانه" },
+      { value: "weekly", label: "هفتگی" },
+      { value: "monthly", label: "ماهانه" },
+      { value: "yearly", label: "سالانه" },
+    ],
+    defaultValue: "weekly",
+  },
+  render: (args) => (
     <DirectionProvider direction="rtl">
       <div dir="rtl" className="p-4">
-        <SegmentedControl
-          options={[
-            { value: "daily", label: "روزانه" },
-            { value: "weekly", label: "هفتگی" },
-            { value: "monthly", label: "ماهانه" },
-            { value: "yearly", label: "سالانه" },
-          ]}
-          defaultValue="weekly"
-        />
+        <SegmentedControl {...args} />
       </div>
     </DirectionProvider>
   ),

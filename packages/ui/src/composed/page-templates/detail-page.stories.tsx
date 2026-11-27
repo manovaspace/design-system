@@ -19,7 +19,7 @@ const meta = {
 } satisfies Meta<typeof DetailPage>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj;
 
 const back = { label: "کالاها", href: "/items" };
 

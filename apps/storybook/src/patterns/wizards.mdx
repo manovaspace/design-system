@@ -1,0 +1,15 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Patterns/Wizards" />
+
+# Wizards & sheets
+
+Multi-step flows and record editors standardize on `ProgressiveDialog`, `FormSheet`, `EditFieldSheet`, `FilterSheet`, and `ConfirmDialog`.
+
+## Sheet & dialog rules
+
+- **Responsive presentation:** `FormSheet` and `ProgressiveDialog` render full-screen sheets below `md` and centered dialogs from `md`.
+- **Title parity:** Sheet or dialog title equals the trigger label that opened it.
+- **Footer button order:** Secondary/cancel action first (`variant="outline"` or `variant="ghost"`), primary action last. Keep the footer above the virtual keyboard and inside safe area insets (`useKeyboardInset`).
+- **Multi-step wizards:** Show identical step counts and progress indicators (`steps`, `stepIndex`) across mobile and desktop, with one primary action per step and inline `error` + `errorAction` retry when a step fails.
+- **Destructive confirmation:** Use `ConfirmDialog` (`AlertDialog` wrapper) or `HoldToConfirmButton` for irreversible deletions.

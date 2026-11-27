@@ -11,6 +11,7 @@ const config: StorybookConfig = {
   stories: [
     "../../../packages/ui/src/**/*.stories.@(ts|tsx)",
     "../src/**/*.stories.@(ts|tsx)",
+    "../../../packages/ui/src/**/*.mdx",
     "../src/**/*.mdx",
   ],
   typescript: {
@@ -53,12 +54,28 @@ const config: StorybookConfig = {
             replacement: path.join(packagesDir, "ui/src/experimental.ts"),
           },
           {
-            find: "@manovaspace/ui",
-            replacement: path.join(packagesDir, "ui/src"),
+            find: "@manovaspace/ui/icons/solid",
+            replacement: path.join(packagesDir, "ui/src/icons-solid.ts"),
+          },
+          {
+            find: "@manovaspace/ui/icons/brand",
+            replacement: path.join(packagesDir, "ui/src/icons-brand.ts"),
+          },
+          {
+            find: "@manovaspace/ui/icons",
+            replacement: path.join(packagesDir, "ui/src/icons.ts"),
+          },
+          {
+            find: "@manovaspace/ui/motion",
+            replacement: path.join(packagesDir, "ui/src/motion/index.tsx"),
           },
           {
             find: "@manovaspace/ui/loading",
             replacement: path.join(packagesDir, "ui/src/loading"),
+          },
+          {
+            find: "@manovaspace/ui",
+            replacement: path.join(packagesDir, "ui/src"),
           },
         ],
         dedupe: ["react", "react-dom"],

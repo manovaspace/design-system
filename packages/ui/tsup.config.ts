@@ -8,6 +8,8 @@ export default defineUnbundledConfig({
     "src/**/*.ts",
     "!src/**/*.test.ts",
     "!src/**/*.test.tsx",
+    "!src/**/*.stories.ts",
+    "!src/**/*.stories.tsx",
   ],
   external: [
     "radix-ui",

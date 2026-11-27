@@ -1,0 +1,63 @@
+import { Meta, Canvas, ArgTypes } from "@storybook/addon-docs/blocks";
+
+import * as InputStories from "./input.stories";
+
+<Meta of={InputStories} />
+
+# Input
+
+## Overview
+
+`Input` is a single-line text control. It wraps a native `<input>` and shares the `fieldControlVariants` recipe with `Select`, `Textarea` and `Combobox`.
+
+## When to use / When not to use
+
+**Use** for short free text: names, codes, phone numbers, search terms with a fixed shape.
+
+**Do not use** for several lines (use `Textarea`), for a fixed list of choices (use `Select`), for a searchable list (use `Combobox`), or for money (use `AmountInput` or `DecimalInput`).
+
+## Anatomy
+
+Control box, optional leading or trailing addon, and the surrounding `Field` (label, hint, counter, error).
+
+## Variants
+
+Sizes: `default` (40 px, desktop-only forms) and `touch` (44 px, mobile and field flows).
+
+<Canvas of={InputStories.Default} />
+
+## States
+
+Default, focus-visible, filled, invalid (`aria-invalid`), disabled, read-only.
+
+<Canvas of={InputStories.StatesAndAddons} />
+
+## Accessibility
+
+Always wrap the input in `Field` so the label, hint and error are linked with `htmlFor`, `aria-describedby` and `aria-invalid`. Submit failures call `focusFirstError`.
+
+| Key | Action |
+| --- | --- |
+| `Tab` / `Shift+Tab` | Move focus into or out of the field |
+| Typing | Edits the value |
+| `Enter` | Submits the enclosing form |
+
+Persian digits show on screen; state keeps ASCII digits.
+
+## Content
+
+- Label names the value: "Phone number", not "Enter your phone number".
+- Hint gives the format once: "Example: 0912 345 6789".
+- Error says what to change: "Enter 10 digits", not "Invalid input".
+- Placeholder is never the only label.
+
+## Props
+
+<ArgTypes />
+
+## Related
+
+- `Field` (label, hint and error wiring)
+- `Textarea`, `Select`, `Combobox`, `AmountInput`, `DecimalInput`
+- [Forms guideline](?path=/docs/guidelines-forms--docs)
+- [Writing component docs](?path=/docs/guidelines-writing-component-docs--docs)

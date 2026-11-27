@@ -17,10 +17,10 @@
     },
     "apps/storybook": {
       "name": "@manovaspace/storybook",
-      "version": "0.0.13",
+      "version": "0.0.14",
       "dependencies": {
         "@manovaspace/tokens": "^1.0.0",
-        "@manovaspace/ui": "^1.2.0",
+        "@manovaspace/ui": "^1.17.0",
         "react": "19.3.1",
         "react-dom": "19.3.1",
         "react-hook-form": "^7.91.0",
@@ -88,7 +88,7 @@
     },
     "packages/ui": {
       "name": "@manovaspace/ui",
-      "version": "1.16.0",
+      "version": "1.18.0",
       "dependencies": {
         "@manovaspace/tokens": "^1.1.0",
         "class-variance-authority": "^0.7.1",

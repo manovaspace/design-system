@@ -18,19 +18,28 @@ function setThemeColorMeta(content: string): void {
 
 export function ThemeColorSync() {
   const { resolvedTheme } = useTheme();
-  const { tokens } = useTokens();
-  const resolved = useMemo(() => resolveTokens(tokens), [tokens]);
+  const { tokens, brand } = useTokens();
+  const resolved = useMemo(
+    () => (brand ? null : resolveTokens(tokens)),
+    [brand, tokens],
+  );
 
   useEffect(() => {
     if (!resolvedTheme) return;
 
+    const scheme = resolvedTheme === "dark" ? "dark" : "light";
+    if (brand) {
+      const color = brand.schemes[scheme][brand.config.contrast].m3.primary;
+      setThemeColorMeta(color);
+      return;
+    }
+
+    if (!resolved) return;
     const palette =
-      resolvedTheme === "dark"
-        ? resolved.semantic.dark
-        : resolved.semantic.light;
+      scheme === "dark" ? resolved.semantic.dark : resolved.semantic.light;
     const color = palette.primary ?? "hsl(220 84% 53%)";
     setThemeColorMeta(color);
-  }, [resolvedTheme, resolved]);
+  }, [brand, resolvedTheme, resolved]);
 
   return null;
 }

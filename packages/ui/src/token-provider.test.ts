@@ -1,6 +1,10 @@
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { defaultTokensRaw } from "@manovaspace/tokens";
 import { describe, expect, it } from "vitest";
 
+import { resolveInitialBrandTokens } from "./server/resolve-initial-tokens.js";
 import { mergeLoadedTokens } from "./token-provider.js";
 
 const brandTokens = {
@@ -47,5 +51,45 @@ describe("mergeLoadedTokens", () => {
     expect(merged.semantic.light.primary).not.toBe(
       defaultTokensRaw.semantic.light.primary,
     );
+  });
+});
+
+describe("resolveInitialBrandTokens (v2 DTCG SSR)", () => {
+  it("reads public/brand.tokens.json and layers tenant seed.primary cleanly", () => {
+    const dir = mkdtempSync(join(tmpdir(), "orbit-brand-"));
+    try {
+      mkdirSync(join(dir, "public"), { recursive: true });
+      writeFileSync(
+        join(dir, "public", "brand.tokens.json"),
+        JSON.stringify({
+          seed: { primary: "#2563eb" },
+          font: {
+            sans: "var(--font-vazirmatn), sans-serif",
+            data: "var(--font-vazirmatn), sans-serif",
+          },
+          shape: "round",
+        }),
+      );
+
+      const resolved = resolveInitialBrandTokens({
+        cwd: dir,
+        tenantSeed: {
+          seed: { primary: "#b82132" },
+          logo: "https://cdn.example.com/fryto.svg",
+        },
+      });
+
+      expect(resolved.version).toBe(2);
+      expect(resolved.config.seed.primary).toBe("#b82132");
+      expect(resolved.config.font.sans).toBe(
+        "var(--font-vazirmatn), sans-serif",
+      );
+      expect(resolved.config.shape).toBe("round");
+      expect(resolved.schemes.light.standard.m3.primary).toMatch(
+        /^#[0-9a-f]{6}$/,
+      );
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
   });
 });

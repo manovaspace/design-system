@@ -9,6 +9,7 @@ import { AlertDialog as AlertDialog_3 } from 'radix-ui';
 import { ArrowRight as ArrowRightSolidIcon } from 'lucide-react';
 import { Avatar as Avatar_2 } from 'radix-ui';
 import { Zap as BoltSolidIcon } from 'lucide-react';
+import { BrandTokensInput } from '@manovaspace/tokens';
 import { ButtonHTMLAttributes } from 'react';
 import { Checkbox as Checkbox_3 } from 'radix-ui';
 import { Check as CheckSolidIcon } from 'lucide-react';
@@ -35,9 +36,11 @@ import { Puzzle as PuzzlePieceSolidIcon } from 'lucide-react';
 import * as React_2 from 'react';
 import { ReactNode } from 'react';
 import { Layers as RectangleStackSolidIcon } from 'lucide-react';
+import { ResolvedBrandTokens } from '@manovaspace/tokens';
 import { Select as Select_3 } from 'radix-ui';
 import { Sun as SunSolidIcon } from 'lucide-react';
 import { Tabs as Tabs_2 } from 'radix-ui';
+import { TenantSeedInput } from '@manovaspace/tokens';
 import { ThemeProvider as ThemeProvider_2 } from 'next-themes';
 import { Toast as Toast_3 } from 'radix-ui';
 import { UseFormProps } from 'react-hook-form';
@@ -1786,8 +1789,10 @@ export function TabsContent(input: React_2.ComponentProps<typeof Tabs_2.Content>
 // @public (undocumented)
 export function TabsList(input: React_2.ComponentProps<typeof Tabs_2.List> & VariantProps<typeof tabsListVariants>): React_2.JSX.Element;
 
-// @public (undocumented)
-export function TabsTrigger(input: React_2.ComponentProps<typeof Tabs_2.Trigger>): React_2.JSX.Element;
+// Warning: (ae-forgotten-export) The symbol "TabsTrigger_2" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function TabsTrigger(input: React_2.ComponentProps<typeof TabsTrigger_2>): React_2.JSX.Element;
 
 // @public (undocumented)
 export const TagIcon: lucide_react.LucideIcon;
@@ -1908,6 +1913,8 @@ export type TokenProviderProps = {
     children: React.ReactNode;
     initialTokens?: OrbitTokensRaw;
     tokens?: OrbitTokenOverride;
+    brandTokens?: BrandTokensInput | ResolvedBrandTokens;
+    tenantSeed?: TenantSeedInput;
     remoteUrl?: string;
     overridePath?: string;
 };

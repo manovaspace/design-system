@@ -1,15 +1,13 @@
-import {
-  deriveSemanticDark,
-  normalizeSemanticColor,
-  withInteractionStates,
-} from "./hsl-color.js";
+import { resolveBrandTokens } from "./dtcg/brand-pipeline.js";
+import type { ResolvedBrandTokens, TokenColorScheme } from "./dtcg/types.js";
+import { rememberBrandTokens, v1ToBrandInput } from "./dtcg/v1-bridge.js";
+import { normalizeSemanticColor, withInteractionStates } from "./hsl-color.js";
+import { resolveRecord } from "./ref-resolve.js";
 import type {
   OrbitTokenOverride,
   OrbitTokens,
   OrbitTokensRaw,
 } from "./schema/types.js";
-
-const REF_PATTERN = /^\{([^}]+)\}$/;
 
 function deepMerge<T extends Record<string, unknown>>(
   base: T,
@@ -39,63 +37,6 @@ function deepMerge<T extends Record<string, unknown>>(
   return result as T;
 }
 
-function lookupRef(path: string, tokens: OrbitTokensRaw): string | undefined {
-  const parts = path.split(".");
-  let current: unknown = tokens;
-
-  for (const part of parts) {
-    if (current == null || typeof current !== "object") return undefined;
-    current = (current as Record<string, unknown>)[part];
-  }
-
-  return typeof current === "string" ? current : undefined;
-}
-
-function resolveValue(
-  value: string,
-  tokens: OrbitTokensRaw,
-  depth = 0,
-): string {
-  if (depth > 32) {
-    throw new Error(`Token reference cycle or depth exceeded: ${value}`);
-  }
-
-  const match = value.match(REF_PATTERN);
-  if (!match?.[1]) return value;
-
-  const resolved = lookupRef(match[1], tokens);
-  if (resolved === undefined) {
-    throw new Error(`Unresolved token reference: ${value}`);
-  }
-
-  return resolveValue(resolved, tokens, depth + 1);
-}
-
-function resolveRecord(
-  record: Record<string, string>,
-  tokens: OrbitTokensRaw,
-): Record<string, string> {
-  const resolved: Record<string, string> = {};
-  let changed = true;
-  let pass = 0;
-
-  Object.assign(resolved, record);
-
-  while (changed && pass < 32) {
-    changed = false;
-    pass += 1;
-    for (const [key, value] of Object.entries(resolved)) {
-      const next = resolveValue(value, tokens);
-      if (next !== value) {
-        resolved[key] = next;
-        changed = true;
-      }
-    }
-  }
-
-  return resolved;
-}
-
 function normalizeSemanticRecord(
   record: Record<string, string>,
 ): Record<string, string> {
@@ -106,26 +47,67 @@ function normalizeSemanticRecord(
   return normalized;
 }
 
+/**
+ * Colour values of the M3 standard-contrast role map for one scheme, keyed by
+ * shadcn name (the same map `semantic.css` aliases to `--md-sys-color-*`).
+ * Values are normalised to the v1 `hsl()` form.
+ */
+function m3SemanticColors(
+  resolved: ResolvedBrandTokens,
+  scheme: TokenColorScheme,
+): Record<string, string> {
+  const colors: Record<string, string> = {};
+  for (const [key, value] of Object.entries(
+    resolved.schemes[scheme].standard.semanticHex,
+  )) {
+    if (value.startsWith("#")) {
+      colors[key] = normalizeSemanticColor(value);
+    }
+  }
+  return colors;
+}
+
+/**
+ * Resolve v1 tokens. Colours come from the M3 HCT pipeline seeded by the v1
+ * anchors (see `v1ToBrandInput`); light and dark both use the standard-contrast
+ * roles. Non-colour semantic values keep their v1 resolution. Colour keys that
+ * the M3 map does not cover keep the resolved light value in both schemes.
+ */
 export function resolveTokens(
   raw: OrbitTokensRaw,
   base?: OrbitTokensRaw,
 ): OrbitTokens {
+  return resolveTokensWithBrand(raw, base).tokens;
+}
+
+/** `resolveTokens` plus the M3 result that produced its colours. */
+export function resolveTokensWithBrand(
+  raw: OrbitTokensRaw,
+  base?: OrbitTokensRaw,
+): { tokens: OrbitTokens; brand: ResolvedBrandTokens } {
   const merged = base ? deepMerge(base, raw as OrbitTokenOverride) : raw;
 
-  const resolvedLightBase = normalizeSemanticRecord(
+  const brand = resolveBrandTokens(v1ToBrandInput(merged));
+  const lightM3 = m3SemanticColors(brand, "light");
+  const darkM3 = m3SemanticColors(brand, "dark");
+
+  const resolvedLight = normalizeSemanticRecord(
     resolveRecord(merged.semantic.light, merged),
   );
-  // Derive dark from base only, then add mode-aware hover (L− light / L+ dark).
-  const resolvedDarkBase = deriveSemanticDark(resolvedLightBase);
 
-  return {
+  const tokens: OrbitTokens = {
     ...merged,
     color: merged.color,
     semantic: {
-      light: withInteractionStates(resolvedLightBase, "light"),
-      dark: withInteractionStates(resolvedDarkBase, "dark"),
+      light: { ...withInteractionStates(resolvedLight, "light"), ...lightM3 },
+      dark: {
+        ...withInteractionStates({ ...resolvedLight, ...darkM3 }, "dark"),
+        ...darkM3,
+      },
     },
   };
+  rememberBrandTokens(tokens, brand);
+  return { tokens, brand };
 }
 
 export function mergeTokenOverridesRaw(
@@ -156,3 +138,11 @@ export function mergeTokenOverrides(
 ): OrbitTokens {
   return resolveTokens(mergeTokenOverridesRaw(base, ...overrides));
 }
+
+export {
+  resolveBrandTokens,
+  resolveBrandTokensFromConfig,
+  resolvedBrandTokensToCss,
+  resolveTenantBranding,
+  toFlattenedHexTokens,
+} from "./dtcg/brand-pipeline.js";

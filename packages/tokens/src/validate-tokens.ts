@@ -1,3 +1,15 @@
+import { defaultTokensRaw } from "./default-tokens.js";
+import {
+  resolveBrandTokens,
+  resolveTenantBranding,
+} from "./dtcg/brand-pipeline.js";
+import { parseBrandTokens, parseTenantSeed } from "./dtcg/brand-schema.js";
+import { dtcgDocumentToOrbitTokensRaw } from "./dtcg/dtcg-document.js";
+import type {
+  BrandTokensConfig,
+  DtcgDocument,
+  TenantSeedConfig,
+} from "./dtcg/types.js";
 import { resolveTokens } from "./resolve-tokens.js";
 import {
   COLOR_FAMILIES,
@@ -31,7 +43,7 @@ export function validateTokens(raw: OrbitTokensRaw): void {
 
   if (raw.semantic.dark) {
     throw new Error(
-      "semantic.dark must not be authored — dark is derived from light via HSL L inversion",
+      "semantic.dark must not be authored — dark is derived from the M3 HCT pipeline",
     );
   }
 
@@ -55,7 +67,35 @@ export function validateTokens(raw: OrbitTokensRaw): void {
   }
 }
 
-import { defaultTokensRaw } from "./default-tokens.js";
+export function validateDtcgDocument(doc: DtcgDocument): void {
+  if (!doc || typeof doc !== "object") {
+    throw new Error("DTCG document must be an object");
+  }
+  if (!doc.ref || !doc.sys || !doc.comp || !doc.resolver) {
+    throw new Error("DTCG document must declare ref, sys, comp, and resolver");
+  }
+  if (doc.resolver.version !== "2025.10") {
+    throw new Error(
+      `Unsupported DTCG resolver version: ${String(doc.resolver.version)}`,
+    );
+  }
+  const legacyRaw = dtcgDocumentToOrbitTokensRaw(doc);
+  validateTokens(legacyRaw);
+}
+
+/** Validate `brand.tokens.json` schema + run M3 HCT + WCAG contrast verification. */
+export function validateBrandTokens(input: unknown): BrandTokensConfig {
+  const config = parseBrandTokens(input);
+  resolveBrandTokens(input);
+  return config;
+}
+
+/** Validate white-label tenant seed (`seed.primary` + optional `logo`) + WCAG contrast verification. */
+export function validateTenantSeed(input: unknown): TenantSeedConfig {
+  const config = parseTenantSeed(input);
+  resolveTenantBranding(input);
+  return config;
+}
 
 export function validateMnvColors(): void {
   validateTokens(defaultTokensRaw);

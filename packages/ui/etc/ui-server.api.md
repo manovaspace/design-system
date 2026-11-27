@@ -4,9 +4,14 @@
 
 ```ts
 
+import { BrandTokensConfig } from '@manovaspace/tokens';
+import { BrandTokensInput } from '@manovaspace/tokens';
 import { OrbitTokenOverride } from '@manovaspace/tokens';
 import { OrbitTokensRaw } from '@manovaspace/tokens';
 import * as React_2 from 'react';
+import { ResolvedBrandTokens } from '@manovaspace/tokens';
+import { RuntimeTokenInput } from '@manovaspace/tokens';
+import { TenantSeedInput } from '@manovaspace/tokens';
 
 // @public (undocumented)
 export function OrbitFontsHead(input: OrbitFontsHeadProps): React_2.JSX.Element;
@@ -17,12 +22,22 @@ export type OrbitFontsHeadProps = {
 };
 
 // @public
-export function OrbitTokensHead(input: {
-    tokens: OrbitTokensRaw;
-}): React_2.JSX.Element;
+export function OrbitTokensHead(input: OrbitTokensHeadProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export type OrbitTokensHeadProps = {
+    tokens: RuntimeTokenInput;
+    tenantSeed?: TenantSeedInput;
+};
+
+// @public
+export function readPublicBrandTokens(options?: Pick<ResolveInitialTokensOptions, "brandFile" | "cwd">): BrandTokensConfig | undefined;
 
 // @public (undocumented)
 export function readPublicTokenOverride(options?: Pick<ResolveInitialTokensOptions, "cwd" | "overrideFile">): OrbitTokenOverride | undefined;
+
+// @public
+export function resolveInitialBrandTokens(options?: ResolveInitialTokensOptions): ResolvedBrandTokens;
 
 // @public
 export function resolveInitialTokens(options?: ResolveInitialTokensOptions): OrbitTokensRaw;
@@ -32,6 +47,9 @@ export type ResolveInitialTokensOptions = {
     cwd?: string;
     overrideFile?: string;
     tokens?: OrbitTokenOverride;
+    brandFile?: string;
+    brandTokens?: BrandTokensInput;
+    tenantSeed?: TenantSeedInput;
 };
 
 // (No @packageDocumentation comment for this package)

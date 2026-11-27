@@ -1,5 +1,5 @@
-import { existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
+import { existsSync, readFileSync, statSync } from "node:fs";
+import { join, resolve } from "node:path";
 
 import {
   type BrandTokensConfig,
@@ -48,17 +48,28 @@ export function readPublicTokenOverride(
   }
 }
 
+type BrandFileCacheEntry = { mtimeMs: number; config: BrandTokensConfig };
+
+/** Parsed `brand.tokens.json` per absolute path, invalidated by mtime. */
+const brandFileCache = new Map<string, BrandFileCacheEntry>();
+
 /** Read and validate `public/brand.tokens.json` (throws on schema error). */
 export function readPublicBrandTokens(
   options: Pick<ResolveInitialTokensOptions, "cwd" | "brandFile"> = {},
 ): BrandTokensConfig | undefined {
   const cwd = options.cwd ?? process.cwd();
   const file = options.brandFile ?? "brand.tokens.json";
-  const path = join(cwd, "public", file);
+  const path = resolve(join(cwd, "public", file));
   if (!existsSync(path)) return undefined;
 
+  const { mtimeMs } = statSync(path);
+  const cached = brandFileCache.get(path);
+  if (cached && cached.mtimeMs === mtimeMs) return cached.config;
+
   const data: unknown = JSON.parse(readFileSync(path, "utf8"));
-  return parseBrandTokens(data);
+  const config = parseBrandTokens(data);
+  brandFileCache.set(path, { mtimeMs, config });
+  return config;
 }
 
 /** Server-side merge: defaults → public override → static prop. */

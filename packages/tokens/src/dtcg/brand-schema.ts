@@ -186,6 +186,88 @@ function parseEnum<T extends string>(
   return unwrapped as T;
 }
 
+const MAX_LOGO_URL_LENGTH = 2048;
+const MAX_LOGO_DATA_PAYLOAD = 256 * 1024;
+const LOGO_DATA_URI =
+  /^data:image\/(png|jpeg|webp|svg\+xml);base64,([A-Za-z0-9+/]+={0,2})$/;
+
+/**
+ * Tenant logo: `https:` URL without credentials (max 2048 chars), or an inline
+ * `data:image/(png|jpeg|webp|svg+xml);base64,` URI with at most 256 KB of payload.
+ */
+function parseTenantLogo(value: string, path: string): string {
+  if (value.toLowerCase().startsWith("data:")) {
+    const match = LOGO_DATA_URI.exec(value);
+    if (!match) {
+      throw new TokenSchemaError(
+        `Invalid logo at ${path}: data URI must be data:image/(png|jpeg|webp|svg+xml);base64,…`,
+        { path, expected: "base64 image data URI", actual: "data URI" },
+      );
+    }
+    const payload = match[2] ?? "";
+    if (payload.length > MAX_LOGO_DATA_PAYLOAD) {
+      throw new TokenSchemaError(
+        `Logo data URI at ${path} exceeds 256 KB of payload`,
+        { path, expected: "<= 256 KB base64 payload", actual: payload.length },
+      );
+    }
+    return value;
+  }
+
+  let url: URL;
+  try {
+    url = new URL(value);
+  } catch {
+    throw new TokenSchemaError(
+      `Invalid logo at ${path}: expected an https URL or a base64 image data URI`,
+      { path, expected: "https URL | data:image URI", actual: value },
+    );
+  }
+  if (url.protocol !== "https:") {
+    throw new TokenSchemaError(
+      `Invalid logo at ${path}: only https: URLs are allowed (got "${url.protocol}")`,
+      { path, expected: "https:", actual: url.protocol },
+    );
+  }
+  if (url.username !== "" || url.password !== "") {
+    throw new TokenSchemaError(
+      `Invalid logo at ${path}: URL must not contain credentials`,
+      { path, expected: "URL without user:password", actual: "credentials" },
+    );
+  }
+  if (value.length > MAX_LOGO_URL_LENGTH) {
+    throw new TokenSchemaError(
+      `Logo URL at ${path} exceeds ${MAX_LOGO_URL_LENGTH} characters`,
+      {
+        path,
+        expected: `<= ${MAX_LOGO_URL_LENGTH} chars`,
+        actual: value.length,
+      },
+    );
+  }
+  return value;
+}
+
+/**
+ * Font family strings are emitted into CSS custom properties. Reject characters
+ * that could close the declaration, block or style element, or start a comment.
+ */
+const UNSAFE_FONT_CHARS = /[;{}<>\\]|\/\*/;
+
+function assertSafeFontStack(value: string, path: string): string {
+  if (UNSAFE_FONT_CHARS.test(value)) {
+    throw new TokenSchemaError(
+      `Unsafe font family at ${path}: ";", "{", "}", "<", ">", "\\" and "/*" are not allowed`,
+      {
+        path,
+        expected: "font-family list without CSS/HTML control characters",
+        actual: value,
+      },
+    );
+  }
+  return value;
+}
+
 function parseFontStack(
   value: unknown,
   fallback: string,
@@ -202,7 +284,7 @@ function parseFontStack(
         actual: unwrapped,
       });
     }
-    return trimmed;
+    return assertSafeFontStack(trimmed, path);
   }
   if (
     Array.isArray(unwrapped) &&
@@ -211,14 +293,17 @@ function parseFontStack(
       (item) => typeof item === "string" && item.trim().length > 0,
     )
   ) {
-    return unwrapped
-      .map((item) => {
-        const trimmed = item.trim();
-        return /\s/.test(trimmed) && !trimmed.startsWith('"')
-          ? `"${trimmed}"`
-          : trimmed;
-      })
-      .join(", ");
+    return assertSafeFontStack(
+      unwrapped
+        .map((item) => {
+          const trimmed = item.trim();
+          return /\s/.test(trimmed) && !trimmed.startsWith('"')
+            ? `"${trimmed}"`
+            : trimmed;
+        })
+        .join(", "),
+      path,
+    );
   }
   throw new TokenSchemaError(
     `Invalid font token at ${path} — expected string or string[]`,
@@ -369,7 +454,7 @@ export function parseTenantSeed(input: unknown): TenantSeedConfig {
         actual: unwrappedLogo,
       });
     }
-    logo = unwrappedLogo.trim();
+    logo = parseTenantLogo(unwrappedLogo.trim(), "logo");
   }
 
   return logo ? { seed: { primary }, logo } : { seed: { primary } };

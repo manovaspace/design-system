@@ -2,8 +2,9 @@
 // Mirrors falak's `kit-look-override` rule for `packages/ui/src/composed/**/*.tsx`:
 // composed components may pass layout classes only on kit primitives/controls
 // (`Button`, `Input`, `Textarea`, `SelectTrigger`, `Card`, `Badge`, etc.).
-// Pre-existing hits are allowlisted with exact counts so check:ds stays green
-// while shrinking the allowlist to zero over time.
+// Pre-existing hits are allowlisted per fingerprint (file::JSX tag::look classes),
+// so a fixed hit cannot be silently swapped for a new one in the same file.
+// Regenerate with `bun scripts/check-ds-look-override.mjs --print-allowlist`.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -45,27 +46,45 @@ const LAYOUT_EXACT = new Set([
   "shrink",
   "grow",
   "truncate",
+  "invisible",
+  "visible",
+  "container",
 ]);
 
 const LAYOUT_PREFIX_RE =
-  /^(?:w|min-w|max-w|flex|grid|col|row|gap|order|justify|items|content|self|place|shrink|grow|basis|m[stbelrxy]?|space-[xy]|z|overflow|inset|top|bottom|start|end|left|right)-/;
+  /^(?:w|min-w|max-w|size|min-h|max-h|aspect|flex|grid|col|row|gap|order|justify|items|content|self|place|shrink|grow|basis|m[stbelrxy]?|space-[xy]|z|overflow|inset|top|bottom|start|end|left|right)-/;
 
-const LAYOUT_VARIANT_RE =
-  /^(?:(?:sm|md|lg|xl|2xl|max-sm|max-md|max-lg|max-xl|max-2xl|rtl|ltr):)+/;
+/**
+ * Removes every leading variant (`hover:`, `md:`, `[&>svg]:`, `data-[state=open]:`,
+ * `group-hover:`, `aria-invalid:` ...). A variant is a segment ending in `:` at
+ * bracket depth 0; colons inside `[...]` belong to the arbitrary value.
+ */
+function stripVariants(token) {
+  let base = token;
+  for (;;) {
+    let depth = 0;
+    let cut = -1;
+    for (let i = 0; i < base.length; i++) {
+      const c = base[i];
+      if (c === "[") depth++;
+      else if (c === "]" && depth > 0) depth--;
+      else if (c === ":" && depth === 0) {
+        cut = i;
+        break;
+      }
+    }
+    if (cut < 0) return base;
+    base = base.slice(cut + 1);
+  }
+}
 
 /** True when a Tailwind utility class only affects layout/placement, never look. */
 export function isLayoutClass(token) {
   if (!token) return true;
-  let base = token.replace(LAYOUT_VARIANT_RE, "");
+  let base = stripVariants(token);
   if (base.startsWith("!")) base = base.slice(1);
   if (base.endsWith("!")) base = base.slice(0, -1);
   if (base.startsWith("-")) base = base.slice(1);
-  let depth = 0;
-  for (let i = 0; i < base.length; i++) {
-    if (base[i] === "[") depth++;
-    else if (base[i] === "]" && depth > 0) depth--;
-    else if (base[i] === ":" && depth === 0) return false;
-  }
   return LAYOUT_EXACT.has(base) || LAYOUT_PREFIX_RE.test(base);
 }
 
@@ -155,6 +174,23 @@ function extractClassStrings(node, sf, raw, out) {
     ts.isSatisfiesExpression(node)
   ) {
     extractClassStrings(node.expression, sf, raw, out);
+    return;
+  }
+  if (ts.isObjectLiteralExpression(node)) {
+    // clsx object form: { "rounded-lg": cond, hidden: cond } - keys are classes, values are conditions.
+    for (const prop of node.properties) {
+      if (!ts.isPropertyAssignment(prop)) continue;
+      const key = prop.name;
+      if (ts.isIdentifier(key)) {
+        out.push({ text: key.text, start: key.getStart(sf) });
+      } else if (
+        ts.isStringLiteral(key) ||
+        ts.isNoSubstitutionTemplateLiteral(key)
+      ) {
+        const start = key.getStart(sf) + 1;
+        out.push({ text: raw.slice(start, key.end - 1), start });
+      }
+    }
     return;
   }
   if (ts.isArrayLiteralExpression(node)) {
@@ -251,19 +287,21 @@ export function scanComposedLookOverride(raw, filePath, uiSrcDir = UI_SRC_DIR) {
           ) {
             extractClassStrings(attr.initializer.expression, sf, raw, segments);
           }
+          const found = [];
           for (const seg of segments) {
             for (const m of seg.text.matchAll(/\S+/g)) {
               if (!isLayoutClass(m[0])) {
                 const { line, col } = locate(starts, seg.start + m.index);
-                hits.push({
-                  tag: tagName,
-                  className: m[0],
-                  line,
-                  col,
-                });
+                found.push({ tag: tagName, className: m[0], line, col });
               }
             }
           }
+          // `look` = all look classes of this element, sorted; part of the allowlist fingerprint.
+          const look = found
+            .map((h) => h.className)
+            .sort()
+            .join(" ");
+          for (const h of found) hits.push({ ...h, look });
         }
       }
     }
@@ -272,102 +310,217 @@ export function scanComposedLookOverride(raw, filePath, uiSrcDir = UI_SRC_DIR) {
   visit(sf);
   return hits;
 }
+const PRE_EXISTING_REASON = "pre-existing; migrate per ADR-078";
+const MIN_REASON_LENGTH = 10;
 
-// Legacy composed look-override allowlist (tracks #158; shrink toward 0 as composed
-// components move styling into kit variants/recipes).
+// Legacy composed look-override allowlist, keyed by fingerprint
+// `<rel file>::<JSX tag>::<sorted look classes>` (no line numbers).
+// Shrink toward {} as composed components move styling into kit variants/recipes.
+// Regenerate: bun scripts/check-ds-look-override.mjs --print-allowlist
 export const COMPOSED_LOOK_OVERRIDE_ALLOW = {
-  "combobox-async.tsx": {
-    count: 5,
-    reason: "legacy Input/Button styling (#158)",
+  "combobox-async.tsx::PopoverContent::p-1": {
+    reason: "pre-existing; migrate per ADR-078",
   },
-  "combobox.tsx": { count: 3, reason: "legacy PopoverContent styling (#158)" },
-  "confirm-dialog.tsx": {
-    count: 6,
-    reason: "legacy AlertDialog/Button styling (#158)",
+  "combobox-async.tsx::Spinner::text-muted-foreground": {
+    reason: "pre-existing; migrate per ADR-078",
   },
-  "date-picker.tsx": {
-    count: 5,
-    reason: "legacy PopoverContent/Button styling (#158)",
+  "combobox.tsx::PopoverContent::p-1": {
+    reason: "pre-existing; migrate per ADR-078",
   },
-  "date-time-picker.tsx": {
-    count: 4,
-    reason: "legacy PopoverContent/Button styling (#158)",
+  "confirm-dialog.tsx::AlertDialogAction::bg-destructive bg-primary hover:bg-destructive-hover hover:bg-primary-hover text-destructive-foreground text-primary-foreground":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "date-picker.tsx::Button::rounded-full text-muted-foreground": {
+    reason: "pre-existing; migrate per ADR-078",
   },
-  "decimal-input.tsx": {
-    count: 6,
-    reason: "legacy Input/Badge styling (#158)",
+  "date-picker.tsx::PopoverContent::p-2": {
+    reason: "pre-existing; migrate per ADR-078",
   },
-  "edit-field-sheet.tsx": {
-    count: 9,
-    reason: "legacy Dialog/Sheet/Button styling (#158)",
+  "date-time-picker.tsx::Button::font-normal text-muted-foreground text-start":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "date-time-picker.tsx::PopoverContent::p-3": {
+    reason: "pre-existing; migrate per ADR-078",
   },
-  "entity-browser/entity-filter-bar.tsx": {
-    count: 28,
-    reason: "legacy Sheet/Button/Badge styling (#158)",
+  "decimal-input.tsx::Badge::font-normal select-none text-xs": {
+    reason: "pre-existing; migrate per ADR-078",
   },
-  "entity-browser/entity-search-field.tsx": {
-    count: 4,
-    reason: "legacy Input styling (#158)",
+  "decimal-input.tsx::Input::font-[family-name:var(--font-data)] text-start tracking-[-0.02em]":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "edit-field-sheet.tsx::DialogContent::p-6": {
+    reason: "pre-existing; migrate per ADR-078",
   },
-  "entity-browser/entity-table-states.tsx": {
-    count: 11,
-    reason: "legacy TableCell/Button styling (#158)",
+  "edit-field-sheet.tsx::DialogHeader::p-0 pb-2": {
+    reason: "pre-existing; migrate per ADR-078",
   },
-  "field.tsx": { count: 1, reason: "Label text-start override (#158)" },
-  "filter-pill-bar.tsx": {
-    count: 6,
-    reason: "legacy Sheet/Button styling (#158)",
+  "edit-field-sheet.tsx::SheetContent::p-6 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] rounded-t-[var(--radius-xl)]":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "edit-field-sheet.tsx::SheetHeader::p-0 pb-2": {
+    reason: "pre-existing; migrate per ADR-078",
   },
-  "filter-sheet.tsx": {
-    count: 12,
-    reason: "legacy Sheet/Button/Badge styling (#158)",
+  "entity-browser/entity-filter-bar.tsx::Badge::font-data px-1.5 tabular-nums":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "entity-browser/entity-filter-bar.tsx::Badge::font-normal pe-1 ps-2.5": {
+    reason: "pre-existing; migrate per ADR-078",
   },
-  "hint-tooltip.tsx": {
-    count: 1,
-    reason: "legacy TooltipContent styling (#158)",
+  "entity-browser/entity-filter-bar.tsx::Button::hover:bg-background hover:text-foreground text-muted-foreground":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "entity-browser/entity-filter-bar.tsx::Button::text-muted-foreground": {
+    reason: "pre-existing; migrate per ADR-078",
   },
-  "infinite-scroll-trigger.tsx": {
-    count: 1,
-    reason: "legacy Button styling (#158)",
+  "entity-browser/entity-filter-bar.tsx::SheetContent::border-0 border-t h-dvh p-0 p-0 rounded-none rounded-t-xl":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "entity-browser/entity-filter-bar.tsx::SheetFooter::border-border border-t p-4 pb-[max(1rem,env(safe-area-inset-bottom))]":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "entity-browser/entity-filter-bar.tsx::SheetHeader::border-b border-border px-4 py-4":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "entity-browser/entity-search-field.tsx::Button::-translate-y-1/2 text-muted-foreground":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "entity-browser/entity-search-field.tsx::Input::pe-11 ps-9": {
+    reason: "pre-existing; migrate per ADR-078",
   },
-  "msisdn-input.tsx": { count: 7, reason: "legacy Input styling (#158)" },
-  "multi-select.tsx": {
-    count: 7,
-    reason: "legacy PopoverContent/Badge styling (#158)",
+  "entity-browser/entity-table-states.tsx::TableCell::py-10 py-10 text-center text-center text-destructive text-muted-foreground text-sm text-sm":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "entity-browser/entity-table-states.tsx::TableCell::py-3": {
+    reason: "pre-existing; migrate per ADR-078",
   },
-  "otp-input.tsx": { count: 10, reason: "legacy Input styling (#158)" },
-  "page-templates/form-sheet.tsx": {
-    count: 26,
-    reason: "legacy Dialog/Sheet/Button styling (#158)",
+  "entity-browser/entity-table-states.tsx::TableRow::hover:bg-transparent": {
+    reason: "pre-existing; migrate per ADR-078",
   },
-  "page-templates/list-page.tsx": {
-    count: 16,
-    reason: "legacy Sheet/Button/Badge styling (#158)",
+  "field.tsx::Label::text-start": {
+    reason: "pre-existing; migrate per ADR-078",
   },
-  "pagination.tsx": { count: 11, reason: "legacy Button styling (#158)" },
-  "progressive-dialog/progressive-dialog.tsx": {
-    count: 14,
-    reason: "legacy Dialog/Sheet/Button styling (#158)",
+  "filter-pill-bar.tsx::SheetContent::p-0": {
+    reason: "pre-existing; migrate per ADR-078",
   },
-  "search-input.tsx": { count: 2, reason: "legacy Input styling (#158)" },
-  "sheet-actions.tsx": { count: 2, reason: "legacy Button styling (#158)" },
-  "shell/nav-mobile-sheet.tsx": {
-    count: 8,
-    reason: "legacy Sheet/Button styling (#158)",
+  "filter-pill-bar.tsx::SheetHeader::border-b border-border px-4 py-4": {
+    reason: "pre-existing; migrate per ADR-078",
   },
-  "shell/nav-tree.tsx": {
-    count: 4,
-    reason: "legacy Badge/Button styling (#158)",
+  "filter-sheet.tsx::Button::text-primary": {
+    reason: "pre-existing; migrate per ADR-078",
   },
-  "wheel-date-picker.tsx": {
-    count: 5,
-    reason: "legacy Sheet/Button styling (#158)",
+  "filter-sheet.tsx::SheetContent::h-dvh md:h-[min(100dvh,48rem)] md:rounded-t-xl p-0":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "filter-sheet.tsx::SheetTitle::font-semibold outline-none text-base text-foreground":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "hint-tooltip.tsx::TooltipContent::text-center": {
+    reason: "pre-existing; migrate per ADR-078",
   },
-  "workspace-switcher.tsx": {
-    count: 1,
-    reason: "legacy DropdownMenuContent styling (#158)",
+  "msisdn-input.tsx::Input::font-[family-name:var(--font-data)] gst-data gst-data--tabular gst-numeric gst-numeric--tabular tabular-nums text-start":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "multi-select.tsx::PopoverContent::bg-popover border border-border p-1 rounded-[var(--radius-lg)] shadow-md text-popover-foreground":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "otp-input.tsx::Input::font-[family-name:var(--font-data)] font-semibold gst-data gst-data--tabular gst-numeric gst-numeric--tabular tabular-nums text-center text-lg tracking-[0.35em]":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "page-templates/form-sheet.tsx::DialogContent::border-0 h-dvh max-md:pb-[var(--form-sheet-keyboard-inset,0px)] md:border md:border-border md:h-auto md:rounded-[var(--radius-xl)] md:rtl:-translate-x-[-50%] md:translate-x-[-50%] md:translate-y-[-50%] p-0 rounded-none rtl:translate-x-0 translate-x-0 translate-y-0":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "page-templates/form-sheet.tsx::DialogDescription::text-muted-foreground text-sm":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "page-templates/form-sheet.tsx::DialogHeader::border-b border-border px-4 py-3":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "page-templates/form-sheet.tsx::DialogTitle::font-semibold text-base text-foreground":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "page-templates/list-page.tsx::Button::font-medium hover:bg-transparent hover:text-foreground text-muted-foreground text-xs underline underline-offset-2":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "page-templates/list-page.tsx::SheetContent::md:rounded-t-xl p-0": {
+    reason: "pre-existing; migrate per ADR-078",
+  },
+  "page-templates/list-page.tsx::SheetTitle::font-semibold text-base text-foreground":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "pagination.tsx::Button::font-medium font-semibold p-0 pointer-events-none shadow-xs text-sm":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "pagination.tsx::Button::p-0": {
+    reason: "pre-existing; migrate per ADR-078",
+  },
+  "progressive-dialog/progressive-dialog.tsx::DialogContent::p-0": {
+    reason: "pre-existing; migrate per ADR-078",
+  },
+  "progressive-dialog/progressive-dialog.tsx::DialogHeader::border-b border-border px-4 py-3":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "progressive-dialog/progressive-dialog.tsx::DialogTitle::font-semibold text-base text-foreground":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "progressive-dialog/progressive-dialog.tsx::Progress::h-1": {
+    reason: "pre-existing; migrate per ADR-078",
+  },
+  "progressive-dialog/progressive-dialog.tsx::SheetContent::border-0 h-dvh p-0":
+    {
+      reason: "pre-existing; migrate per ADR-078",
+    },
+  "shell/nav-mobile-sheet.tsx::SheetContent::p-0": {
+    reason: "pre-existing; migrate per ADR-078",
+  },
+  "shell/nav-mobile-sheet.tsx::SheetFooter::border-border border-t p-4": {
+    reason: "pre-existing; migrate per ADR-078",
+  },
+  "shell/nav-mobile-sheet.tsx::SheetHeader::border-b border-border px-4 py-4": {
+    reason: "pre-existing; migrate per ADR-078",
+  },
+  "shell/nav-tree.tsx::Badge::px-1.5 py-0 tabular-nums text-[10px]": {
+    reason: "pre-existing; migrate per ADR-078",
+  },
+  "wheel-date-picker.tsx::SheetContent::bg-background text-foreground": {
+    reason: "pre-existing; migrate per ADR-078",
+  },
+  "wheel-date-picker.tsx::SheetFooter::pb-4 px-4": {
+    reason: "pre-existing; migrate per ADR-078",
+  },
+  "workspace-switcher.tsx::Spinner::text-primary": {
+    reason: "pre-existing; migrate per ADR-078",
   },
 };
+
+/** Fingerprint of one hit; stable across edits above the element. */
+export function lookFingerprint(rel, hit) {
+  return `${rel}::${hit.tag}::${hit.look}`;
+}
 
 function collectComposedFiles(dir = COMPOSED_DIR) {
   const out = [];
@@ -392,46 +545,73 @@ export function evaluateComposedLookOverrides(
   allowMap = COMPOSED_LOOK_OVERRIDE_ALLOW,
   { composedDir = COMPOSED_DIR, uiSrcDir = UI_SRC_DIR } = {},
 ) {
-  const failing = [];
   const errors = [];
-  let allowed = 0;
+  const byFingerprint = new Map();
 
-  const byRel = new Map();
   for (const file of files) {
     const rel = path.relative(composedDir, file).split(path.sep).join("/");
     const raw = fs.readFileSync(file, "utf8");
-    const hits = scanComposedLookOverride(raw, file, uiSrcDir);
-    if (hits.length > 0) {
-      byRel.set(rel, hits);
+    for (const hit of scanComposedLookOverride(raw, file, uiSrcDir)) {
+      const fp = lookFingerprint(rel, hit);
+      if (!byFingerprint.has(fp)) byFingerprint.set(fp, []);
+      byFingerprint.get(fp).push({ file: rel, ...hit });
     }
   }
 
-  const allKeys = new Set([...byRel.keys(), ...Object.keys(allowMap)]);
-  for (const rel of [...allKeys].sort()) {
-    const hits = byRel.get(rel) ?? [];
-    const allow = allowMap[rel];
-    if (!allow) {
-      for (const h of hits) failing.push({ file: rel, ...h });
-      continue;
+  const failing = [];
+  let allowed = 0;
+  for (const fp of [...byFingerprint.keys()].sort()) {
+    const hits = byFingerprint.get(fp);
+    if (Object.hasOwn(allowMap, fp)) {
+      allowed += hits.length;
+    } else {
+      failing.push(...hits);
     }
-    if (hits.length > allow.count) {
-      for (const h of hits) failing.push({ file: rel, ...h });
-      continue;
+  }
+
+  for (const fp of Object.keys(allowMap).sort()) {
+    if (!byFingerprint.has(fp)) {
+      errors.push(`${fp}: stale allowlist entry (no current hit); remove it`);
     }
-    if (hits.length < allow.count) {
+    const reason = allowMap[fp]?.reason;
+    if (
+      typeof reason !== "string" ||
+      reason.trim().length < MIN_REASON_LENGTH
+    ) {
       errors.push(
-        `${rel}: stale allowlist (found ${hits.length}, expected ${allow.count}); lower count or remove entry`,
+        `${fp}: allowlist reason must be a non-empty string of at least ${MIN_REASON_LENGTH} characters`,
       );
     }
-    allowed += hits.length;
   }
 
-  return { failing, allowed, errors };
+  return {
+    failing,
+    allowed,
+    errors,
+    fingerprints: [...byFingerprint.keys()].sort(),
+  };
+}
+
+/** Allowlist object for every current fingerprint, all with the migration reason. */
+export function buildAllowlist(fingerprints) {
+  const out = {};
+  for (const fp of fingerprints) out[fp] = { reason: PRE_EXISTING_REASON };
+  return out;
 }
 
 if (import.meta.main) {
-  const reportOnly = process.argv.includes("--report");
-  const { failing, allowed, errors } = evaluateComposedLookOverrides();
+  const argv = process.argv.slice(2);
+  if (argv.includes("--print-allowlist")) {
+    const { fingerprints } = evaluateComposedLookOverrides(
+      collectComposedFiles(),
+      {},
+    );
+    console.log(JSON.stringify(buildAllowlist(fingerprints), null, 2));
+    process.exit(0);
+  }
+  const reportOnly = argv.includes("--report");
+  const { failing, allowed, errors, fingerprints } =
+    evaluateComposedLookOverrides();
   if (reportOnly) {
     const counts = new Map();
     for (const f of failing) {
@@ -448,11 +628,13 @@ if (import.meta.main) {
   }
   for (const f of failing) {
     console.error(
-      `check-ds (kit-look-override): packages/ui/src/composed/${f.file}:${f.line}:${f.col}: <${f.tag}> class "${f.className}" overrides look`,
+      `check-ds (kit-look-override): packages/ui/src/composed/${f.file}:${f.line}:${f.col}: <${f.tag}> class "${f.className}" overrides look (fingerprint ${lookFingerprint(f.file, f)})`,
     );
   }
   if (errors.length > 0 || failing.length > 0) {
     process.exit(1);
   }
-  console.log(`check-ds (kit-look-override): ok (${allowed} allowlisted)`);
+  console.log(
+    `check-ds (kit-look-override): ok (${allowed} allowlisted hits, ${fingerprints.length} fingerprints)`,
+  );
 }

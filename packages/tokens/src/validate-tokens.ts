@@ -43,7 +43,7 @@ export function validateTokens(raw: OrbitTokensRaw): void {
 
   if (raw.semantic.dark) {
     throw new Error(
-      "semantic.dark must not be authored — dark is derived from light via HSL L inversion",
+      "semantic.dark must not be authored — dark is derived from the M3 HCT pipeline",
     );
   }
 

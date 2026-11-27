@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { mnvColors } from "./colors.js";
 import { defaultTokens, defaultTokensRaw } from "./default-tokens.js";
+import { resolveBrandTokens } from "./dtcg/brand-pipeline.js";
+import { v1ToBrandInput } from "./dtcg/v1-bridge.js";
+import { normalizeSemanticColor } from "./hsl-color.js";
 import {
   mergeTokenOverrides,
   mergeTokenOverridesRaw,
@@ -34,10 +37,19 @@ describe("orbit tokens", () => {
     expect(mnvColors.supporting[500]).toBe("#3b82f6");
   });
 
-  it("resolves semantic references to HSL", () => {
-    expect(defaultTokens.semantic.light.background).toBe("hsl(0 0% 100%)");
+  it("resolves semantic colours to HSL from the M3 pipeline", () => {
+    const m3 = resolveBrandTokens(v1ToBrandInput(defaultTokensRaw));
+    expect(defaultTokens.semantic.light.background).toBe(
+      normalizeSemanticColor(
+        m3.schemes.light.standard.semanticHex.background ?? "",
+      ),
+    );
     expect(defaultTokens.semantic.dark.foreground).toMatch(/^hsl\(/);
-    expect(defaultTokens.semantic.dark.background).toBe("hsl(0 0% 0%)");
+    expect(defaultTokens.semantic.dark.background).toBe(
+      normalizeSemanticColor(
+        m3.schemes.dark.standard.semanticHex.background ?? "",
+      ),
+    );
   });
 
   it("rejects authored semantic.dark in raw JSON", () => {
@@ -54,7 +66,9 @@ describe("orbit tokens", () => {
   it("codegen round-trip produces CSS blocks", () => {
     const css = tokensToSplitCss(defaultTokens);
     expect(css.colors).toContain("--mnv-primary-900: #0a0a0a");
-    expect(css.semantic).toContain("--background: hsl(0 0% 100%)");
+    expect(css.semantic).toContain(
+      `--background: ${defaultTokens.semantic.light.background}`,
+    );
     expect(css.radiiShadows).toContain("--breakpoint-md: 768px");
   });
 
@@ -77,7 +91,10 @@ describe("orbit tokens", () => {
     });
     expect(merged.semantic.dark).toBeUndefined();
     const resolved = resolveTokens(merged);
-    expect(resolved.semantic.dark.background).toBe("hsl(0 0% 100%)");
+    // Light background is not a brand anchor: dark stays the M3 dark value.
+    expect(resolved.semantic.dark.background).toBe(
+      resolveTokens(defaultTokensRaw).semantic.dark.background,
+    );
   });
 
   it("resolveTokens re-resolves semantic refs when brand colors change", () => {

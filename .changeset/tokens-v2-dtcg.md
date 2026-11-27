@@ -16,3 +16,5 @@ Implement M3 HCT DTCG 2025.10 token pipeline (`@manovaspace/tokens` v2) and SSR/
 - v1 `OrbitTokensRaw` inputs now resolve through the M3 pipeline, so light colours change too (for example, `background` is no longer pure white).
 - `deriveSemanticDark` and `invertHslLightness` are deprecated; migrate to the M3 dark scheme roles (`brand.tokens.json` or `resolveBrandTokens`).
 - Tenant `logo` values must be absolute `https:` URLs or inline data URIs; relative paths such as `tenants/x/logo.svg` are now rejected.
+
+- `TabsTrigger` inactive text uses `text-muted-foreground` instead of `text-foreground/60`, which fell below 4.5:1 on the new tab-list surface.

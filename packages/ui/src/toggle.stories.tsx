@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { Toggle } from "./primitives/toggle.js";
-import { ToggleGroup, ToggleGroupItem } from "./primitives/toggle-group.js";
+import { Toggle } from "./toggle.js";
+import { ToggleGroup, ToggleGroupItem } from "./toggle-group.js";
 
 const meta = {
   title: "Components/Selection/Toggle",

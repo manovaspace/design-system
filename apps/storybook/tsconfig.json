@@ -3,5 +3,5 @@
   "compilerOptions": {
     "jsx": "react-jsx"
   },
-  "include": [".storybook", "src"]
+  "include": [".storybook", "src", "vitest.config.ts"]
 }

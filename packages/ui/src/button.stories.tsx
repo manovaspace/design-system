@@ -7,7 +7,6 @@ import { Input } from "./input.js";
 const meta = {
   title: "Components/Actions/Button",
   component: Button,
-  tags: ["autodocs"],
   argTypes: {
     variant: {
       control: "select",

@@ -1,0 +1,23 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Guidelines/Writing component docs" />
+
+# Writing component docs
+
+Each core component has one MDX page, co-located with its stories (`packages/ui/src/<name>.mdx`), attached with `<Meta of={<Name>Stories} />`. Every page uses this section order:
+
+1. **Overview**: what the component does, in two sentences.
+2. **When to use / When not to use**: the choice a reader has to make.
+3. **Anatomy**: the parts and what they do.
+4. **Variants**: one `<Canvas of={...} />` per variant story.
+5. **States**: default, focus, disabled, invalid and any others.
+6. **Accessibility**: a keyboard table (key, action) and the accessible name rules.
+7. **Content**: microcopy rules for labels, hints, errors and actions.
+8. **Props**: `<ArgTypes />` (or `<Controls />`).
+9. **Related**: sibling components and guidelines.
+
+Rules:
+
+- Do not hard-code token values; name the token or the component prop.
+- Keep examples in the stories file, not in the MDX; the MDX embeds them.
+- Add a page for a new core component in the same order. Do not add extra sections.
